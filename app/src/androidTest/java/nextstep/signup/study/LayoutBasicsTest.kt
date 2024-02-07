@@ -27,9 +27,6 @@ import androidx.compose.ui.unit.sp
 import org.junit.Rule
 import org.junit.Test
 
-// 1. 모든 테스트가 성공하도록 만들어보자
-// 2. 힌트를 참고하여 Preview를 노출시킨다.
-// 3. Preview의 interactive 모드를 활용하여 버튼을 클릭해본다.
 class LayoutBasicsTest {
 
     @get:Rule
@@ -80,14 +77,9 @@ class LayoutBasicsTest {
     fun button() {
         // given
         composeTestRule.setContent {
-            val enabled = remember { mutableStateOf(true) }
-            Button(
-                onClick = { enabled.value = !enabled.value },
-                enabled = enabled.value,
-                modifier = Modifier.testTag("버튼")
-            ) {
-                Text(text = "클릭해주세요")
-            }
+            MyButton(
+                text = "클릭해주세요"
+            )
         }
 
         // when
@@ -112,8 +104,26 @@ private fun MyText(text: String) {
     )
 }
 
+@Composable
+private fun MyButton(text: String) {
+    val enabled = remember { mutableStateOf(true) }
+    Button(
+        onClick = { enabled.value = !enabled.value },
+        enabled = enabled.value,
+        modifier = Modifier.testTag("버튼")
+    ) {
+        Text(text = text)
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun MyTextPreview() {
     MyText("테스트 텍스트")
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun MyButtonPreview() {
+    MyButton("테스트 버튼")
 }
