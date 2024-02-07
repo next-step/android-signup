@@ -82,9 +82,7 @@ class LayoutBasicsTest {
         composeTestRule.setContent {
             val enabled = remember { mutableStateOf(true) }
             Button(
-                onClick = {
-                    // 바꿔 보세요!
-                },
+                onClick = { enabled.value = !enabled.value },
                 enabled = enabled.value,
                 modifier = Modifier.testTag("버튼")
             ) {
@@ -95,7 +93,7 @@ class LayoutBasicsTest {
         // when
         val button = composeTestRule
             .onNode(hasTestTag("버튼"))
-            .also { it.performClick() }
+            .performClick()
 
         // then
         button.assertIsNotEnabled()
