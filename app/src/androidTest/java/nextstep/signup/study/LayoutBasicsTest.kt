@@ -60,7 +60,7 @@ class LayoutBasicsTest {
             Column(
                 modifier = Modifier.testTag("이름")
             ) {
-                // 바꿔 보세요!
+                Text(text = "깜포즈")
                 Text(text = "킴포즈")
                 Text(text = "끔포즈")
             }
