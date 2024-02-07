@@ -1,4 +1,4 @@
-package nextstep.signup
+package nextstep.signup.study
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
