@@ -68,6 +68,12 @@ class LayoutBasicsTest {
             .assertCountEquals(3)
             .onFirst()
             .assert(hasText("깜포즈"))
+        
+        composeTestRule.onNodeWithTag("이름")
+            .onChildren()
+            .assertCountEquals(3)
+            .onFirst()
+            .assert(hasText("깜포즈"))
     }
 
     @Test
