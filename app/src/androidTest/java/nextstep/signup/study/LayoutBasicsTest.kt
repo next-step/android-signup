@@ -39,7 +39,7 @@ class LayoutBasicsTest {
         composeTestRule.setContent {
             Text(
                 // 바꿔 보세요!
-                text = "텍스트",
+                text = text,
                 style = TextStyle(
                     fontSize = 26.sp,
                     fontWeight = FontWeight.Bold,
@@ -62,6 +62,7 @@ class LayoutBasicsTest {
                 modifier = Modifier.testTag("이름")
             ) {
                 // 바꿔 보세요!
+                Text(text = "깜포즈")
                 Text(text = "킴포즈")
                 Text(text = "끔포즈")
             }
@@ -83,6 +84,7 @@ class LayoutBasicsTest {
             Button(
                 onClick = {
                     // 바꿔 보세요!
+                    enabled.value = false
                 },
                 enabled = enabled.value,
                 modifier = Modifier.testTag("버튼")
