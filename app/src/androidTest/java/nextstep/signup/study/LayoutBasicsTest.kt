@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.sp
 import org.junit.Rule
 import org.junit.Test
 
-// 3. Preview의 interactive 모드를 활용하여 버튼을 클릭해본다.
 class LayoutBasicsTest {
 
     @get:Rule
@@ -128,4 +127,10 @@ private fun LayoutBasicsTextPreview() {
 @Composable
 private fun LayoutBasicsColumnPreview() {
     LayoutBasicsColumn()
+}
+
+@Preview
+@Composable
+private fun LayoutBasicsButtonPreview() {
+    LayoutBasicsButton()
 }
