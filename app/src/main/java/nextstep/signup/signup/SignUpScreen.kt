@@ -4,6 +4,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,6 +23,11 @@ fun SignUpScreen() {
         verticalArrangement = Arrangement.spacedBy(42.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        var userNameTextState by remember { mutableStateOf("") }
+        var emailTextState by remember { mutableStateOf("") }
+        var passwordTextState by remember { mutableStateOf("") }
+        var passwordConfirmTextState by remember { mutableStateOf("") }
+
         SignUpHeader()
 
         Column(
@@ -26,24 +35,28 @@ fun SignUpScreen() {
         ) {
             SignUpInputTextField(
                 labelName = "Username",
-                onTextChanged = {},
+                value = userNameTextState,
+                onTextChanged = { userNameTextState = it },
             )
 
             SignUpInputTextField(
                 labelName = "Email",
-                onTextChanged = {},
+                value = emailTextState,
+                onTextChanged = { emailTextState = it },
             )
 
             SignUpInputTextField(
                 labelName = "Password",
+                value = passwordTextState,
                 isInputPassword = true,
-                onTextChanged = {},
+                onTextChanged = { passwordTextState = it },
             )
 
             SignUpInputTextField(
                 labelName = "Password Confirm",
+                value = passwordConfirmTextState,
                 isInputPassword = true,
-                onTextChanged = {},
+                onTextChanged = { passwordConfirmTextState = it },
             )
         }
 

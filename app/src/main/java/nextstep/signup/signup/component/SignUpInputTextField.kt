@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 @Composable
 fun SignUpInputTextField(
     labelName: String,
-    initialText: String = "",
+    value: String = "",
     modifier: Modifier = Modifier,
     isInputPassword: Boolean = false,
     keyboardType: KeyboardType = KeyboardType.Text,
@@ -22,7 +22,7 @@ fun SignUpInputTextField(
 ) {
     TextField(
         modifier = modifier.fillMaxWidth(),
-        value = initialText,
+        value = value,
         label = { Text(text = labelName) },
         visualTransformation = when (isInputPassword) {
             true -> PasswordVisualTransformation()
@@ -40,7 +40,7 @@ fun SignUpInputTextField(
 fun SignUpInputTextFieldPreview_EmptyInput() {
     SignUpInputTextField(
         labelName = "Label",
-        initialText = "",
+        value = "",
         onTextChanged = {},
     )
 }
@@ -50,7 +50,7 @@ fun SignUpInputTextFieldPreview_EmptyInput() {
 fun SignUpInputTextFieldPreview_FilledInput() {
     SignUpInputTextField(
         labelName = "Label",
-        initialText = "마리빈씨",
+        value = "마리빈씨",
         onTextChanged = {},
     )
 }
@@ -60,7 +60,7 @@ fun SignUpInputTextFieldPreview_FilledInput() {
 fun SignUpInputTextFieldPreview_PasswordInput() {
     SignUpInputTextField(
         labelName = "Password",
-        initialText = "password",
+        value = "password",
         isInputPassword = true,
         onTextChanged = {},
     )
