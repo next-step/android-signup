@@ -11,6 +11,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 
 @Composable
@@ -49,4 +50,22 @@ fun ButtonView() {
     ) {
         Text(text = "클릭해주세요")
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun TextPreview() {
+    TextView("안녕 난 깜뽀즈야")
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ColumnPreview() {
+    ColumnView()
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ButtonViewPreview() {
+    ButtonView()
 }
