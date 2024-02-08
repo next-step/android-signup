@@ -3,6 +3,7 @@ package nextstep.signup.study
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -20,11 +21,11 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import org.junit.Rule
 import org.junit.Test
 
-// 2. 힌트를 참고하여 Preview를 노출시킨다.
 // 3. Preview의 interactive 모드를 활용하여 버튼을 클릭해본다.
 class LayoutBasicsTest {
 
@@ -36,14 +37,7 @@ class LayoutBasicsTest {
         // given
         val text = "안녕 난 컴포즈야~"
         composeTestRule.setContent {
-            Text(
-                text = text,
-                style = TextStyle(
-                    fontSize = 26.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = FontFamily.SansSerif
-                ),
-            )
+            LayoutBasicsText(text)
         }
 
         // then
@@ -56,13 +50,7 @@ class LayoutBasicsTest {
     fun column() {
         // given
         composeTestRule.setContent {
-            Column(
-                modifier = Modifier.testTag("이름")
-            ) {
-                Text(text = "깜포즈")
-                Text(text = "킴포즈")
-                Text(text = "끔포즈")
-            }
+            LayoutBasicsColumn()
         }
 
         // then
@@ -77,16 +65,7 @@ class LayoutBasicsTest {
     fun button() {
         // given
         composeTestRule.setContent {
-            val enabled = remember { mutableStateOf(true) }
-            Button(
-                onClick = {
-                    enabled.value = enabled.value.not()
-                },
-                enabled = enabled.value,
-                modifier = Modifier.testTag("버튼")
-            ) {
-                Text(text = "클릭해주세요")
-            }
+            LayoutBasicsButton()
         }
 
         // when
@@ -97,4 +76,56 @@ class LayoutBasicsTest {
         // then
         button.assertIsNotEnabled()
     }
+
+}
+
+
+@Composable
+private fun LayoutBasicsText(text: String) {
+    Text(
+        text = text,
+        style = TextStyle(
+            fontSize = 26.sp,
+            fontWeight = FontWeight.Bold,
+            fontFamily = FontFamily.SansSerif
+        ),
+    )
+}
+
+
+@Composable
+private fun LayoutBasicsColumn() {
+    Column(
+        modifier = Modifier.testTag("이름")
+    ) {
+        Text(text = "깜포즈")
+        Text(text = "킴포즈")
+        Text(text = "끔포즈")
+    }
+}
+
+@Composable
+private fun LayoutBasicsButton() {
+    val enabled = remember { mutableStateOf(true) }
+    Button(
+        onClick = {
+            enabled.value = enabled.value.not()
+        },
+        enabled = enabled.value,
+        modifier = Modifier.testTag("버튼")
+    ) {
+        Text(text = "클릭해주세요")
+    }
+}
+
+@Preview
+@Composable
+private fun LayoutBasicsTextPreview() {
+    LayoutBasicsText(text = "LayoutBasics")
+}
+
+@Preview
+@Composable
+private fun LayoutBasicsColumnPreview() {
+    LayoutBasicsColumn()
 }
