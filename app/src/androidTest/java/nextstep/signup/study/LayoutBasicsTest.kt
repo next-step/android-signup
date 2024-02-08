@@ -3,6 +3,7 @@ package nextstep.signup.study
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -27,6 +28,47 @@ import org.junit.Test
 // 1. 모든 테스트가 성공하도록 만들어보자
 // 2. 힌트를 참고하여 Preview를 노출시킨다.
 // 3. Preview의 interactive 모드를 활용하여 버튼을 클릭해본다.
+
+@Composable
+fun TestTextView(text: String) {
+    Text(
+        // 바꿔 보세요!
+        text = text,
+        style = TextStyle(
+            fontSize = 26.sp,
+            fontWeight = FontWeight.Bold,
+            fontFamily = FontFamily.SansSerif
+        ),
+    )
+}
+
+@Composable
+fun TestColumnView() {
+    Column(
+        modifier = Modifier.testTag("이름")
+    ) {
+        // 바꿔 보세요!
+        Text(text = "깜포즈")
+        Text(text = "킴포즈")
+        Text(text = "끔포즈")
+    }
+}
+
+@Composable
+fun TestButton() {
+    val enabled = remember { mutableStateOf(true) }
+    Button(
+        onClick = {
+            // 바꿔 보세요!
+            enabled.value = false
+        },
+        enabled = enabled.value,
+        modifier = Modifier.testTag("버튼")
+    ) {
+        Text(text = "클릭해주세요")
+    }
+}
+
 class LayoutBasicsTest {
 
     @get:Rule
@@ -37,15 +79,7 @@ class LayoutBasicsTest {
         // given
         val text = "안녕 난 컴포즈야~"
         composeTestRule.setContent {
-            Text(
-                // 바꿔 보세요!
-                text = text,
-                style = TextStyle(
-                    fontSize = 26.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = FontFamily.SansSerif
-                ),
-            )
+            TestTextView(text = text)
         }
 
         // then
@@ -58,14 +92,7 @@ class LayoutBasicsTest {
     fun column() {
         // given
         composeTestRule.setContent {
-            Column(
-                modifier = Modifier.testTag("이름")
-            ) {
-                // 바꿔 보세요!
-                Text(text = "깜포즈")
-                Text(text = "킴포즈")
-                Text(text = "끔포즈")
-            }
+            TestColumnView()
         }
 
         // then
@@ -80,17 +107,7 @@ class LayoutBasicsTest {
     fun button() {
         // given
         composeTestRule.setContent {
-            val enabled = remember { mutableStateOf(true) }
-            Button(
-                onClick = {
-                    // 바꿔 보세요!
-                    enabled.value = false
-                },
-                enabled = enabled.value,
-                modifier = Modifier.testTag("버튼")
-            ) {
-                Text(text = "클릭해주세요")
-            }
+            TestButton()
         }
 
         // when
