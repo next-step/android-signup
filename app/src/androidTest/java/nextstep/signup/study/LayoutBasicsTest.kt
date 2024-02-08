@@ -21,6 +21,7 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import org.junit.Rule
 import org.junit.Test
@@ -118,4 +119,22 @@ class LayoutBasicsTest {
         // then
         button.assertIsNotEnabled()
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun TextViewPreview() {
+    TestTextView("텍스트 테스트의 텍스트 테스트")
+}
+
+@Preview(showBackground = true)
+@Composable
+fun TestColumnViewPreview() {
+    TestColumnView()
+}
+
+@Preview(showBackground = true)
+@Composable
+fun TestButtonPreview() {
+    TestButton()
 }
