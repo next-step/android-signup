@@ -48,47 +48,31 @@ fun Greeting(modifier: Modifier = Modifier) {
         )
 
         val username = remember { mutableStateOf("") }
-        TextField(
+        MyTextField(
             value = username.value,
             onValueChange = { username.value = it },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 36.dp),
-            placeholder = { Text(text = "Username") },
-            singleLine = true,
+            placeholder = "Username",
         )
 
         val email = remember { mutableStateOf("") }
-        TextField(
+        MyTextField(
             value = email.value,
             onValueChange = { email.value = it },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 36.dp),
-            placeholder = { Text(text = "Email") },
-            singleLine = true,
+            placeholder = "Email",
         )
 
         val password = remember { mutableStateOf("") }
-        TextField(
+        MyTextField(
             value = password.value,
             onValueChange = { password.value = it },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 36.dp),
-            placeholder = { Text(text = "Password") },
-            singleLine = true,
+            placeholder = "Password",
         )
 
         val passwordConfirm = remember { mutableStateOf("") }
-        TextField(
+        MyTextField(
             value = passwordConfirm.value,
             onValueChange = { passwordConfirm.value = it },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 36.dp),
-            placeholder = { Text(text = "Password Confirm") },
-            singleLine = true,
+            placeholder = "Password Confirm",
         )
 
         Button(
@@ -100,6 +84,24 @@ fun Greeting(modifier: Modifier = Modifier) {
             Text(text = "Sign Up")
         }
     }
+}
+
+@Composable
+fun MyTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    placeholder: String,
+    modifier: Modifier = Modifier,
+) {
+    TextField(
+        value = value,
+        onValueChange = onValueChange,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(top = 36.dp),
+        placeholder = { Text(text = placeholder) },
+        singleLine = true,
+    )
 }
 
 @Preview(showBackground = true)
