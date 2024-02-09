@@ -5,4 +5,11 @@
     <string name="signup_input_text_label_email">Email</string>
     <string name="signup_input_text_label_password">Password</string>
     <string name="signup_input_text_label_password_confirm">Password Confirm</string>
+
+    <string name="signup_input_text_error_message_username_length_out_of_range">이름은 2~5자여야 합니다.</string>
+    <string name="signup_input_text_error_message_username_has_number_or_symbol">이름에는 숫자나 기호가 포함될 수 없습니다.</string>
+    <string name="signup_input_text_error_message_email_is_invalid">이메일 형식이 올바르지 않습니다.</string>
+    <string name="signup_input_text_error_message_password_length_out_of_range">비밀번호는 8~16자여야 합니다.</string>
+    <string name="signup_input_text_error_message_password_must_have_alphabet_and_number">비밀번호는 영문과 숫자를 포함해야 합니다.</string>
+    <string name="signup_input_text_error_message_password_confirm_not_matched">비밀번호가 일치하지 않습니다.</string>
 </resources>
