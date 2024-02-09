@@ -36,12 +36,21 @@ fun SignUpScreen(
                 labelName = stringResource(id = R.string.signup_input_text_label_username),
                 value = uiState.username,
                 onTextChanged = { signUpViewModel.updateUserName(it) },
+                errorMessage = when {
+                    uiState.isUserNameLengthOutOfRange -> stringResource(id = R.string.signup_input_text_error_message_username_length_out_of_range)
+                    uiState.isUserNameHasNumberOrSymbol -> stringResource(id = R.string.signup_input_text_error_message_username_has_number_or_symbol)
+                    else -> null
+                }
             )
 
             SignUpInputTextField(
                 labelName = stringResource(id = R.string.signup_input_text_label_email),
                 value = uiState.email,
                 onTextChanged = { signUpViewModel.updateEmail(it) },
+                errorMessage = when {
+                    uiState.isInvalidEmail -> stringResource(id = R.string.signup_input_text_error_message_email_is_invalid)
+                    else -> null
+                }
             )
 
             SignUpInputTextField(
@@ -49,6 +58,11 @@ fun SignUpScreen(
                 value = uiState.password,
                 isInputPassword = true,
                 onTextChanged = { signUpViewModel.updatePassword(it) },
+                errorMessage = when {
+                    uiState.isPasswordLengthOutOfRange -> stringResource(id = R.string.signup_input_text_error_message_password_length_out_of_range)
+                    uiState.isPasswordHasNotAlphabetAndNumber -> stringResource(id = R.string.signup_input_text_error_message_password_must_have_alphabet_and_number)
+                    else -> null
+                }
             )
 
             SignUpInputTextField(
@@ -56,6 +70,10 @@ fun SignUpScreen(
                 value = uiState.passwordConfirm,
                 isInputPassword = true,
                 onTextChanged = { signUpViewModel.updatePasswordConfirm(it) },
+                errorMessage = when {
+                    uiState.isPasswordConfirmNotMatched -> stringResource(id = R.string.signup_input_text_error_message_password_confirm_not_matched)
+                    else -> null
+                }
             )
         }
 
