@@ -10,8 +10,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import nextstep.signup.R
 import nextstep.signup.signup.component.SignUpHeader
 import nextstep.signup.signup.component.SignUpInputTextField
 import nextstep.signup.signup.component.SignUpSubmitButton
@@ -34,26 +36,26 @@ fun SignUpScreen() {
             verticalArrangement = Arrangement.spacedBy(36.dp)
         ) {
             SignUpInputTextField(
-                labelName = "Username",
+                labelName = stringResource(id = R.string.signup_input_text_label_username),
                 value = userNameTextState,
                 onTextChanged = { userNameTextState = it },
             )
 
             SignUpInputTextField(
-                labelName = "Email",
+                labelName = stringResource(id = R.string.signup_input_text_label_email),
                 value = emailTextState,
                 onTextChanged = { emailTextState = it },
             )
 
             SignUpInputTextField(
-                labelName = "Password",
+                labelName = stringResource(id = R.string.signup_input_text_label_password),
                 value = passwordTextState,
                 isInputPassword = true,
                 onTextChanged = { passwordTextState = it },
             )
 
             SignUpInputTextField(
-                labelName = "Password Confirm",
+                labelName = stringResource(id = R.string.signup_input_text_label_password_confirm),
                 value = passwordConfirmTextState,
                 isInputPassword = true,
                 onTextChanged = { passwordConfirmTextState = it },
