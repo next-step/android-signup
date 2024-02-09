@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -89,6 +90,15 @@ fun Greeting(modifier: Modifier = Modifier) {
             placeholder = { Text(text = "Password Confirm") },
             singleLine = true,
         )
+
+        Button(
+            onClick = { /*TODO*/ },
+            modifier = Modifier
+                .padding(top = 36.dp)
+                .fillMaxWidth(),
+        ) {
+            Text(text = "Sign Up")
+        }
     }
 }
 
