@@ -12,9 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import nextstep.signup.R
 import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
@@ -25,7 +27,7 @@ internal fun SignupScreen() {
             .padding(32.dp)
     ) {
         Text(
-            text = "Welcome to Compose \uD83D\uDE80",
+            text = stringResource(id = R.string.signup_title),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
         )
@@ -34,28 +36,28 @@ internal fun SignupScreen() {
         SignupTextField(
             value = username.value,
             onValueChange = { username.value = it },
-            placeholder = "Username",
+            placeholder = stringResource(id = R.string.signup_placeholder_username),
         )
 
         val email = remember { mutableStateOf("") }
         SignupTextField(
             value = email.value,
             onValueChange = { email.value = it },
-            placeholder = "Email",
+            placeholder = stringResource(id = R.string.signup_placeholder_email),
         )
 
         val password = remember { mutableStateOf("") }
         SignupTextField(
             value = password.value,
             onValueChange = { password.value = it },
-            placeholder = "Password",
+            placeholder = stringResource(id = R.string.signup_placeholder_password),
         )
 
         val passwordConfirm = remember { mutableStateOf("") }
         SignupTextField(
             value = passwordConfirm.value,
             onValueChange = { passwordConfirm.value = it },
-            placeholder = "Password Confirm",
+            placeholder = stringResource(id = R.string.signup_placeholder_password_confirm),
         )
 
         Button(
@@ -64,7 +66,7 @@ internal fun SignupScreen() {
                 .padding(top = 36.dp)
                 .fillMaxWidth(),
         ) {
-            Text(text = "Sign Up")
+            Text(text = stringResource(id = R.string.signup_button))
         }
     }
 }
