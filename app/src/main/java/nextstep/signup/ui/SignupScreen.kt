@@ -1,5 +1,6 @@
 package nextstep.signup.ui
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,7 +25,8 @@ internal fun SignupScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(32.dp)
+            .padding(32.dp),
+        verticalArrangement = Arrangement.spacedBy(36.dp)
     ) {
         Text(
             text = stringResource(id = R.string.signup_title),
@@ -81,9 +83,7 @@ private fun SignupTextField(
     TextField(
         value = value,
         onValueChange = onValueChange,
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(top = 36.dp),
+        modifier = modifier.fillMaxWidth(),
         placeholder = { Text(text = placeholder) },
         singleLine = true,
     )
