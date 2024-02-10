@@ -34,33 +34,10 @@ internal fun SignupScreen() {
             fontWeight = FontWeight.Bold,
         )
 
-        val username = remember { mutableStateOf("") }
-        SignupTextField(
-            value = username.value,
-            onValueChange = { username.value = it },
-            placeholder = stringResource(id = R.string.signup_placeholder_username),
-        )
-
-        val email = remember { mutableStateOf("") }
-        SignupTextField(
-            value = email.value,
-            onValueChange = { email.value = it },
-            placeholder = stringResource(id = R.string.signup_placeholder_email),
-        )
-
-        val password = remember { mutableStateOf("") }
-        SignupTextField(
-            value = password.value,
-            onValueChange = { password.value = it },
-            placeholder = stringResource(id = R.string.signup_placeholder_password),
-        )
-
-        val passwordConfirm = remember { mutableStateOf("") }
-        SignupTextField(
-            value = passwordConfirm.value,
-            onValueChange = { passwordConfirm.value = it },
-            placeholder = stringResource(id = R.string.signup_placeholder_password_confirm),
-        )
+        UsernameTextField()
+        EmailTextField()
+        PasswordTextField()
+        PasswordConfirmTextField()
 
         Button(
             onClick = { /*TODO*/ },
@@ -74,17 +51,49 @@ internal fun SignupScreen() {
 }
 
 @Composable
-private fun SignupTextField(
-    value: String,
-    onValueChange: (String) -> Unit,
-    placeholder: String,
-    modifier: Modifier = Modifier,
-) {
+internal fun UsernameTextField() {
+    val username = remember { mutableStateOf("") }
     TextField(
-        value = value,
-        onValueChange = onValueChange,
-        modifier = modifier.fillMaxWidth(),
-        placeholder = { Text(text = placeholder) },
+        value = username.value,
+        onValueChange = { username.value = it },
+        modifier = Modifier.fillMaxWidth(),
+        placeholder = { Text(text = stringResource(id = R.string.signup_placeholder_username)) },
+        singleLine = true,
+    )
+}
+
+@Composable
+internal fun EmailTextField() {
+    val email = remember { mutableStateOf("") }
+    TextField(
+        value = email.value,
+        onValueChange = { email.value = it },
+        modifier = Modifier.fillMaxWidth(),
+        placeholder = { Text(text = stringResource(id = R.string.signup_placeholder_email)) },
+        singleLine = true,
+    )
+}
+
+@Composable
+internal fun PasswordTextField() {
+    val password = remember { mutableStateOf("") }
+    TextField(
+        value = password.value,
+        onValueChange = { password.value = it },
+        modifier = Modifier.fillMaxWidth(),
+        placeholder = { Text(text = stringResource(id = R.string.signup_placeholder_password)) },
+        singleLine = true,
+    )
+}
+
+@Composable
+internal fun PasswordConfirmTextField() {
+    val passwordConfirm = remember { mutableStateOf("") }
+    TextField(
+        value = passwordConfirm.value,
+        onValueChange = { passwordConfirm.value = it },
+        modifier = Modifier.fillMaxWidth(),
+        placeholder = { Text(text = stringResource(id = R.string.signup_placeholder_password_confirm)) },
         singleLine = true,
     )
 }
