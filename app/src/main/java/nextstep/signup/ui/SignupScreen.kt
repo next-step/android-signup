@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,6 +17,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
+import nextstep.signup.ui.component.EmailTextField
+import nextstep.signup.ui.component.PasswordConfirmTextField
+import nextstep.signup.ui.component.PasswordTextField
+import nextstep.signup.ui.component.UsernameTextField
 import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
@@ -64,62 +67,6 @@ internal fun SignupScreen() {
             Text(text = stringResource(id = R.string.signup_button))
         }
     }
-}
-
-@Composable
-internal fun UsernameTextField(
-    username: String,
-    onNameChange: (String) -> Unit,
-) {
-    TextField(
-        value = username,
-        onValueChange = onNameChange,
-        modifier = Modifier.fillMaxWidth(),
-        placeholder = { Text(text = stringResource(id = R.string.signup_placeholder_username)) },
-        singleLine = true,
-    )
-}
-
-@Composable
-internal fun EmailTextField(
-    email: String,
-    onEmailChange: (String) -> Unit,
-) {
-    TextField(
-        value = email,
-        onValueChange = onEmailChange,
-        modifier = Modifier.fillMaxWidth(),
-        placeholder = { Text(text = stringResource(id = R.string.signup_placeholder_email)) },
-        singleLine = true,
-    )
-}
-
-@Composable
-internal fun PasswordTextField(
-    password: String,
-    onPasswordChange: (String) -> Unit,
-) {
-    TextField(
-        value = password,
-        onValueChange = onPasswordChange,
-        modifier = Modifier.fillMaxWidth(),
-        placeholder = { Text(text = stringResource(id = R.string.signup_placeholder_password)) },
-        singleLine = true,
-    )
-}
-
-@Composable
-internal fun PasswordConfirmTextField(
-    password: String,
-    onPasswordChange: (String) -> Unit,
-) {
-    TextField(
-        value = password,
-        onValueChange = onPasswordChange,
-        modifier = Modifier.fillMaxWidth(),
-        placeholder = { Text(text = stringResource(id = R.string.signup_placeholder_password_confirm)) },
-        singleLine = true,
-    )
 }
 
 @Preview(showBackground = true)
