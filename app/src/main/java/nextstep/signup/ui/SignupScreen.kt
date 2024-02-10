@@ -1,15 +1,11 @@
-package nextstep.signup
+package nextstep.signup.ui
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -21,26 +17,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nextstep.signup.ui.theme.SignupTheme
 
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            SignupTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting()
-                }
-            }
-        }
-    }
-}
-
 @Composable
-fun Greeting(modifier: Modifier = Modifier) {
-    Column(modifier = modifier.padding(32.dp)) {
+internal fun SignupScreen() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(32.dp)
+    ) {
         Text(
             text = "Welcome to Compose \uD83D\uDE80",
             style = MaterialTheme.typography.headlineMedium,
@@ -48,28 +31,28 @@ fun Greeting(modifier: Modifier = Modifier) {
         )
 
         val username = remember { mutableStateOf("") }
-        MyTextField(
+        SignupTextField(
             value = username.value,
             onValueChange = { username.value = it },
             placeholder = "Username",
         )
 
         val email = remember { mutableStateOf("") }
-        MyTextField(
+        SignupTextField(
             value = email.value,
             onValueChange = { email.value = it },
             placeholder = "Email",
         )
 
         val password = remember { mutableStateOf("") }
-        MyTextField(
+        SignupTextField(
             value = password.value,
             onValueChange = { password.value = it },
             placeholder = "Password",
         )
 
         val passwordConfirm = remember { mutableStateOf("") }
-        MyTextField(
+        SignupTextField(
             value = passwordConfirm.value,
             onValueChange = { passwordConfirm.value = it },
             placeholder = "Password Confirm",
@@ -87,7 +70,7 @@ fun Greeting(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun MyTextField(
+private fun SignupTextField(
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String,
@@ -106,8 +89,8 @@ fun MyTextField(
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+private fun SignupScreenPreview() {
     SignupTheme {
-        Greeting()
+        SignupScreen()
     }
 }
