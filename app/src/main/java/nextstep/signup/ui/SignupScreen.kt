@@ -33,11 +33,27 @@ internal fun SignupScreen() {
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
         )
+        val username = remember { mutableStateOf("") }
+        val email = remember { mutableStateOf("") }
+        val password = remember { mutableStateOf("") }
+        val passwordConfirm = remember { mutableStateOf("") }
 
-        UsernameTextField()
-        EmailTextField()
-        PasswordTextField()
-        PasswordConfirmTextField()
+        UsernameTextField(
+            username = username.value,
+            onNameChange = { username.value = it }
+        )
+        EmailTextField(
+            email = email.value,
+            onEmailChange = { email.value = it }
+        )
+        PasswordTextField(
+            password = password.value,
+            onPasswordChange = { password.value = it }
+        )
+        PasswordConfirmTextField(
+            password = passwordConfirm.value,
+            onPasswordChange = { passwordConfirm.value = it }
+        )
 
         Button(
             onClick = { /*TODO*/ },
@@ -51,11 +67,13 @@ internal fun SignupScreen() {
 }
 
 @Composable
-internal fun UsernameTextField() {
-    val username = remember { mutableStateOf("") }
+internal fun UsernameTextField(
+    username: String,
+    onNameChange: (String) -> Unit,
+) {
     TextField(
-        value = username.value,
-        onValueChange = { username.value = it },
+        value = username,
+        onValueChange = onNameChange,
         modifier = Modifier.fillMaxWidth(),
         placeholder = { Text(text = stringResource(id = R.string.signup_placeholder_username)) },
         singleLine = true,
@@ -63,11 +81,13 @@ internal fun UsernameTextField() {
 }
 
 @Composable
-internal fun EmailTextField() {
-    val email = remember { mutableStateOf("") }
+internal fun EmailTextField(
+    email: String,
+    onEmailChange: (String) -> Unit,
+) {
     TextField(
-        value = email.value,
-        onValueChange = { email.value = it },
+        value = email,
+        onValueChange = onEmailChange,
         modifier = Modifier.fillMaxWidth(),
         placeholder = { Text(text = stringResource(id = R.string.signup_placeholder_email)) },
         singleLine = true,
@@ -75,11 +95,13 @@ internal fun EmailTextField() {
 }
 
 @Composable
-internal fun PasswordTextField() {
-    val password = remember { mutableStateOf("") }
+internal fun PasswordTextField(
+    password: String,
+    onPasswordChange: (String) -> Unit,
+) {
     TextField(
-        value = password.value,
-        onValueChange = { password.value = it },
+        value = password,
+        onValueChange = onPasswordChange,
         modifier = Modifier.fillMaxWidth(),
         placeholder = { Text(text = stringResource(id = R.string.signup_placeholder_password)) },
         singleLine = true,
@@ -87,11 +109,13 @@ internal fun PasswordTextField() {
 }
 
 @Composable
-internal fun PasswordConfirmTextField() {
-    val passwordConfirm = remember { mutableStateOf("") }
+internal fun PasswordConfirmTextField(
+    password: String,
+    onPasswordChange: (String) -> Unit,
+) {
     TextField(
-        value = passwordConfirm.value,
-        onValueChange = { passwordConfirm.value = it },
+        value = password,
+        onValueChange = onPasswordChange,
         modifier = Modifier.fillMaxWidth(),
         placeholder = { Text(text = stringResource(id = R.string.signup_placeholder_password_confirm)) },
         singleLine = true,
