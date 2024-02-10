@@ -54,7 +54,8 @@ internal fun SignupScreen() {
             onPasswordChange = { password.value = it }
         )
         PasswordConfirmTextField(
-            password = passwordConfirm.value,
+            password = password.value,
+            confirmPassword = passwordConfirm.value,
             onPasswordChange = { passwordConfirm.value = it }
         )
 
