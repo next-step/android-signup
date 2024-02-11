@@ -20,9 +20,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+@Preview(showBackground = true)
 @Composable
 fun SignUpScreen() {
     Column(
@@ -34,7 +36,7 @@ fun SignUpScreen() {
         Spacer(modifier = Modifier.height(height = 42.dp))
         UserNameTextField()
         Spacer(modifier = Modifier.height(height = 36.dp))
-        EMailTextField()
+        EmailTextField()
         Spacer(modifier = Modifier.height(height = 36.dp))
         PasswordTextField()
         Spacer(modifier = Modifier.height(height = 36.dp))
@@ -44,6 +46,7 @@ fun SignUpScreen() {
     }
 }
 
+@Preview
 @Composable
 private fun SignUpButton() {
     Button(
@@ -56,6 +59,7 @@ private fun SignUpButton() {
     }
 }
 
+@Preview
 @Composable
 private fun PasswordConfirmTextField() {
     var passwordConfirm by remember { mutableStateOf("") }
@@ -77,6 +81,7 @@ private fun PasswordConfirmTextField() {
     )
 }
 
+@Preview
 @Composable
 private fun PasswordTextField() {
     var password by remember { mutableStateOf("") }
@@ -98,8 +103,9 @@ private fun PasswordTextField() {
     )
 }
 
+@Preview
 @Composable
-private fun EMailTextField() {
+private fun EmailTextField() {
     var email by remember { mutableStateOf("") }
     TextField(
         modifier = Modifier
@@ -118,6 +124,7 @@ private fun EMailTextField() {
     )
 }
 
+@Preview
 @Composable
 private fun UserNameTextField() {
     var userName by remember { mutableStateOf("") }
@@ -135,6 +142,7 @@ private fun UserNameTextField() {
     )
 }
 
+@Preview(showBackground = true)
 @Composable
 private fun SignUpTitle() {
     Text(
