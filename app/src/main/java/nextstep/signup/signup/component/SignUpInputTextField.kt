@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun SignUpInputTextField(
     labelName: String,
-    value: String = "",
     modifier: Modifier = Modifier,
+    value: String = "",
     isInputPassword: Boolean = false,
     keyboardType: KeyboardType = KeyboardType.Text,
     onTextChanged: (String) -> Unit,
