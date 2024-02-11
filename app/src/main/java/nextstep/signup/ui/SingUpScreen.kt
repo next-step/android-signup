@@ -1,5 +1,6 @@
 package nextstep.signup.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,6 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import nextstep.signup.ui.theme.Blue50
 
 @Preview(showBackground = true)
 @Composable
@@ -52,6 +54,7 @@ private fun SignUpButton() {
     Button(
         modifier = Modifier
             .fillMaxWidth()
+            .background(color = Blue50)
             .height(height = 50.dp),
         onClick = {}
     ) {
