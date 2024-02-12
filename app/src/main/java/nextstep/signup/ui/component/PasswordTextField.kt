@@ -15,23 +15,25 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
+import nextstep.signup.domain.PasswordValidationResult
 
 @Composable
 internal fun PasswordTextField(
     password: String,
+    validationResult: PasswordValidationResult,
     onPasswordChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val supportingText: @Composable (() -> Unit)? = remember(password) {
-        when {
-            password.isEmpty() -> null
-            password.length !in (8..16) -> {
+    val supportingText: @Composable (() -> Unit)? = remember(password, validationResult) {
+        if (password.isEmpty()) return@remember null
+        when (validationResult) {
+            PasswordValidationResult.SUCCESS -> null
+            PasswordValidationResult.INVALID_LENGTH -> {
                 { Text(text = stringResource(id = R.string.signup_password_length_error)) }
             }
-            !PASSWORD_REGEX.toRegex().matches(password) -> {
+            PasswordValidationResult.INVALID_FORMAT -> {
                 { Text(text = stringResource(id = R.string.signup_password_format_error)) }
             }
-            else -> null
         }
     }
 
@@ -47,19 +49,26 @@ internal fun PasswordTextField(
     )
 }
 
-private const val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$"
-
-private class PasswordTextFieldPreviewParameter : PreviewParameterProvider<String> {
-    override val values: Sequence<String>
-        get() = sequenceOf("", "1q2w3e4r!", "1234567890")
+private class PasswordTextFieldPreviewParameter :
+    PreviewParameterProvider<Pair<String, PasswordValidationResult>> {
+    override val values: Sequence<Pair<String, PasswordValidationResult>>
+        get() = sequenceOf(
+            "" to PasswordValidationResult.INVALID_LENGTH,
+            "1q2w3e4r!" to PasswordValidationResult.SUCCESS,
+            "1234567890" to PasswordValidationResult.INVALID_FORMAT,
+        )
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun PasswordTextFieldPreview(@PreviewParameter(PasswordTextFieldPreviewParameter::class) password: String) {
+private fun PasswordTextFieldPreview(
+    @PreviewParameter(PasswordTextFieldPreviewParameter::class)
+    parameter: Pair<String, PasswordValidationResult>,
+) {
     MaterialTheme {
         PasswordTextField(
-            password = password,
+            password = parameter.first,
+            validationResult = parameter.second,
             onPasswordChange = {},
             modifier = Modifier.padding(16.dp),
         )

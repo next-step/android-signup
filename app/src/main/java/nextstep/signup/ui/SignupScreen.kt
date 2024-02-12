@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
+import nextstep.signup.domain.PasswordValidationResult
 import nextstep.signup.domain.UsernameValidationResult
 import nextstep.signup.ui.component.EmailTextField
 import nextstep.signup.ui.component.PasswordConfirmTextField
@@ -44,6 +45,10 @@ internal fun SignupScreen() {
 
         val email = remember { mutableStateOf("") }
         val password = remember { mutableStateOf("") }
+        val passwordValidationResult = remember(password.value) {
+            PasswordValidationResult.match(password.value)
+        }
+
         val passwordConfirm = remember { mutableStateOf("") }
 
         UsernameTextField(
@@ -57,6 +62,7 @@ internal fun SignupScreen() {
         )
         PasswordTextField(
             password = password.value,
+            validationResult = passwordValidationResult,
             onPasswordChange = { password.value = it }
         )
         PasswordConfirmTextField(
