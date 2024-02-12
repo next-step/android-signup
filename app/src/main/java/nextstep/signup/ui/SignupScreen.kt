@@ -14,6 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -64,6 +65,7 @@ internal fun SignupScreen() {
         passwordConfirm = passwordConfirm,
         passwordConfirmValidationResult = passwordConfirmValidationResult,
         onPasswordConfirmChange = { passwordConfirm = it },
+        onButtonClick = { TODO() },
     )
 }
 
@@ -81,6 +83,7 @@ internal fun SignupScreen(
     passwordConfirm: String,
     passwordConfirmValidationResult: PasswordConfirmValidationResult,
     onPasswordConfirmChange: (String) -> Unit,
+    onButtonClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -116,10 +119,23 @@ internal fun SignupScreen(
         )
 
         Button(
-            onClick = { /*TODO*/ },
+            onClick = onButtonClick,
+            enabled = remember(
+                usernameValidationResult,
+                emailValidationResult,
+                passwordValidationResult,
+                passwordConfirmValidationResult
+            ) {
+                usernameValidationResult == UsernameValidationResult.SUCCESS
+                    && emailValidationResult == EmailValidationResult.SUCCESS
+                    && passwordValidationResult == PasswordValidationResult.SUCCESS
+                    && passwordConfirmValidationResult == PasswordConfirmValidationResult.SUCCESS
+            },
             modifier = Modifier
                 .padding(top = 36.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .testTag("button")
+            ,
         ) {
             Text(text = stringResource(id = R.string.signup_button))
         }
