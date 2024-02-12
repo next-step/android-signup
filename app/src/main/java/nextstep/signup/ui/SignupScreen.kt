@@ -29,6 +29,57 @@ import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
 internal fun SignupScreen() {
+    val username = remember { mutableStateOf("") }
+    val usernameValidationResult = remember(username.value) {
+        UsernameValidationResult.match(username.value)
+    }
+
+    val email = remember { mutableStateOf("") }
+    val emailValidationResult = remember(email.value) {
+        EmailValidationResult.match(email.value)
+    }
+
+    val password = remember { mutableStateOf("") }
+    val passwordValidationResult = remember(password.value) {
+        PasswordValidationResult.match(password.value)
+    }
+
+    val passwordConfirm = remember { mutableStateOf("") }
+    val passwordConfirmValidationResult = remember(password.value, passwordConfirm.value) {
+        PasswordConfirmValidationResult.match(password.value, passwordConfirm.value)
+    }
+    
+    SignupScreen(
+        username = username.value,
+        usernameValidationResult = usernameValidationResult,
+        onUsernameChange = { username.value = it },
+        email = email.value,
+        emailValidationResult = emailValidationResult,
+        onEmailChange = { email.value = it },
+        password = password.value,
+        passwordValidationResult = passwordValidationResult,
+        onPasswordChange = { password.value = it },
+        passwordConfirm = passwordConfirm.value,
+        passwordConfirmValidationResult = passwordConfirmValidationResult,
+        onPasswordConfirmChange = { passwordConfirm.value = it },
+    )
+}
+
+@Composable
+internal fun SignupScreen(
+    username: String,
+    usernameValidationResult: UsernameValidationResult,
+    onUsernameChange: (String) -> Unit,
+    email: String,
+    emailValidationResult: EmailValidationResult,
+    onEmailChange: (String) -> Unit,
+    password: String,
+    passwordValidationResult: PasswordValidationResult,
+    onPasswordChange: (String) -> Unit,
+    passwordConfirm: String,
+    passwordConfirmValidationResult: PasswordConfirmValidationResult,
+    onPasswordConfirmChange: (String) -> Unit,
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -40,45 +91,26 @@ internal fun SignupScreen() {
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
         )
-        val username = remember { mutableStateOf("") }
-        val usernameValidationResult = remember(username.value) {
-            UsernameValidationResult.match(username.value)
-        }
-
-        val email = remember { mutableStateOf("") }
-        val emailValidationResult = remember(email.value) {
-            EmailValidationResult.match(email.value)
-        }
-
-        val password = remember { mutableStateOf("") }
-        val passwordValidationResult = remember(password.value) {
-            PasswordValidationResult.match(password.value)
-        }
-
-        val passwordConfirm = remember { mutableStateOf("") }
-        val passwordConfirmValidationResult = remember(password.value, passwordConfirm.value) {
-            PasswordConfirmValidationResult.match(password.value, passwordConfirm.value)
-        }
 
         UsernameTextField(
-            username = username.value,
+            username = username,
             validationResult = usernameValidationResult,
-            onNameChange = { username.value = it }
+            onNameChange = onUsernameChange,
         )
         EmailTextField(
-            email = email.value,
+            email = email,
             validationResult = emailValidationResult,
-            onEmailChange = { email.value = it }
+            onEmailChange = onEmailChange,
         )
         PasswordTextField(
-            password = password.value,
+            password = password,
             validationResult = passwordValidationResult,
-            onPasswordChange = { password.value = it }
+            onPasswordChange = onPasswordChange,
         )
         PasswordConfirmTextField(
-            password = passwordConfirm.value,
+            password = passwordConfirm,
             validationResult = passwordConfirmValidationResult,
-            onPasswordChange = { passwordConfirm.value = it }
+            onPasswordChange = onPasswordConfirmChange,
         )
 
         Button(
