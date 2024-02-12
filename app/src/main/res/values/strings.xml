@@ -17,5 +17,6 @@
     <string name="signup_password_confirm_diff_error">비밀번호가 일치하지 않습니다.</string>
     
     <string name="signup_button">Signup</string>
+    <string name="signup_complete">회원가입 완료</string>
 
 </resources>
