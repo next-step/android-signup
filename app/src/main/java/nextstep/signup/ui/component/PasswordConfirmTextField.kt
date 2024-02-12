@@ -6,6 +6,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -14,27 +15,30 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
+import nextstep.signup.domain.PasswordConfirmValidationResult
 
 @Composable
 internal fun PasswordConfirmTextField(
     password: String,
-    confirmPassword: String,
+    validationResult: PasswordConfirmValidationResult,
     onPasswordChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val supportingText: @Composable (() -> Unit)? = when {
-        confirmPassword.isEmpty() -> null
-        password != confirmPassword -> {
-            { Text(text = stringResource(id = R.string.signup_password_confirm_diff_error)) }
+    val supportingText: @Composable (() -> Unit)? = remember(password, validationResult) {
+        if (password.isEmpty()) return@remember null
+        when (validationResult) {
+            PasswordConfirmValidationResult.SUCCESS -> null
+            PasswordConfirmValidationResult.INVALID -> {
+                { Text(text = stringResource(id = R.string.signup_password_confirm_diff_error)) }
+            }
         }
-        else -> null
     }
 
     TextField(
-        value = confirmPassword,
+        value = password,
         onValueChange = onPasswordChange,
         modifier = modifier.fillMaxWidth(),
-        placeholder = { Text(text = stringResource(id = R.string.signup_password_confirm_placeholder)) },
+        label = { Text(text = stringResource(id = R.string.signup_password_confirm_placeholder)) },
         supportingText = supportingText,
         isError = supportingText != null,
         visualTransformation = PasswordVisualTransformation(),
@@ -43,12 +47,12 @@ internal fun PasswordConfirmTextField(
 }
 
 private class PasswordConfirmTextFieldPreviewParameter :
-    PreviewParameterProvider<Pair<String, String>> {
-    override val values: Sequence<Pair<String, String>>
+    PreviewParameterProvider<Pair<String, PasswordConfirmValidationResult>> {
+    override val values: Sequence<Pair<String, PasswordConfirmValidationResult>>
         get() = sequenceOf(
-            "" to "",
-            "1q2w3e4r!" to "1q2w3e4r!",
-            "1234" to "5678",
+            "" to PasswordConfirmValidationResult.INVALID,
+            "1q2w3e4r!" to PasswordConfirmValidationResult.SUCCESS,
+            "1234" to PasswordConfirmValidationResult.INVALID,
         )
 }
 
@@ -57,12 +61,12 @@ private class PasswordConfirmTextFieldPreviewParameter :
 @Composable
 private fun PasswordConfirmTextFieldPreview(
     @PreviewParameter(PasswordConfirmTextFieldPreviewParameter::class)
-    parameter: Pair<String, String>,
+    parameter: Pair<String, PasswordConfirmValidationResult>,
 ) {
     MaterialTheme {
         PasswordConfirmTextField(
             password = parameter.first,
-            confirmPassword = parameter.second,
+            validationResult = parameter.second,
             onPasswordChange = {},
             modifier = Modifier.padding(16.dp),
         )

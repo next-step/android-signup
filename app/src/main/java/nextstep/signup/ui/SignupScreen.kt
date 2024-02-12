@@ -7,16 +7,28 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import nextstep.signup.R
+import nextstep.signup.domain.EmailValidationResult
+import nextstep.signup.domain.PasswordConfirmValidationResult
+import nextstep.signup.domain.PasswordValidationResult
+import nextstep.signup.domain.UsernameValidationResult
 import nextstep.signup.ui.component.EmailTextField
 import nextstep.signup.ui.component.PasswordConfirmTextField
 import nextstep.signup.ui.component.PasswordTextField
@@ -25,8 +37,74 @@ import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
 internal fun SignupScreen() {
+    var username by remember { mutableStateOf("") }
+    val usernameValidationResult = remember(username) {
+        UsernameValidationResult.match(username)
+    }
+
+    var email by remember { mutableStateOf("") }
+    val emailValidationResult = remember(email) {
+        EmailValidationResult.match(email)
+    }
+
+    var password by remember { mutableStateOf("") }
+    val passwordValidationResult = remember(password) {
+        PasswordValidationResult.match(password)
+    }
+
+    var passwordConfirm by remember { mutableStateOf("") }
+    val passwordConfirmValidationResult = remember(password, passwordConfirm) {
+        PasswordConfirmValidationResult.match(password, passwordConfirm)
+    }
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+
+    val signupCompleteMessage = stringResource(id = R.string.signup_complete)
+    Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) }
+    ) { paddingValues ->
+        SignupScreen(
+            username = username,
+            usernameValidationResult = usernameValidationResult,
+            onUsernameChange = { username = it },
+            email = email,
+            emailValidationResult = emailValidationResult,
+            onEmailChange = { email = it },
+            password = password,
+            passwordValidationResult = passwordValidationResult,
+            onPasswordChange = { password = it },
+            passwordConfirm = passwordConfirm,
+            passwordConfirmValidationResult = passwordConfirmValidationResult,
+            onPasswordConfirmChange = { passwordConfirm = it },
+            onButtonClick = {
+                scope.launch {
+                    snackbarHostState.showSnackbar(signupCompleteMessage)
+                }
+            },
+            modifier = Modifier.padding(paddingValues),
+        )
+    }
+}
+
+@Composable
+internal fun SignupScreen(
+    username: String,
+    usernameValidationResult: UsernameValidationResult,
+    onUsernameChange: (String) -> Unit,
+    email: String,
+    emailValidationResult: EmailValidationResult,
+    onEmailChange: (String) -> Unit,
+    password: String,
+    passwordValidationResult: PasswordValidationResult,
+    onPasswordChange: (String) -> Unit,
+    passwordConfirm: String,
+    passwordConfirmValidationResult: PasswordConfirmValidationResult,
+    onPasswordConfirmChange: (String) -> Unit,
+    onButtonClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(32.dp),
         verticalArrangement = Arrangement.spacedBy(36.dp)
@@ -36,34 +114,45 @@ internal fun SignupScreen() {
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
         )
-        val username = remember { mutableStateOf("") }
-        val email = remember { mutableStateOf("") }
-        val password = remember { mutableStateOf("") }
-        val passwordConfirm = remember { mutableStateOf("") }
 
         UsernameTextField(
-            username = username.value,
-            onNameChange = { username.value = it }
+            username = username,
+            validationResult = usernameValidationResult,
+            onNameChange = onUsernameChange,
         )
         EmailTextField(
-            email = email.value,
-            onEmailChange = { email.value = it }
+            email = email,
+            validationResult = emailValidationResult,
+            onEmailChange = onEmailChange,
         )
         PasswordTextField(
-            password = password.value,
-            onPasswordChange = { password.value = it }
+            password = password,
+            validationResult = passwordValidationResult,
+            onPasswordChange = onPasswordChange,
         )
         PasswordConfirmTextField(
-            password = password.value,
-            confirmPassword = passwordConfirm.value,
-            onPasswordChange = { passwordConfirm.value = it }
+            password = passwordConfirm,
+            validationResult = passwordConfirmValidationResult,
+            onPasswordChange = onPasswordConfirmChange,
         )
 
         Button(
-            onClick = { /*TODO*/ },
+            onClick = onButtonClick,
+            enabled = remember(
+                usernameValidationResult,
+                emailValidationResult,
+                passwordValidationResult,
+                passwordConfirmValidationResult
+            ) {
+                usernameValidationResult == UsernameValidationResult.SUCCESS
+                    && emailValidationResult == EmailValidationResult.SUCCESS
+                    && passwordValidationResult == PasswordValidationResult.SUCCESS
+                    && passwordConfirmValidationResult == PasswordConfirmValidationResult.SUCCESS
+            },
             modifier = Modifier
                 .padding(top = 36.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .testTag("button"),
         ) {
             Text(text = stringResource(id = R.string.signup_button))
         }

@@ -3,6 +3,7 @@ package nextstep.signup.ui.component
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import nextstep.signup.domain.PasswordConfirmValidationResult
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -12,24 +13,24 @@ class PasswordConfirmTextFieldTest {
     @get:Rule
     val composeTestRule = createComposeRule()
     private val password = mutableStateOf("")
-    private val confirmPassword = mutableStateOf("")
+    private val validationResult = mutableStateOf(PasswordConfirmValidationResult.SUCCESS)
 
     @Before
     fun setup() {
         composeTestRule.setContent {
             PasswordConfirmTextField(
                 password = password.value,
-                confirmPassword = confirmPassword.value,
-                onPasswordChange = { confirmPassword.value = it }
+                validationResult = validationResult.value,
+                onPasswordChange = { password.value = it }
             )
         }
     }
 
     @Test
-    fun 비밀번호가_모두_일치하면_에러메시지가_노출되지_않는다() {
+    fun 유효성_검사가_정상이면_오류메시지가_노출되지_않는다() {
         // when
         password.value = "1q2w3e4r!"
-        confirmPassword.value = "1q2w3e4r!"
+        validationResult.value = PasswordConfirmValidationResult.SUCCESS
 
         // then
         composeTestRule
@@ -38,10 +39,10 @@ class PasswordConfirmTextFieldTest {
     }
 
     @Test
-    fun 비밀번호가_일치하지_않으면_에러메시지가_노출된다() {
+    fun 유효성_검사가_비정상이면_에러메시지가_노출된다() {
         // when
         password.value = "1234"
-        confirmPassword.value = "12345678"
+        validationResult.value = PasswordConfirmValidationResult.INVALID
 
         // then
         composeTestRule
@@ -53,7 +54,6 @@ class PasswordConfirmTextFieldTest {
     fun 비밀번호가_비어있으면_에러메시지가_노출되지_않는다() {
         // when
         password.value = ""
-        confirmPassword.value = ""
 
         // then
         composeTestRule
