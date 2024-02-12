@@ -9,8 +9,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -29,39 +31,39 @@ import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
 internal fun SignupScreen() {
-    val username = remember { mutableStateOf("") }
-    val usernameValidationResult = remember(username.value) {
-        UsernameValidationResult.match(username.value)
+    var username by remember { mutableStateOf("") }
+    val usernameValidationResult = remember(username) {
+        UsernameValidationResult.match(username)
     }
 
-    val email = remember { mutableStateOf("") }
-    val emailValidationResult = remember(email.value) {
-        EmailValidationResult.match(email.value)
+    var email by remember { mutableStateOf("") }
+    val emailValidationResult = remember(email) {
+        EmailValidationResult.match(email)
     }
 
-    val password = remember { mutableStateOf("") }
-    val passwordValidationResult = remember(password.value) {
-        PasswordValidationResult.match(password.value)
+    var password by remember { mutableStateOf("") }
+    val passwordValidationResult = remember(password) {
+        PasswordValidationResult.match(password)
     }
 
-    val passwordConfirm = remember { mutableStateOf("") }
-    val passwordConfirmValidationResult = remember(password.value, passwordConfirm.value) {
-        PasswordConfirmValidationResult.match(password.value, passwordConfirm.value)
+    var passwordConfirm by remember { mutableStateOf("") }
+    val passwordConfirmValidationResult = remember(password, passwordConfirm) {
+        PasswordConfirmValidationResult.match(password, passwordConfirm)
     }
-    
+
     SignupScreen(
-        username = username.value,
+        username = username,
         usernameValidationResult = usernameValidationResult,
-        onUsernameChange = { username.value = it },
-        email = email.value,
+        onUsernameChange = { username = it },
+        email = email,
         emailValidationResult = emailValidationResult,
-        onEmailChange = { email.value = it },
-        password = password.value,
+        onEmailChange = { email = it },
+        password = password,
         passwordValidationResult = passwordValidationResult,
-        onPasswordChange = { password.value = it },
-        passwordConfirm = passwordConfirm.value,
+        onPasswordChange = { password = it },
+        passwordConfirm = passwordConfirm,
         passwordConfirmValidationResult = passwordConfirmValidationResult,
-        onPasswordConfirmChange = { passwordConfirm.value = it },
+        onPasswordConfirmChange = { passwordConfirm = it },
     )
 }
 
