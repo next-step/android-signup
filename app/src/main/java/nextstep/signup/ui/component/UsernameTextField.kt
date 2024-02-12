@@ -6,6 +6,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,15 +21,17 @@ internal fun UsernameTextField(
     onNameChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val supportingText: @Composable (() -> Unit)? = when {
-        username.isEmpty() -> null
-        username.length !in (2..5) -> {
-            { Text(text = stringResource(id = R.string.signup_username_length_error)) }
+    val supportingText: @Composable (() -> Unit)? = remember(username) {
+        when {
+            username.isEmpty() -> null
+            username.length !in (2..5) -> {
+                { Text(text = stringResource(id = R.string.signup_username_length_error)) }
+            }
+            !USERNAME_REGEX.toRegex().matches(username) -> {
+                { Text(text = stringResource(id = R.string.signup_username_hangeul_error)) }
+            }
+            else -> null
         }
-        !USERNAME_REGEX.toRegex().matches(username) -> {
-            { Text(text = stringResource(id = R.string.signup_username_hangeul_error)) }
-        }
-        else -> null
     }
 
     TextField(

@@ -6,6 +6,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -22,12 +23,14 @@ internal fun PasswordConfirmTextField(
     onPasswordChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val supportingText: @Composable (() -> Unit)? = when {
-        confirmPassword.isEmpty() -> null
-        password != confirmPassword -> {
-            { Text(text = stringResource(id = R.string.signup_password_confirm_diff_error)) }
+    val supportingText: @Composable (() -> Unit)? = remember(password, confirmPassword) {
+        when {
+            confirmPassword.isEmpty() -> null
+            password != confirmPassword -> {
+                { Text(text = stringResource(id = R.string.signup_password_confirm_diff_error)) }
+            }
+            else -> null
         }
-        else -> null
     }
 
     TextField(

@@ -6,6 +6,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -21,15 +22,17 @@ internal fun PasswordTextField(
     onPasswordChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val supportingText: @Composable (() -> Unit)? = when {
-        password.isEmpty() -> null
-        password.length !in (8..16) -> {
-            { Text(text = stringResource(id = R.string.signup_password_length_error)) }
+    val supportingText: @Composable (() -> Unit)? = remember(password) {
+        when {
+            password.isEmpty() -> null
+            password.length !in (8..16) -> {
+                { Text(text = stringResource(id = R.string.signup_password_length_error)) }
+            }
+            !PASSWORD_REGEX.toRegex().matches(password) -> {
+                { Text(text = stringResource(id = R.string.signup_password_format_error)) }
+            }
+            else -> null
         }
-        !PASSWORD_REGEX.toRegex().matches(password) -> {
-            { Text(text = stringResource(id = R.string.signup_password_format_error)) }
-        }
-        else -> null
     }
 
     TextField(
