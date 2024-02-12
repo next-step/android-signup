@@ -14,23 +14,25 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
+import nextstep.signup.domain.UsernameValidationResult
 
 @Composable
 internal fun UsernameTextField(
     username: String,
+    validationResult: UsernameValidationResult,
     onNameChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val supportingText: @Composable (() -> Unit)? = remember(username) {
-        when {
-            username.isEmpty() -> null
-            username.length !in (2..5) -> {
+    val supportingText: @Composable (() -> Unit)? = remember(username, validationResult) {
+        if (username.isEmpty()) return@remember null
+        when (validationResult) {
+            UsernameValidationResult.SUCCESS -> null
+            UsernameValidationResult.INVALID_LENGTH -> {
                 { Text(text = stringResource(id = R.string.signup_username_length_error)) }
             }
-            !USERNAME_REGEX.toRegex().matches(username) -> {
-                { Text(text = stringResource(id = R.string.signup_username_hangeul_error)) }
+            UsernameValidationResult.INVALID_FORMAT -> {
+                { Text(text = stringResource(id = R.string.signup_username_format_error)) }
             }
-            else -> null
         }
     }
 
@@ -45,19 +47,27 @@ internal fun UsernameTextField(
     )
 }
 
-private const val USERNAME_REGEX = "^[a-zA-Z가-힣]+$"
-
-private class UsernameTextFieldPreviewParameter : PreviewParameterProvider<String> {
-    override val values: Sequence<String>
-        get() = sequenceOf("", "김컴포즈", "김", "12345")
+private class UsernameTextFieldPreviewParameter :
+    PreviewParameterProvider<Pair<String, UsernameValidationResult>> {
+    override val values: Sequence<Pair<String, UsernameValidationResult>>
+        get() = sequenceOf(
+            "" to UsernameValidationResult.INVALID_LENGTH,
+            "김컴포즈" to UsernameValidationResult.SUCCESS,
+            "김" to UsernameValidationResult.INVALID_LENGTH,
+            "12345" to UsernameValidationResult.INVALID_FORMAT,
+        )
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun UsernameTextFieldPreview(@PreviewParameter(UsernameTextFieldPreviewParameter::class) username: String) {
+private fun UsernameTextFieldPreview(
+    @PreviewParameter(UsernameTextFieldPreviewParameter::class)
+    parameter: Pair<String, UsernameValidationResult>,
+) {
     MaterialTheme {
         UsernameTextField(
-            username = username,
+            username = parameter.first,
+            validationResult = parameter.second,
             onNameChange = {},
             modifier = Modifier.padding(16.dp),
         )
