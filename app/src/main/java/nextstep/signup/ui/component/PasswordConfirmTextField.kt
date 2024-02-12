@@ -34,7 +34,7 @@ internal fun PasswordConfirmTextField(
         value = confirmPassword,
         onValueChange = onPasswordChange,
         modifier = modifier.fillMaxWidth(),
-        placeholder = { Text(text = stringResource(id = R.string.signup_password_confirm_placeholder)) },
+        label = { Text(text = stringResource(id = R.string.signup_password_confirm_placeholder)) },
         supportingText = supportingText,
         isError = supportingText != null,
         visualTransformation = PasswordVisualTransformation(),

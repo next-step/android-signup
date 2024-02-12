@@ -32,7 +32,7 @@ internal fun EmailTextField(
         value = email,
         onValueChange = onEmailChange,
         modifier = modifier.fillMaxWidth(),
-        placeholder = { Text(text = stringResource(id = R.string.signup_email_placeholder)) },
+        label = { Text(text = stringResource(id = R.string.signup_email_placeholder)) },
         supportingText = supportingText,
         isError = supportingText != null,
         singleLine = true,

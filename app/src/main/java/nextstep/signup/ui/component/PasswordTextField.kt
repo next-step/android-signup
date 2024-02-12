@@ -36,7 +36,7 @@ internal fun PasswordTextField(
         value = password,
         onValueChange = onPasswordChange,
         modifier = modifier.fillMaxWidth(),
-        placeholder = { Text(text = stringResource(id = R.string.signup_password_placeholder)) },
+        label = { Text(text = stringResource(id = R.string.signup_password_placeholder)) },
         supportingText = supportingText,
         visualTransformation = PasswordVisualTransformation(),
         isError = supportingText != null,

@@ -35,7 +35,7 @@ internal fun UsernameTextField(
         value = username,
         onValueChange = onNameChange,
         modifier = modifier.fillMaxWidth(),
-        placeholder = { Text(text = stringResource(id = R.string.signup_username_placeholder)) },
+        label = { Text(text = stringResource(id = R.string.signup_username_placeholder)) },
         singleLine = true,
         supportingText = supportingText,
         isError = supportingText != null,
