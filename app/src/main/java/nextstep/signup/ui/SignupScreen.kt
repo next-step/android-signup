@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
 import nextstep.signup.domain.EmailValidationResult
+import nextstep.signup.domain.PasswordConfirmValidationResult
 import nextstep.signup.domain.PasswordValidationResult
 import nextstep.signup.domain.UsernameValidationResult
 import nextstep.signup.ui.component.EmailTextField
@@ -55,6 +56,9 @@ internal fun SignupScreen() {
         }
 
         val passwordConfirm = remember { mutableStateOf("") }
+        val passwordConfirmValidationResult = remember(password.value, passwordConfirm.value) {
+            PasswordConfirmValidationResult.match(password.value, passwordConfirm.value)
+        }
 
         UsernameTextField(
             username = username.value,
@@ -72,8 +76,8 @@ internal fun SignupScreen() {
             onPasswordChange = { password.value = it }
         )
         PasswordConfirmTextField(
-            password = password.value,
-            confirmPassword = passwordConfirm.value,
+            password = passwordConfirm.value,
+            validationResult = passwordConfirmValidationResult,
             onPasswordChange = { passwordConfirm.value = it }
         )
 
