@@ -22,6 +22,7 @@ fun SignUpInputTextField(
     modifier: Modifier = Modifier,
     value: String = "",
     isInputPassword: Boolean = false,
+    singleLine: Boolean = false,
     keyboardType: KeyboardType = KeyboardType.Text,
     onTextChanged: (String) -> Unit,
     errorMessage: String? = null,
@@ -40,6 +41,7 @@ fun SignUpInputTextField(
             ),
             onValueChange = onTextChanged,
             isError = errorMessage != null,
+            singleLine = singleLine,
         )
 
         if (errorMessage != null) {
