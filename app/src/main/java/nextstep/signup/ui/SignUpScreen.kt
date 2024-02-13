@@ -12,6 +12,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import nextstep.signup.ui.component.PasswordInputField
 import nextstep.signup.ui.component.TextInputField
 
 @Composable
@@ -41,6 +42,22 @@ fun SignUpScreen() {
             value = email.value,
             label = "Email",
             onValueChange = { email.value = it }
+        )
+
+        val password = remember { mutableStateOf("") }
+        PasswordInputField(
+            modifier = Modifier.padding(top = 32.dp),
+            value = password.value,
+            label = "Password",
+            onValueChange = { password.value = it }
+        )
+
+        val passwordConfirm = remember { mutableStateOf("") }
+        PasswordInputField(
+            modifier = Modifier.padding(top = 32.dp),
+            value = passwordConfirm.value,
+            label = "Password Confirm",
+            onValueChange = { passwordConfirm.value = it }
         )
     }
 }
