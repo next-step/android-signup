@@ -28,9 +28,9 @@ import nextstep.signup.ui.theme.Blue50
 
 @Preview(showBackground = true)
 @Composable
-fun SignUpScreen() {
+fun SignUpScreen(modifier: Modifier = Modifier) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(horizontal = 32.dp)
     ) {
@@ -50,7 +50,7 @@ fun SignUpScreen() {
 
 @Preview
 @Composable
-private fun SignUpButton() {
+private fun SignUpButton(modifier: Modifier = Modifier) {
     Button(
         modifier = Modifier
             .fillMaxWidth()
@@ -64,7 +64,7 @@ private fun SignUpButton() {
 
 @Preview
 @Composable
-private fun PasswordConfirmTextField() {
+private fun PasswordConfirmTextField(modifier: Modifier = Modifier) {
     var passwordConfirm by remember { mutableStateOf("") }
     TextField(
         modifier = Modifier
@@ -86,7 +86,7 @@ private fun PasswordConfirmTextField() {
 
 @Preview
 @Composable
-private fun PasswordTextField() {
+private fun PasswordTextField(modifier: Modifier = Modifier) {
     var password by remember { mutableStateOf("") }
     TextField(
         modifier = Modifier
@@ -108,7 +108,7 @@ private fun PasswordTextField() {
 
 @Preview
 @Composable
-private fun EmailTextField() {
+private fun EmailTextField(modifier: Modifier = Modifier) {
     var email by remember { mutableStateOf("") }
     TextField(
         modifier = Modifier
@@ -129,7 +129,7 @@ private fun EmailTextField() {
 
 @Preview
 @Composable
-private fun UserNameTextField() {
+private fun UserNameTextField(modifier: Modifier = Modifier) {
     var userName by remember { mutableStateOf("") }
     TextField(
         modifier = Modifier
@@ -147,7 +147,7 @@ private fun UserNameTextField() {
 
 @Preview(showBackground = true)
 @Composable
-private fun SignUpTitle() {
+private fun SignUpTitle(modifier: Modifier = Modifier) {
     Text(
         modifier = Modifier.fillMaxWidth(),
         text = "Welcome to Compose \uD83D\uDE80",
