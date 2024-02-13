@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.ui.component.PasswordInputField
+import nextstep.signup.ui.component.TextButton
 import nextstep.signup.ui.component.TextInputField
 
 @Composable
@@ -58,6 +59,12 @@ fun SignUpScreen() {
             value = passwordConfirm.value,
             label = "Password Confirm",
             onValueChange = { passwordConfirm.value = it }
+        )
+
+        TextButton(
+            modifier = Modifier.padding(top = 32.dp),
+            text = "Sign Up",
+            onClick = {}
         )
     }
 }
