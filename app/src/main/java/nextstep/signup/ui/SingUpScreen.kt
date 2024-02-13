@@ -1,6 +1,5 @@
 package nextstep.signup.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,7 +8,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -28,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.R
+import nextstep.signup.ui.component.EmailTextField
 import nextstep.signup.ui.component.UserNameTextField
 import nextstep.signup.ui.theme.Blue50
 
@@ -40,6 +39,7 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
             .padding(horizontal = 32.dp)
     ) {
         var userName by remember { mutableStateOf("") }
+        var email by remember { mutableStateOf("") }
         SignUpTitle()
         Spacer(modifier = Modifier.height(height = 42.dp))
         UserNameTextField(
@@ -49,7 +49,12 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
             }
         )
         Spacer(modifier = Modifier.height(height = 36.dp))
-        EmailTextField()
+        EmailTextField(
+            email = email,
+            onValueChange = { value ->
+                email = value
+            }
+        )
         Spacer(modifier = Modifier.height(height = 36.dp))
         PasswordTextField()
         Spacer(modifier = Modifier.height(height = 36.dp))
@@ -115,27 +120,6 @@ private fun PasswordTextField(modifier: Modifier = Modifier) {
         visualTransformation = PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Password
-        )
-    )
-}
-
-@Preview
-@Composable
-private fun EmailTextField(modifier: Modifier = Modifier) {
-    var email by remember { mutableStateOf("") }
-    TextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(height = 53.dp),
-        value = email,
-        onValueChange = { value ->
-            email = value
-        },
-        label = {
-            Text(text = stringResource(R.string.email))
-        },
-        keyboardOptions = KeyboardOptions.Default.copy(
-            keyboardType = KeyboardType.Email
         )
     )
 }
