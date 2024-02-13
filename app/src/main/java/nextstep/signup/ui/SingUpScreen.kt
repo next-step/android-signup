@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -54,8 +56,10 @@ private fun SignUpButton(modifier: Modifier = Modifier) {
     Button(
         modifier = Modifier
             .fillMaxWidth()
-            .background(color = Blue50)
             .height(height = 50.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Blue50
+        ),
         onClick = {}
     ) {
         Text(text = "Sign Up")
