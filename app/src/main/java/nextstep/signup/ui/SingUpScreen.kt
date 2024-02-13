@@ -28,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.R
+import nextstep.signup.ui.component.UserNameTextField
 import nextstep.signup.ui.theme.Blue50
 
 @Preview(showBackground = true)
@@ -38,9 +39,15 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
             .fillMaxSize()
             .padding(horizontal = 32.dp)
     ) {
+        var userName by remember { mutableStateOf("") }
         SignUpTitle()
         Spacer(modifier = Modifier.height(height = 42.dp))
-        UserNameTextField()
+        UserNameTextField(
+            userName = userName,
+            onValueChange = { value ->
+                userName = value
+            }
+        )
         Spacer(modifier = Modifier.height(height = 36.dp))
         EmailTextField()
         Spacer(modifier = Modifier.height(height = 36.dp))
@@ -130,24 +137,6 @@ private fun EmailTextField(modifier: Modifier = Modifier) {
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Email
         )
-    )
-}
-
-@Preview
-@Composable
-private fun UserNameTextField(modifier: Modifier = Modifier) {
-    var userName by remember { mutableStateOf("") }
-    TextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(height = 53.dp),
-        value = userName,
-        onValueChange = { value ->
-            userName = value
-        },
-        label = {
-            Text(text = stringResource(R.string.username))
-        }
     )
 }
 
