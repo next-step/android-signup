@@ -19,6 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -26,6 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import nextstep.signup.R
 import nextstep.signup.ui.theme.Blue50
 
 @Preview(showBackground = true)
@@ -62,7 +64,7 @@ private fun SignUpButton(modifier: Modifier = Modifier) {
         ),
         onClick = {}
     ) {
-        Text(text = "Sign Up")
+        Text(text = stringResource(R.string.sign_up))
     }
 }
 
@@ -79,7 +81,7 @@ private fun PasswordConfirmTextField(modifier: Modifier = Modifier) {
             passwordConfirm = value
         },
         label = {
-            Text("Password Confirm")
+            Text(stringResource(R.string.password_confirm))
         },
         visualTransformation = PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions.Default.copy(
@@ -101,7 +103,7 @@ private fun PasswordTextField(modifier: Modifier = Modifier) {
             password = value
         },
         label = {
-            Text("Password")
+            Text(stringResource(R.string.password))
         },
         visualTransformation = PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions.Default.copy(
@@ -123,7 +125,7 @@ private fun EmailTextField(modifier: Modifier = Modifier) {
             email = value
         },
         label = {
-            Text(text = "Email")
+            Text(text = stringResource(R.string.email))
         },
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Email
@@ -144,7 +146,7 @@ private fun UserNameTextField(modifier: Modifier = Modifier) {
             userName = value
         },
         label = {
-            Text(text = "Username")
+            Text(text = stringResource(R.string.username))
         }
     )
 }
@@ -154,7 +156,7 @@ private fun UserNameTextField(modifier: Modifier = Modifier) {
 private fun SignUpTitle(modifier: Modifier = Modifier) {
     Text(
         modifier = Modifier.fillMaxWidth(),
-        text = "Welcome to Compose \uD83D\uDE80",
+        text = stringResource(R.string.welcome_to_compose),
         fontSize = 26.sp,
         fontWeight = FontWeight.Bold,
         textAlign = TextAlign.Center,
