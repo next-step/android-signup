@@ -1,48 +1,76 @@
 package nextstep.signup.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import nextstep.signup.R
+import nextstep.signup.ui.component.EmailTextField
+import nextstep.signup.ui.component.PasswordConfirmTextField
+import nextstep.signup.ui.component.PasswordTextField
+import nextstep.signup.ui.component.UserNameTextField
 import nextstep.signup.ui.theme.Blue50
 
 @Preview(showBackground = true)
 @Composable
-fun SignUpScreen() {
+fun SignUpScreen(modifier: Modifier = Modifier) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(horizontal = 32.dp)
     ) {
+        var userName by remember { mutableStateOf("") }
+        var email by remember { mutableStateOf("") }
+        var password by remember { mutableStateOf("") }
+        var passwordConfirm by remember { mutableStateOf("") }
+
         SignUpTitle()
         Spacer(modifier = Modifier.height(height = 42.dp))
-        UserNameTextField()
+        UserNameTextField(
+            userName = userName,
+            onValueChange = { value ->
+                userName = value
+            }
+        )
         Spacer(modifier = Modifier.height(height = 36.dp))
-        EmailTextField()
+        EmailTextField(
+            email = email,
+            onValueChange = { value ->
+                email = value
+            }
+        )
         Spacer(modifier = Modifier.height(height = 36.dp))
-        PasswordTextField()
+        PasswordTextField(
+            password = password,
+            onValueChange = { value ->
+                password = value
+            }
+        )
         Spacer(modifier = Modifier.height(height = 36.dp))
-        PasswordConfirmTextField()
+        PasswordConfirmTextField(
+            password = password,
+            passwordConfirm = passwordConfirm,
+            onValueChange = { value ->
+                passwordConfirm = value
+            }
+        )
         Spacer(modifier = Modifier.height(height = 42.dp))
         SignUpButton()
     }
@@ -50,107 +78,26 @@ fun SignUpScreen() {
 
 @Preview
 @Composable
-private fun SignUpButton() {
+private fun SignUpButton(modifier: Modifier = Modifier) {
     Button(
         modifier = Modifier
             .fillMaxWidth()
-            .background(color = Blue50)
             .height(height = 50.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Blue50
+        ),
         onClick = {}
     ) {
-        Text(text = "Sign Up")
+        Text(text = stringResource(R.string.sign_up))
     }
-}
-
-@Preview
-@Composable
-private fun PasswordConfirmTextField() {
-    var passwordConfirm by remember { mutableStateOf("") }
-    TextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(height = 53.dp),
-        value = passwordConfirm,
-        onValueChange = { value ->
-            passwordConfirm = value
-        },
-        label = {
-            Text("Password Confirm")
-        },
-        visualTransformation = PasswordVisualTransformation(),
-        keyboardOptions = KeyboardOptions.Default.copy(
-            keyboardType = KeyboardType.Password
-        )
-    )
-}
-
-@Preview
-@Composable
-private fun PasswordTextField() {
-    var password by remember { mutableStateOf("") }
-    TextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(height = 53.dp),
-        value = password,
-        onValueChange = { value ->
-            password = value
-        },
-        label = {
-            Text("Password")
-        },
-        visualTransformation = PasswordVisualTransformation(),
-        keyboardOptions = KeyboardOptions.Default.copy(
-            keyboardType = KeyboardType.Password
-        )
-    )
-}
-
-@Preview
-@Composable
-private fun EmailTextField() {
-    var email by remember { mutableStateOf("") }
-    TextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(height = 53.dp),
-        value = email,
-        onValueChange = { value ->
-            email = value
-        },
-        label = {
-            Text(text = "Email")
-        },
-        keyboardOptions = KeyboardOptions.Default.copy(
-            keyboardType = KeyboardType.Email
-        )
-    )
-}
-
-@Preview
-@Composable
-private fun UserNameTextField() {
-    var userName by remember { mutableStateOf("") }
-    TextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(height = 53.dp),
-        value = userName,
-        onValueChange = { value ->
-            userName = value
-        },
-        label = {
-            Text(text = "Username")
-        }
-    )
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun SignUpTitle() {
+private fun SignUpTitle(modifier: Modifier = Modifier) {
     Text(
         modifier = Modifier.fillMaxWidth(),
-        text = "Welcome to Compose \uD83D\uDE80",
+        text = stringResource(R.string.welcome_to_compose),
         fontSize = 26.sp,
         fontWeight = FontWeight.Bold,
         textAlign = TextAlign.Center,
