@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,8 +23,8 @@ import nextstep.signup.R
 import nextstep.signup.ui.component.EmailTextField
 import nextstep.signup.ui.component.PasswordConfirmTextField
 import nextstep.signup.ui.component.PasswordTextField
+import nextstep.signup.ui.component.SignUpButton
 import nextstep.signup.ui.component.UserNameTextField
-import nextstep.signup.ui.theme.Blue50
 
 @Preview(showBackground = true)
 @Composable
@@ -72,23 +70,13 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
             }
         )
         Spacer(modifier = Modifier.height(height = 42.dp))
-        SignUpButton()
-    }
-}
 
-@Preview
-@Composable
-private fun SignUpButton(modifier: Modifier = Modifier) {
-    Button(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(height = 50.dp),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Blue50
-        ),
-        onClick = {}
-    ) {
-        Text(text = stringResource(R.string.sign_up))
+        SignUpButton(
+            userName = userName,
+            email = email,
+            password = password,
+            passwordConfirm = passwordConfirm
+        )
     }
 }
 
