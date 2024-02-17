@@ -9,38 +9,25 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import nextstep.signup.R
 
-private const val USERNAME_REGEX = "^[a-zA-Z가-힣]+$"
-
 @Preview
 @Composable
 fun UserNameTextField(
     modifier: Modifier = Modifier,
-    onValueChange: (String) -> Unit = {},
-    userName: String = ""
+    userName: String = "",
+    onValueChange: (String) -> Unit = {}
 ) {
-    val supportingText: @Composable (() -> Unit)? = when {
-        userName.isEmpty() -> {
-            null
-        }
-
-        userName.length !in 2..5 -> {
-            {
-                Text(text = stringResource(R.string.username_length_error))
+    val supportingText: @Composable (() -> Unit)? =
+        when (UserNameError.checkBy(userName = userName)) {
+            UserNameError.OUT_OF_RANGE_LENGTH -> {
+                { Text(text = stringResource(R.string.username_length_error)) }
+            }
+            UserNameError.CANNOT_CONTAIN_NUMBERS_OR_SYMBOLS -> {
+                { Text(text = stringResource(R.string.username_cannot_contain_numbers_or_symbols)) }
+            }
+            UserNameError.NONE -> {
+                null
             }
         }
-
-        USERNAME_REGEX.toRegex()
-            .matches(userName)
-            .not() -> {
-            {
-                Text(text = stringResource(R.string.username_cannot_contain_numbers_or_symbols))
-            }
-        }
-
-        else -> {
-            null
-        }
-    }
     TextField(
         modifier = modifier.fillMaxWidth(),
         value = userName,
@@ -53,4 +40,33 @@ fun UserNameTextField(
         supportingText = supportingText,
         isError = supportingText != null
     )
+}
+
+enum class UserNameError {
+    OUT_OF_RANGE_LENGTH,
+    CANNOT_CONTAIN_NUMBERS_OR_SYMBOLS,
+    NONE;
+
+    companion object {
+        private val VALID_RANGE = 2..5
+        private val USERNAME_REGEX = "^[a-zA-Z가-힣]+$".toRegex()
+
+        fun checkBy(userName: String): UserNameError {
+            return when {
+                userName.isEmpty() -> {
+                    NONE
+                }
+                userName.length !in VALID_RANGE -> {
+                    OUT_OF_RANGE_LENGTH
+                }
+                USERNAME_REGEX.matches(userName)
+                    .not() -> {
+                    CANNOT_CONTAIN_NUMBERS_OR_SYMBOLS
+                }
+                else -> {
+                    NONE
+                }
+            }
+        }
+    }
 }
