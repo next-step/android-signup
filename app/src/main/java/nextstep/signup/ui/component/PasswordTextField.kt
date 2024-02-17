@@ -12,8 +12,6 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import nextstep.signup.R
 
-private const val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$"
-
 @Preview
 @Composable
 fun PasswordTextField(
@@ -21,29 +19,20 @@ fun PasswordTextField(
     password: String = "",
     onValueChange: (String) -> Unit = {}
 ) {
-    val supportingText: @Composable (() -> Unit)? = when {
-        password.isEmpty() -> {
-            null
-        }
+    val supportingText: @Composable (() -> Unit)? =
+        when (PasswordError.checkBy(password = password)) {
+            PasswordError.OUT_OF_RANGE_LENGTH -> {
+                { Text(text = stringResource(R.string.password_length_error)) }
+            }
 
-        password.length !in 8..16 -> {
-            {
-                Text(text = stringResource(R.string.password_length_error))
+            PasswordError.CANNOT_CONTAIN_ENGLISH_AND_NUMBERS -> {
+                { Text(text = stringResource(R.string.your_password_must_contain_english_and_numbers)) }
+            }
+
+            PasswordError.NONE -> {
+                null
             }
         }
-
-        PASSWORD_REGEX.toRegex()
-            .matches(password)
-            .not() -> {
-            {
-                Text(text = stringResource(R.string.your_password_must_contain_english_and_numbers))
-            }
-        }
-
-        else -> {
-            null
-        }
-    }
     TextField(
         modifier = modifier.fillMaxWidth(),
         value = password,
@@ -70,19 +59,18 @@ fun PasswordConfirmTextField(
     passwordConfirm: String = "",
     onValueChange: (String) -> Unit = {}
 ) {
-    val supportingText: @Composable (() -> Unit)? = when {
-        passwordConfirm.isEmpty() -> {
-            null
-        }
-        password != passwordConfirm -> {
-            {
-                Text(text = stringResource(R.string.password_not_confirm_error))
+    val supportingText: @Composable (() -> Unit)? =
+        when (PasswordError.checkBy(password = password, confirm = passwordConfirm)) {
+            PasswordError.NOT_MATCH -> {
+                { Text(text = stringResource(R.string.password_not_confirm_error)) }
+            }
+
+            PasswordError.OUT_OF_RANGE_LENGTH,
+            PasswordError.CANNOT_CONTAIN_ENGLISH_AND_NUMBERS,
+            PasswordError.NONE -> {
+                null
             }
         }
-        else -> {
-            null
-        }
-    }
     TextField(
         modifier = Modifier.fillMaxWidth(),
         value = passwordConfirm,
@@ -99,4 +87,36 @@ fun PasswordConfirmTextField(
         supportingText = supportingText,
         isError = supportingText != null
     )
+}
+
+enum class PasswordError {
+    OUT_OF_RANGE_LENGTH,
+    CANNOT_CONTAIN_ENGLISH_AND_NUMBERS,
+    NONE;
+
+    companion object {
+        private val VALID_RANGE = 8..16
+        private val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$".toRegex()
+
+        fun checkBy(password: String): PasswordError {
+            return when {
+                password.isEmpty() -> {
+                    NONE
+                }
+
+                password.length !in VALID_RANGE -> {
+                    OUT_OF_RANGE_LENGTH
+                }
+
+                PASSWORD_REGEX.matches(input = password)
+                    .not() -> {
+                    CANNOT_CONTAIN_ENGLISH_AND_NUMBERS
+                }
+
+                else -> {
+                    NONE
+                }
+            }
+        }
+    }
 }
