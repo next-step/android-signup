@@ -11,7 +11,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import nextstep.signup.R
 
-private const val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
 
 @Preview
 @Composable
@@ -20,20 +19,11 @@ fun EmailTextField(
     email: String = "",
     onValueChange: (String) -> Unit = {}
 ) {
-    val supportingText: @Composable (() -> Unit)? = when {
-        email.isEmpty() -> {
-            null
+    val supportingText: @Composable (() -> Unit)? = when (EmailError.checkBy(email = email)) {
+        EmailError.NOT_MATCH_FORMAT -> {
+            { Text(text = stringResource(R.string.email_format_error)) }
         }
-
-        EMAIL_REGEX.toRegex()
-            .matches(email)
-            .not() -> {
-            {
-                Text(text = stringResource(R.string.email_format_error))
-            }
-        }
-
-        else -> {
+        EmailError.NONE -> {
             null
         }
     }
@@ -52,4 +42,28 @@ fun EmailTextField(
         supportingText = supportingText,
         isError = supportingText != null
     )
+}
+
+enum class EmailError {
+    NOT_MATCH_FORMAT,
+    NONE;
+
+    companion object {
+        private val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$".toRegex()
+
+        fun checkBy(email: String): EmailError {
+            return when {
+                email.isEmpty() -> {
+                    NONE
+                }
+                EMAIL_REGEX.matches(email)
+                    .not() -> {
+                        NOT_MATCH_FORMAT
+                    }
+                else -> {
+                    NONE
+                }
+            }
+        }
+    }
 }
