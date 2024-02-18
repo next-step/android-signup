@@ -15,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
+import nextstep.signup.signup.component.EmailInputField
 import nextstep.signup.signup.component.SignUpHeader
 import nextstep.signup.signup.component.SignUpInputTextField
 import nextstep.signup.signup.component.SignUpSubmitButton
@@ -34,6 +35,9 @@ fun SignUpScreen(
         var usernameInputState by remember { mutableStateOf("") }
         var isUsernameValidState by remember { mutableStateOf(true) }
 
+        var emailInputState by remember { mutableStateOf("") }
+        var isEmailValidState by remember { mutableStateOf(true) }
+
         SignUpHeader()
 
         Column(
@@ -47,13 +51,11 @@ fun SignUpScreen(
                 },
             )
 
-            SignUpInputTextField(
-                labelName = stringResource(id = R.string.signup_input_text_label_email),
-                value = uiState.email,
-                onTextChanged = { signUpViewModel.updateEmail(it) },
-                errorMessage = when {
-                    uiState.isInvalidEmail -> stringResource(id = R.string.signup_input_text_error_message_email_is_invalid)
-                    else -> null
+            EmailInputField(
+                value = emailInputState,
+                onTextChanged = { email, isEmailValid ->
+                    emailInputState = email
+                    isEmailValidState = isEmailValid
                 }
             )
 

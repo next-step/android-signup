@@ -6,6 +6,10 @@ fun interface EmailValidator {
     enum class Result {
         Valid,
         InValid;
+
+        fun isValid(): Boolean = this == Valid
+
+        fun isInvalid(): Boolean = this == InValid
     }
 }
 
