@@ -8,6 +8,8 @@ fun interface UsernameValidator {
         Valid,
         OutOfLength,
         HasNumberOrSymbol;
+
+        fun isValid(): Boolean = this == Valid
     }
 }
 

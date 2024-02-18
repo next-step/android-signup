@@ -6,6 +6,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -15,6 +18,7 @@ import nextstep.signup.R
 import nextstep.signup.signup.component.SignUpHeader
 import nextstep.signup.signup.component.SignUpInputTextField
 import nextstep.signup.signup.component.SignUpSubmitButton
+import nextstep.signup.signup.component.UsernameInputField
 
 @Composable
 fun SignUpScreen(
@@ -27,20 +31,20 @@ fun SignUpScreen(
     ) {
         val uiState by signUpViewModel.uiState.collectAsState()
 
+        var usernameInputState by remember { mutableStateOf("") }
+        var isUsernameValidState by remember { mutableStateOf(true) }
+
         SignUpHeader()
 
         Column(
             verticalArrangement = Arrangement.spacedBy(36.dp)
         ) {
-            SignUpInputTextField(
-                labelName = stringResource(id = R.string.signup_input_text_label_username),
-                value = uiState.username,
-                onTextChanged = { signUpViewModel.updateUserName(it) },
-                errorMessage = when {
-                    uiState.isUserNameLengthOutOfRange -> stringResource(id = R.string.signup_input_text_error_message_username_length_out_of_range)
-                    uiState.isUserNameHasNumberOrSymbol -> stringResource(id = R.string.signup_input_text_error_message_username_has_number_or_symbol)
-                    else -> null
-                }
+            UsernameInputField(
+                value = usernameInputState,
+                onTextChanged = { username, isUsernameValid ->
+                    usernameInputState = username
+                    isUsernameValidState = isUsernameValid
+                },
             )
 
             SignUpInputTextField(
