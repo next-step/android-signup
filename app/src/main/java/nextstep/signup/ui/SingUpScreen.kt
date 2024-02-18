@@ -26,7 +26,6 @@ import nextstep.signup.ui.component.PasswordTextField
 import nextstep.signup.ui.component.SignUpButton
 import nextstep.signup.ui.component.UserNameTextField
 
-@Preview(showBackground = true)
 @Composable
 fun SignUpScreen(modifier: Modifier = Modifier) {
     Column(
@@ -80,15 +79,26 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
     }
 }
 
-@Preview(showBackground = true)
 @Composable
 private fun SignUpTitle(modifier: Modifier = Modifier) {
     Text(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         text = stringResource(R.string.welcome_to_compose),
         fontSize = 26.sp,
         fontWeight = FontWeight.Bold,
         textAlign = TextAlign.Center,
         lineHeight = 20.sp,
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SignUpScreenPreview() {
+    SignUpScreen()
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SignUpTitlePreview() {
+    SignUpTitle()
 }

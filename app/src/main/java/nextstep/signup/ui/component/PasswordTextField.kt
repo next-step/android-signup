@@ -12,12 +12,11 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import nextstep.signup.R
 
-@Preview
 @Composable
 fun PasswordTextField(
     modifier: Modifier = Modifier,
-    password: String = "",
-    onValueChange: (String) -> Unit = {}
+    password: String,
+    onValueChange: (String) -> Unit
 ) {
     val supportingText: @Composable (() -> Unit)? =
         when (PasswordError.checkBy(password = password)) {
@@ -48,6 +47,16 @@ fun PasswordTextField(
         ),
         supportingText = supportingText,
         isError = supportingText != null
+    )
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    PasswordTextField(
+        modifier = Modifier,
+        password = "",
+        onValueChange = {}
     )
 }
 

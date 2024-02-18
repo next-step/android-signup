@@ -12,12 +12,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import nextstep.signup.R
 
 
-@Preview
 @Composable
 fun EmailTextField(
     modifier: Modifier = Modifier,
-    email: String = "",
-    onValueChange: (String) -> Unit = {}
+    email: String,
+    onValueChange: (String) -> Unit
 ) {
     val supportingText: @Composable (() -> Unit)? = when (EmailError.checkBy(email = email)) {
         EmailError.NOT_MATCH_FORMAT -> {
@@ -41,6 +40,16 @@ fun EmailTextField(
         ),
         supportingText = supportingText,
         isError = supportingText != null
+    )
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    EmailTextField(
+        modifier = Modifier,
+        email = "",
+        onValueChange = {}
     )
 }
 

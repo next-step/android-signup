@@ -5,6 +5,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ComposeCompilerApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -12,13 +13,12 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import nextstep.signup.R
 
-@Preview
 @Composable
 fun PasswordConfirmTextField(
     modifier: Modifier = Modifier,
-    password: String = "",
-    passwordConfirm: String = "",
-    onValueChange: (String) -> Unit = {}
+    password: String,
+    passwordConfirm: String,
+    onValueChange: (String) -> Unit
 ) {
     val supportingText: @Composable (() -> Unit)? =
         when (ConfirmError.checkBy(src = password, dst = passwordConfirm)) {
@@ -33,7 +33,7 @@ fun PasswordConfirmTextField(
 
         }
     TextField(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         value = passwordConfirm,
         onValueChange = { value ->
             onValueChange(value)
@@ -47,6 +47,17 @@ fun PasswordConfirmTextField(
         ),
         supportingText = supportingText,
         isError = supportingText != null
+    )
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    PasswordConfirmTextField(
+        modifier = Modifier,
+        password = "",
+        passwordConfirm = "",
+        onValueChange = {}
     )
 }
 

@@ -9,12 +9,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import nextstep.signup.R
 
-@Preview
 @Composable
 fun UserNameTextField(
     modifier: Modifier = Modifier,
-    userName: String = "",
-    onValueChange: (String) -> Unit = {}
+    userName: String,
+    onValueChange: (String) -> Unit
 ) {
     val supportingText: @Composable (() -> Unit)? =
         when (UserNameError.checkBy(userName = userName)) {
@@ -39,6 +38,16 @@ fun UserNameTextField(
         },
         supportingText = supportingText,
         isError = supportingText != null
+    )
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    UserNameTextField(
+        modifier = Modifier,
+        userName = "",
+        onValueChange = {}
     )
 }
 

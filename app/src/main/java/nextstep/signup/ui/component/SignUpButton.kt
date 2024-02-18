@@ -17,14 +17,13 @@ import androidx.compose.ui.unit.dp
 import nextstep.signup.R
 import nextstep.signup.ui.theme.Blue50
 
-@Preview
 @Composable
 fun SignUpButton(
     modifier: Modifier = Modifier,
-    userName: String = "",
-    email: String = "",
-    password: String = "",
-    passwordConfirm: String = ""
+    userName: String,
+    email: String,
+    password: String,
+    passwordConfirm: String
 ) {
     val isEnabled by remember(userName, email, password, passwordConfirm) {
         val isEmpty = userName.isEmpty() || email.isEmpty() || password.isEmpty()
@@ -40,7 +39,7 @@ fun SignUpButton(
         )
     }
     Button(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(height = 50.dp)
             .testTag(tag = "signUpButton"),
@@ -52,4 +51,16 @@ fun SignUpButton(
     ) {
         Text(text = stringResource(R.string.sign_up))
     }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    SignUpButton(
+        modifier = Modifier,
+        userName = "",
+        email = "",
+        password = "",
+        passwordConfirm = ""
+    )
 }
