@@ -8,6 +8,8 @@ fun interface PasswordValidator {
         Valid,
         OutOfLength,
         HasNotAlphabetAndNumber;
+
+        fun isValid(): Boolean = this == Valid
     }
 }
 

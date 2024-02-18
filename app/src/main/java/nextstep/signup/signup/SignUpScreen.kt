@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
 import nextstep.signup.signup.component.EmailInputField
+import nextstep.signup.signup.component.PasswordInputField
 import nextstep.signup.signup.component.SignUpHeader
 import nextstep.signup.signup.component.SignUpInputTextField
 import nextstep.signup.signup.component.SignUpSubmitButton
@@ -38,6 +39,9 @@ fun SignUpScreen(
         var emailInputState by remember { mutableStateOf("") }
         var isEmailValidState by remember { mutableStateOf(true) }
 
+        var passwordInputState by remember { mutableStateOf("") }
+        var isPasswordValidState by remember { mutableStateOf(true) }
+
         SignUpHeader()
 
         Column(
@@ -59,15 +63,11 @@ fun SignUpScreen(
                 }
             )
 
-            SignUpInputTextField(
-                labelName = stringResource(id = R.string.signup_input_text_label_password),
-                value = uiState.password,
-                isInputPassword = true,
-                onTextChanged = { signUpViewModel.updatePassword(it) },
-                errorMessage = when {
-                    uiState.isPasswordLengthOutOfRange -> stringResource(id = R.string.signup_input_text_error_message_password_length_out_of_range)
-                    uiState.isPasswordHasNotAlphabetAndNumber -> stringResource(id = R.string.signup_input_text_error_message_password_must_have_alphabet_and_number)
-                    else -> null
+            PasswordInputField(
+                value = passwordInputState,
+                onTextChanged = { password, isPasswordValid ->
+                    passwordInputState = password
+                    isPasswordValidState = isPasswordValid
                 }
             )
 
