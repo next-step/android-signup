@@ -77,6 +77,22 @@ class UserNameTextFieldKtTest {
             .assertExists()
     }
 
+    @Test
+    fun 사용자_이름이_비어있으면_에러메시지가_노출되지않는다() {
+        // given
+
+        // when
+        userName.value = ""
+
+        // then
+        composeTestRule
+            .onNodeWithText(USERNAME_LENGTH_ERROR)
+            .assertDoesNotExist()
+        composeTestRule
+            .onNodeWithText(USERNAME_CANNOT_CONTAIN_NUMBERS_OR_SYMBOLS)
+            .assertDoesNotExist()
+    }
+
     companion object {
         private const val USERNAME_LENGTH_ERROR = "이름은 2~5자여야 합니다."
         private const val USERNAME_CANNOT_CONTAIN_NUMBERS_OR_SYMBOLS = "이름에는 숫자나 기호가 포함될 수 없습니다."

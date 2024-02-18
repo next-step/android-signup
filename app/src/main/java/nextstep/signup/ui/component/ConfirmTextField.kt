@@ -5,38 +5,45 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ComposeCompilerApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import nextstep.signup.R
 
-
 @Composable
-fun EmailTextField(
+fun PasswordConfirmTextField(
     modifier: Modifier = Modifier,
-    email: String,
+    password: String,
+    passwordConfirm: String,
     onValueChange: (String) -> Unit
 ) {
-    val supportingText: @Composable (() -> Unit)? = when (EmailError.checkBy(email = email)) {
-        EmailError.NOT_MATCH_FORMAT -> {
-            { Text(text = stringResource(R.string.email_format_error)) }
+    val supportingText: @Composable (() -> Unit)? =
+        when (ConfirmError.checkBy(src = password, dst = passwordConfirm)) {
+            ConfirmError.NOT_MATCH -> {
+                { Text(text = stringResource(R.string.password_not_confirm_error)) }
+            }
+
+            ConfirmError.EMPTY,
+            ConfirmError.NONE -> {
+                null
+            }
+
         }
-        EmailError.NONE -> {
-            null
-        }
-    }
     TextField(
         modifier = modifier.fillMaxWidth(),
-        value = email,
+        value = passwordConfirm,
         onValueChange = { value ->
             onValueChange(value)
         },
         label = {
-            Text(text = stringResource(R.string.email))
+            Text(stringResource(R.string.password_confirm))
         },
+        visualTransformation = PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions.Default.copy(
-            keyboardType = KeyboardType.Email
+            keyboardType = KeyboardType.Password
         ),
         supportingText = supportingText,
         isError = supportingText != null
@@ -46,32 +53,33 @@ fun EmailTextField(
 @Preview
 @Composable
 private fun Preview() {
-    EmailTextField(
+    PasswordConfirmTextField(
         modifier = Modifier,
-        email = "",
+        password = "",
+        passwordConfirm = "",
         onValueChange = {}
     )
 }
 
-enum class EmailError {
-    NOT_MATCH_FORMAT,
+enum class ConfirmError {
+    EMPTY,
+    NOT_MATCH,
     NONE;
 
     val isPass: Boolean
         get() = this == NONE
 
     companion object {
-        private val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$".toRegex()
-
-        fun checkBy(email: String): EmailError {
+        fun checkBy(src: String, dst: String): ConfirmError {
             return when {
-                email.isEmpty() -> {
-                    NONE
+                dst.isEmpty() -> {
+                    EMPTY
                 }
-                EMAIL_REGEX.matches(email)
-                    .not() -> {
-                        NOT_MATCH_FORMAT
-                    }
+
+                src != dst -> {
+                    NOT_MATCH
+                }
+
                 else -> {
                     NONE
                 }

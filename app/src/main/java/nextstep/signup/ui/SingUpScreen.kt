@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,10 +23,10 @@ import nextstep.signup.R
 import nextstep.signup.ui.component.EmailTextField
 import nextstep.signup.ui.component.PasswordConfirmTextField
 import nextstep.signup.ui.component.PasswordTextField
+import nextstep.signup.ui.component.SignUpButton
+import nextstep.signup.ui.component.SignUpEnable
 import nextstep.signup.ui.component.UserNameTextField
-import nextstep.signup.ui.theme.Blue50
 
-@Preview(showBackground = true)
 @Composable
 fun SignUpScreen(modifier: Modifier = Modifier) {
     Column(
@@ -72,35 +70,41 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
             }
         )
         Spacer(modifier = Modifier.height(height = 42.dp))
-        SignUpButton()
+
+        val isEnabled by remember(userName, email, password, passwordConfirm) {
+            mutableStateOf(
+                SignUpEnable.checkBy(
+                    userName = userName,
+                    email = email,
+                    password = password,
+                    confirm = passwordConfirm
+                ).isEnabled
+            )
+        }
+        SignUpButton(isEnabled = isEnabled)
     }
 }
 
-@Preview
-@Composable
-private fun SignUpButton(modifier: Modifier = Modifier) {
-    Button(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(height = 50.dp),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Blue50
-        ),
-        onClick = {}
-    ) {
-        Text(text = stringResource(R.string.sign_up))
-    }
-}
-
-@Preview(showBackground = true)
 @Composable
 private fun SignUpTitle(modifier: Modifier = Modifier) {
     Text(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         text = stringResource(R.string.welcome_to_compose),
         fontSize = 26.sp,
         fontWeight = FontWeight.Bold,
         textAlign = TextAlign.Center,
         lineHeight = 20.sp,
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SignUpScreenPreview() {
+    SignUpScreen()
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SignUpTitlePreview() {
+    SignUpTitle()
 }
