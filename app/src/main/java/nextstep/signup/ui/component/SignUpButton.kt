@@ -20,24 +20,8 @@ import nextstep.signup.ui.theme.Blue50
 @Composable
 fun SignUpButton(
     modifier: Modifier = Modifier,
-    userName: String,
-    email: String,
-    password: String,
-    passwordConfirm: String
+    isEnabled: Boolean
 ) {
-    val isEnabled by remember(userName, email, password, passwordConfirm) {
-        val isEmpty = userName.isEmpty() || email.isEmpty() || password.isEmpty()
-        mutableStateOf(
-            isEmpty.not() &&
-                    UserNameError.checkBy(userName = userName) == UserNameError.NONE
-                    && EmailError.checkBy(email = email) == EmailError.NONE
-                    && PasswordError.checkBy(password = password) == PasswordError.NONE
-                    && ConfirmError.checkBy(
-                src = password,
-                dst = passwordConfirm
-            ) == ConfirmError.NONE
-        )
-    }
     Button(
         modifier = modifier
             .fillMaxWidth()
@@ -58,9 +42,40 @@ fun SignUpButton(
 private fun Preview() {
     SignUpButton(
         modifier = Modifier,
-        userName = "",
-        email = "",
-        password = "",
-        passwordConfirm = ""
+        isEnabled = true
     )
+}
+
+enum class SignUpEnable {
+    ENABLED,
+    DISABLED;
+
+    val isEnabled: Boolean
+        get() = this == ENABLED
+
+    companion object {
+        fun checkBy(
+            userName: String,
+            email: String,
+            password: String,
+            confirm: String
+        ): SignUpEnable {
+            return when {
+                userName.isEmpty() || email.isEmpty() || password.isEmpty() -> {
+                    DISABLED
+                }
+
+                UserNameError.checkBy(userName = userName).isPass
+                        && EmailError.checkBy(email = email).isPass
+                        && PasswordError.checkBy(password = password).isPass
+                        && ConfirmError.checkBy(src = password, dst = confirm).isPass -> {
+                    ENABLED
+                }
+
+                else -> {
+                    DISABLED
+                }
+            }
+        }
+    }
 }

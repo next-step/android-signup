@@ -65,6 +65,9 @@ enum class PasswordError {
     CANNOT_CONTAIN_ENGLISH_AND_NUMBERS,
     NONE;
 
+    val isPass: Boolean
+        get() = this == NONE
+
     companion object {
         private val VALID_RANGE = 8..16
         private val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$".toRegex()

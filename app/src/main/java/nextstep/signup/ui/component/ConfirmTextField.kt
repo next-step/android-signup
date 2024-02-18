@@ -66,6 +66,9 @@ enum class ConfirmError {
     NOT_MATCH,
     NONE;
 
+    val isPass: Boolean
+        get() = this == NONE
+
     companion object {
         fun checkBy(src: String, dst: String): ConfirmError {
             return when {

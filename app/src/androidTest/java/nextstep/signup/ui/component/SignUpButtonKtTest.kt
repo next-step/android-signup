@@ -13,32 +13,21 @@ import org.junit.Test
 class SignUpButtonKtTest {
     @get:Rule
     val composeTestRule: ComposeContentTestRule = createComposeRule()
-    private val userName = mutableStateOf("")
-    private val email = mutableStateOf("")
-    private val password = mutableStateOf("")
-    private val passwordConfirm = mutableStateOf("")
+    private val isEnabled = mutableStateOf(false)
 
     @Before
     fun setup() {
         composeTestRule.setContent {
-            SignUpButton(
-                userName = userName.value,
-                email = email.value,
-                password = password.value,
-                passwordConfirm = passwordConfirm.value
-            )
+            SignUpButton(isEnabled = isEnabled.value)
         }
     }
 
     @Test
-    fun 모든_입력값이_유효화면_버튼이_활성화된다() {
+    fun 모든_입력값이_유효하면_버튼이_활성화된다() {
         // given
 
         // when
-        userName.value = "wisem"
-        email.value = "wisemuji@woowahan.com"
-        password.value = "qwer1234"
-        passwordConfirm.value = "qwer1234"
+        isEnabled.value = true
 
         // then
         composeTestRule
@@ -47,14 +36,11 @@ class SignUpButtonKtTest {
     }
 
     @Test
-    fun 입력값이_하날나도_유효하지않으면_버튼이_비활성화된다() {
+    fun 입력값이_하나나도_유효하지않으면_버튼이_비활성화된다() {
         // given
 
         // when
-        userName.value = "wisem"
-        email.value = "wisemuji#woowahan.com"
-        password.value = "qwer1234"
-        passwordConfirm.value = "qwer1234"
+        isEnabled.value = false
 
         // then
         composeTestRule

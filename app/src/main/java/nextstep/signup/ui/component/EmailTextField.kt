@@ -57,6 +57,9 @@ enum class EmailError {
     NOT_MATCH_FORMAT,
     NONE;
 
+    val isPass: Boolean
+        get() = this == NONE
+
     companion object {
         private val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$".toRegex()
 

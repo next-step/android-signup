@@ -56,6 +56,9 @@ enum class UserNameError {
     CANNOT_CONTAIN_NUMBERS_OR_SYMBOLS,
     NONE;
 
+    val isPass: Boolean
+        get() = this == NONE
+
     companion object {
         private val VALID_RANGE = 2..5
         private val USERNAME_REGEX = "^[a-zA-Z가-힣]+$".toRegex()

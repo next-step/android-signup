@@ -24,6 +24,7 @@ import nextstep.signup.ui.component.EmailTextField
 import nextstep.signup.ui.component.PasswordConfirmTextField
 import nextstep.signup.ui.component.PasswordTextField
 import nextstep.signup.ui.component.SignUpButton
+import nextstep.signup.ui.component.SignUpEnable
 import nextstep.signup.ui.component.UserNameTextField
 
 @Composable
@@ -70,12 +71,17 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
         )
         Spacer(modifier = Modifier.height(height = 42.dp))
 
-        SignUpButton(
-            userName = userName,
-            email = email,
-            password = password,
-            passwordConfirm = passwordConfirm
-        )
+        val isEnabled by remember(userName, email, password, passwordConfirm) {
+            mutableStateOf(
+                SignUpEnable.checkBy(
+                    userName = userName,
+                    email = email,
+                    password = password,
+                    confirm = passwordConfirm
+                ).isEnabled
+            )
+        }
+        SignUpButton(isEnabled = isEnabled)
     }
 }
 
