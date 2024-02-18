@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
 import nextstep.signup.signup.component.EmailInputField
+import nextstep.signup.signup.component.PasswordConfirmInputField
 import nextstep.signup.signup.component.PasswordInputField
 import nextstep.signup.signup.component.SignUpHeader
 import nextstep.signup.signup.component.SignUpInputTextField
@@ -41,6 +42,9 @@ fun SignUpScreen(
 
         var passwordInputState by remember { mutableStateOf("") }
         var isPasswordValidState by remember { mutableStateOf(true) }
+
+        var passwordConfirmInputState by remember { mutableStateOf("") }
+        var isPasswordMatchedState by remember { mutableStateOf(true) }
 
         SignUpHeader()
 
@@ -71,14 +75,12 @@ fun SignUpScreen(
                 }
             )
 
-            SignUpInputTextField(
-                labelName = stringResource(id = R.string.signup_input_text_label_password_confirm),
-                value = uiState.passwordConfirm,
-                isInputPassword = true,
-                onTextChanged = { signUpViewModel.updatePasswordConfirm(it) },
-                errorMessage = when {
-                    uiState.isPasswordConfirmNotMatched -> stringResource(id = R.string.signup_input_text_error_message_password_confirm_not_matched)
-                    else -> null
+            PasswordConfirmInputField(
+                value = passwordConfirmInputState,
+                passwordToCompare = passwordInputState ,
+                onTextChanged = { passwordConfirm, isPasswordMatched ->
+                    passwordConfirmInputState = passwordConfirm
+                    isPasswordMatchedState = isPasswordMatched
                 }
             )
         }

@@ -19,6 +19,7 @@ fun PasswordInputField(
     SignUpInputTextField(
         labelName = stringResource(id = R.string.signup_input_text_label_password),
         value = value,
+        isInputPassword = true,
         onTextChanged = { onTextChanged(it, passwordValidationResult.isValid()) },
         errorMessage = when {
             value.isEmpty()
