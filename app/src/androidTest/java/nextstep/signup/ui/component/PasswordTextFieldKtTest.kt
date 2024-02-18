@@ -4,6 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -11,11 +12,9 @@ class PasswordTextFieldKtTest {
     @get:Rule
     val composeTestRule: ComposeContentTestRule = createComposeRule()
     private val password = mutableStateOf("")
-    private val passwordConfirm = mutableStateOf("")
 
-    @Test
-    fun 패스워드가_8자보다_작으면_에러메시지가_노출됩니다() {
-        // given
+    @Before
+    fun setup() {
         composeTestRule.setContent {
             PasswordTextField(
                 password = password.value,
@@ -24,6 +23,11 @@ class PasswordTextFieldKtTest {
                 }
             )
         }
+    }
+
+    @Test
+    fun 패스워드가_8자보다_작으면_에러메시지가_노출됩니다() {
+        // given
 
         // when
         password.value = "1234567"
@@ -37,14 +41,6 @@ class PasswordTextFieldKtTest {
     @Test
     fun 패스워드가_16자보다_크면_에러메시지가_노출됩니다() {
         // given
-        composeTestRule.setContent {
-            PasswordTextField(
-                password = password.value,
-                onValueChange = { value ->
-                    password.value = value
-                }
-            )
-        }
 
         // when
         password.value = "12345678901234567"
@@ -58,14 +54,6 @@ class PasswordTextFieldKtTest {
     @Test
     fun 비밀번호는_영어와_숫자를_포함해야_합니다() {
         // given
-        composeTestRule.setContent {
-            PasswordTextField(
-                password = password.value,
-                onValueChange = { value ->
-                    password.value = value
-                }
-            )
-        }
 
         // when
         password.value = "1234qwer"
@@ -77,32 +65,23 @@ class PasswordTextFieldKtTest {
     }
 
     @Test
-    fun 비밀번호가_일치하지_않으면_에러메시지가_노출됩니다() {
+    fun 패스워드가_비어있으면_에러메시지가_노출되지_않는다() {
         // given
-        composeTestRule.setContent {
-            PasswordConfirmTextField(
-                password = password.value,
-                passwordConfirm = passwordConfirm.value,
-                onValueChange = { value ->
-                    passwordConfirm.value = value
-                }
-            )
-        }
 
         // when
-        password.value = "1234qwer"
-        passwordConfirm.value = "1234qwea"
+        password.value = ""
 
         // then
         composeTestRule
-            .onNodeWithText(PASSWORD_NOT_CONFIRM_ERROR)
-            .assertExists()
+            .onNodeWithText(YOUR_PASSWORD_MUST_CONTAIN_ENGLISH_AND_NUMBERS)
+            .assertDoesNotExist()
+        composeTestRule
+            .onNodeWithText(PASSWORD_LENGTH_ERROR)
+            .assertDoesNotExist()
     }
 
     companion object {
         private const val YOUR_PASSWORD_MUST_CONTAIN_ENGLISH_AND_NUMBERS = "비밀번호는 영어와 숫자를 포함해야 합니다."
         private const val PASSWORD_LENGTH_ERROR = "비밀번호는 8~16자이어야 합니다."
-        private const val PASSWORD_NOT_CONFIRM_ERROR = "비밀번호가 일치하지 않습니다."
-
     }
 }
