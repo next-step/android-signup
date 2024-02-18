@@ -27,16 +27,16 @@ fun SignUpScreen() {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         var usernameInputState by remember { mutableStateOf("") }
-        var isUsernameValidState by remember { mutableStateOf(true) }
+        var isUsernameValidState by remember { mutableStateOf(false) }
 
         var emailInputState by remember { mutableStateOf("") }
-        var isEmailValidState by remember { mutableStateOf(true) }
+        var isEmailValidState by remember { mutableStateOf(false) }
 
         var passwordInputState by remember { mutableStateOf("") }
-        var isPasswordValidState by remember { mutableStateOf(true) }
+        var isPasswordValidState by remember { mutableStateOf(false) }
 
         var passwordConfirmInputState by remember { mutableStateOf("") }
-        var isPasswordMatchedState by remember { mutableStateOf(true) }
+        var isPasswordMatchedState by remember { mutableStateOf(false) }
 
         SignUpHeader()
 
@@ -79,6 +79,10 @@ fun SignUpScreen() {
 
         SignUpSubmitButton(
             onClick = {},
+            enabled = isUsernameValidState
+                    && isEmailValidState
+                    && isPasswordValidState
+                    && isPasswordMatchedState,
         )
     }
 }

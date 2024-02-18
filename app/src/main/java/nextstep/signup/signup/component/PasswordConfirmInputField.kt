@@ -16,7 +16,7 @@ fun PasswordConfirmInputField(
         labelName = stringResource(id = R.string.signup_input_text_label_password_confirm),
         value = value,
         isInputPassword = true,
-        onTextChanged = { onTextChanged(it, isPasswordMatched) },
+        onTextChanged = { onTextChanged(it, it == passwordToCompare) },
         errorMessage = when {
             value.isEmpty() || isPasswordMatched -> null
             else -> stringResource(id = R.string.signup_input_text_error_message_password_confirm_not_matched)

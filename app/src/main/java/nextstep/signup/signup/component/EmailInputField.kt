@@ -18,7 +18,7 @@ fun EmailInputField(
     SignUpInputTextField(
         labelName = stringResource(id = R.string.signup_input_text_label_email),
         value = value,
-        onTextChanged = { onTextChanged(it, emailValidationResult.isValid()) },
+        onTextChanged = { onTextChanged(it, emailValidator.validate(it).isValid()) },
         errorMessage = when {
             value.isEmpty() || emailValidationResult.isValid() -> null
             emailValidationResult.isInvalid() -> stringResource(id = R.string.signup_input_text_error_message_email_is_invalid)

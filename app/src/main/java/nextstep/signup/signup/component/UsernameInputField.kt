@@ -18,7 +18,7 @@ fun UsernameInputField(
     SignUpInputTextField(
         labelName = stringResource(id = R.string.signup_input_text_label_username),
         value = value,
-        onTextChanged = { onTextChanged(it, usernameValidationResult.isValid()) },
+        onTextChanged = { onTextChanged(it, usernameValidator.validate(it).isValid()) },
         errorMessage = when {
             value.isEmpty()
                     || usernameValidationResult == UsernameValidator.Result.Valid -> null
