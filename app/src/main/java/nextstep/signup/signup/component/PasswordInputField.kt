@@ -13,9 +13,8 @@ fun PasswordInputField(
     onTextChanged: (String, isPasswordValid: Boolean) -> Unit,
     passwordValidator: PasswordValidator = DefaultPasswordValidator(),
 ) {
-    val passwordValidationResult = remember(value) {
-        passwordValidator.validate(value)
-    }
+    val passwordValidationResult = passwordValidator.validate(value)
+
     SignUpInputTextField(
         labelName = stringResource(id = R.string.signup_input_text_label_password),
         value = value,

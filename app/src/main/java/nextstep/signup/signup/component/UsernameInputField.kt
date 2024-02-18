@@ -13,9 +13,8 @@ fun UsernameInputField(
     onTextChanged: (String, isUsernameValid: Boolean) -> Unit,
     usernameValidator: UsernameValidator = DefaultUsernameValidator(),
 ) {
-    val usernameValidationResult = remember(value) {
-        usernameValidator.validate(value)
-    }
+    val usernameValidationResult = usernameValidator.validate(value)
+
     SignUpInputTextField(
         labelName = stringResource(id = R.string.signup_input_text_label_username),
         value = value,

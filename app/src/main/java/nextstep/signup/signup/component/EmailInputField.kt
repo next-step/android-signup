@@ -13,9 +13,8 @@ fun EmailInputField(
     onTextChanged: (String, isEmailValid: Boolean) -> Unit,
     emailValidator: EmailValidator = DefaultEmailValidator(),
 ) {
-    val emailValidationResult = remember(value) {
-        emailValidator.validate(value)
-    }
+    val emailValidationResult = emailValidator.validate(value)
+
     SignUpInputTextField(
         labelName = stringResource(id = R.string.signup_input_text_label_email),
         value = value,
