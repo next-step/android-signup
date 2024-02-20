@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import nextstep.signup.domain.InputUsername
 import nextstep.signup.signup.component.EmailInputField
 import nextstep.signup.signup.component.PasswordConfirmInputField
 import nextstep.signup.signup.component.PasswordInputField
@@ -26,8 +27,8 @@ fun SignUpScreen() {
         verticalArrangement = Arrangement.spacedBy(42.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        var usernameInputState by remember { mutableStateOf("") }
-        var isUsernameValidState by remember { mutableStateOf(false) }
+        var inputUsernameInputState: InputUsername? by remember { mutableStateOf(null) }
+        var isUsernameValidState: Boolean by remember { mutableStateOf(false) }
 
         var emailInputState by remember { mutableStateOf("") }
         var isEmailValidState by remember { mutableStateOf(false) }
@@ -44,10 +45,10 @@ fun SignUpScreen() {
             verticalArrangement = Arrangement.spacedBy(36.dp)
         ) {
             UsernameInputField(
-                value = usernameInputState,
-                onTextChanged = { username, isUsernameValid ->
-                    usernameInputState = username
-                    isUsernameValidState = isUsernameValid
+                inputUsername = inputUsernameInputState,
+                onInputChanged = { username ->
+                    inputUsernameInputState = username
+                    isUsernameValidState = username.isValid()
                 },
             )
 
