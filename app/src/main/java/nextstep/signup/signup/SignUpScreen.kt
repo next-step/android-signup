@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import nextstep.signup.domain.InputPassword
 import nextstep.signup.domain.InputUsername
 import nextstep.signup.signup.component.EmailInputField
 import nextstep.signup.signup.component.PasswordConfirmInputField
@@ -33,8 +34,8 @@ fun SignUpScreen() {
         var emailInputState by remember { mutableStateOf("") }
         var isEmailValidState by remember { mutableStateOf(false) }
 
-        var passwordInputState by remember { mutableStateOf("") }
-        var isPasswordValidState by remember { mutableStateOf(false) }
+        var passwordInputState: InputPassword? by remember { mutableStateOf(null) }
+        var isPasswordValidState: Boolean by remember { mutableStateOf(false) }
 
         var passwordConfirmInputState by remember { mutableStateOf("") }
         var isPasswordMatchedState by remember { mutableStateOf(false) }
@@ -61,16 +62,16 @@ fun SignUpScreen() {
             )
 
             PasswordInputField(
-                value = passwordInputState,
-                onTextChanged = { password, isPasswordValid ->
+                inputPassword = passwordInputState,
+                onInputChanged = { password ->
                     passwordInputState = password
-                    isPasswordValidState = isPasswordValid
+                    isPasswordValidState = password.isValid()
                 }
             )
 
             PasswordConfirmInputField(
                 value = passwordConfirmInputState,
-                passwordToCompare = passwordInputState,
+                passwordToCompare = passwordInputState?.text.orEmpty(),
                 onTextChanged = { passwordConfirm, isPasswordMatched ->
                     passwordConfirmInputState = passwordConfirm
                     isPasswordMatchedState = isPasswordMatched
