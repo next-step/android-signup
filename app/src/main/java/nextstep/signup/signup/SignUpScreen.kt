@@ -73,10 +73,8 @@ fun SignUpScreen() {
             PasswordConfirmInputField(
                 value = passwordConfirmInputState,
                 passwordToCompare = passwordInputState?.text.orEmpty(),
-                onTextChanged = { passwordConfirm, isPasswordMatched ->
-                    passwordConfirmInputState = passwordConfirm
-                    isPasswordMatchedState = isPasswordMatched
-                }
+                onTextChanged = { passwordConfirmInputState = it },
+                onPasswordMatched = { isPasswordMatchedState = it }
             )
         }
 
