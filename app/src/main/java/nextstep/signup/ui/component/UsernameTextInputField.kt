@@ -44,7 +44,7 @@ private const val USERNAME_REGEX = "^[a-zA-Z가-힣]+$"
 
 @Preview(showBackground = true)
 @Composable
-fun UsernameTextInputFieldPreview(
+private fun UsernameTextInputFieldPreview(
     @PreviewParameter(UsernameTextInputFieldPreviewParameterProvider::class) username: String
 ) {
     UsernameTextInputField(username, {})

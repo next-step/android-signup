@@ -23,6 +23,6 @@ fun TextButton(
 
 @Preview(showBackground = true)
 @Composable
-fun TextButtonPreview() {
+private fun TextButtonPreview() {
     TextButton(text = "Preview Button", onClick = {})
 }
