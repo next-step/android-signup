@@ -11,7 +11,7 @@ import nextstep.signup.R
 @Composable
 fun EmailTextInputField(
     email: String,
-    onNameChange: (String) -> Unit,
+    onEmailChange: (String) -> Unit,
 ) {
 
     val errorTextRes: Int? = remember(key1 = email) {
@@ -28,13 +28,13 @@ fun EmailTextInputField(
     SignUpTextInputField(
         value = email,
         label = stringResource(id = R.string.signup_email),
-        onValueChange = onNameChange,
+        onValueChange = onEmailChange,
         errorText = errorTextRes?.let { stringResource(id = it) }
     )
 
 }
 
-const val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
+private const val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
 
 @Preview(showBackground = true)
 @Composable

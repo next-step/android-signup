@@ -19,7 +19,7 @@ class EmailTextInputFieldTest {
         composeTestRule.setContent {
             EmailTextInputField(
                 email = email.value,
-                onNameChange = { email.value = it }
+                onEmailChange = { email.value = it }
             )
         }
     }
