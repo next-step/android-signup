@@ -8,10 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import nextstep.signup.R
 import nextstep.signup.ui.component.PasswordInputField
 import nextstep.signup.ui.component.TextButton
 import nextstep.signup.ui.component.TextInputField
@@ -24,7 +26,7 @@ fun SignUpScreen() {
             .padding(32.dp)
     ) {
         Text(
-            text = "Welcome to Compose \uD83D\uDE80",
+            text = stringResource(id = R.string.signup_title),
             fontSize = 26.sp,
             fontWeight = FontWeight.Bold
         )
@@ -33,7 +35,7 @@ fun SignUpScreen() {
         TextInputField(
             modifier = Modifier.padding(top = 32.dp),
             value = userName.value,
-            label = "UserName",
+            label = stringResource(id = R.string.signup_username),
             onValueChange = { userName.value = it }
         )
 
@@ -41,7 +43,7 @@ fun SignUpScreen() {
         TextInputField(
             modifier = Modifier.padding(top = 32.dp),
             value = email.value,
-            label = "Email",
+            label = stringResource(id = R.string.signup_email),
             onValueChange = { email.value = it }
         )
 
@@ -49,7 +51,7 @@ fun SignUpScreen() {
         PasswordInputField(
             modifier = Modifier.padding(top = 32.dp),
             value = password.value,
-            label = "Password",
+            label = stringResource(id = R.string.signup_password),
             onValueChange = { password.value = it }
         )
 
@@ -57,13 +59,13 @@ fun SignUpScreen() {
         PasswordInputField(
             modifier = Modifier.padding(top = 32.dp),
             value = passwordConfirm.value,
-            label = "Password Confirm",
+            label = stringResource(id = R.string.signup_password_confirm),
             onValueChange = { passwordConfirm.value = it }
         )
 
         TextButton(
             modifier = Modifier.padding(top = 32.dp),
-            text = "Sign Up",
+            text = stringResource(id = R.string.signup_button),
             onClick = {}
         )
     }
