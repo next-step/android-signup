@@ -2,8 +2,6 @@ package nextstep.signup.ui.component
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onAllNodesWithText
-import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithText
 import nextstep.signup.R
 import org.junit.Before
@@ -42,8 +40,8 @@ class PasswordInputFieldTest {
             .onNodeWithText(getString(id = R.string.signup_error_password_must_contain_text))
             .assertDoesNotExist()
         composeTestRule
-            .onAllNodesWithText('\u2022'.toString().repeat(inputPassword.length))
-            .onFirst()
+            .onNodeWithText('\u2022'.toString().repeat(inputPassword.length))
+            .assertExists()
     }
 
     @Test
