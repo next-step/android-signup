@@ -31,7 +31,6 @@ import org.junit.Test
 // 2. 힌트를 참고하여 Preview를 노출시킨다.
 // 3. Preview의 interactive 모드를 활용하여 버튼을 클릭해본다.
 class LayoutBasicsTest {
-
     @get:Rule
     val composeTestRule = createComposeRule()
 
@@ -57,7 +56,8 @@ class LayoutBasicsTest {
         }
 
         // then
-        composeTestRule.onNodeWithTag("이름")
+        composeTestRule
+            .onNodeWithTag("이름")
             .onChildren()
             .assertCountEquals(3)
             .onFirst()
@@ -72,9 +72,10 @@ class LayoutBasicsTest {
         }
 
         // when
-        val button = composeTestRule
-            .onNodeWithTag("버튼")
-            .performClick()
+        val button =
+            composeTestRule
+                .onNodeWithTag("버튼")
+                .performClick()
 
         // then
         button.assertIsNotEnabled()
@@ -90,7 +91,7 @@ private fun ButtonComponent() {
             enabled.value = !enabled.value
         },
         enabled = enabled.value,
-        modifier = Modifier.testTag("버튼")
+        modifier = Modifier.testTag("버튼"),
     ) {
         Text(text = "클릭해주세요")
     }
@@ -105,7 +106,7 @@ fun ButtonComponentPreview() {
 @Composable
 private fun ColumnComponent() {
     Column(
-        modifier = Modifier.testTag("이름")
+        modifier = Modifier.testTag("이름"),
     ) {
         // 바꿔 보세요!
         Text(text = "깜포즈", color = Color.Red)
@@ -126,11 +127,12 @@ private fun TextComponent(text: String) {
         // 바꿔 보세요!
         text = text,
         color = Color.Blue,
-        style = TextStyle(
-            fontSize = 26.sp,
-            fontWeight = FontWeight.Bold,
-            fontFamily = FontFamily.SansSerif
-        ),
+        style =
+            TextStyle(
+                fontSize = 26.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily.SansSerif,
+            ),
     )
 }
 
@@ -139,4 +141,3 @@ private fun TextComponent(text: String) {
 fun TextComponentPreview() {
     TextComponent("안녕 난 컴포즈야~")
 }
-
