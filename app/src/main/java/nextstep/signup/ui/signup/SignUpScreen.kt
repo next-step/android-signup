@@ -2,8 +2,10 @@ package nextstep.signup.ui.signup
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -84,6 +86,16 @@ fun SignUpScreen(
                 .fillMaxWidth()
                 .padding(top = 32.dp),
         )
+
+        Button(
+            onClick = { }, // todo: need to implement
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 32.dp)
+                .height(50.dp),
+        ) {
+            Text(text = stringResource(id = R.string.sign_up))
+        }
     }
 }
 
