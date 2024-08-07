@@ -26,7 +26,7 @@ import nextstep.signup.ui.component.TextFieldCompose
 import org.junit.Rule
 import org.junit.Test
 
-class SignUpComposeTest {
+class SignUpScreenTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
