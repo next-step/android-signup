@@ -47,6 +47,8 @@ fun Greeting() {
         ) {
             TextFieldCompose("UserName")
             TextFieldCompose("Email")
+            TextFieldCompose("Password", isTextHidden = true)
+            TextFieldCompose("Password Confirm", isTextHidden = true)
         }
     }
 }

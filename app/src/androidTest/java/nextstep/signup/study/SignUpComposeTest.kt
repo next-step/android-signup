@@ -2,13 +2,20 @@ package nextstep.signup.study
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
@@ -76,6 +83,21 @@ fun TitleCompose(text: String) {
     )
 }
 
+@Composable
+fun PasswordTextField(placeholder: String) {
+    var text by remember { mutableStateOf("123") }
+
+    TextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag("user textField"),
+        visualTransformation = PasswordVisualTransformation(),
+        placeholder = { Text(placeholder) },
+        value = text,
+        onValueChange = { text = it }
+    )
+}
+
 @Preview(
     showBackground = true,
     backgroundColor = 0xFFFFFFFF
@@ -98,4 +120,10 @@ fun UserNameTextFieldComposePreview() {
 @Composable
 fun EmailTextFieldComposePreview() {
     TextFieldCompose("Email")
+}
+
+@Preview
+@Composable
+fun PasswordTextFieldComposePreview() {
+    PasswordTextField("Password")
 }
