@@ -20,6 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -30,6 +31,7 @@ import nextstep.signup.R
 fun SignUpScreen(modifier: Modifier = Modifier) {
     var userName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -80,6 +82,28 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
                     focusedIndicatorColor = Blue50,
                 ),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .clip(shape = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp))
+                    .padding(top = 32.dp),
+        )
+
+        TextField(
+            value = password,
+            onValueChange = { value ->
+                password = value
+            },
+            label = { Text(text = stringResource(id = R.string.sign_up_label_password)) },
+            colors =
+                TextFieldDefaults.colors(
+                    focusedContainerColor = BlueGrey20,
+                    unfocusedContainerColor = BlueGrey20,
+                    focusedLabelColor = Blue50,
+                    focusedIndicatorColor = Blue50,
+                ),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            visualTransformation = PasswordVisualTransformation(),
             modifier =
                 Modifier
                     .fillMaxWidth()
