@@ -4,10 +4,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -18,6 +26,8 @@ import nextstep.signup.R
 
 @Composable
 fun SignUpScreen(modifier: Modifier = Modifier) {
+    var userName by remember { mutableStateOf("") }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier =
@@ -31,6 +41,26 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.fillMaxWidth(),
+        )
+
+        TextField(
+            value = userName,
+            onValueChange = { value ->
+                userName = value
+            },
+            label = { Text(text = stringResource(id = R.string.sign_up_label_username)) },
+            colors =
+                TextFieldDefaults.colors(
+                    focusedContainerColor = BlueGrey20,
+                    unfocusedContainerColor = BlueGrey20,
+                    focusedLabelColor = Blue50,
+                    focusedIndicatorColor = Blue50,
+                ),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .clip(shape = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp))
+                    .padding(top = 32.dp),
         )
     }
 }

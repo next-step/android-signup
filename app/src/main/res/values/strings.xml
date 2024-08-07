@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Signup</string>
     <string name="sign_up_title">Welcome to Compose 🚀</string>
+    <string name="sign_up_label_username">Username</string>
 </resources>
