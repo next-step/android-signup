@@ -6,11 +6,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -19,12 +17,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.R
+import nextstep.signup.ui.component.inputField.EmailInputField
+import nextstep.signup.ui.component.inputField.PasswordInputField
+import nextstep.signup.ui.component.inputField.TextInputField
 
 @Composable
 fun SignUpScreen() {
@@ -48,46 +47,25 @@ fun SignUpScreen() {
                     fontWeight = FontWeight.Bold,
                     fontSize = 24.sp,
                 )
-                TextField(
-                    modifier = Modifier.fillMaxWidth(),
+                TextInputField(
                     value = username,
                     onValueChange = { username = it },
-                    label = {
-                        Text(text = stringResource(R.string.sign_up_username))
-                    },
-                    singleLine = true,
+                    hint = stringResource(R.string.sign_up_username),
                 )
-                TextField(
-                    modifier = Modifier.fillMaxWidth(),
+                EmailInputField(
                     value = email,
                     onValueChange = { email = it },
-                    label = {
-                        Text(text = stringResource(R.string.sign_up_email))
-                    },
-                    singleLine = true,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                    hint = stringResource(R.string.sign_up_email),
                 )
-                TextField(
-                    modifier = Modifier.fillMaxWidth(),
+                PasswordInputField(
                     value = password,
                     onValueChange = { password = it },
-                    label = {
-                        Text(text = stringResource(R.string.sign_up_password))
-                    },
-                    singleLine = true,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                    visualTransformation = PasswordVisualTransformation(),
+                    hint = stringResource(R.string.sign_up_password),
                 )
-                TextField(
-                    modifier = Modifier.fillMaxWidth(),
+                PasswordInputField(
                     value = passwordConfirm,
                     onValueChange = { passwordConfirm = it },
-                    label = {
-                        Text(text = stringResource(R.string.sign_up_password_confirm))
-                    },
-                    singleLine = true,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                    visualTransformation = PasswordVisualTransformation(),
+                    hint = stringResource(R.string.sign_up_password_confirm),
                 )
                 Button(
                     modifier = Modifier.fillMaxWidth(),
