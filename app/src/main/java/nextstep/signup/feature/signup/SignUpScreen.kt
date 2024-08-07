@@ -15,6 +15,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -48,21 +49,25 @@ fun SignUpScreen() {
                     fontSize = 24.sp,
                 )
                 TextInputField(
+                    modifier = Modifier.testTag("username"),
                     value = username,
                     onValueChange = { username = it },
                     hint = stringResource(R.string.sign_up_username),
                 )
                 EmailInputField(
+                    modifier = Modifier.testTag("email"),
                     value = email,
                     onValueChange = { email = it },
                     hint = stringResource(R.string.sign_up_email),
                 )
                 PasswordInputField(
+                    modifier = Modifier.testTag("password"),
                     value = password,
                     onValueChange = { password = it },
                     hint = stringResource(R.string.sign_up_password),
                 )
                 PasswordInputField(
+                    modifier = Modifier.testTag("passwordConfirm"),
                     value = passwordConfirm,
                     onValueChange = { passwordConfirm = it },
                     hint = stringResource(R.string.sign_up_password_confirm),
