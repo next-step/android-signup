@@ -32,6 +32,7 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
     var userName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var passwordConfirm by remember { mutableStateOf("") }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -103,6 +104,50 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
                     focusedIndicatorColor = Blue50,
                 ),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            visualTransformation = PasswordVisualTransformation(),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .clip(shape = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp))
+                    .padding(top = 32.dp),
+        )
+
+        TextField(
+            value = password,
+            onValueChange = { value ->
+                password = value
+            },
+            label = { Text(text = stringResource(id = R.string.sign_up_label_password)) },
+            colors =
+                TextFieldDefaults.colors(
+                    focusedContainerColor = BlueGrey20,
+                    unfocusedContainerColor = BlueGrey20,
+                    focusedLabelColor = Blue50,
+                    focusedIndicatorColor = Blue50,
+                ),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            visualTransformation = PasswordVisualTransformation(),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .clip(shape = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp))
+                    .padding(top = 32.dp),
+        )
+
+        TextField(
+            value = passwordConfirm,
+            onValueChange = { value ->
+                passwordConfirm = value
+            },
+            label = { Text(text = stringResource(id = R.string.sign_up_label_password_confirm)) },
+            colors =
+                TextFieldDefaults.colors(
+                    focusedContainerColor = BlueGrey20,
+                    unfocusedContainerColor = BlueGrey20,
+                    focusedLabelColor = Blue50,
+                    focusedIndicatorColor = Blue50,
+                ),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             visualTransformation = PasswordVisualTransformation(),
             modifier =
                 Modifier
