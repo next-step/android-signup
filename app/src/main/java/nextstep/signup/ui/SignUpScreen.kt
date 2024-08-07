@@ -80,7 +80,7 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
                 password = value
             },
             label = { Text(text = stringResource(id = R.string.sign_up_label_password)) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier
                 .fillMaxWidth()
