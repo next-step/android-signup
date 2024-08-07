@@ -3,9 +3,12 @@ package nextstep.signup.ui.theme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -17,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -155,6 +159,24 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
                     .clip(shape = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp))
                     .padding(top = 32.dp),
         )
+
+        Button(
+            onClick = { /*TODO*/ },
+            colors =
+                ButtonDefaults.buttonColors(
+                    containerColor = Blue50,
+                    disabledContainerColor = Color(0x1D1820),
+                ),
+            modifier =
+                Modifier
+                    .padding(top = 42.dp)
+                    .fillMaxWidth()
+                    .height(50.dp),
+        ) {
+            Text(
+                text = stringResource(id = R.string.button_sign_up),
+            )
+        }
     }
 }
 
