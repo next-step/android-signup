@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -24,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.R
+import nextstep.signup.ui.theme.Blue50
 
 @Composable
 fun SignUpScreen(
@@ -45,7 +47,7 @@ fun SignUpScreen(
             color = Color.Black,
             fontSize = 26.sp,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(top = 112.dp),
+            modifier = Modifier.padding(top = 60.dp),
         )
 
         TextField(
@@ -89,6 +91,7 @@ fun SignUpScreen(
 
         Button(
             onClick = { }, // todo: need to implement
+            colors = ButtonDefaults.buttonColors(containerColor = Blue50),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 32.dp)
