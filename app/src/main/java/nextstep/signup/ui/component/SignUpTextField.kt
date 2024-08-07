@@ -43,6 +43,9 @@ fun SignUpTextField(
 
 @Immutable
 object SignUpTextFieldDefaults {
+    val shape: Shape
+        @Composable get() = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp)
+    
     @Composable
     fun colors(
         focusedContainerColor: Color = BlueGrey20,
@@ -56,9 +59,6 @@ object SignUpTextFieldDefaults {
             focusedLabelColor = focusedLabelColor,
             focusedIndicatorColor = focusedIndicatorColor,
         )
-
-    val shape: Shape
-        @Composable get() = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp)
 }
 
 @Preview(showBackground = true)
