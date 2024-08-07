@@ -8,7 +8,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.semantics.Role.Companion.Button
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsNotEnabled
@@ -56,7 +55,7 @@ class LayoutBasicsTest {
         composeTestRule.setContent {
             Text(
                 // 바꿔 보세요!
-                text = "텍스트",
+                text = text,
                 color = Color.Blue,
                 style = TextStyle(
                     fontSize = 26.sp,
@@ -80,6 +79,7 @@ class LayoutBasicsTest {
                 modifier = Modifier.testTag("이름")
             ) {
                 // 바꿔 보세요!
+                Text(text = "깜포즈", color = Color.Cyan)
                 Text(text = "킴포즈", color = Color.Cyan)
                 Text(text = "끔포즈", color = Color.Yellow)
             }
@@ -101,6 +101,7 @@ class LayoutBasicsTest {
             Button(
                 onClick = {
                     // 바꿔 보세요!
+                    enabled.value = !enabled.value
                 },
                 enabled = enabled.value,
                 modifier = Modifier.testTag("버튼")
