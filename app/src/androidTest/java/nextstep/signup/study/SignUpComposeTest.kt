@@ -1,6 +1,8 @@
 package nextstep.signup.study
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -18,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.ui.component.TextFieldCompose
 import org.junit.Rule
@@ -98,6 +101,20 @@ fun PasswordTextField(placeholder: String) {
     )
 }
 
+@Composable
+fun ButtonCompose() {
+    Button(
+        modifier = Modifier
+            .padding(32.dp)
+            .fillMaxWidth(),
+        onClick = {}) {
+        Text(
+            text = "Sign Up",
+            modifier = Modifier.padding(top = 16.dp, bottom = 16.dp, start = 24.dp, end = 24.dp)
+        )
+    }
+}
+
 @Preview(
     showBackground = true,
     backgroundColor = 0xFFFFFFFF
@@ -126,4 +143,10 @@ fun EmailTextFieldComposePreview() {
 @Composable
 fun PasswordTextFieldComposePreview() {
     PasswordTextField("Password")
+}
+
+@Preview
+@Composable
+fun ButtonComposePreview() {
+    ButtonCompose()
 }
