@@ -17,12 +17,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import nextstep.signup.R
 
 @Composable
 fun SignUpScreen() {
@@ -42,7 +44,7 @@ fun SignUpScreen() {
                 var passwordConfirm by remember { mutableStateOf("") }
 
                 Text(
-                    text = "Welcome to Compose \uD83D\uDE80",
+                    text = stringResource(R.string.sign_up_title),
                     fontWeight = FontWeight.Bold,
                     fontSize = 24.sp,
                 )
@@ -51,7 +53,7 @@ fun SignUpScreen() {
                     value = username,
                     onValueChange = { username = it },
                     label = {
-                        Text(text = "Username")
+                        Text(text = stringResource(R.string.sign_up_username))
                     },
                     singleLine = true,
                 )
@@ -60,7 +62,7 @@ fun SignUpScreen() {
                     value = email,
                     onValueChange = { email = it },
                     label = {
-                        Text(text = "Email")
+                        Text(text = stringResource(R.string.sign_up_email))
                     },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
@@ -70,7 +72,7 @@ fun SignUpScreen() {
                     value = password,
                     onValueChange = { password = it },
                     label = {
-                        Text(text = "Password")
+                        Text(text = stringResource(R.string.sign_up_password))
                     },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -81,7 +83,7 @@ fun SignUpScreen() {
                     value = passwordConfirm,
                     onValueChange = { passwordConfirm = it },
                     label = {
-                        Text(text = "PasswordConfirm")
+                        Text(text = stringResource(R.string.sign_up_password_confirm))
                     },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -91,7 +93,7 @@ fun SignUpScreen() {
                     modifier = Modifier.fillMaxWidth(),
                     onClick = { /*TODO*/ },
                 ) {
-                    Text(text = "Sign Up")
+                    Text(text = stringResource(R.string.sign_up_button))
                 }
             }
         }
