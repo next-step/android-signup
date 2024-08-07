@@ -5,13 +5,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -19,7 +16,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -30,8 +26,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.R
+import nextstep.signup.ui.component.SignUpTextField
 import nextstep.signup.ui.theme.Blue50
-import nextstep.signup.ui.theme.BlueGrey20
 import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
@@ -44,9 +40,9 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier =
-            modifier
-                .fillMaxSize()
-                .padding(32.dp),
+        modifier
+            .fillMaxSize()
+            .padding(32.dp),
     ) {
         Text(
             text = stringResource(id = R.string.sign_up_title),
@@ -56,125 +52,68 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth(),
         )
 
-        TextField(
+        SignUpTextField(
             value = userName,
             onValueChange = { value ->
                 userName = value
             },
             label = { Text(text = stringResource(id = R.string.sign_up_label_username)) },
-            colors =
-                TextFieldDefaults.colors(
-                    focusedContainerColor = BlueGrey20,
-                    unfocusedContainerColor = BlueGrey20,
-                    focusedLabelColor = Blue50,
-                    focusedIndicatorColor = Blue50,
-                ),
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .clip(shape = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp))
-                    .padding(top = 32.dp),
+            Modifier
+                .fillMaxWidth()
+                .padding(top = 32.dp),
         )
 
-        TextField(
+        SignUpTextField(
             value = email,
             onValueChange = { value ->
                 email = value
             },
             label = { Text(text = stringResource(id = R.string.sign_up_label_email)) },
-            colors =
-                TextFieldDefaults.colors(
-                    focusedContainerColor = BlueGrey20,
-                    unfocusedContainerColor = BlueGrey20,
-                    focusedLabelColor = Blue50,
-                    focusedIndicatorColor = Blue50,
-                ),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .clip(shape = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp))
-                    .padding(top = 32.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 32.dp),
         )
 
-        TextField(
+        SignUpTextField(
             value = password,
             onValueChange = { value ->
                 password = value
             },
             label = { Text(text = stringResource(id = R.string.sign_up_label_password)) },
-            colors =
-                TextFieldDefaults.colors(
-                    focusedContainerColor = BlueGrey20,
-                    unfocusedContainerColor = BlueGrey20,
-                    focusedLabelColor = Blue50,
-                    focusedIndicatorColor = Blue50,
-                ),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             visualTransformation = PasswordVisualTransformation(),
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .clip(shape = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp))
-                    .padding(top = 32.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 32.dp),
         )
 
-        TextField(
-            value = password,
-            onValueChange = { value ->
-                password = value
-            },
-            label = { Text(text = stringResource(id = R.string.sign_up_label_password)) },
-            colors =
-                TextFieldDefaults.colors(
-                    focusedContainerColor = BlueGrey20,
-                    unfocusedContainerColor = BlueGrey20,
-                    focusedLabelColor = Blue50,
-                    focusedIndicatorColor = Blue50,
-                ),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            visualTransformation = PasswordVisualTransformation(),
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .clip(shape = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp))
-                    .padding(top = 32.dp),
-        )
-
-        TextField(
+        SignUpTextField(
             value = passwordConfirm,
             onValueChange = { value ->
                 passwordConfirm = value
             },
             label = { Text(text = stringResource(id = R.string.sign_up_label_password_confirm)) },
-            colors =
-                TextFieldDefaults.colors(
-                    focusedContainerColor = BlueGrey20,
-                    unfocusedContainerColor = BlueGrey20,
-                    focusedLabelColor = Blue50,
-                    focusedIndicatorColor = Blue50,
-                ),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             visualTransformation = PasswordVisualTransformation(),
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .clip(shape = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp))
-                    .padding(top = 32.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 32.dp),
         )
 
         Button(
             onClick = { /*TODO*/ },
             colors =
-                ButtonDefaults.buttonColors(
-                    containerColor = Blue50,
-                    disabledContainerColor = Color(0x1D1820),
-                ),
+            ButtonDefaults.buttonColors(
+                containerColor = Blue50,
+                disabledContainerColor = Color(0x1D1820),
+            ),
             modifier =
-                Modifier
-                    .padding(top = 42.dp)
-                    .fillMaxWidth()
-                    .height(50.dp),
+            Modifier
+                .padding(top = 42.dp)
+                .fillMaxWidth()
+                .height(50.dp),
         ) {
             Text(
                 text = stringResource(id = R.string.button_sign_up),
