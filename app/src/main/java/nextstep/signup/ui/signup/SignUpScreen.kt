@@ -30,6 +30,7 @@ fun SignUpScreen(
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var passwordConfirm by remember { mutableStateOf("") }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -68,6 +69,16 @@ fun SignUpScreen(
             value = password,
             onValueChange = { password = it },
             label = { Text(text = stringResource(id = R.string.password)) },
+            visualTransformation = PasswordVisualTransformation(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 32.dp),
+        )
+
+        TextField(
+            value = passwordConfirm,
+            onValueChange = { passwordConfirm = it },
+            label = { Text(text = stringResource(id = R.string.password_confirm)) },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier
                 .fillMaxWidth()
