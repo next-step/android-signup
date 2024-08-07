@@ -1,4 +1,4 @@
-package nextstep.signup.ui.theme
+package nextstep.signup.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,6 +30,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.R
+import nextstep.signup.ui.theme.Blue50
+import nextstep.signup.ui.theme.BlueGrey20
+import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
 fun SignUpScreen(modifier: Modifier = Modifier) {
