@@ -8,9 +8,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -33,10 +39,15 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Greeting() {
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .padding(top = 112.dp)
     ) {
         TitleCompose("Welcome to Compose \uD83D\uDE80")
+
+        Column(modifier = Modifier.padding(top = 62.dp)) {
+            TextFieldCompose("UserName")
+        }
     }
 }
 
@@ -54,6 +65,19 @@ fun TitleCompose(text: String) {
     )
 }
 
+@Composable
+fun TextFieldCompose(placeholder: String) {
+    var text by remember { mutableStateOf("") }
+
+    TextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag("user textField"),
+        placeholder = { Text(placeholder) },
+        value = text,
+        onValueChange = { text = it }
+    )
+}
 
 @Preview(
     showBackground = true,

@@ -2,9 +2,15 @@ package nextstep.signup.study
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.text.TextStyle
@@ -32,6 +38,19 @@ class SignUpComposeTest {
             .onNodeWithText(text)
             .assertExists()
     }
+
+    @Test
+    fun userNameTextFieldTest() {
+        val placeholder = "UserName"
+
+        composeTestRule.setContent {
+            TextFieldCompose(placeholder = placeholder)
+        }
+
+        composeTestRule
+            .onNodeWithText(placeholder)
+            .assertExists()
+    }
 }
 
 @Composable
@@ -49,6 +68,20 @@ fun TitleCompose(text: String) {
     )
 }
 
+@Composable
+fun TextFieldCompose(placeholder: String) {
+    var text by remember { mutableStateOf("") }
+
+    TextField(
+        modifier = Modifier
+            .fillMaxWidth().
+        testTag("textField"),
+        placeholder = { Text(placeholder) },
+        value = text,
+        onValueChange = { text = it }
+    )
+}
+
 @Preview(
     showBackground = true,
     backgroundColor = 0xFFFFFFFF
@@ -56,4 +89,13 @@ fun TitleCompose(text: String) {
 @Composable
 private fun TitleComposePreview() {
     TitleCompose(text = "Welcome to Compose \uD83D\uDE80")
+}
+
+@Preview(
+    showBackground = true,
+    backgroundColor = 0xFFFFFFFF
+)
+@Composable
+fun TextFieldComposePreview() {
+    TextFieldCompose("UserName")
 }
