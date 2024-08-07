@@ -1,20 +1,22 @@
 package nextstep.signup
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Button
-import androidx.compose.material3.Checkbox
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import nextstep.signup.ui.theme.SignupTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,42 +24,42 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SignupTheme {
-                Counter()
+                Greeting()
             }
         }
     }
 }
 
 @Composable
-fun Counter() {
-    var number by remember { mutableStateOf(0) }
-
-    Column {
-        Text(text = "카운터 앱!")
-        Button(onClick = { number++ }) {
-            Text(text = "카운팅: ", fontWeight = FontWeight.Bold)
-            Text(text = number.toString())
-        }
+fun Greeting() {
+    Column(
+        modifier = Modifier.fillMaxSize()
+            .padding(top = 112.dp)
+    ) {
+        TitleCompose("Welcome to Compose \uD83D\uDE80")
     }
 }
 
-@SuppressLint("UnrememberedMutableState")
 @Composable
-fun Checker() {
-    val checked = remember{
-        mutableStateOf(false)
-    }
-    Column {
-        Checkbox(
-            checked = checked.value,
-            onCheckedChange = { checked.value = !checked.value }
+fun TitleCompose(text: String) {
+    Text(
+        modifier = Modifier.fillMaxWidth(),
+        textAlign = TextAlign.Center,
+        text = text,
+        fontSize = 26.sp,
+        color = Color.Black,
+        style = TextStyle(
+            fontWeight = FontWeight.Bold
         )
-    }
+    )
 }
 
-@Preview(showBackground = true)
+
+@Preview(
+    showBackground = true,
+    backgroundColor = 0xFFFFFFFF
+)
 @Composable
-private fun HelloViewPreview() {
-    Counter()
-    Checker()
+private fun GreetingPreview() {
+    Greeting()
 }

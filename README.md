@@ -11,7 +11,7 @@
 4. Material3 Button, TextField를 활용한다.
 
 # 기능 목록
-- [ ] 웰컴 타이틀 구현
+- [O] 웰컴 타이틀 구현
 - [ ] 유저 이름 TextField 구현
 - [ ] 이메일 TextField 구현
 - [ ] 비밀번호 TextField 구현
