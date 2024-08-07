@@ -4,7 +4,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,6 +24,8 @@ import nextstep.signup.R
 fun SignUpScreen(
     modifier: Modifier = Modifier,
 ) {
+    var username by remember { mutableStateOf("") }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -31,6 +38,15 @@ fun SignUpScreen(
             fontSize = 26.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(top = 112.dp),
+        )
+
+        TextField(
+            value = username,
+            onValueChange = { username = it },
+            label = { Text(text = stringResource(id = R.string.username)) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 32.dp),
         )
     }
 }
