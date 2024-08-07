@@ -13,3 +13,6 @@ val Pink40 = Color(0xFF7D5260)
 val Blue50 = Color(0xFF2196F3)
 
 val BlueGrey20 = Color(0xFFE3E8F1)
+
+val Black10 = Color(0xFF1D1B20) // undefined color
+val Grey10 = Color(0xFF49454F) // undefined color

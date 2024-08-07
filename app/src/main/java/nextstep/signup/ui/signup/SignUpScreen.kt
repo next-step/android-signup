@@ -8,7 +8,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.R
+import nextstep.signup.ui.component.NSTextField
 import nextstep.signup.ui.theme.Blue50
 
 @Composable
@@ -50,39 +50,39 @@ fun SignUpScreen(
             modifier = Modifier.padding(top = 60.dp),
         )
 
-        TextField(
+        NSTextField(
             value = username,
             onValueChange = { username = it },
-            label = { Text(text = stringResource(id = R.string.username)) },
+            labelValue = stringResource(id = R.string.username),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 32.dp),
         )
 
-        TextField(
+        NSTextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text(text = stringResource(id = R.string.email)) },
+            labelValue = stringResource(id = R.string.email),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 32.dp),
         )
 
-        TextField(
+        NSTextField(
             value = password,
             onValueChange = { password = it },
-            label = { Text(text = stringResource(id = R.string.password)) },
+            labelValue = stringResource(id = R.string.password),
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 32.dp),
         )
 
-        TextField(
+        NSTextField(
             value = passwordConfirm,
             onValueChange = { passwordConfirm = it },
-            label = { Text(text = stringResource(id = R.string.password_confirm)) },
+            labelValue = stringResource(id = R.string.password_confirm),
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier
                 .fillMaxWidth()
