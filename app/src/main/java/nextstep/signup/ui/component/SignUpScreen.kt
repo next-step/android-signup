@@ -21,6 +21,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -28,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
+import nextstep.signup.R
 import nextstep.signup.model.SignUpUserInfo
 
 @Composable
@@ -35,6 +38,7 @@ internal fun SignUpScreen() {
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
     var signUpUserInfo by remember { mutableStateOf(SignUpUserInfo()) }
+    val context = LocalContext.current
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -62,9 +66,12 @@ internal fun SignUpScreen() {
                     if (signUpUserInfo.isNotContainBlank()) {
                         coroutineScope.launch {
                             snackbarHostState.showSnackbar(
-                                "Username = ${signUpUserInfo.username}, " +
-                                        "Email = ${signUpUserInfo.email}, " +
-                                        "Password = ${signUpUserInfo.password}"
+                                context.getString(
+                                    R.string.sign_up_message,
+                                    signUpUserInfo.username,
+                                    signUpUserInfo.email,
+                                    signUpUserInfo.password
+                                )
                             )
                         }
                     }
@@ -84,7 +91,8 @@ private fun TopBar(
         contentAlignment = Alignment.Center,
     ) {
         Text(
-            text = "Welcome to Compose \uD83D\uDE80", style = TextStyle(
+            text = stringResource(id = R.string.welcome_message),
+            style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 26.sp,
                 lineHeight = 20.sp,
@@ -113,26 +121,26 @@ private fun Content(
             modifier = Modifier.fillMaxWidth(),
             value = signUpUserInfo.username,
             onValueChange = onUsernameChange,
-            label = { Text(text = "Username") },
+            label = { Text(text = stringResource(id = R.string.username_label)) },
         )
         TextField(
             modifier = Modifier.fillMaxWidth(),
             value = signUpUserInfo.email,
             onValueChange = onEmailChange,
-            label = { Text(text = "Email") },
+            label = { Text(text = stringResource(id = R.string.email_label)) },
         )
         TextField(
             modifier = Modifier.fillMaxWidth(),
             value = signUpUserInfo.password,
             onValueChange = onPasswordChange,
-            label = { Text(text = "Password") },
+            label = { Text(text = stringResource(id = R.string.password_label)) },
             visualTransformation = PasswordVisualTransformation(),
         )
         TextField(
             modifier = Modifier.fillMaxWidth(),
             value = signUpUserInfo.passwordConfirm,
             onValueChange = onPasswordConfirmChange,
-            label = { Text(text = "Password Confirm") },
+            label = { Text(text = stringResource(id = R.string.password_confirm_label)) },
             visualTransformation = PasswordVisualTransformation(),
         )
 
@@ -143,7 +151,7 @@ private fun Content(
             contentPadding = PaddingValues(vertical = 15.dp)
         ) {
             Text(
-                text = "Sign Up",
+                text = stringResource(id = R.string.sign_up_button),
                 style = TextStyle(
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Medium,
