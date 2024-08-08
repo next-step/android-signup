@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.BlueGrey20
+import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
 fun SignUpTextField(
@@ -47,7 +48,7 @@ fun SignUpTextField(
 object SignUpTextFieldDefaults {
     val shape: Shape
         @Composable get() = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp)
-    
+
     @Composable
     fun colors(
         focusedContainerColor: Color = BlueGrey20,
@@ -66,9 +67,11 @@ object SignUpTextFieldDefaults {
 @Preview(showBackground = true)
 @Composable
 fun SignUpTextFieldPreview() {
-    SignUpTextField(
-        value = "Hello, World!",
-        onValueChange = {},
-        label = { },
-    )
+    SignupTheme {
+        SignUpTextField(
+            value = "Hello, World!",
+            onValueChange = {},
+            label = { },
+        )
+    }
 }
