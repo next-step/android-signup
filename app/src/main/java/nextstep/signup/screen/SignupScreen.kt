@@ -92,29 +92,29 @@ private fun SignupInputComponent(
     ) {
         SignupTextField(
             text = userName,
-            placeHolder = "UserName",
-            label = "UserName",
+            placeHolder = stringResource(R.string.signup_username),
+            label = stringResource(R.string.signup_username),
             onValueChange = onUserNameChange
         )
 
         SignupTextField(
             text = email,
-            placeHolder = "Email",
-            label = "Email",
+            placeHolder = stringResource(R.string.signup_email),
+            label = stringResource(R.string.signup_email),
             onValueChange = onEmailChange
         )
 
         SignupTextField(
             text = password,
-            placeHolder = "Password",
-            label = "Password",
+            placeHolder = stringResource(R.string.signup_password),
+            label = stringResource(R.string.signup_password),
             onValueChange = onPasswordChange
         )
 
         SignupTextField(
             text = passwordConfirm,
-            placeHolder = "Password Confirm",
-            label = "Password Confirm",
+            placeHolder = stringResource(R.string.signup_password_confirm),
+            label = stringResource(R.string.signup_password_confirm),
             onValueChange = onPasswordConfirmChange
         )
     }
