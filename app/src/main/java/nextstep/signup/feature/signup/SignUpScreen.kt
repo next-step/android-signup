@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.sp
 import nextstep.signup.R
 import nextstep.signup.ui.component.inputField.EmailInputField
 import nextstep.signup.ui.component.inputField.PasswordInputField
-import nextstep.signup.ui.component.inputField.TextInputField
+import nextstep.signup.ui.component.inputField.UsernameInputField
 
 @Composable
 fun SignUpScreen() {
@@ -46,13 +46,11 @@ fun SignUpScreen() {
                 fontSize = 24.sp,
             )
             Spacer(modifier = Modifier.height(42.dp))
-            TextInputField(
-                modifier = Modifier.testTag("username"),
-                value = username,
+            UsernameInputField(
+                username = username,
                 onValueChange = { username = it },
-                hint = stringResource(R.string.sign_up_username),
             )
-            Spacer(modifier = Modifier.height(36.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             EmailInputField(
                 modifier = Modifier.testTag("email"),
                 value = email,
