@@ -18,8 +18,7 @@ fun PasswordInputField(
     hint: String = "",
 ) {
     TextField(
-        modifier = modifier
-            .then(Modifier.fillMaxWidth()),
+        modifier = modifier.fillMaxWidth(),
         value = value,
         onValueChange = onValueChange,
         label = { Text(hint) },
