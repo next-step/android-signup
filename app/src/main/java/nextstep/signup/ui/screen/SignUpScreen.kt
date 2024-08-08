@@ -20,8 +20,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import nextstep.signup.ui.component.InputErrorText
-import nextstep.signup.ui.component.SignUpTextField
+import nextstep.signup.ui.component.EmailTextField
+import nextstep.signup.ui.component.PasswordConfirmTextField
+import nextstep.signup.ui.component.PasswordTextField
+import nextstep.signup.ui.component.UserNameTextField
 
 const val userNameRegex = "^[a-zA-Z가-힣]{2,6}$"
 const val emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
@@ -59,50 +61,31 @@ fun SignUpScreen() {
             modifier = Modifier.padding(top = 62.dp),
             verticalArrangement = Arrangement.spacedBy(32.dp)
         ) {
-            Column {
-                SignUpTextField(
-                    text = userName,
-                    label = "UserName",
-                    onTextValueChange = { userName = it })
-                InputErrorText(text = userName, errMsg = userNameErrorMsg, regex = userNameRegex)
-            }
-            Column {
-                SignUpTextField(
-                    text = email,
-                    label = "Email",
-                    onTextValueChange = { email = it }
-                )
-                InputErrorText(text = email, errMsg = emailErrorMsg, regex = emailRegex)
-            }
-            Column {
-                SignUpTextField(
-                    text = password,
-                    label = "Password",
-                    isTextHidden = true,
-                    onTextValueChange = { password = it })
-                InputErrorText(text = password, errMsg = passwordErrorMsg, regex = passwordRegex)
-            }
-            Column {
-                SignUpTextField(
-                    text = passwordConfirm,
-                    label = "Password Confirm",
-                    isTextHidden = true,
-                    onTextValueChange = { passwordConfirm = it })
-                if (password != passwordConfirm) {
-                    InputErrorText(
-                        text = passwordConfirm,
-                        errMsg = passwordConfirmErrorMsg,
-                        regex = ""
-                    )
-                }
-            }
+            UserNameTextField(
+                userName,
+                onTextValueChange = { userName = it }
+            )
+
+            EmailTextField(
+                text = email,
+                onTextValueChange = { email = it }
+            )
+
+            PasswordTextField(
+                text = password,
+                onTextValueChange = { password = it }
+            )
+
+            PasswordConfirmTextField(
+                text = passwordConfirm,
+                onTextValueChange = { passwordConfirm = it },
+                password
+            )
         }
 
-        Button(
-            modifier = Modifier
-                .padding(32.dp)
-                .fillMaxWidth(),
-            onClick = {}) {
+        Button(modifier = Modifier
+            .padding(32.dp)
+            .fillMaxWidth(), onClick = {}) {
             Text(
                 text = "Sign Up",
                 modifier = Modifier.padding(top = 16.dp, bottom = 16.dp, start = 24.dp, end = 24.dp)
