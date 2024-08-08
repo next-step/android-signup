@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.Scaffold
-import nextstep.signup.screen.SignupScreen
+import nextstep.signup.screen.SignUpScreen
 import nextstep.signup.ui.theme.SignupTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             SignupTheme {
                 Scaffold {
-                    SignupScreen()
+                    SignUpScreen()
                 }
             }
         }

@@ -26,7 +26,7 @@ import nextstep.signup.R
 import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
-fun SignupScreen(
+fun SignUpScreen(
     modifier: Modifier = Modifier
 ) {
     var userName by remember { mutableStateOf("") }
@@ -41,9 +41,9 @@ fun SignupScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(42.dp)
     ) {
-        SignupTitle(text = stringResource(R.string.signup_title))
+        SignUpTitle(text = stringResource(R.string.signup_title))
 
-        SignupInputComponent(
+        SignUpInputComponent(
             userName = userName,
             email = email,
             password = password,
@@ -54,14 +54,14 @@ fun SignupScreen(
             onPasswordConfirmChange = { passwordConfirm = it }
         )
 
-        SignupButton(
+        SignUpButton(
             onClick = { /* TODO */ }
         )
     }
 }
 
 @Composable
-private fun SignupTitle(
+private fun SignUpTitle(
     text: String,
     modifier: Modifier = Modifier,
 ) {
@@ -75,7 +75,7 @@ private fun SignupTitle(
 
 
 @Composable
-private fun SignupInputComponent(
+private fun SignUpInputComponent(
     userName: String,
     email: String,
     password: String,
@@ -90,28 +90,28 @@ private fun SignupInputComponent(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(36.dp)
     ) {
-        SignupTextField(
+        SignUpTextField(
             text = userName,
             placeHolder = stringResource(R.string.signup_username),
             label = stringResource(R.string.signup_username),
             onValueChange = onUserNameChange
         )
 
-        SignupTextField(
+        SignUpTextField(
             text = email,
             placeHolder = stringResource(R.string.signup_email),
             label = stringResource(R.string.signup_email),
             onValueChange = onEmailChange
         )
 
-        SignupTextField(
+        SignUpTextField(
             text = password,
             placeHolder = stringResource(R.string.signup_password),
             label = stringResource(R.string.signup_password),
             onValueChange = onPasswordChange
         )
 
-        SignupTextField(
+        SignUpTextField(
             text = passwordConfirm,
             placeHolder = stringResource(R.string.signup_password_confirm),
             label = stringResource(R.string.signup_password_confirm),
@@ -121,7 +121,7 @@ private fun SignupInputComponent(
 }
 
 @Composable
-private fun SignupTextField(
+private fun SignUpTextField(
     text: String,
     placeHolder: String,
     label: String,
@@ -139,7 +139,7 @@ private fun SignupTextField(
 }
 
 @Composable
-fun SignupButton(
+fun SignUpButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -148,7 +148,7 @@ fun SignupButton(
         onClick = { onClick() }
     ) {
         Text(
-            text = "Sign up",
+            text = stringResource(R.string.sign_up),
             color = Color.White,
             fontSize = 14.sp,
             style = MaterialTheme.typography.labelLarge
@@ -158,25 +158,25 @@ fun SignupButton(
 
 @Preview(showBackground = true)
 @Composable
-private fun SignupButtonPreview() {
+private fun SignUpButtonPreview() {
     SignupTheme {
-        SignupButton(onClick = {})
+        SignUpButton(onClick = {})
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun SignupScreenPreview() {
+private fun SignUpScreenPreview() {
     SignupTheme {
-        SignupScreen()
+        SignUpScreen()
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun SignupTextFieldPreview() {
+private fun SignUpTextFieldPreview() {
     SignupTheme {
-        SignupTextField(
+        SignUpTextField(
             text = "이지훈",
             placeHolder = "이름",
             label = "이름",
