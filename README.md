@@ -8,7 +8,7 @@
 
 ## step2
 
-- [ ] Title 추가
+- [x] Title 추가
 - [ ] SignupTextField 구현
 - [ ] SignupButton 구현
 - [ ] UI 컴포넌트 조합
