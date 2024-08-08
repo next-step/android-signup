@@ -14,12 +14,22 @@ fun EmailTextField(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    // TODO: 2021/08/31 이메일 형식 검증 추가
+    val validation = rememberSignUpTextFieldValidation(value) { EmailValidation(value) }
+    val isError = !validation.isValid()
+    val supportText: @Composable (() -> Unit)? =
+        if (isError) {
+            { Text(text = stringResource(id = R.string.error_email_format)) }
+        } else {
+            null
+        }
+
     SignUpTextField(
         value = value,
         onValueChange = onValueChange,
         label = { Text(text = stringResource(id = R.string.sign_up_label_email)) },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+        isError = isError,
+        supportText = supportText,
         modifier = modifier,
     )
 }

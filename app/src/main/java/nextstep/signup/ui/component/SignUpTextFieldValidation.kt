@@ -50,11 +50,17 @@ data class EmailValidation(
 ) : SignUpTextFieldValidation {
     override var errorType: SignUpTextFieldValidation.ValidationErrorType? = null
 
+    override fun isValid(): Boolean =
+        validateEmail(value).also {
+            errorType = it
+        } == null
 
-    override fun isValid(): Boolean {
-        TODO("Not yet implemented")
-    }
-
+    private fun validateEmail(email: String): ErrorType? =
+        when {
+            email.isEmpty() -> null
+            !PatternsCompat.EMAIL_ADDRESS.matcher(email).matches() -> ErrorType.FORMAT
+            else -> null
+        }
 
     enum class ErrorType : SignUpTextFieldValidation.ValidationErrorType {
         FORMAT,
