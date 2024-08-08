@@ -12,4 +12,4 @@
 - [x] SignupTextField 구현
 - [x] SignupButton 구현
 - [x] UI 컴포넌트 조합
-- [ ] 테스트 코드 확인
+- [x] 테스트 코드 확인
