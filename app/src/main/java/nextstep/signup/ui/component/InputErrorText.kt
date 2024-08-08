@@ -6,7 +6,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun InputErrorText(text: String, errMsg: String, isError: Boolean) {
+fun InputErrorText(errMsg: String, isError: Boolean) {
     if (isError) {
         Text(text = errMsg, color = Color.Red)
     }
@@ -15,5 +15,5 @@ fun InputErrorText(text: String, errMsg: String, isError: Boolean) {
 @Preview
 @Composable
 fun PreviewInputErrorText() {
-    InputErrorText("5글자를 넘어가는 아이디", "이름은 2~5자여야 합니다.", true)
+    InputErrorText("이름은 2~5자여야 합니다.", true)
 }

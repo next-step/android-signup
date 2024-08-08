@@ -43,7 +43,6 @@ fun UserNameTextField(text: String, onTextValueChange: (String) -> Unit) {
         )
 
         InputErrorText(
-            text,
             userNameErrorMsg,
             !text.matches(Regex(userNameRegex)) && text.isNotEmpty()
         )
@@ -63,7 +62,6 @@ fun EmailTextField(text: String, onTextValueChange: (String) -> Unit) {
         )
 
         InputErrorText(
-            text,
             emailErrorMsg,
             !text.matches(Regex(emailRegex)) && text.isNotEmpty()
         )
@@ -83,7 +81,6 @@ fun PasswordTextField(text: String, onTextValueChange: (String) -> Unit) {
             onValueChange = onTextValueChange
         )
         InputErrorText(
-            text,
             passwordErrorMsg,
             !text.matches(Regex(passwordRegex)) && text.isNotEmpty()
         )
@@ -103,7 +100,6 @@ fun PasswordConfirmTextField(text: String, onTextValueChange: (String) -> Unit, 
             onValueChange = onTextValueChange
         )
         InputErrorText(
-            text,
             passwordConfirmErrorMsg,
             password != text && text.isNotEmpty()
         )
