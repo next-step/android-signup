@@ -67,6 +67,35 @@ data class EmailValidation(
     }
 }
 
+data class PasswordValidation(
+    private val value: String,
+    private val regex: String = PASSWORD_REGEX,
+    private val lengthRange: IntRange = PASSWORD_LENGTH_RANGE,
+) : SignUpTextFieldValidation {
+    override var errorType: SignUpTextFieldValidation.ValidationErrorType? = null
+
+    override fun isValid(): Boolean =
+        validatePassword(value).also {
+            errorType = it
+        } == null
+
+    private fun validatePassword(password: String): ErrorType? {
+        TODO("Not yet implemented")
+    }
+
+    enum class ErrorType : SignUpTextFieldValidation.ValidationErrorType {
+        LENGTH,
+        FORMAT,
+    }
+
+    companion object {
+        private val PASSWORD_LENGTH_RANGE = 8..16
+
+        // 정규식 영문과 숫자 반드시 포함
+        private const val PASSWORD_REGEX = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]*\$"
+    }
+}
+
 @Composable
 fun rememberSignUpTextFieldValidation(
     vararg values: Any,
