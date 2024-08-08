@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Signup</string>
     <string name="title">Welcome to Compose 🚀</string>
+    <string name="userNameLabel">UserName</string>
+    <string name="emailLabel">Email</string>
+    <string name="passwordLabel">Password</string>
+    <string name="passwordConfirmLabel">Password Confirm</string>
 </resources>
