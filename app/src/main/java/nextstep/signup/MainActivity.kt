@@ -1,5 +1,6 @@
 package nextstep.signup
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,7 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -19,9 +20,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -43,14 +46,33 @@ class MainActivity : ComponentActivity() {
                             TitleView("Welcome to Compose \uD83D\uDE80")
                         }
                     },
-                    content = {
+                    content = { paddingValues ->
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .padding(top = 100.dp),
+                                .padding(paddingValues),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            TextFieldView()
+                            TextFieldView(
+                                Modifier.padding(16.dp),
+                                "Username",
+                                KeyboardType.Text
+                            )
+                            TextFieldView(
+                                Modifier.padding(16.dp),
+                                "Email",
+                                KeyboardType.Email
+                            )
+                            TextFieldView(
+                                Modifier.padding(16.dp),
+                                "Password",
+                                KeyboardType.Password
+                            )
+                            TextFieldView(
+                                Modifier.padding(16.dp),
+                                "Password Confirm",
+                                KeyboardType.Password
+                            )
                         }
                     },
                     modifier = Modifier.background(
@@ -64,13 +86,39 @@ class MainActivity : ComponentActivity() {
 
 @Preview
 @Composable
-private fun TextFieldView() {
+private fun TextFieldView(
+    modifier: Modifier = Modifier,
+    label: String = "UserName",
+    keyboardType: KeyboardType = KeyboardType.Text,
+) {
     val text = remember { mutableStateOf("") }
+    val isFocused = remember { mutableStateOf(false) }
     TextField(
         value = text.value,
         onValueChange = { newText ->
             text.value = newText
-        }
+        },
+        label = {
+            Text(
+                text = label,
+                fontSize = if (isFocused.value) 12.sp else 16.sp,
+                color = if (keyboardType == KeyboardType.Text && isFocused.value) {
+                    Color(0xFF2196F3)
+                } else {
+                    Color(0xFF49454F)
+                }
+            )
+        },
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+        visualTransformation = if (keyboardType == KeyboardType.Password) {
+            PasswordVisualTransformation()
+        } else {
+            VisualTransformation.None
+        },
+        modifier = modifier
+            .onFocusChanged { focusState ->
+                isFocused.value = focusState.isFocused
+            },
     )
 }
 
@@ -80,31 +128,4 @@ private fun TitleView(
     title: String = "Welcome to Compose \uD83D\uDE80"
 ) {
     Text(text = title, fontSize = 26.sp, color = Color(0xFF000000))
-}
-
-@Composable
-fun HelloView(
-    name: String,
-    modifier: Modifier = Modifier
-) {
-    Text(
-        text = "$name 안녕하세요!",
-        fontSize = 20.sp,
-        color = Color.White,
-        modifier = modifier
-            .background(
-                brush = Brush.linearGradient(
-                    colors = listOf(Color.Red, Color.Green),
-                    start = Offset.Zero,
-                    end = Offset.Infinite,
-                ),
-                shape = RoundedCornerShape(16.dp)
-            )
-    )
-}
-
-@Preview(showBackground = true, widthDp = 20)
-@Composable
-private fun HelloViewPreview() {
-    HelloView("윤성현")
 }
