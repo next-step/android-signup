@@ -14,7 +14,7 @@ class SignUpScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
+    private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
 
     @Test
     fun hasUsernameFieldHint() {
