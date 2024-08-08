@@ -27,6 +27,7 @@ fun SignUpTextField(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     shape: Shape = SignUpTextFieldDefaults.shape,
     colors: TextFieldColors = SignUpTextFieldDefaults.colors(),
+    singleLine: Boolean = true,
 ) {
     TextField(
         value = value,
@@ -37,6 +38,7 @@ fun SignUpTextField(
         keyboardOptions = keyboardOptions,
         visualTransformation = visualTransformation,
         enabled = enabled,
+        singleLine = singleLine,
         modifier = modifier,
     )
 }
