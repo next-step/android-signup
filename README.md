@@ -6,7 +6,7 @@
 - Material3 Button, TextField 활용
 - 디자인 요구사항을 참고하여 회원가입 뷰 구현
 - [x] 타이틀 구현
-- [ ] 사용자 필드 구현
-- [ ] 이메일 필드 구현
-- [ ] 비밀번호 필드 구현
+- [x] Scaffold를 이용하여 topBar와 content 구현
+- [x] TextField compose 구현
+- [ ] 이름, 이메일, 비밀번호, 비밀번호 확인 입력창 구현
 - [ ] 회원가입 버튼 구현

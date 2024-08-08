@@ -4,12 +4,20 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
@@ -24,12 +32,46 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SignupTheme {
-                Surface {
-                    TitleView("Welcome to Compose \uD83D\uDE80")
-                }
+                Scaffold(
+                    topBar = {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 62.dp),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            TitleView("Welcome to Compose \uD83D\uDE80")
+                        }
+                    },
+                    content = {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(top = 100.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            TextFieldView()
+                        }
+                    },
+                    modifier = Modifier.background(
+                        color = Color(0xFFFFFFFF)
+                    )
+                )
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun TextFieldView() {
+    val text = remember { mutableStateOf("") }
+    TextField(
+        value = text.value,
+        onValueChange = { newText ->
+            text.value = newText
+        }
+    )
 }
 
 @Preview
@@ -43,8 +85,10 @@ private fun TitleView(
 @Composable
 fun HelloView(
     name: String,
-    modifier: Modifier = Modifier) {
-    Text(text = "$name 안녕하세요!",
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = "$name 안녕하세요!",
         fontSize = 20.sp,
         color = Color.White,
         modifier = modifier
@@ -56,7 +100,7 @@ fun HelloView(
                 ),
                 shape = RoundedCornerShape(16.dp)
             )
-        )
+    )
 }
 
 @Preview(showBackground = true, widthDp = 20)
