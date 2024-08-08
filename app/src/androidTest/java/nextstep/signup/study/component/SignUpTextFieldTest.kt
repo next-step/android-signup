@@ -14,7 +14,6 @@ class SignUpTextFieldTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    // given
     private val emptyText = ""
     private val userName = "lee-ji-hoon"
     private val labelText = "username-label"
@@ -40,7 +39,6 @@ class SignUpTextFieldTest {
             )
         }
 
-        // then
         composeTestRule
             .onNodeWithTag(labelTag, useUnmergedTree = true)
             .assertExists()
