@@ -16,10 +16,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -61,6 +59,10 @@ fun SignUpScreen() {
             .background(color = Color.White)
             .padding(horizontal = 20.dp),
     ) {
+        val (userName, setUserName) = remember { mutableStateOf("") }
+        val (email, setEmail) = remember { mutableStateOf("") }
+        val (password, setPassword) = remember { mutableStateOf("") }
+        val (passwordConfirm, setPasswordConfirm) = remember { mutableStateOf("") }
 
         Spacer(modifier = Modifier.height(60.dp))
         Text(
@@ -69,17 +71,42 @@ fun SignUpScreen() {
             fontSize = 26.sp,
             fontFamily = RobotoBold,
         )
+        Spacer(modifier = Modifier.height(42.dp))
+        SignUpTextField(
+            label = stringResource(R.string.signup_user_name),
+            onTextChanged = { setUserName(it) },
+            text = userName,
+        )
+        Spacer(modifier = Modifier.height(36.dp))
+        SignUpTextField(
+            label = stringResource(R.string.signup_email),
+            onTextChanged = { setEmail(it) },
+            text = email,
+        )
+        Spacer(modifier = Modifier.height(36.dp))
+        SignUpTextField(
+            label = stringResource(R.string.signup_password),
+            onTextChanged = { setPassword(it) },
+            text = password,
+        )
+        Spacer(modifier = Modifier.height(36.dp))
+        SignUpTextField(
+            label = stringResource(R.string.signup_password_confirm),
+            onTextChanged = { setPasswordConfirm(it) },
+            text = passwordConfirm,
+        )
     }
 }
 
 @Composable
-fun SignUpTextField(label: String) {
-    var text by remember {
-        mutableStateOf("")
-    }
+fun SignUpTextField(
+    label: String,
+    onTextChanged: (String) -> Unit,
+    text: String,
+) {
     TextField(
         value = text,
-        onValueChange = { text = it },
+        onValueChange = onTextChanged,
         textStyle = TextStyle.Default.copy(
             fontSize = 16.sp,
             fontFamily = RobotoRegular,

@@ -3,4 +3,8 @@
 
     <!-- signup -->
     <string name="signup_header_title">Welcome to Compose 🚀</string>
+    <string name="signup_user_name">Username</string>
+    <string name="signup_email">Email</string>
+    <string name="signup_password">Password</string>
+    <string name="signup_password_confirm">Password Confirm</string>
 </resources>
