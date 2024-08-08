@@ -28,15 +28,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
+import nextstep.signup.model.SignUpUserInfo
 
 @Composable
 internal fun SignUpScreen() {
-    val snackbarHost = remember { SnackbarHostState() }
+    val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
+    var signUpUserInfo by remember { mutableStateOf(SignUpUserInfo()) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        snackbarHost = { SnackbarHost(snackbarHost) },
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopBar(
                 modifier = Modifier
@@ -45,19 +47,31 @@ internal fun SignUpScreen() {
             )
         },
         content = { paddingValues ->
-            Content(modifier = Modifier
-                .padding(top = 42.dp)
-                .padding(paddingValues)
-                .fillMaxWidth(),
-                onClickSignUp = { message ->
-                    coroutineScope.launch {
-                        snackbarHost.showSnackbar(message)
+            Content(
+                signUpUserInfo = signUpUserInfo,
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .padding(top = 42.dp),
+                onUsernameChange = { signUpUserInfo = signUpUserInfo.copy(username = it) },
+                onEmailChange = { signUpUserInfo = signUpUserInfo.copy(email = it) },
+                onPasswordChange = { signUpUserInfo = signUpUserInfo.copy(password = it) },
+                onPasswordConfirmChange = {
+                    signUpUserInfo = signUpUserInfo.copy(passwordConfirm = it)
+                },
+                onClickSignUp = {
+                    if (signUpUserInfo.isNotContainBlank()) {
+                        coroutineScope.launch {
+                            snackbarHostState.showSnackbar(
+                                "Username = ${signUpUserInfo.username}, " +
+                                        "Email = ${signUpUserInfo.email}, " +
+                                        "Password = ${signUpUserInfo.password}"
+                            )
+                        }
                     }
-                })
+                }
+            )
         },
-        bottomBar = {
-            BottomBar()
-        },
+        bottomBar = { BottomBar() }
     )
 }
 
@@ -82,14 +96,14 @@ private fun TopBar(
 
 @Composable
 private fun Content(
-    onClickSignUp: (String) -> Unit,
-    modifier: Modifier = Modifier,
+    signUpUserInfo: SignUpUserInfo,
+    onUsernameChange: (String) -> Unit,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onPasswordConfirmChange: (String) -> Unit,
+    onClickSignUp: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    var username by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var passwordConfirm by remember { mutableStateOf("") }
-
     Column(
         modifier = modifier.padding(horizontal = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -97,37 +111,35 @@ private fun Content(
     ) {
         TextField(
             modifier = Modifier.fillMaxWidth(),
-            value = username,
-            onValueChange = { username = it },
+            value = signUpUserInfo.username,
+            onValueChange = onUsernameChange,
             label = { Text(text = "Username") },
         )
         TextField(
             modifier = Modifier.fillMaxWidth(),
-            value = email,
-            onValueChange = { email = it },
+            value = signUpUserInfo.email,
+            onValueChange = onEmailChange,
             label = { Text(text = "Email") },
         )
         TextField(
             modifier = Modifier.fillMaxWidth(),
-            value = password,
-            onValueChange = { password = it },
+            value = signUpUserInfo.password,
+            onValueChange = onPasswordChange,
             label = { Text(text = "Password") },
             visualTransformation = PasswordVisualTransformation(),
         )
         TextField(
             modifier = Modifier.fillMaxWidth(),
-            value = passwordConfirm,
-            onValueChange = { passwordConfirm = it },
+            value = signUpUserInfo.passwordConfirm,
+            onValueChange = onPasswordConfirmChange,
             label = { Text(text = "Password Confirm") },
             visualTransformation = PasswordVisualTransformation(),
         )
 
         Button(
             modifier = Modifier.fillMaxWidth(),
-            enabled = username.isNotBlank() && email.isNotBlank() && password.isNotBlank() && passwordConfirm.isNotBlank(),
-            onClick = {
-                onClickSignUp("Username = $username Email = $email Password = $password")
-            },
+            enabled = signUpUserInfo.isNotContainBlank(),
+            onClick = onClickSignUp,
             contentPadding = PaddingValues(vertical = 15.dp)
         ) {
             Text(
