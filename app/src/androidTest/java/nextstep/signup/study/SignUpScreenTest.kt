@@ -87,7 +87,7 @@ class SignUpScreenTest {
         // when : 유저 이름의 길이가 3입니다.
         val userName = "OYJ"
         composeTestRule.setContent {
-            InputErrorText(userName, userNameErrorMsg, userNameRegex)
+            InputErrorText(userName, userNameErrorMsg, !userName.matches(Regex(userNameRegex)))
         }
 
         // then : 에러 메시지가 노출되지 않습니다.
@@ -101,7 +101,7 @@ class SignUpScreenTest {
         // when : 유저 이름의 길이가 6입니다.
         val userName = "김오박이컴포즈"
         composeTestRule.setContent {
-            InputErrorText(userName, userNameErrorMsg, userNameRegex)
+            InputErrorText(userName, userNameErrorMsg, !userName.matches(Regex(userNameRegex)))
         }
 
         // then : 에러 메시지가 노출됩니다.
@@ -116,7 +116,7 @@ class SignUpScreenTest {
         val email = "oyj7677@gmail.com"
 
         composeTestRule.setContent {
-            InputErrorText(email, emailErrorMsg, emailRegex)
+            InputErrorText(email, emailErrorMsg, !email.matches(Regex(emailRegex)))
         }
 
         // then : 에러 메시지가 노출되지 않습니다.
@@ -131,7 +131,7 @@ class SignUpScreenTest {
         val email = "oyj7677@gmail"
 
         composeTestRule.setContent {
-            InputErrorText(email, emailErrorMsg, emailRegex)
+            InputErrorText(email, emailErrorMsg, !email.matches(Regex(emailRegex)))
         }
 
         // then : 에러 메시지가 노출됩니다.
@@ -148,7 +148,7 @@ class SignUpScreenTest {
         val password = "123okj!@#"
 
         composeTestRule.setContent {
-            InputErrorText(text = password, errMsg = passwordErrorMsg, regex = passwordRegex)
+            InputErrorText(text = password, errMsg = passwordErrorMsg, !password.matches(Regex(passwordRegex)))
         }
 
         composeTestRule
@@ -163,7 +163,7 @@ class SignUpScreenTest {
         val password = "123123123"
 
         composeTestRule.setContent {
-            InputErrorText(text = password, errMsg = passwordErrorMsg, regex = passwordRegex)
+            InputErrorText(text = password, errMsg = passwordErrorMsg, !password.matches(Regex(passwordRegex)))
         }
 
         // then : 에러 메시지가 노출됩니다.
@@ -182,7 +182,6 @@ class SignUpScreenTest {
         private const val emailErrorMsg = "이메일 형식이 올바르지 않습니다."
         private const val passwordErrorMsg = "비밀번호는 8~16자, 영문, 숫자 조합이어야 합니다.\n비밀번호는 영문과 숫자를 포함해야 합니다."
         private const val passwordConfirmErrorMsg = "비밀번호가 일치하지 않습니다."
-
     }
 }
 
