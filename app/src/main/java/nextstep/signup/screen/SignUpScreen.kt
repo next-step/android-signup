@@ -92,29 +92,25 @@ fun SignUpInputComponent(
     ) {
         SignUpTextField(
             text = userName,
-            placeHolder = stringResource(R.string.signup_username),
-            label = stringResource(R.string.signup_username),
+            label = { Text(text = stringResource(R.string.signup_username)) },
             onValueChange = onUserNameChange
         )
 
         SignUpTextField(
             text = email,
-            placeHolder = stringResource(R.string.signup_email),
-            label = stringResource(R.string.signup_email),
+            label = { Text(text = stringResource(R.string.signup_email)) },
             onValueChange = onEmailChange
         )
 
         SignUpTextField(
             text = password,
-            placeHolder = stringResource(R.string.signup_password),
-            label = stringResource(R.string.signup_password),
+            label = { Text(text = stringResource(R.string.signup_password)) },
             onValueChange = onPasswordChange
         )
 
         SignUpTextField(
             text = passwordConfirm,
-            placeHolder = stringResource(R.string.signup_password_confirm),
-            label = stringResource(R.string.signup_password_confirm),
+            label = { Text(text = stringResource(R.string.signup_password_confirm)) },
             onValueChange = onPasswordConfirmChange
         )
     }
@@ -123,16 +119,14 @@ fun SignUpInputComponent(
 @Composable
 fun SignUpTextField(
     text: String,
-    placeHolder: String,
-    label: String,
     onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    label: @Composable (() -> Unit)? = null,
 ) {
     TextField(
         modifier = modifier.fillMaxWidth(),
         value = text,
-        label = { Text(text = label) },
-        placeholder = { Text(text = placeHolder) },
+        label = label,
         onValueChange = onValueChange,
         singleLine = true
     )
@@ -178,8 +172,7 @@ private fun SignUpTextFieldPreview() {
     SignupTheme {
         SignUpTextField(
             text = "이지훈",
-            placeHolder = "이름",
-            label = "이름",
+            label = { Text(text = stringResource(R.string.signup_username)) },
             onValueChange = {}
         )
     }
