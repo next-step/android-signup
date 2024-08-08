@@ -9,7 +9,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 
@@ -19,8 +18,7 @@ fun SignUpTextField(placeholder: String, isTextHidden: Boolean = false) {
 
     TextField(
         modifier = Modifier
-            .fillMaxWidth()
-            .testTag("user textField"),
+            .fillMaxWidth(),
         visualTransformation = if (isTextHidden) PasswordVisualTransformation() else VisualTransformation.None,
         placeholder = { Text(placeholder) },
         value = text,
