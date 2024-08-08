@@ -79,9 +79,13 @@ data class PasswordValidation(
             errorType = it
         } == null
 
-    private fun validatePassword(password: String): ErrorType? {
-        TODO("Not yet implemented")
-    }
+    private fun validatePassword(password: String): ErrorType? =
+        when {
+            password.isEmpty() -> null
+            password.length !in lengthRange -> ErrorType.LENGTH
+            !PASSWORD_REGEX.toRegex().matches(password) -> ErrorType.FORMAT
+            else -> null
+        }
 
     enum class ErrorType : SignUpTextFieldValidation.ValidationErrorType {
         LENGTH,

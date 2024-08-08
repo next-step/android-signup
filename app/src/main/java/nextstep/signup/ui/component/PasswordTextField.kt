@@ -15,13 +15,35 @@ fun PasswordTextField(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    // TODO: 비밀번호 검증 추가
+    val validation = rememberSignUpTextFieldValidation(value) { PasswordValidation(value) }
+    val isError = !validation.isValid()
+    val supportText: @Composable (() -> Unit)? =
+        when {
+            isError -> {
+                when (validation.errorType) {
+                    PasswordValidation.ErrorType.LENGTH -> {
+                        { Text(text = stringResource(id = R.string.error_password_length)) }
+                    }
+
+                    PasswordValidation.ErrorType.FORMAT -> {
+                        { Text(text = stringResource(id = R.string.error_password_format)) }
+                    }
+
+                    else -> null
+                }
+            }
+
+            else -> null
+        }
+
     SignUpTextField(
         value = value,
         onValueChange = onValueChange,
         label = { Text(text = stringResource(id = R.string.sign_up_label_password)) },
         visualTransformation = PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        isError = isError,
+        supportText = supportText,
         modifier = modifier,
     )
 }
