@@ -4,8 +4,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -32,7 +36,9 @@ fun SignUpScreen(
         modifier = modifier.fillMaxSize()
     ) {
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 32.dp),
             verticalArrangement = Arrangement.spacedBy(42.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -41,7 +47,7 @@ fun SignUpScreen(
             var password by remember { mutableStateOf("") }
             var passwordConfirm by remember { mutableStateOf("") }
 
-            SignUpTitle(modifier = Modifier.padding(top = 64.dp))
+            SignUpTitle()
             SignUpInputs(
                 username = username,
                 email = email,
@@ -52,17 +58,18 @@ fun SignUpScreen(
                 onPasswordChange = { password = it },
                 onPasswordConfirmChange = { passwordConfirm = it }
             )
+            SignUpButton(
+                onSignUpClick = { }
+            )
         }
     }
 }
 
 @Composable
-fun SignUpTitle(
-    modifier: Modifier = Modifier
-) {
+fun SignUpTitle() {
     Text(
         text = "Welcome to Compose \uD83D\uDE80",
-        modifier = modifier,
+        modifier = Modifier.padding(top = 64.dp),
         color = Color.Black,
         fontSize = 26.sp,
         fontWeight = FontWeight.Bold,
@@ -112,6 +119,7 @@ fun UsernameField(
     TextField(
         value = username,
         onValueChange = { onUsernameChange(it) },
+        modifier = Modifier.fillMaxWidth(),
         label = { Text(text = "Username") },
         placeholder = { Text(text = "Username") },
     )
@@ -125,6 +133,7 @@ fun EmailField(
     TextField(
         value = email,
         onValueChange = { onEmailChange(it) },
+        modifier = Modifier.fillMaxWidth(),
         label = { Text(text = "Email") },
         placeholder = { Text(text = "Email") },
     )
@@ -138,6 +147,7 @@ fun PasswordField(
     TextField(
         value = password,
         onValueChange = { onPasswordChange(it) },
+        modifier = Modifier.fillMaxWidth(),
         label = { Text(text = "Password") },
         placeholder = { Text(text = "Password") },
         visualTransformation = PasswordVisualTransformation(),
@@ -153,6 +163,7 @@ fun PasswordConfirmField(
     TextField(
         value = passwordConfirm,
         onValueChange = { onPasswordConfirmChange(it) },
+        modifier = Modifier.fillMaxWidth(),
         label = { Text(text = "PasswordConfirm") },
         placeholder = { Text(text = "PasswordConfirm") },
         visualTransformation = PasswordVisualTransformation(),
@@ -160,10 +171,41 @@ fun PasswordConfirmField(
     )
 }
 
+@Composable
+fun SignUpButton(
+    onSignUpClick: () -> Unit
+) {
+    Button(
+        onClick = { onSignUpClick.invoke() },
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(50.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color(0xFF2196F3)
+        )
+    ) {
+        Text(
+            text = "Sign Up",
+            color = Color.White,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Normal,
+            lineHeight = 20.sp,
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SignUpButtonPreview() {
+    SignUpButton(
+        onSignUpClick = { }
+    )
+}
+
 @Preview(
     showBackground = true,
     widthDp = 400,
-    heightDp = 500
+    heightDp = 600
 )
 @Composable
 private fun SignUpScreenPreview() {
