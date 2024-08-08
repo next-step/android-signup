@@ -1,10 +1,8 @@
 package nextstep.signup
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -97,7 +95,8 @@ private fun SingUpButtonView(
         onClick = { /*TODO*/ },
         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2196F3)),
         modifier = modifier
-            .fillMaxWidth())
+            .fillMaxWidth()
+    )
     {
         Text(text = "Sign Up", fontSize = 14.sp, color = Color(0xFFFFFFFF))
     }
