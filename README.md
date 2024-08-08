@@ -9,7 +9,7 @@
 ## step2
 
 - [x] Title 추가
-- [ ] SignupTextField 구현
+- [x] SignupTextField 구현
 - [ ] SignupButton 구현
 - [ ] UI 컴포넌트 조합
 - [ ] 테스트 코드 확인

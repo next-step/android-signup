@@ -32,10 +32,38 @@ fun SignupScreen(
     }
 }
 
+@Composable
+private fun SignupTextField(
+    text: String,
+    placeHolder: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    TextField(
+        modifier = modifier.fillMaxWidth(),
+        value = text,
+        placeholder = { Text(text = placeHolder) },
+        onValueChange = onValueChange,
+        singleLine = true
+    )
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun SignupScreenPreview() {
     SignupTheme {
         SignupScreen()
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SignupTextFieldPreview() {
+    SignupTheme {
+        SignupTextField(
+            text = "이지훈",
+            placeHolder = "이름",
+            onValueChange = {}
+        )
     }
 }
