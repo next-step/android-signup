@@ -3,6 +3,7 @@ package nextstep.signup.ui.component
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.remember
+import androidx.core.util.PatternsCompat
 
 @Immutable
 interface SignUpTextFieldValidation {
@@ -41,6 +42,22 @@ data class UsernameValidation(
     companion object {
         private const val USERNAME_REGEX = "^[a-zA-Z가-힣]*\$"
         private val USERNAME_LENGTH_RANGE = 2..5
+    }
+}
+
+data class EmailValidation(
+    private val value: String,
+) : SignUpTextFieldValidation {
+    override var errorType: SignUpTextFieldValidation.ValidationErrorType? = null
+
+
+    override fun isValid(): Boolean {
+        TODO("Not yet implemented")
+    }
+
+
+    enum class ErrorType : SignUpTextFieldValidation.ValidationErrorType {
+        FORMAT,
     }
 }
 
