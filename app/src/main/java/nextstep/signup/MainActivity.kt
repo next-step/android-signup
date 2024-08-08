@@ -150,6 +150,7 @@ fun SignUpTextField(
         },
         colors = TextFieldDefaults.colors(
             focusedTextColor = Color.Black,
+            unfocusedTextColor = Color.Black,
             focusedLabelColor = Blue50,
             unfocusedLabelColor = Gray,
             unfocusedContainerColor = BlueGray20,
