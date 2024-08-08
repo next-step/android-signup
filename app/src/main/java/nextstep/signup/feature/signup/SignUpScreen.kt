@@ -3,8 +3,10 @@ package nextstep.signup.feature.signup
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
@@ -36,7 +38,6 @@ fun SignUpScreen() {
         ) {
             Column(
                 modifier = Modifier.padding(32.dp),
-                verticalArrangement = Arrangement.spacedBy(36.dp),
             ) {
                 var username by remember { mutableStateOf("") }
                 var email by remember { mutableStateOf("") }
@@ -48,30 +49,35 @@ fun SignUpScreen() {
                     fontWeight = FontWeight.Bold,
                     fontSize = 24.sp,
                 )
+                Spacer(modifier = Modifier.height(42.dp))
                 TextInputField(
                     modifier = Modifier.testTag("username"),
                     value = username,
                     onValueChange = { username = it },
                     hint = stringResource(R.string.sign_up_username),
                 )
+                Spacer(modifier = Modifier.height(36.dp))
                 EmailInputField(
                     modifier = Modifier.testTag("email"),
                     value = email,
                     onValueChange = { email = it },
                     hint = stringResource(R.string.sign_up_email),
                 )
+                Spacer(modifier = Modifier.height(36.dp))
                 PasswordInputField(
                     modifier = Modifier.testTag("password"),
                     value = password,
                     onValueChange = { password = it },
                     hint = stringResource(R.string.sign_up_password),
                 )
+                Spacer(modifier = Modifier.height(36.dp))
                 PasswordInputField(
                     modifier = Modifier.testTag("passwordConfirm"),
                     value = passwordConfirm,
                     onValueChange = { passwordConfirm = it },
                     hint = stringResource(R.string.sign_up_password_confirm),
                 )
+                Spacer(modifier = Modifier.height(42.dp))
                 Button(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = { /*TODO*/ },
