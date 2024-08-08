@@ -23,6 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -88,12 +90,14 @@ fun SignUpScreen() {
             label = stringResource(R.string.signup_password),
             onTextChanged = { setPassword(it) },
             text = password,
+            visualTransformation = PasswordVisualTransformation(),
         )
         Spacer(modifier = Modifier.height(36.dp))
         SignUpTextField(
             label = stringResource(R.string.signup_password_confirm),
             onTextChanged = { setPasswordConfirm(it) },
             text = passwordConfirm,
+            visualTransformation = PasswordVisualTransformation(),
         )
     }
 }
@@ -103,6 +107,7 @@ fun SignUpTextField(
     label: String,
     onTextChanged: (String) -> Unit,
     text: String,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
 ) {
     TextField(
         value = text,
@@ -125,13 +130,14 @@ fun SignUpTextField(
             focusedContainerColor = BlueGray20,
             focusedIndicatorColor = Blue50,
         ),
+        visualTransformation = visualTransformation,
         modifier = Modifier.background(
             color = Color.Transparent,
             shape = RoundedCornerShape(
                 topStart = 4.dp,
                 topEnd = 4.dp,
             ),
-        )
+        ),
     )
 }
 
