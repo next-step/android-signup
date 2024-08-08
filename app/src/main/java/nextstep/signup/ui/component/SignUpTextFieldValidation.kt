@@ -100,6 +100,32 @@ data class PasswordValidation(
     }
 }
 
+data class PasswordConfirmValidation(
+    private val password: String,
+    private val passwordConfirm: String,
+) : SignUpTextFieldValidation {
+    override var errorType: SignUpTextFieldValidation.ValidationErrorType? = null
+
+    override fun isValid(): Boolean =
+        validatePasswordConfirm(password, passwordConfirm).also {
+            errorType = it
+        } == null
+
+    private fun validatePasswordConfirm(
+        password: String,
+        passwordConfirm: String,
+    ): ErrorType? =
+        when {
+            password.isEmpty() || passwordConfirm.isEmpty() -> null
+            password != passwordConfirm -> ErrorType.NOT_MATCH
+            else -> null
+        }
+
+    enum class ErrorType : SignUpTextFieldValidation.ValidationErrorType {
+        NOT_MATCH,
+    }
+}
+
 @Composable
 fun rememberSignUpTextFieldValidation(
     vararg values: Any,

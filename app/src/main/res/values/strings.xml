@@ -11,4 +11,5 @@
     <string name="error_email_format">이메일 형식이 올바르지 않습니다.</string>
     <string name="error_password_length">비밀번호는 8~16자여야 합니다.</string>
     <string name="error_password_format">비밀번호는 영문과 숫자를 포함해야 합니다.</string>
+    <string name="error_password_confirm">비밀번호가 일치하지 않습니다.</string>
 </resources>
