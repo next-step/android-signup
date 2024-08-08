@@ -19,8 +19,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import nextstep.signup.ui.component.EmailTextField
 import nextstep.signup.ui.component.InputErrorText
-import nextstep.signup.ui.component.SignUpTextField
+import nextstep.signup.ui.component.PasswordTextField
+import nextstep.signup.ui.component.UserNameTextField
 import org.junit.Rule
 import org.junit.Test
 
@@ -48,7 +50,7 @@ class SignUpScreenTest {
 
         composeTestRule.setContent {
             var userName by rememberSaveable { mutableStateOf("") }
-            SignUpTextField(text = userName, label = label, onTextValueChange = { userName = it })
+            UserNameTextField(text = userName, onTextValueChange = { userName = it })
         }
 
         composeTestRule
@@ -59,9 +61,9 @@ class SignUpScreenTest {
     @Test
     fun emailTextFieldTest() {
         val label = "Email"
-
         composeTestRule.setContent {
-            EmailTextField(label = label)
+            var email by rememberSaveable { mutableStateOf("") }
+            EmailTextField(text = email, onTextValueChange = { email = it })
         }
 
         composeTestRule
@@ -74,7 +76,8 @@ class SignUpScreenTest {
         val label = "Password"
 
         composeTestRule.setContent {
-            PasswordTextField(label = label)
+            var password by rememberSaveable { mutableStateOf("") }
+            PasswordTextField(text = password, onTextValueChange = { password = it })
         }
 
         composeTestRule
@@ -181,7 +184,6 @@ class SignUpScreenTest {
         private const val userNameErrorMsg = "이름은 2~5자여야 합니다.\n이름에는 숫자나 기호가 포함될 수 없습니다."
         private const val emailErrorMsg = "이메일 형식이 올바르지 않습니다."
         private const val passwordErrorMsg = "비밀번호는 8~16자, 영문, 숫자 조합이어야 합니다.\n비밀번호는 영문과 숫자를 포함해야 합니다."
-        private const val passwordConfirmErrorMsg = "비밀번호가 일치하지 않습니다."
     }
 }
 
@@ -198,25 +200,6 @@ fun TitleCompose(text: String) {
             fontWeight = FontWeight.Bold
         )
     )
-}
-
-@Composable
-fun UserNameTextField(label: String) {
-    var userName by rememberSaveable { mutableStateOf("") }
-    SignUpTextField(text = userName, label = label, onTextValueChange = { userName = it })
-}
-
-@Composable
-fun EmailTextField(label: String) {
-    var email by rememberSaveable { mutableStateOf("") }
-    SignUpTextField(text = email, label = label, onTextValueChange = { email = it })
-}
-
-
-@Composable
-fun PasswordTextField(label: String) {
-    var password by rememberSaveable { mutableStateOf("") }
-    SignUpTextField(text = password, label = label, onTextValueChange = { password = it })
 }
 
 @Composable
@@ -246,24 +229,6 @@ private fun TitleComposePreview() {
     showBackground = true,
     backgroundColor = 0xFFFFFFFF
 )
-@Composable
-fun UserNameTextFieldComposePreview() {
-    val label = "UserName"
-    var userName by rememberSaveable { mutableStateOf("") }
-    SignUpTextField(text = userName, label = label, onTextValueChange = { userName = it })
-}
-
-@Preview
-@Composable
-fun EmailTextFieldComposePreview() {
-    EmailTextField("Email")
-}
-
-@Preview
-@Composable
-fun PasswordTextFieldComposePreview() {
-    PasswordTextField("Password")
-}
 
 @Preview
 @Composable
