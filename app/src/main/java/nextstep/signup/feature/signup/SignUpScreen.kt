@@ -52,12 +52,10 @@ fun SignUpScreen() {
             )
             Spacer(modifier = Modifier.height(16.dp))
             EmailInputField(
-                modifier = Modifier.testTag("email"),
-                value = email,
+                email = email,
                 onValueChange = { email = it },
-                hint = stringResource(R.string.sign_up_email),
             )
-            Spacer(modifier = Modifier.height(36.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             PasswordInputField(
                 modifier = Modifier.testTag("password"),
                 value = password,

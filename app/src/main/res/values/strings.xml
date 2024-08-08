@@ -8,4 +8,5 @@
     <string name="sign_up_button">Sign Up</string>
     <string name="sign_up_username_input_validation_length_message">이름은 2~5자여야 합니다.</string>
     <string name="sign_up_username_input_validation_message">이름에는 숫자나 기호가 포함될 수 없습니다.</string>
+    <string name="sign_up_email_input_validation_message">이메일 형식이 올바르지 않습니다.</string>
 </resources>

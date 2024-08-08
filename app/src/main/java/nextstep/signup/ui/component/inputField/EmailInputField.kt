@@ -5,24 +5,45 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import nextstep.signup.R
+import nextstep.signup.util.SignUpInputValidation
 
 @Composable
 fun EmailInputField(
-    value: String,
+    email: String,
     onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
-    hint: String = "",
+    hint: String = stringResource(R.string.sign_up_email),
 ) {
+    val context = LocalContext.current
+    val supportingText by remember(email) {
+        derivedStateOf {
+            when {
+                email.isBlank() -> ""
+                !email.matches(SignUpInputValidation.EMAIL_REGEX.toRegex()) -> context.getString(R.string.sign_up_email_input_validation_message)
+                else -> ""
+            }
+        }
+    }
     TextField(
-        modifier = modifier.fillMaxWidth(),
-        value = value,
+        modifier = Modifier
+            .testTag("email")
+            .fillMaxWidth(),
+        value = email,
         onValueChange = onValueChange,
         label = { Text(hint) },
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+        supportingText = { Text(supportingText) },
+        isError = supportingText.isNotBlank(),
     )
 }
 
@@ -30,7 +51,7 @@ fun EmailInputField(
 @Composable
 private fun EmailInputFieldPreview() {
     EmailInputField(
-        value = "",
+        email = "",
         onValueChange = {}
     )
 }
@@ -39,7 +60,7 @@ private fun EmailInputFieldPreview() {
 @Composable
 private fun EmailInputFieldPreviewWithLabel() {
     EmailInputField(
-        value = "",
+        email = "",
         onValueChange = {},
         hint = "Email",
     )
@@ -49,7 +70,7 @@ private fun EmailInputFieldPreviewWithLabel() {
 @Composable
 private fun EmailInputFieldPreviewWithValue() {
     EmailInputField(
-        value = "abc@nextstep.com",
+        email = "abc@nextstep.com",
         onValueChange = {},
     )
 }
@@ -58,7 +79,17 @@ private fun EmailInputFieldPreviewWithValue() {
 @Composable
 private fun EmailInputFieldPreviewWithValueAndLabel() {
     EmailInputField(
-        value = "abc@nextstep.com",
+        email = "abc@nextstep.com",
+        onValueChange = {},
+        hint = "Email",
+    )
+}
+
+@Preview
+@Composable
+private fun EmailInputFieldPreviewErrorEmailFormat() {
+    EmailInputField(
+        email = "abcnextstep.com",
         onValueChange = {},
         hint = "Email",
     )
