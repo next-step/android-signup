@@ -84,7 +84,7 @@ class SignUpScreenTest {
 
     @Test
     fun 유저_이름의_길이가_2이상_5이하일_경우_에러_메시지가_노출되지_않습니다() {
-       // when : 유저 이름의 길이가 3입니다.
+        // when : 유저 이름의 길이가 3입니다.
         val userName = "OYJ"
         composeTestRule.setContent {
             InputErrorText(userName, userNameErrorMsg, userNameRegex)

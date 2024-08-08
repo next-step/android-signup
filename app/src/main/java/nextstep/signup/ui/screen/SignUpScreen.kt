@@ -60,21 +60,40 @@ fun SignUpScreen() {
             verticalArrangement = Arrangement.spacedBy(32.dp)
         ) {
             Column {
-                SignUpTextField(text = userName, label =  "UserName", onTextValueChange = { userName = it })
-                InputErrorText(text = userName, errMsg =userNameErrorMsg , regex = userNameRegex)
+                SignUpTextField(
+                    text = userName,
+                    label = "UserName",
+                    onTextValueChange = { userName = it })
+                InputErrorText(text = userName, errMsg = userNameErrorMsg, regex = userNameRegex)
             }
             Column {
-                SignUpTextField(text = email, label =  "Email", onTextValueChange = { email = it })
+                SignUpTextField(
+                    text = email,
+                    label = "Email",
+                    onTextValueChange = { email = it }
+                )
                 InputErrorText(text = email, errMsg = emailErrorMsg, regex = emailRegex)
             }
             Column {
-                SignUpTextField(text = password, label =  "Password", isTextHidden = true, onTextValueChange = { password = it })
+                SignUpTextField(
+                    text = password,
+                    label = "Password",
+                    isTextHidden = true,
+                    onTextValueChange = { password = it })
                 InputErrorText(text = password, errMsg = passwordErrorMsg, regex = passwordRegex)
             }
             Column {
-                SignUpTextField(text = passwordConfirm, label =  "Password Confirm", isTextHidden = true, onTextValueChange = { passwordConfirm = it })
-                if(password != passwordConfirm){
-                    InputErrorText(text = passwordConfirm, errMsg = passwordConfirmErrorMsg, regex = "")
+                SignUpTextField(
+                    text = passwordConfirm,
+                    label = "Password Confirm",
+                    isTextHidden = true,
+                    onTextValueChange = { passwordConfirm = it })
+                if (password != passwordConfirm) {
+                    InputErrorText(
+                        text = passwordConfirm,
+                        errMsg = passwordConfirmErrorMsg,
+                        regex = ""
+                    )
                 }
             }
         }
