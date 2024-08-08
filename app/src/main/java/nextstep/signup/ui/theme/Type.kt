@@ -2,9 +2,18 @@ package nextstep.signup.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import nextstep.signup.R
+
+val RobotoRegular =
+    FontFamily(Font(resId = R.font.roboto_regular, weight = FontWeight.W400))
+val RobotoMedium =
+    FontFamily(Font(resId = R.font.roboto_medium, weight = FontWeight.W500))
+val RobotoBold =
+    FontFamily(Font(resId = R.font.roboto_bold, weight = FontWeight.W700))
 
 // Set of Material typography styles to start with
 val Typography = Typography(
