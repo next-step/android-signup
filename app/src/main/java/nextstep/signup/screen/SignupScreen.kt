@@ -48,6 +48,32 @@ private fun SignupTextField(
     )
 }
 
+@Composable
+fun SignupButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Button(
+        modifier = modifier.fillMaxWidth(),
+        onClick = { onClick() }
+    ) {
+        Text(
+            text = "Sign up",
+            color = Color.White,
+            fontSize = 14.sp,
+            style = MaterialTheme.typography.labelLarge
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SignupButtonPreview() {
+    SignupTheme {
+        SignupButton(onClick = {})
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun SignupScreenPreview() {
