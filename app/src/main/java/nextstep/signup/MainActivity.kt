@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -22,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -73,14 +76,30 @@ class MainActivity : ComponentActivity() {
                                 "Password Confirm",
                                 KeyboardType.Password
                             )
+                            SingUpButtonView(
+                                Modifier.padding(16.dp)
+                            )
                         }
                     },
-                    modifier = Modifier.background(
-                        color = Color(0xFFFFFFFF)
-                    )
+                    modifier = Modifier.padding(horizontal = 33.dp)
                 )
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun SingUpButtonView(
+    modifier: Modifier = Modifier
+) {
+    Button(
+        onClick = { /*TODO*/ },
+        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2196F3)),
+        modifier = modifier
+            .fillMaxWidth())
+    {
+        Text(text = "Sign Up", fontSize = 14.sp, color = Color(0xFFFFFFFF))
     }
 }
 
@@ -116,6 +135,7 @@ private fun TextFieldView(
             VisualTransformation.None
         },
         modifier = modifier
+            .fillMaxWidth()
             .onFocusChanged { focusState ->
                 isFocused.value = focusState.isFocused
             },
@@ -127,5 +147,10 @@ private fun TextFieldView(
 private fun TitleView(
     title: String = "Welcome to Compose \uD83D\uDE80"
 ) {
-    Text(text = title, fontSize = 26.sp, color = Color(0xFF000000))
+    Text(
+        text = title,
+        fontSize = 26.sp,
+        color = Color(0xFF000000),
+        fontWeight = FontWeight.Bold
+    )
 }
