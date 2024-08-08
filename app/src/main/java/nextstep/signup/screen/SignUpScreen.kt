@@ -41,7 +41,10 @@ fun SignUpScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(42.dp)
     ) {
-        SignUpTitle(text = stringResource(R.string.signup_title))
+        SignUpTitle(
+            modifier = Modifier.padding(top = 42.dp),
+            text = stringResource(R.string.signup_title)
+        )
 
         SignUpInputComponent(
             userName = userName,
@@ -66,7 +69,7 @@ fun SignUpTitle(
     modifier: Modifier = Modifier,
 ) {
     Text(
-        modifier = modifier.padding(top = 42.dp),
+        modifier = modifier,
         text = text,
         fontSize = 26.sp,
         fontWeight = FontWeight.Bold
@@ -152,6 +155,14 @@ fun SignUpButton(
 
 @Preview(showBackground = true)
 @Composable
+private fun SignUpTitlePreview() {
+    SignupTheme {
+        SignUpTitle("Welcome to Compose \uD83D\uDE80")
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
 private fun SignUpButtonPreview() {
     SignupTheme {
         SignUpButton(onClick = {})
@@ -172,7 +183,7 @@ private fun SignUpTextFieldPreview() {
     SignupTheme {
         SignUpTextField(
             text = "이지훈",
-            label = { Text(text = stringResource(R.string.signup_username)) },
+            label = { Text(text = "이름") },
             onValueChange = {}
         )
     }
