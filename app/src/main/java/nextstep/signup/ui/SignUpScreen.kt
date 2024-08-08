@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.R
 import nextstep.signup.ui.component.SignUpTextField
+import nextstep.signup.ui.component.UsernameTextField
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.SignupTheme
 
@@ -38,9 +39,9 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
 
     Column(
         modifier =
-        modifier
-            .fillMaxSize()
-            .padding(32.dp),
+            modifier
+                .fillMaxSize()
+                .padding(32.dp),
     ) {
         Text(
             text = stringResource(id = R.string.sign_up_title),
@@ -50,16 +51,15 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth(),
         )
 
-        SignUpTextField(
+        UsernameTextField(
             value = userName,
             onValueChange = { value ->
                 userName = value
             },
-            label = { Text(text = stringResource(id = R.string.sign_up_label_username)) },
             modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(top = 32.dp),
+                Modifier
+                    .fillMaxWidth()
+                    .padding(top = 32.dp),
         )
 
         SignUpTextField(
@@ -69,9 +69,10 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
             },
             label = { Text(text = stringResource(id = R.string.sign_up_label_email)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 32.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(top = 32.dp),
         )
 
         SignUpTextField(
@@ -82,9 +83,10 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
             label = { Text(text = stringResource(id = R.string.sign_up_label_password)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             visualTransformation = PasswordVisualTransformation(),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 32.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(top = 32.dp),
         )
 
         SignUpTextField(
@@ -95,23 +97,24 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
             label = { Text(text = stringResource(id = R.string.sign_up_label_password_confirm)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             visualTransformation = PasswordVisualTransformation(),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 32.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(top = 32.dp),
         )
 
         Button(
             onClick = { /*TODO*/ },
             colors =
-            ButtonDefaults.buttonColors(
-                containerColor = Blue50,
-                disabledContainerColor = Color(0x1D1820),
-            ),
+                ButtonDefaults.buttonColors(
+                    containerColor = Blue50,
+                    disabledContainerColor = Color(0x1D1820),
+                ),
             modifier =
-            Modifier
-                .padding(top = 42.dp)
-                .fillMaxWidth()
-                .height(50.dp),
+                Modifier
+                    .padding(top = 42.dp)
+                    .fillMaxWidth()
+                    .height(50.dp),
         ) {
             Text(
                 text = stringResource(id = R.string.button_sign_up),

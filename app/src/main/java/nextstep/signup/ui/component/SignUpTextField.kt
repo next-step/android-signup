@@ -29,6 +29,8 @@ fun SignUpTextField(
     shape: Shape = SignUpTextFieldDefaults.shape,
     colors: TextFieldColors = SignUpTextFieldDefaults.colors(),
     singleLine: Boolean = true,
+    isError: Boolean = false,
+    supportText: @Composable (() -> Unit)? = null,
 ) {
     TextField(
         value = value,
@@ -39,7 +41,9 @@ fun SignUpTextField(
         keyboardOptions = keyboardOptions,
         visualTransformation = visualTransformation,
         enabled = enabled,
+        isError = isError,
         singleLine = singleLine,
+        supportingText = supportText,
         modifier = modifier,
     )
 }

@@ -1,10 +1,8 @@
 package nextstep.signup.ui.component
 
-import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.remember
-import nextstep.signup.R
 
 @Immutable
 interface SignUpTextFieldValidation {
@@ -20,25 +18,29 @@ data class UsernameValidation(
     private val regex: String = USERNAME_REGEX,
     private val lengthRange: IntRange = USERNAME_LENGTH_RANGE,
 ) : SignUpTextFieldValidation {
+    override var errorType: SignUpTextFieldValidation.ValidationErrorType? = null
 
-    enum class ErrorType(
-        @StringRes resId: Int,
-    ) : SignUpTextFieldValidation.ValidationErrorType {
-        LENGTH(resId = R.string.error_username_length),
-        FORMAT(resId = R.string.error_username_format),
+    override fun isValid(): Boolean =
+        validateUsername(value).also {
+            errorType = it
+        } == null
+
+    private fun validateUsername(username: String): ErrorType? =
+        when {
+            username.isEmpty() -> null
+            username.length !in lengthRange -> ErrorType.LENGTH
+            !regex.toRegex().matches(username) -> ErrorType.FORMAT
+            else -> null
+        }
+
+    enum class ErrorType : SignUpTextFieldValidation.ValidationErrorType {
+        LENGTH,
+        FORMAT,
     }
 
     companion object {
         private const val USERNAME_REGEX = "^[a-zA-Z가-힣]*\$"
         private val USERNAME_LENGTH_RANGE = 2..5
-    }
-
-    override var errorType: SignUpTextFieldValidation.ValidationErrorType?
-        get() = TODO("Not yet implemented")
-        set(value) {}
-
-    override fun isValid(): Boolean {
-        TODO("Not yet implemented")
     }
 }
 
