@@ -61,7 +61,7 @@ fun SignUpScreen(
 }
 
 @Composable
-private fun SignUpTitle(
+fun SignUpTitle(
     text: String,
     modifier: Modifier = Modifier,
 ) {
@@ -75,7 +75,7 @@ private fun SignUpTitle(
 
 
 @Composable
-private fun SignUpInputComponent(
+fun SignUpInputComponent(
     userName: String,
     email: String,
     password: String,
@@ -121,7 +121,7 @@ private fun SignUpInputComponent(
 }
 
 @Composable
-private fun SignUpTextField(
+fun SignUpTextField(
     text: String,
     placeHolder: String,
     label: String,
