@@ -22,7 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import nextstep.signup.ui.component.TextFieldCompose
+import nextstep.signup.ui.component.SignUpTextField
 import org.junit.Rule
 import org.junit.Test
 
@@ -49,7 +49,7 @@ class SignUpScreenTest {
         val placeholder = "UserName"
 
         composeTestRule.setContent {
-            TextFieldCompose(placeholder = placeholder)
+            SignUpTextField(placeholder = placeholder)
         }
 
         composeTestRule
@@ -62,7 +62,20 @@ class SignUpScreenTest {
         val placeholder = "Email"
 
         composeTestRule.setContent {
-            TextFieldCompose(placeholder = placeholder)
+            SignUpTextField(placeholder = placeholder)
+        }
+
+        composeTestRule
+            .onNodeWithText(placeholder)
+            .assertExists()
+    }
+
+    @Test
+    fun passwordTextFieldTest() {
+        val placeholder = "Password"
+
+        composeTestRule.setContent {
+            SignUpTextField(placeholder = placeholder)
         }
 
         composeTestRule
@@ -87,15 +100,26 @@ fun TitleCompose(text: String) {
 }
 
 @Composable
+fun UserNameTextField(placeholder: String) {
+    SignUpTextField(placeholder = placeholder)
+}
+
+@Composable
+fun EmailTextField(placeholder: String) {
+    SignUpTextField(placeholder = placeholder)
+}
+
+
+@Composable
 fun PasswordTextField(placeholder: String) {
-    var text by remember { mutableStateOf("123") }
+    var text by remember { mutableStateOf("") }
 
     TextField(
         modifier = Modifier
             .fillMaxWidth()
             .testTag("user textField"),
         visualTransformation = PasswordVisualTransformation(),
-        placeholder = { Text(placeholder) },
+        label = { Text(placeholder) },
         value = text,
         onValueChange = { text = it }
     )
@@ -130,13 +154,13 @@ private fun TitleComposePreview() {
 )
 @Composable
 fun UserNameTextFieldComposePreview() {
-    TextFieldCompose("UserName")
+    UserNameTextField("UserName")
 }
 
 @Preview
 @Composable
 fun EmailTextFieldComposePreview() {
-    TextFieldCompose("Email")
+    EmailTextField("Email")
 }
 
 @Preview
