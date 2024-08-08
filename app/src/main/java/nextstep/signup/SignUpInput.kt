@@ -33,7 +33,7 @@ fun SignUpInput(
         label = { Text(text = label) },
         modifier = Modifier
             .fillMaxWidth()
-            .padding(20.dp)
+            .padding(top = 20.dp)
     )
 }
 
