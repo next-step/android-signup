@@ -2,6 +2,7 @@ package nextstep.signup.ui.component
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
@@ -12,10 +13,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.BlueGrey20
-import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
 fun SignUpTextField(
@@ -70,12 +72,21 @@ object SignUpTextFieldDefaults {
 
 @Preview(showBackground = true)
 @Composable
-fun SignUpTextFieldPreview() {
-    SignupTheme {
-        SignUpTextField(
-            value = "Hello, World!",
-            onValueChange = {},
-            label = { },
-        )
-    }
+fun SignUpTextFieldPreview(
+    @PreviewParameter(SignUpTextFieldPreviewParameterProvider::class) value: Pair<String, String>,
+) {
+    SignUpTextField(
+        value = value.first,
+        onValueChange = {},
+        label = { Text(text = value.second) },
+    )
+}
+
+class SignUpTextFieldPreviewParameterProvider : PreviewParameterProvider<Pair<String, String>> {
+    override val values: Sequence<Pair<String, String>>
+        get() =
+            sequenceOf(
+                "" to "Welcome",
+                "user" to "Welcome",
+            )
 }

@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -18,30 +17,70 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.R
-import nextstep.signup.ui.component.SignUpTextField
+import nextstep.signup.ui.component.EmailTextField
+import nextstep.signup.ui.component.PasswordConfirmTextField
+import nextstep.signup.ui.component.PasswordTextField
 import nextstep.signup.ui.component.UsernameTextField
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
-fun SignUpScreen(modifier: Modifier = Modifier) {
-    var userName by remember { mutableStateOf("") }
+fun SignUpRoute(modifier: Modifier = Modifier) {
+    var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordConfirm by remember { mutableStateOf("") }
 
-    Column(
+    val onUsernameChange = { value: String ->
+        username = value
+    }
+    val onEmailChange = { value: String ->
+        email = value
+    }
+    val onPasswordChange = { value: String ->
+        password = value
+    }
+    val onPasswordConfirmChange = { value: String ->
+        passwordConfirm = value
+    }
+
+    SignUpScreen(
+        username = username,
+        email = email,
+        password = password,
+        passwordConfirm = passwordConfirm,
+        onUsernameChange = onUsernameChange,
+        onEmailChange = onEmailChange,
+        onPasswordChange = onPasswordChange,
+        onPasswordConfirmChange = onPasswordConfirmChange,
         modifier =
             modifier
                 .fillMaxSize()
                 .padding(32.dp),
+    )
+}
+
+@Composable
+fun SignUpScreen(
+    username: String,
+    email: String,
+    password: String,
+    passwordConfirm: String,
+    onUsernameChange: (String) -> Unit,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onPasswordConfirmChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier,
     ) {
         Text(
             text = stringResource(id = R.string.sign_up_title),
@@ -52,51 +91,36 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
         )
 
         UsernameTextField(
-            value = userName,
-            onValueChange = { value ->
-                userName = value
-            },
+            value = username,
+            onValueChange = onUsernameChange,
             modifier =
                 Modifier
                     .fillMaxWidth()
                     .padding(top = 32.dp),
         )
 
-        SignUpTextField(
+        EmailTextField(
             value = email,
-            onValueChange = { value ->
-                email = value
-            },
-            label = { Text(text = stringResource(id = R.string.sign_up_label_email)) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            onValueChange = onEmailChange,
             modifier =
                 Modifier
                     .fillMaxWidth()
                     .padding(top = 32.dp),
         )
 
-        SignUpTextField(
+        PasswordTextField(
             value = password,
-            onValueChange = { value ->
-                password = value
-            },
-            label = { Text(text = stringResource(id = R.string.sign_up_label_password)) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            visualTransformation = PasswordVisualTransformation(),
+            onValueChange = onPasswordChange,
             modifier =
                 Modifier
                     .fillMaxWidth()
                     .padding(top = 32.dp),
         )
 
-        SignUpTextField(
+        PasswordConfirmTextField(
             value = passwordConfirm,
-            onValueChange = { value ->
-                passwordConfirm = value
-            },
-            label = { Text(text = stringResource(id = R.string.sign_up_label_password_confirm)) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            visualTransformation = PasswordVisualTransformation(),
+            target = password,
+            onValueChange = onPasswordConfirmChange,
             modifier =
                 Modifier
                     .fillMaxWidth()
@@ -125,8 +149,88 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewSignUpScreen() {
+fun SignUpScreenPreview(
+    @PreviewParameter(SignInUiStateProvider::class) uiState: SignUpUiState,
+) {
     SignupTheme {
-        SignUpScreen()
+        SignUpScreen(
+            username = uiState.username,
+            email = uiState.email,
+            password = uiState.password,
+            passwordConfirm = uiState.passwordConfirm,
+            onUsernameChange = {},
+            onEmailChange = {},
+            onPasswordChange = {},
+            onPasswordConfirmChange = {},
+        )
     }
+}
+
+// Preview 용 임시 데이터 클래스
+data class SignUpUiState(
+    val username: String,
+    val email: String,
+    val password: String,
+    val passwordConfirm: String,
+)
+
+class SignInUiStateProvider : PreviewParameterProvider<SignUpUiState> {
+    override val values: Sequence<SignUpUiState>
+        get() =
+            sequenceOf(
+                SignUpUiState(
+                    username = "user",
+                    email = "email@yopmail.com",
+                    password = "1q2w3e4r",
+                    passwordConfirm = "1q2w3e4r",
+                ),
+                SignUpUiState(
+                    username = "user",
+                    email = "",
+                    password = "",
+                    passwordConfirm = "",
+                ),
+                SignUpUiState(
+                    username = "user",
+                    email = "email@yopmail.com",
+                    password = "",
+                    passwordConfirm = "",
+                ),
+                SignUpUiState(
+                    username = "user",
+                    email = "email@yopmail.com",
+                    password = "",
+                    passwordConfirm = "",
+                ),
+                SignUpUiState(
+                    username = "user",
+                    email = "email@yopmail.com",
+                    password = "1q2w3e4r",
+                    passwordConfirm = "",
+                ),
+                SignUpUiState(
+                    username = "username",
+                    email = "email@yopmail.com",
+                    password = "1q2w3e4r",
+                    passwordConfirm = "1q2w3e4r",
+                ),
+                SignUpUiState(
+                    username = "user",
+                    email = "email@yopmail",
+                    password = "1q2w3e4r",
+                    passwordConfirm = "1q2w3e4r",
+                ),
+                SignUpUiState(
+                    username = "user",
+                    email = "email@yopmail.com",
+                    password = "1q2",
+                    passwordConfirm = "",
+                ),
+                SignUpUiState(
+                    username = "user",
+                    email = "email@yopmail.com",
+                    password = "1q2w3e4r",
+                    passwordConfirm = "1q2w3e4",
+                ),
+            )
 }

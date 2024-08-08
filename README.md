@@ -18,9 +18,9 @@
 - [v] 비밀번호 유효성 체크
   - [v] 비밀번호 유효성 체크 테스트 작성
   - [v] 비밀번호 유효성 체크 상세 구현
-- [] 비밀번호 확인 유효성 체크
-  - [] 비밀번호 확인 유효성 체크 테스트 작성
-  - [] 비밀번호 확인 유효성 체크 상세 구현
-- [] SignScreen 각 컴포넌트 교체
-  - [] SignScreen 컴포넌트 교체
-  - [] SignScreen Preview Parameter 추가
+- [v] 비밀번호 확인 유효성 체크
+  - [v] 비밀번호 확인 유효성 체크 테스트 작성
+  - [v] 비밀번호 확인 유효성 체크 상세 구현
+- [v] SignScreen 각 컴포넌트 교체
+  - [v] SignScreen 컴포넌트 교체
+  - [v] SignScreen Preview Parameter 추가

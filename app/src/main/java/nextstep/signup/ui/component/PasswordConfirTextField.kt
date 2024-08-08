@@ -7,6 +7,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import nextstep.signup.R
 import nextstep.signup.R.string
 
@@ -43,4 +46,22 @@ fun PasswordConfirmTextField(
         supportText = supportText,
         modifier = modifier,
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PasswordConfirmTextFieldPreview(
+    @PreviewParameter(PasswordConfirmTextFieldPreviewParameterProvider::class) value: Pair<String, String>,
+) {
+    PasswordConfirmTextField(value = value.first, target = value.second, onValueChange = {})
+}
+
+class PasswordConfirmTextFieldPreviewParameterProvider : PreviewParameterProvider<Pair<String, String>> {
+    override val values: Sequence<Pair<String, String>>
+        get() =
+            sequenceOf(
+                "password1234" to "password1234",
+                "password1234" to "password123",
+                "" to "",
+            )
 }
