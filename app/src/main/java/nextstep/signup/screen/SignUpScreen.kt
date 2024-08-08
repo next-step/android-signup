@@ -19,10 +19,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.R
+import nextstep.signup.ui.ThemePreviews
 import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
@@ -72,7 +72,8 @@ fun SignUpTitle(
         modifier = modifier,
         text = text,
         fontSize = 26.sp,
-        fontWeight = FontWeight.Bold
+        fontWeight = FontWeight.Bold,
+        color = MaterialTheme.colorScheme.primary
     )
 }
 
@@ -153,7 +154,7 @@ fun SignUpButton(
     }
 }
 
-@Preview(showBackground = true)
+@ThemePreviews
 @Composable
 private fun SignUpTitlePreview() {
     SignupTheme {
@@ -161,7 +162,7 @@ private fun SignUpTitlePreview() {
     }
 }
 
-@Preview(showBackground = true)
+@ThemePreviews
 @Composable
 private fun SignUpButtonPreview() {
     SignupTheme {
@@ -169,7 +170,7 @@ private fun SignUpButtonPreview() {
     }
 }
 
-@Preview(showBackground = true)
+@ThemePreviews
 @Composable
 private fun SignUpScreenPreview() {
     SignupTheme {
@@ -177,7 +178,7 @@ private fun SignUpScreenPreview() {
     }
 }
 
-@Preview(showBackground = true)
+@ThemePreviews
 @Composable
 private fun SignUpTextFieldPreview() {
     SignupTheme {
