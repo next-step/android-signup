@@ -5,11 +5,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -32,6 +36,7 @@ import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.BlueGray20
 import nextstep.signup.ui.theme.Gray
 import nextstep.signup.ui.theme.RobotoBold
+import nextstep.signup.ui.theme.RobotoMedium
 import nextstep.signup.ui.theme.RobotoRegular
 import nextstep.signup.ui.theme.SignupTheme
 
@@ -59,7 +64,7 @@ fun SignUpScreen() {
         modifier = Modifier
             .fillMaxSize()
             .background(color = Color.White)
-            .padding(horizontal = 20.dp),
+            .padding(horizontal = 32.dp),
     ) {
         val (userName, setUserName) = remember { mutableStateOf("") }
         val (email, setEmail) = remember { mutableStateOf("") }
@@ -99,6 +104,27 @@ fun SignUpScreen() {
             text = passwordConfirm,
             visualTransformation = PasswordVisualTransformation(),
         )
+        Spacer(modifier = Modifier.height(42.dp))
+        SignUpButton()
+    }
+}
+
+@Composable
+private fun SignUpButton() {
+    Button(
+        onClick = {
+            // 유효성 검사
+        },
+        colors = ButtonDefaults.buttonColors(containerColor = Blue50),
+        contentPadding = PaddingValues(vertical = 15.dp),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(
+            text = stringResource(R.string.signup_button),
+            fontSize = 14.sp,
+            color = Color.White,
+            fontFamily = RobotoMedium,
+        )
     }
 }
 
@@ -131,13 +157,15 @@ fun SignUpTextField(
             focusedIndicatorColor = Blue50,
         ),
         visualTransformation = visualTransformation,
-        modifier = Modifier.background(
-            color = Color.Transparent,
-            shape = RoundedCornerShape(
-                topStart = 4.dp,
-                topEnd = 4.dp,
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                color = Color.Transparent,
+                shape = RoundedCornerShape(
+                    topStart = 4.dp,
+                    topEnd = 4.dp,
+                ),
             ),
-        ),
     )
 }
 
