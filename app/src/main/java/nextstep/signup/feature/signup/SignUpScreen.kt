@@ -38,7 +38,6 @@ fun SignUpScreen() {
             var username by remember { mutableStateOf("") }
             var email by remember { mutableStateOf("") }
             var password by remember { mutableStateOf("") }
-            var passwordConfirm by remember { mutableStateOf("") }
 
             Text(
                 text = stringResource(R.string.sign_up_title),
@@ -57,17 +56,9 @@ fun SignUpScreen() {
             )
             Spacer(modifier = Modifier.height(16.dp))
             PasswordInputField(
-                modifier = Modifier.testTag("password"),
-                value = password,
+                password = password,
                 onValueChange = { password = it },
-                hint = stringResource(R.string.sign_up_password),
-            )
-            Spacer(modifier = Modifier.height(36.dp))
-            PasswordInputField(
-                modifier = Modifier.testTag("passwordConfirm"),
-                value = passwordConfirm,
-                onValueChange = { passwordConfirm = it },
-                hint = stringResource(R.string.sign_up_password_confirm),
+                space = 16.dp,
             )
             Spacer(modifier = Modifier.height(42.dp))
             Button(
