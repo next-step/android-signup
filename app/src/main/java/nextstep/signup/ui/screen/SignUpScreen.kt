@@ -16,7 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import nextstep.signup.ui.component.TextFieldCompose
+import nextstep.signup.ui.component.SignUpTextField
 
 @Composable
 fun SignUpScreen() {
@@ -40,10 +40,10 @@ fun SignUpScreen() {
             modifier = Modifier.padding(top = 62.dp),
             verticalArrangement = Arrangement.spacedBy(32.dp)
         ) {
-            TextFieldCompose("UserName")
-            TextFieldCompose("Email")
-            TextFieldCompose("Password", isTextHidden = true)
-            TextFieldCompose("Password Confirm", isTextHidden = true)
+            SignUpTextField("UserName")
+            SignUpTextField("Email")
+            SignUpTextField("Password", isTextHidden = true)
+            SignUpTextField("Password Confirm", isTextHidden = true)
         }
 
         Button(

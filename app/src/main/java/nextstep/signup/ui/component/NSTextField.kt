@@ -14,7 +14,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 
 @Composable
-fun TextFieldCompose(placeholder: String, isTextHidden: Boolean = false) {
+fun SignUpTextField(placeholder: String, isTextHidden: Boolean = false) {
     var text by remember { mutableStateOf("") }
 
     TextField(
