@@ -24,6 +24,7 @@ fun TextFieldCompose(placeholder: String, isTextHidden: Boolean = false) {
         visualTransformation = if (isTextHidden) PasswordVisualTransformation() else VisualTransformation.None,
         placeholder = { Text(placeholder) },
         value = text,
+        maxLines = 1,
         onValueChange = { text = it }
     )
 }
