@@ -25,15 +25,6 @@ import nextstep.signup.ui.component.PasswordConfirmTextField
 import nextstep.signup.ui.component.PasswordTextField
 import nextstep.signup.ui.component.UserNameTextField
 
-const val userNameRegex = "^[a-zA-Z가-힣]{2,6}$"
-const val emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
-const val passwordRegex = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$"
-
-const val userNameErrorMsg = "이름은 2~5자여야 합니다.\n이름에는 숫자나 기호가 포함될 수 없습니다."
-const val emailErrorMsg = "이메일 형식이 올바르지 않습니다."
-const val passwordErrorMsg = "비밀번호는 8~16자, 영문, 숫자 조합이어야 합니다.\n비밀번호는 영문과 숫자를 포함해야 합니다."
-const val passwordConfirmErrorMsg = "비밀번호가 일치하지 않습니다."
-
 @Composable
 fun SignUpScreen() {
     var userName by rememberSaveable { mutableStateOf("") }

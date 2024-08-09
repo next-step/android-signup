@@ -1,9 +1,11 @@
 package nextstep.signup
 
+import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import androidx.test.core.app.ApplicationProvider
 import nextstep.signup.ui.component.EmailTextField
 import nextstep.signup.ui.component.PasswordConfirmTextField
 import nextstep.signup.ui.component.PasswordTextField
@@ -15,6 +17,7 @@ import org.junit.Test
 class InputValidationTest {
     @get:Rule
     val composeTestRule = createComposeRule()
+    var context: Context = ApplicationProvider.getApplicationContext()
     private val username = mutableStateOf("")
     private val email = mutableStateOf("")
     private val password = mutableStateOf("")
@@ -24,20 +27,13 @@ class InputValidationTest {
     fun setup() {
         composeTestRule.setContent {
             Column {
-                UserNameTextField(
-                    text = username.value,
-                    onTextValueChange = { username.value = it }
-                )
+                UserNameTextField(text = username.value,
+                    onTextValueChange = { username.value = it })
 
-                EmailTextField(
-                    text = email.value,
-                    onTextValueChange = { email.value = it }
-                )
+                EmailTextField(text = email.value, onTextValueChange = { email.value = it })
 
-                PasswordTextField(
-                    text = password.value,
-                    onTextValueChange = { password.value = it }
-                )
+                PasswordTextField(text = password.value,
+                    onTextValueChange = { password.value = it })
 
                 PasswordConfirmTextField(
                     text = passwordConfirm.value,
@@ -54,8 +50,7 @@ class InputValidationTest {
         username.value = "김컴포즈"
 
         // then
-        composeTestRule
-            .onNodeWithText(userNameErrorMsg)
+        composeTestRule.onNodeWithText(context.getString(R.string.err_msg_user_name))
             .assertDoesNotExist()
     }
 
@@ -65,9 +60,7 @@ class InputValidationTest {
         username.value = "김컴포즈입니다"
 
         // then
-        composeTestRule
-            .onNodeWithText(userNameErrorMsg)
-            .assertExists()
+        composeTestRule.onNodeWithText(context.getString(R.string.err_msg_user_name)).assertExists()
     }
 
     @Test
@@ -76,9 +69,7 @@ class InputValidationTest {
         email.value = "oyj7677@gmail"
 
         // then
-        composeTestRule
-            .onNodeWithText(emailErrorMsg)
-            .assertExists()
+        composeTestRule.onNodeWithText(context.getString(R.string.err_msg_email)).assertExists()
     }
 
     @Test
@@ -87,8 +78,7 @@ class InputValidationTest {
         email.value = "oyj7677@gmail.com"
 
         // then
-        composeTestRule
-            .onNodeWithText(emailErrorMsg)
+        composeTestRule.onNodeWithText(context.getString(R.string.err_msg_email))
             .assertDoesNotExist()
     }
 
@@ -98,8 +88,7 @@ class InputValidationTest {
         password.value = "12345678dd"
 
         // then
-        composeTestRule
-            .onNodeWithText(passwordErrorMsg)
+        composeTestRule.onNodeWithText(context.getString(R.string.err_msg_password))
             .assertDoesNotExist()
     }
 
@@ -109,9 +98,7 @@ class InputValidationTest {
         password.value = "12345678901234567"
 
         // then
-        composeTestRule
-            .onNodeWithText(passwordErrorMsg)
-            .assertExists()
+        composeTestRule.onNodeWithText(context.getString(R.string.err_msg_password)).assertExists()
     }
 
     @Test
@@ -120,9 +107,7 @@ class InputValidationTest {
         password.value = "12345678"
 
         // then
-        composeTestRule
-            .onNodeWithText(passwordErrorMsg)
-            .assertExists()
+        composeTestRule.onNodeWithText(context.getString(R.string.err_msg_password)).assertExists()
     }
 
     @Test
@@ -131,17 +116,6 @@ class InputValidationTest {
         password.value = "12345678@"
 
         // then
-        composeTestRule
-            .onNodeWithText(passwordErrorMsg)
-            .assertExists()
-    }
-
-
-    companion object {
-        private const val userNameErrorMsg = "이름은 2~5자여야 합니다.\n이름에는 숫자나 기호가 포함될 수 없습니다."
-        private const val emailErrorMsg = "이메일 형식이 올바르지 않습니다."
-        private const val passwordErrorMsg =
-            "비밀번호는 8~16자, 영문, 숫자 조합이어야 합니다.\n비밀번호는 영문과 숫자를 포함해야 합니다."
-        private const val passwordConfirmErrorMsg = "비밀번호가 일치하지 않습니다."
+        composeTestRule.onNodeWithText(context.getString(R.string.err_msg_password)).assertExists()
     }
 }
