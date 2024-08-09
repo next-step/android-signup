@@ -23,7 +23,7 @@ fun ValidatedTextField(
 ) {
     var errorRes by remember { mutableStateOf<Int?>(null) }
 
-    LaunchedEffect(field.value) {
+    LaunchedEffect(field.value, field.validator) {
         if (field.value.isEmpty()) return@LaunchedEffect
         val result = field.validator.validate(field.value)
         errorRes = if (result.isValid.not()) result.message else null
