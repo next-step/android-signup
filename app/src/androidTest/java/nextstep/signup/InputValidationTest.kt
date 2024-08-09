@@ -3,10 +3,12 @@ package nextstep.signup
 import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.test.core.app.ApplicationProvider
 import nextstep.signup.ui.component.EmailTextField
+import nextstep.signup.ui.component.InputErrorText
 import nextstep.signup.ui.component.PasswordConfirmTextField
 import nextstep.signup.ui.component.PasswordTextField
 import nextstep.signup.ui.component.UserNameTextField
@@ -18,28 +20,81 @@ class InputValidationTest {
     @get:Rule
     val composeTestRule = createComposeRule()
     var context: Context = ApplicationProvider.getApplicationContext()
-    private val username = mutableStateOf("")
+
+    private val userName = mutableStateOf("")
     private val email = mutableStateOf("")
     private val password = mutableStateOf("")
     private val passwordConfirm = mutableStateOf("")
+
+    private val userNameValid = mutableStateOf(false)
+    private val emailValid = mutableStateOf(false)
+    private val passwordValid = mutableStateOf(false)
+    private val passwordConfirmValid = mutableStateOf(false)
 
     @Before
     fun setup() {
         composeTestRule.setContent {
             Column {
-                UserNameTextField(text = username.value,
-                    onTextValueChange = { username.value = it })
+                Column {
+                    UserNameTextField(text = userName.value,
+                        onTextValueChange = { userName.value = it })
 
-                EmailTextField(text = email.value, onTextValueChange = { email.value = it })
+                    userNameValid.value =
+                        userName.value.matches(Regex(stringResource(id = R.string.regex_user_name)))
 
-                PasswordTextField(text = password.value,
-                    onTextValueChange = { password.value = it })
+                    if (userName.value.isNotEmpty()) {
+                        InputErrorText(
+                            stringResource(id = R.string.err_msg_user_name),
+                            userNameValid.value
+                        )
+                    }
+                }
 
-                PasswordConfirmTextField(
-                    text = passwordConfirm.value,
-                    onTextValueChange = { passwordConfirm.value = it },
-                    password = password.value
-                )
+                Column {
+                    EmailTextField(text = email.value, onTextValueChange = { email.value = it })
+
+                    emailValid.value =
+                        email.value.matches(Regex(stringResource(id = R.string.regex_email)))
+
+                    if (email.value.isNotEmpty()) {
+                        InputErrorText(
+                            stringResource(id = R.string.err_msg_email),
+                            emailValid.value
+                        )
+                    }
+                }
+
+                Column {
+                    PasswordTextField(text = password.value,
+                        onTextValueChange = { password.value = it })
+
+                    passwordValid.value =
+                        password.value.matches(Regex(stringResource(id = R.string.regex_password)))
+
+                    if (password.value.isNotEmpty()) {
+                        InputErrorText(
+                            stringResource(id = R.string.err_msg_password),
+                            passwordValid.value
+                        )
+                    }
+                }
+
+                Column {
+                    PasswordConfirmTextField(
+                        text = passwordConfirm.value,
+                        onTextValueChange = { passwordConfirm.value = it },
+                        password = password.value
+                    )
+
+                    passwordConfirmValid.value = password.value == passwordConfirm.value
+
+                    if (passwordConfirm.value.isNotEmpty()) {
+                        InputErrorText(
+                            stringResource(id = R.string.err_msg_password_confirm),
+                            passwordConfirmValid.value
+                        )
+                    }
+                }
             }
         }
     }
@@ -47,7 +102,7 @@ class InputValidationTest {
     @Test
     fun 사용자_이름은_2에서_5자여야_한다() {
         // when
-        username.value = "김컴포즈"
+        userName.value = "김컴포즈"
 
         // then
         composeTestRule.onNodeWithText(context.getString(R.string.err_msg_user_name))
@@ -57,7 +112,7 @@ class InputValidationTest {
     @Test
     fun 사용자_이름이_2에서_5자가_아니면_에러메시지가_노출된다() {
         // when
-        username.value = "김컴포즈입니다"
+        userName.value = "김컴포즈입니다"
 
         // then
         composeTestRule.onNodeWithText(context.getString(R.string.err_msg_user_name)).assertExists()
