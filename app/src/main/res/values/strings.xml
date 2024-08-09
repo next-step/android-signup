@@ -1,12 +1,16 @@
 <resources>
     <string name="app_name">Signup</string>
+    <string name="user_name">UserName</string>
     <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="password_confirm">Password Confirm</string>
+
     <string name="err_msg_user_name">이름은 2~5자여야 합니다.\n이름에는 숫자나 기호가 포함될 수 없습니다.</string>
     <string name="err_msg_email">이메일 형식이 올바르지 않습니다.</string>
     <string name="err_msg_password">비밀번호는 8~16자, 영문, 숫자 조합이어야 합니다.\n비밀번호는 영문과 숫자를 포함해야 합니다.</string>
     <string name="err_msg_password_confirm">비밀번호가 일치하지 않습니다.</string>
 
-    <string name="regex_user_name">^[a-zA-Z가-힣]{2,6}$</string>
+    <string name="regex_user_name">^[a-zA-Z가-힣]{2,5}$</string>
     <string name="regex_email">^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$</string>
     <string name="regex_password">^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$</string>
 </resources>

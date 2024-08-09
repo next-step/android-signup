@@ -6,8 +6,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun InputErrorText(errMsg: String, isError: Boolean) {
-    if (isError) {
+fun InputErrorText(errMsg: String, validResult: Boolean) {
+    if (!validResult) {
         Text(text = errMsg, color = Color.Red)
     }
 }
