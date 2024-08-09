@@ -29,11 +29,11 @@
 1. 유효성 검사 로직에 대한 테스트 코드를 추가한다.
 
 # 기능 목록
-- [] 유저 이름 TextField 컴포넌트 생성
-- [] 유저 이름 TextField 유효성 검사
-- [] 이메일 TextField 컴포넌트 생성
-- [] 이메일 TextField 유효성 검사
-- [] 비밀번호 TextField 컴포넌트 생성
-- [] 비밀번호 TextField 유효성 검사
-- [] 비밀번호 확인 TextField 컴포넌트 생성
-- [] 비밀번호 확인 TextField 유효성 검사
+- [O] 유저 이름 TextField 컴포넌트 생성
+- [O] 유저 이름 TextField 유효성 검사
+- [O] 이메일 TextField 컴포넌트 생성
+- [O] 이메일 TextField 유효성 검사
+- [O] 비밀번호 TextField 컴포넌트 생성
+- [O] 비밀번호 TextField 유효성 검사
+- [O] 비밀번호 확인 TextField 컴포넌트 생성
+- [O] 비밀번호 확인 TextField 유효성 검사
