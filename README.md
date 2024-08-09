@@ -10,3 +10,12 @@
 - Password TextField 구현
 - Password Confirm TextField 구현
 - Sign up Button 구현
+
+## step3
+디자인 시안을 참고하여 회원가입 뷰에 유효성 검사 로직을 추가한다
+
+### 기능 요구 사항
+- [ ] Username validation
+- [ ] Email validation
+- [ ] Password validation
+- [ ] Password Confirm validation
