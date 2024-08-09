@@ -12,9 +12,12 @@ import nextstep.signup.core.validation.PasswordMatchValidator
 import nextstep.signup.core.validation.PasswordValidator
 import nextstep.signup.core.validation.Validator
 import org.junit.Before
+import org.junit.FixMethodOrder
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runners.MethodSorters
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class ValidatedTextFieldTest {
 
     @get:Rule

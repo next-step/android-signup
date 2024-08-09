@@ -19,9 +19,9 @@
 - [x] 이름 / 이메일 / 비밀번호 / 비밀번호 확인의 Validation Check가 가능한 클래스 구현
 - [x] Validation Check 테스트 코드 구현
 - [x] UserName / Email / Password / Password Confirm 에 Validation Check 추가
-- [ ] 각 컴포넌트에 테스트 코드 구현
- - [ ] 성공 케이스
- - [ ] 실페 케이스
+- [x] 각 컴포넌트에 테스트 코드 구현
+ - [x] 성공 케이스
+ - [x] 실페 케이스
 
 
 ### 삽질 기록
