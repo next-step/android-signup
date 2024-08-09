@@ -27,6 +27,8 @@ import nextstep.signup.R
 import nextstep.signup.ui.component.NSTextField
 import nextstep.signup.ui.theme.Blue50
 
+private const val USERNAME_REGEX = "^[a-zA-Z가-힣]+$"
+
 @Composable
 fun SignUpScreen(
     modifier: Modifier = Modifier,
@@ -54,6 +56,7 @@ fun SignUpScreen(
             value = username,
             onValueChange = { username = it },
             labelValue = stringResource(id = R.string.username),
+            supportingTextValue = getUsernameSupportingText(username),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 32.dp),
@@ -100,6 +103,19 @@ fun SignUpScreen(
             Text(text = stringResource(id = R.string.sign_up))
         }
     }
+}
+
+@Composable
+fun getUsernameSupportingText(username: String): String? {
+    if (username.length < 2 || username.length > 5) {
+        return stringResource(id = R.string.username_length_error)
+    }
+
+    if(!username.matches(Regex(USERNAME_REGEX))) {
+        return stringResource(id = R.string.username_regex_error)
+    }
+
+    return null
 }
 
 @Preview(showBackground = true)
