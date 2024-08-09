@@ -16,6 +16,6 @@
 
 ### 기능 요구 사항
 - [x] Username validation
-- [ ] Email validation
+- [x] Email validation
 - [ ] Password validation
 - [ ] Password Confirm validation

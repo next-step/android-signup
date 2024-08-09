@@ -28,6 +28,7 @@ import nextstep.signup.ui.component.NSTextField
 import nextstep.signup.ui.theme.Blue50
 
 private const val USERNAME_REGEX = "^[a-zA-Z가-힣]+$"
+private const val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
 
 @Composable
 fun SignUpScreen(
@@ -67,6 +68,7 @@ fun SignUpScreen(
             onValueChange = { email = it },
             labelValue = stringResource(id = R.string.email),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            supportingTextValue = getEmailSupportingText(email),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 32.dp),
@@ -113,6 +115,15 @@ fun getUsernameSupportingText(username: String): String? {
 
     if(!username.matches(Regex(USERNAME_REGEX))) {
         return stringResource(id = R.string.username_regex_error)
+    }
+
+    return null
+}
+
+@Composable
+fun getEmailSupportingText(email: String): String? {
+    if(!email.matches(Regex(EMAIL_REGEX))) {
+        return stringResource(id = R.string.email_regex_error)
     }
 
     return null
