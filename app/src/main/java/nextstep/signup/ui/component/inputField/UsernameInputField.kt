@@ -1,7 +1,6 @@
 package nextstep.signup.ui.component.inputField
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -12,36 +11,36 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import nextstep.signup.R
 import nextstep.signup.util.SignUpInputValidation
 
 @Composable
-fun EmailInputField(
-    email: String,
+fun UsernameInputField(
+    username: String,
     onValueChange: (String) -> Unit,
-    hint: String = stringResource(R.string.sign_up_email),
+    hint: String = stringResource(R.string.sign_up_username),
 ) {
     val context = LocalContext.current
-    val supportingText by remember(email) {
+    val supportingText by remember(username) {
         derivedStateOf {
             when {
-                email.isBlank() -> ""
-                !email.matches(SignUpInputValidation.EMAIL_REGEX.toRegex()) -> context.getString(R.string.sign_up_email_input_validation_message)
+                username.isBlank() -> ""
+                !username.matches(SignUpInputValidation.USERNAME_LENGTH_REGEX.toRegex()) -> context.getString(R.string.sign_up_username_input_validation_length_message)
+                !username.matches(SignUpInputValidation.USERNAME_REGEX.toRegex()) -> context.getString(R.string.sign_up_username_input_validation_message)
                 else -> ""
             }
         }
     }
+
     TextField(
         modifier = Modifier
-            .testTag("email")
+            .testTag("username")
             .fillMaxWidth(),
-        value = email,
+        value = username,
         onValueChange = onValueChange,
         label = { Text(hint) },
         singleLine = true,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
         supportingText = { Text(supportingText) },
         isError = supportingText.isNotBlank(),
     )
@@ -49,48 +48,38 @@ fun EmailInputField(
 
 @Preview
 @Composable
-private fun EmailInputFieldPreview() {
-    EmailInputField(
-        email = "",
+private fun TextInputFieldPreview() {
+    UsernameInputField(
+        username = "",
         onValueChange = {}
     )
 }
 
 @Preview
 @Composable
-private fun EmailInputFieldPreviewWithLabel() {
-    EmailInputField(
-        email = "",
+private fun TextInputFieldPreviewWithLabel() {
+    UsernameInputField(
+        username = "",
         onValueChange = {},
-        hint = "Email",
+        hint = "Username",
     )
 }
 
 @Preview
 @Composable
-private fun EmailInputFieldPreviewWithValue() {
-    EmailInputField(
-        email = "abc@nextstep.com",
+private fun TextInputFieldPreviewWithValue() {
+    UsernameInputField(
+        username = "username",
         onValueChange = {},
     )
 }
 
 @Preview
 @Composable
-private fun EmailInputFieldPreviewWithValueAndLabel() {
-    EmailInputField(
-        email = "abc@nextstep.com",
+private fun TextInputFieldPreviewWithValueAndLabel() {
+    UsernameInputField(
+        username = "username",
         onValueChange = {},
-        hint = "Email",
-    )
-}
-
-@Preview
-@Composable
-private fun EmailInputFieldPreviewErrorEmailFormat() {
-    EmailInputField(
-        email = "abcnextstep.com",
-        onValueChange = {},
-        hint = "Email",
+        hint = "Username",
     )
 }
