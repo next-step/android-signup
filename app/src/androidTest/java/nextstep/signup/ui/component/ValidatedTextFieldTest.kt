@@ -1,4 +1,4 @@
-package nextstep.signup.screen
+package nextstep.signup.ui.component
 
 import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
@@ -9,7 +9,7 @@ import nextstep.signup.core.validation.NameValidator
 import org.junit.Rule
 import org.junit.Test
 
-class ValidatedSignUpTextFieldTextFieldTest {
+class ValidatedTextFieldTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -30,7 +30,7 @@ class ValidatedSignUpTextFieldTextFieldTest {
     @Test
     fun signUpEmptyTextField() {
         composeTestRule.setContent {
-            ValidatedSignUpTextField(
+            ValidatedTextField(
                 InputFieldModel(
                     value = emptyText,
                     onValueChange = {},
@@ -58,7 +58,7 @@ class ValidatedSignUpTextFieldTextFieldTest {
     @Test
     fun signUpTextField() {
         composeTestRule.setContent {
-            ValidatedSignUpTextField(
+            ValidatedTextField(
                 InputFieldModel(
                     value = userName,
                     onValueChange = {},

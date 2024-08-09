@@ -1,4 +1,4 @@
-package nextstep.signup.screen
+package nextstep.signup.ui.component
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.input.VisualTransformation

@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,6 +27,8 @@ import nextstep.signup.core.validation.NameValidator
 import nextstep.signup.core.validation.PasswordMatchValidator
 import nextstep.signup.core.validation.PasswordValidator
 import nextstep.signup.ui.ThemePreviews
+import nextstep.signup.ui.component.InputFieldModel
+import nextstep.signup.ui.component.ValidatedTextField
 import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
@@ -84,7 +85,7 @@ private fun SignUpTitle(
 
 
 @Composable
-fun SignUpInputComponent(
+private fun SignUpInputComponent(
     userName: String,
     email: String,
     password: String,
@@ -129,41 +130,12 @@ fun SignUpInputComponent(
         verticalArrangement = Arrangement.spacedBy(36.dp)
     ) {
         fields.forEach { validationData ->
-            ValidatedSignUpTextField(validationData)
+            ValidatedTextField(validationData)
         }
     }
 }
 
-@Composable
-fun ValidatedSignUpTextField(
-    field: InputFieldModel,
-    modifier: Modifier = Modifier,
-) {
-    var error by remember { mutableStateOf<String?>(null) }
-    Column(modifier = modifier) {
-        TextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = field.value,
-            label = field.label,
-            isError = error != null,
-            onValueChange = {
-                field.onValueChange(it)
-                val result = field.validator.validate(it)
-                error = if (!result.isValid) result.message else null
-            },
-            singleLine = true,
-            visualTransformation = field.visualTransformation
-        )
-        error?.let {
-            Text(
-                text = it,
-                color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.labelSmall,
-                modifier = Modifier.padding(start = 16.dp, top = 4.dp)
-            )
-        }
-    }
-}
+
 
 @Composable
 private fun SignUpButton(
@@ -211,7 +183,7 @@ private fun SignUpScreenPreview() {
 @Composable
 private fun SignUpTextFieldPreview() {
     SignupTheme {
-        ValidatedSignUpTextField(
+        ValidatedTextField(
             InputFieldModel(
                 value = "이지훈",
                 onValueChange = {},
@@ -226,7 +198,7 @@ private fun SignUpTextFieldPreview() {
 @Composable
 private fun SignUpTextFieldErrorPreview() {
     SignupTheme {
-        ValidatedSignUpTextField(
+        ValidatedTextField(
             InputFieldModel(
                 value = "이지훈입니다.",
                 onValueChange = {},
