@@ -7,6 +7,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,17 +22,19 @@ fun ValidatedTextField(
     modifier: Modifier = Modifier,
 ) {
     var errorRes by remember { mutableStateOf<Int?>(null) }
+
+    LaunchedEffect(field.value) {
+        val result = field.validator.validate(field.value)
+        errorRes = if (result.isValid.not()) result.message else null
+    }
+
     Column(modifier = modifier) {
         TextField(
             modifier = Modifier.fillMaxWidth(),
             value = field.value,
             label = field.label,
             isError = errorRes != null,
-            onValueChange = {
-                field.onValueChange(it)
-                val result = field.validator.validate(it)
-                errorRes = if (result.isValid.not()) result.message else null
-            },
+            onValueChange = { field.onValueChange(it) },
             singleLine = true,
             visualTransformation = field.visualTransformation
         )
