@@ -7,13 +7,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
+import nextstep.signup.ui.theme.Blue50
+import nextstep.signup.ui.theme.Gray10
+import nextstep.signup.ui.theme.Gray40
 import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
@@ -35,6 +41,47 @@ fun SignUpScreen(
                 style = MaterialTheme.typography.headlineMedium
             )
         }
+    }
+}
+
+@Composable
+fun SignUpTextFiled(
+    text: String,
+    onValueChange: (String) -> Unit,
+    labelText: String,
+    modifier: Modifier = Modifier,
+    visualTransformation: VisualTransformation = VisualTransformation.None
+) {
+    TextField(
+        modifier = modifier,
+        value = text,
+        onValueChange = onValueChange,
+        label = {
+            Text(
+                text = labelText
+            )
+        },
+        colors = TextFieldDefaults.colors(
+            focusedLabelColor = Blue50,
+            focusedIndicatorColor = Blue50,
+            unfocusedLabelColor = Gray40,
+            cursorColor = Blue50,
+            focusedTextColor = Gray10,
+            unfocusedTextColor = Gray10
+        ),
+        visualTransformation = visualTransformation
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SignUpTextFiledPreview() {
+    SignupTheme {
+        SignUpTextFiled(
+            text = "",
+            labelText = "Preview",
+            onValueChange = {}
+        )
     }
 }
 
