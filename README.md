@@ -13,3 +13,12 @@
 - [x] SignupButton 구현
 - [x] UI 컴포넌트 조합
 - [x] 테스트 코드 확인
+
+## step3
+
+- [ ] 이름 / 이메일 / 비밀번호 / 비밀번호 확인의 Validation Check가 가능한 클래스 구현
+- [ ] Validation Check 테스트 코드 구현
+- [ ] UserName / Email / Password / Password Confirm 에 Validation Check 추가
+- [ ] 각 컴포넌트에 테스트 코드 구현
+ - [ ] 성공 케이스
+ - [ ] 실페 케이스
