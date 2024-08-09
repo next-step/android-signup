@@ -91,6 +91,7 @@ fun SignUpScreen(
             onValueChange = { passwordConfirm = it },
             labelValue = stringResource(id = R.string.password_confirm),
             visualTransformation = PasswordVisualTransformation(),
+            supportingTextValue = getPasswordConfirmSupportingText(password, passwordConfirm),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 32.dp),
@@ -115,7 +116,7 @@ fun getUsernameSupportingText(username: String): String? {
         return stringResource(id = R.string.username_length_error)
     }
 
-    if(!username.matches(Regex(USERNAME_REGEX))) {
+    if (!username.matches(Regex(USERNAME_REGEX))) {
         return stringResource(id = R.string.username_regex_error)
     }
 
@@ -124,7 +125,7 @@ fun getUsernameSupportingText(username: String): String? {
 
 @Composable
 fun getEmailSupportingText(email: String): String? {
-    if(!email.matches(Regex(EMAIL_REGEX))) {
+    if (!email.matches(Regex(EMAIL_REGEX))) {
         return stringResource(id = R.string.email_regex_error)
     }
 
@@ -136,10 +137,18 @@ fun getPasswordSupportingText(password: String): String? {
     if (password.length < 8 || password.length > 16) {
         return stringResource(id = R.string.password_length_error)
     }
-    if(!password.matches(Regex(PASSWORD_REGEX))) {
+    if (!password.matches(Regex(PASSWORD_REGEX))) {
         return stringResource(id = R.string.password_regex_error)
     }
 
+    return null
+}
+
+@Composable
+fun getPasswordConfirmSupportingText(password: String, passwordConfirm: String): String? {
+    if (password != passwordConfirm) {
+        return stringResource(id = R.string.password_confirm_equal_error)
+    }
     return null
 }
 

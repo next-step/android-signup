@@ -18,4 +18,4 @@
 - [x] Username validation
 - [x] Email validation
 - [x] Password validation
-- [ ] Password Confirm validation
+- [x] Password Confirm validation
