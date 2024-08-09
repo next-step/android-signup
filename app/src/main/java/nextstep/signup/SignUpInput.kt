@@ -24,6 +24,7 @@ fun SignUpInput(
         value = value,
         onValueChange = onValueChange,
         isError = errorMessage.isNotEmpty(),
+        maxLines = 1,
         supportingText = {
             if (errorMessage.isNotEmpty()) {
                 Text(text = errorMessage)
