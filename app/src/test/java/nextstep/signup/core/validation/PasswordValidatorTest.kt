@@ -6,6 +6,7 @@ import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
 import org.junit.Test
+import nextstep.signup.R
 
 class PasswordValidatorTest {
 
@@ -21,20 +22,20 @@ class PasswordValidatorTest {
     fun `비밀번호가 너무 짧으면 실패해야 한다`() {
         val result = validator.validate("pass1")
         assertFalse(result.isValid)
-        assertEquals("비밀번호는 8~16자여야 합니다.", result.message)
+        assertEquals(R.string.signup_password_length_error, result.message)
     }
 
     @Test
     fun `숫자가 포함되지 않은 비밀번호는 실패해야 한다`() {
         val result = validator.validate("password")
         assertFalse(result.isValid)
-        assertEquals("비밀번호는 영문과 숫자를 포함해야 합니다.", result.message)
+        assertEquals(R.string.signup_password_complexity_error, result.message)
     }
 
     @Test
     fun `문자가 포함되지 않은 비밀번호는 실패해야 한다`() {
         val result = validator.validate("12345678")
         assertFalse(result.isValid)
-        assertEquals("비밀번호는 영문과 숫자를 포함해야 합니다.", result.message)
+        assertEquals(R.string.signup_password_complexity_error, result.message)
     }
 }
