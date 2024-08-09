@@ -112,6 +112,7 @@ fun SignUpScreen(
 
 @Composable
 fun getUsernameSupportingText(username: String): String? {
+    if (username.isEmpty()) return null
     if (username.length < 2 || username.length > 5) {
         return stringResource(id = R.string.username_length_error)
     }
@@ -125,6 +126,7 @@ fun getUsernameSupportingText(username: String): String? {
 
 @Composable
 fun getEmailSupportingText(email: String): String? {
+    if (email.isEmpty()) return null
     if (!email.matches(Regex(EMAIL_REGEX))) {
         return stringResource(id = R.string.email_regex_error)
     }
@@ -134,6 +136,7 @@ fun getEmailSupportingText(email: String): String? {
 
 @Composable
 fun getPasswordSupportingText(password: String): String? {
+    if (password.isEmpty()) return null
     if (password.length < 8 || password.length > 16) {
         return stringResource(id = R.string.password_length_error)
     }
@@ -146,6 +149,7 @@ fun getPasswordSupportingText(password: String): String? {
 
 @Composable
 fun getPasswordConfirmSupportingText(password: String, passwordConfirm: String): String? {
+    if (passwordConfirm.isEmpty()) return null
     if (password != passwordConfirm) {
         return stringResource(id = R.string.password_confirm_equal_error)
     }
