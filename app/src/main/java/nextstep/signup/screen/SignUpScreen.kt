@@ -3,6 +3,7 @@ package nextstep.signup.screen
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -10,9 +11,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -26,6 +32,11 @@ import nextstep.signup.ui.theme.SignupTheme
 fun SignUpScreen(
     modifier: Modifier = Modifier
 ) {
+    var userName by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var passwordConfirm by remember { mutableStateOf("") }
+
     Scaffold { innerPadding ->
         Column(
             modifier = modifier
@@ -39,6 +50,40 @@ fun SignUpScreen(
                 modifier = Modifier.padding(top = 60.dp, bottom = 6.dp),
                 text = stringResource(id = R.string.sign_up_title),
                 style = MaterialTheme.typography.headlineMedium
+            )
+            SignUpTextFiled(
+                modifier = Modifier.fillMaxWidth(),
+                text = userName,
+                onValueChange = { value ->
+                    userName = value
+                },
+                labelText = stringResource(id = R.string.sign_up_user_name_label)
+            )
+            SignUpTextFiled(
+                modifier = Modifier.fillMaxWidth(),
+                text = email,
+                onValueChange = { value ->
+                    email = value
+                },
+                labelText = stringResource(id = R.string.sign_up_email_label)
+            )
+            SignUpTextFiled(
+                modifier = Modifier.fillMaxWidth(),
+                text = password,
+                onValueChange = { value ->
+                    password = value
+                },
+                labelText = stringResource(id = R.string.sign_up_password_label),
+                visualTransformation = PasswordVisualTransformation()
+            )
+            SignUpTextFiled(
+                modifier = Modifier.fillMaxWidth(),
+                text = passwordConfirm,
+                onValueChange = { value ->
+                    passwordConfirm = value
+                },
+                labelText = stringResource(id = R.string.sign_up_password_confirm_label),
+                visualTransformation = PasswordVisualTransformation()
             )
         }
     }
