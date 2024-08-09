@@ -1,11 +1,10 @@
-package nextstep.signup.study.component
+package nextstep.signup.screen
 
 import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import nextstep.signup.screen.SignUpTextField
 import org.junit.Rule
 import org.junit.Test
 

@@ -1,5 +1,6 @@
 package nextstep.signup.screen
 
+import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -64,7 +65,7 @@ fun SignUpScreen(
 }
 
 @Composable
-fun SignUpTitle(
+private fun SignUpTitle(
     text: String,
     modifier: Modifier = Modifier,
 ) {
@@ -79,7 +80,7 @@ fun SignUpTitle(
 
 
 @Composable
-fun SignUpInputComponent(
+private fun SignUpInputComponent(
     userName: String,
     email: String,
     password: String,
@@ -137,7 +138,7 @@ fun SignUpTextField(
 }
 
 @Composable
-fun SignUpButton(
+private fun SignUpButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
