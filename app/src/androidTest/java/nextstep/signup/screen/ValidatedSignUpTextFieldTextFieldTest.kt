@@ -5,16 +5,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import nextstep.signup.core.validation.NameValidator
 import org.junit.Rule
 import org.junit.Test
 
-class SignUpTextFieldTest {
+class ValidatedSignUpTextFieldTextFieldTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
 
     private val emptyText = ""
-    private val userName = "lee-ji-hoon"
+    private val userName = "이지훈"
     private val labelText = "username-label"
     private val labelTag = "username-label-tag"
 
@@ -29,12 +30,15 @@ class SignUpTextFieldTest {
     @Test
     fun signUpEmptyTextField() {
         composeTestRule.setContent {
-            SignUpTextField(
-                text = emptyText,
-                onValueChange = { },
-                label = {
-                    Text("labelText", modifier = Modifier.testTag(labelTag))
-                }
+            ValidatedSignUpTextField(
+                InputFieldModel(
+                    value = emptyText,
+                    onValueChange = {},
+                    validator = NameValidator(),
+                    label = {
+                        Text("labelText", modifier = Modifier.testTag(labelTag))
+                    }
+                )
             )
         }
 
@@ -54,15 +58,18 @@ class SignUpTextFieldTest {
     @Test
     fun signUpTextField() {
         composeTestRule.setContent {
-            SignUpTextField(
-                text = userName,
-                label = {
-                    Text(
-                        modifier = Modifier.testTag(labelTag),
-                        text = labelText
-                    )
-                },
-                onValueChange = {}
+            ValidatedSignUpTextField(
+                InputFieldModel(
+                    value = userName,
+                    onValueChange = {},
+                    validator = NameValidator(),
+                    label = {
+                        Text(
+                            modifier = Modifier.testTag(labelTag),
+                            text = labelText
+                        )
+                    },
+                )
             )
         }
 
