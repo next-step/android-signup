@@ -118,4 +118,28 @@ class InputValidationTest {
         // then
         composeTestRule.onNodeWithText(context.getString(R.string.err_msg_password)).assertExists()
     }
+
+    @Test
+    fun 비밀번호와_비밀번호_확인이_일치하지_않는다면_에러메시지가_노출된다() {
+        // when
+        password.value = "12345678dd"
+        passwordConfirm.value = "12345678dd!"
+
+        // then
+        composeTestRule
+            .onNodeWithText(context.getString(R.string.err_msg_password_confirm))
+            .assertExists()
+    }
+
+    @Test
+    fun 비밀번호와_비밀번호_확인이_일치한다면_에러메시지가_노출되지_않는다() {
+        // when
+        password.value = "12345678dd"
+        passwordConfirm.value = "12345678dd"
+
+        // then
+        composeTestRule
+            .onNodeWithText(context.getString(R.string.err_msg_password_confirm))
+            .assertDoesNotExist()
+    }
 }
