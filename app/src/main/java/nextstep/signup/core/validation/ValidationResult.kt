@@ -1,6 +1,8 @@
 package nextstep.signup.core.validation
 
+import androidx.annotation.StringRes
+
 data class ValidationResult(
     val isValid: Boolean,
-    val message: String = ""
+    @StringRes val message: Int? = null
 )

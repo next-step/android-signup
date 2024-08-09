@@ -1,13 +1,13 @@
 package nextstep.signup.core.validation
 
+import nextstep.signup.R
+
 class PasswordValidator : Validator {
     override fun validate(value: String): ValidationResult {
-        if (value.length !in 8..16) {
-            return ValidationResult(false, "비밀번호는 8~16자여야 합니다.")
+        return when {
+            value.length !in 8..16 -> ValidationResult(false, R.string.signup_password_length_error)
+            !value.any { it.isDigit() } || !value.any { it.isLetter() } -> ValidationResult(false, R.string.signup_password_complexity_error)
+            else -> ValidationResult(true)
         }
-        if (!value.any { it.isDigit() } || !value.any { it.isLetter() }) {
-            return ValidationResult(false, "비밀번호는 영문과 숫자를 포함해야 합니다.")
-        }
-        return ValidationResult(true)
     }
 }

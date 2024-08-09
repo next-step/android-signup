@@ -1,11 +1,13 @@
 package nextstep.signup.core.validation
 
+import nextstep.signup.R
+
 class EmailValidator : Validator {
     override fun validate(value: String): ValidationResult {
         return if (EMAIL_PATTERN.matches(value)) {
             ValidationResult(true)
         } else {
-            ValidationResult(false, "이메일 형식이 올바르지 않습니다.")
+            ValidationResult(false, R.string.sign_up_invalid_email)
         }
     }
 
