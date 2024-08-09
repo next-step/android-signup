@@ -1,6 +1,6 @@
 package nextstep.signup.core.validation
 
-class PasswordMatchValidator(private val originalPassword: String) : Validator<String> {
+class PasswordMatchValidator(private val originalPassword: String) : Validator {
     override fun validate(value: String): ValidationResult {
         return if (value == originalPassword) {
             ValidationResult(true)

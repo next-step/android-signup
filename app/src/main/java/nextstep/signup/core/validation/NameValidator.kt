@@ -1,6 +1,6 @@
 package nextstep.signup.core.validation
 
-class NameValidator : Validator<String> {
+class NameValidator : Validator {
     override fun validate(value: String): ValidationResult {
         if (value.length !in 2..5) {
             return ValidationResult(false, "이름은 2~5자여야 합니다.")

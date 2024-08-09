@@ -1,6 +1,6 @@
 package nextstep.signup.core.validation
 
-class EmailValidator : Validator<String> {
+class EmailValidator : Validator {
     override fun validate(value: String): ValidationResult {
         return if (EMAIL_PATTERN.matches(value)) {
             ValidationResult(true)

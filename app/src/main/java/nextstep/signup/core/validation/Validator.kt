@@ -1,5 +1,5 @@
 package nextstep.signup.core.validation
 
-interface Validator<T> {
-    fun validate(value: T): ValidationResult
+interface Validator {
+    fun validate(value: String): ValidationResult
 }
