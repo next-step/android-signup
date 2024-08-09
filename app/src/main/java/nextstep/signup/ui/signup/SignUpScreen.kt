@@ -29,6 +29,7 @@ import nextstep.signup.ui.theme.Blue50
 
 private const val USERNAME_REGEX = "^[a-zA-Z가-힣]+$"
 private const val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
+private const val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$"
 
 @Composable
 fun SignUpScreen(
@@ -79,6 +80,7 @@ fun SignUpScreen(
             onValueChange = { password = it },
             labelValue = stringResource(id = R.string.password),
             visualTransformation = PasswordVisualTransformation(),
+            supportingTextValue = getPasswordSupportingText(password),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 32.dp),
@@ -124,6 +126,18 @@ fun getUsernameSupportingText(username: String): String? {
 fun getEmailSupportingText(email: String): String? {
     if(!email.matches(Regex(EMAIL_REGEX))) {
         return stringResource(id = R.string.email_regex_error)
+    }
+
+    return null
+}
+
+@Composable
+fun getPasswordSupportingText(password: String): String? {
+    if (password.length < 8 || password.length > 16) {
+        return stringResource(id = R.string.password_length_error)
+    }
+    if(!password.matches(Regex(PASSWORD_REGEX))) {
+        return stringResource(id = R.string.password_regex_error)
     }
 
     return null
