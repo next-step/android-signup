@@ -1,5 +1,7 @@
 package nextstep.signup.component
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -13,6 +15,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -59,6 +63,51 @@ private fun SignUpTextField(
     )
 }
 
+@Composable
+fun SignUpFormComponent(
+    userName: String,
+    email: String,
+    password: String,
+    passwordConfirm: String,
+    onUserNameChange: (String) -> Unit,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onPasswordConfirmChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier, verticalArrangement = Arrangement.spacedBy(36.dp)
+    ) {
+        SignUpTextField(
+            text = userName,
+            label = stringResource(R.string.sign_up_text_field_username),
+            onValueChange = onUserNameChange
+        )
+
+        SignUpTextField(
+            text = email,
+            label = stringResource(R.string.sign_up_text_field_email),
+            onValueChange = onEmailChange
+        )
+
+        SignUpTextField(
+            text = password,
+            label = stringResource(R.string.sign_up_text_field_password),
+            onValueChange = onPasswordChange,
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        )
+
+        SignUpTextField(
+            text = passwordConfirm,
+            label = stringResource(R.string.sign_up_text_field_password_confirm),
+            onValueChange = onPasswordConfirmChange,
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        )
+    }
+}
+
 @Preview
 @Composable
 private fun PreviewSignUpTitleText() {
@@ -69,4 +118,17 @@ private fun PreviewSignUpTitleText() {
 @Composable
 private fun PreviewSignUpTextField() {
     SignUpTextField(text = "compose", onValueChange = {}, label = "Username")
+}
+
+@Preview
+@Composable
+private fun PreviewSignUpFormComponent() {
+    SignUpFormComponent(userName = "compose",
+        email = "test@test.com",
+        password = "12345678",
+        passwordConfirm = "12345678",
+        onUserNameChange = {},
+        onEmailChange = {},
+        onPasswordChange = {},
+        onPasswordConfirmChange = {})
 }
