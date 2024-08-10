@@ -17,4 +17,5 @@
     <string name="test_tag_email">test_tag_email</string>
     <string name="test_tag_password">test_tag_password</string>
     <string name="test_tag_password_confirm">test_tag_password_confirm</string>
+    <string name="test_tag_snackbar">test_tag_snackbar</string>
 </resources>
