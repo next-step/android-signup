@@ -110,22 +110,13 @@ class PasswordConfirmValidation : SignUpTextFieldValidation<PasswordConfirmValid
         passwordConfirm: String,
     ): ValidationResult =
         when {
-            password.isEmpty() -> EmptyPassword
-            passwordConfirm.isEmpty() -> EmptyPasswordConfirm
+            password.isBlank() || passwordConfirm.isBlank() -> ValidationResult.Empty
             password != passwordConfirm -> FailurePasswordNotMatch
             else -> ValidationResult.Success
         }
 
     data object FailurePasswordNotMatch : ValidationResult {
         override val isFailure: Boolean = true
-    }
-
-    data object EmptyPassword : ValidationResult {
-        override val isFailure: Boolean = false
-    }
-
-    data object EmptyPasswordConfirm : ValidationResult {
-        override val isFailure: Boolean = false
     }
 
     data class PasswordConfirm(

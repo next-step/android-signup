@@ -49,7 +49,7 @@ class PasswordConfirmValidationTest {
         val result = PasswordConfirmValidation().isValid(passwordConfirm)
 
         // then
-        assertEquals(PasswordConfirmValidation.EmptyPassword, result)
+        assertEquals(ValidationResult.Empty, result)
     }
 
     @Test
@@ -65,6 +65,6 @@ class PasswordConfirmValidationTest {
         val result = PasswordConfirmValidation().isValid(passwordConfirm)
 
         // then
-        assertEquals(PasswordConfirmValidation.EmptyPasswordConfirm, result)
+        assertEquals(ValidationResult.Empty, result)
     }
 }
