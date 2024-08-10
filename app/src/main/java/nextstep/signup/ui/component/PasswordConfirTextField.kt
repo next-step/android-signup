@@ -1,5 +1,6 @@
 package nextstep.signup.ui.component
 
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +21,8 @@ fun PasswordConfirmTextField(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     validationResult: PasswordConfirmValidationResult = PasswordConfirmValidationResult.Empty,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
 ) {
     val supportText: @Composable (() -> Unit)? =
         if (validationResult is PasswordConfirmValidationResult.FailurePasswordNotMatch) {
@@ -33,7 +36,8 @@ fun PasswordConfirmTextField(
         onValueChange = onValueChange,
         label = { Text(text = stringResource(id = string.sign_up_label_password_confirm)) },
         visualTransformation = PasswordVisualTransformation(),
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
         isError = validationResult.isFailure,
         supportText = supportText,
         modifier = modifier,
@@ -56,7 +60,10 @@ class PasswordConfirmTextFieldPreviewParameterProvider : PreviewParameterProvide
     override val values: Sequence<PasswordConfirmTextFieldPreviewParameter>
         get() =
             sequenceOf(
-                PasswordConfirmTextFieldPreviewParameter("password1234", PasswordConfirmValidationResult.Success),
+                PasswordConfirmTextFieldPreviewParameter(
+                    "password1234",
+                    PasswordConfirmValidationResult.Success,
+                ),
                 PasswordConfirmTextFieldPreviewParameter(
                     "password1234",
                     PasswordConfirmValidationResult.FailurePasswordNotMatch,

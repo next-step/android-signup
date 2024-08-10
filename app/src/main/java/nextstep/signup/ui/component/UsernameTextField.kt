@@ -1,5 +1,7 @@
 package nextstep.signup.ui.component
 
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -15,6 +17,8 @@ fun UsernameTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
     validationResult: UsernameValidationResult = UsernameValidationResult.Empty,
 ) {
     val supportText: @Composable (() -> Unit)? =
@@ -34,6 +38,8 @@ fun UsernameTextField(
         value = value,
         onValueChange = onValueChange,
         label = { Text(text = stringResource(id = R.string.sign_up_label_username)) },
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
         modifier = modifier,
         isError = validationResult.isFailure,
         supportText = supportText,

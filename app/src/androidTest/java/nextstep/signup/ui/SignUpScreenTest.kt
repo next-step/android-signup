@@ -2,9 +2,11 @@ package nextstep.signup.ui
 
 import android.content.Context
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.test.platform.app.InstrumentationRegistry
@@ -16,6 +18,7 @@ import org.junit.Test
 class SignUpScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
+
     private val username = mutableStateOf("")
     private val email = mutableStateOf("")
     private val password = mutableStateOf("")
@@ -180,8 +183,15 @@ class SignUpScreenTest {
             .performClick()
 
         // then
+        composeTestRule.waitUntil(timeoutMillis = 1000) {
+            composeTestRule
+                .onAllNodesWithTag(context.getString(R.string.test_tag_snackbar))
+                .fetchSemanticsNodes()
+                .isNotEmpty()
+        }
+
         composeTestRule
             .onNodeWithTag(context.getString(R.string.test_tag_snackbar))
-            .assertExists()
+            .assertIsDisplayed()
     }
 }

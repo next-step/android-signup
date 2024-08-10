@@ -1,5 +1,6 @@
 package nextstep.signup.ui.component
 
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,6 +19,8 @@ fun PasswordTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
     validationResult: PasswordValidationResult = PasswordValidationResult.Empty,
 ) {
     val supportText: @Composable (() -> Unit)? =
@@ -38,7 +41,8 @@ fun PasswordTextField(
         onValueChange = onValueChange,
         label = { Text(text = stringResource(id = R.string.sign_up_label_password)) },
         visualTransformation = PasswordVisualTransformation(),
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
         isError = validationResult.isFailure,
         supportText = supportText,
         modifier = modifier,

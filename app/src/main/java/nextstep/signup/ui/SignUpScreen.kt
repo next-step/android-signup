@@ -1,23 +1,38 @@
 package nextstep.signup.ui
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -41,7 +56,7 @@ import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
-fun SignUpRoute(modifier: Modifier = Modifier) {
+internal fun SignUpRoute(modifier: Modifier = Modifier) {
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -71,13 +86,12 @@ fun SignUpRoute(modifier: Modifier = Modifier) {
         onPasswordConfirmChange = onPasswordConfirmChange,
         modifier =
             modifier
-                .fillMaxSize()
-                .padding(32.dp),
+                .fillMaxSize(),
     )
 }
 
 @Composable
-fun SignUpScreen(
+internal fun SignUpScreen(
     username: String,
     email: String,
     password: String,
@@ -86,13 +100,12 @@ fun SignUpScreen(
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onPasswordConfirmChange: (String) -> Unit,
+    usernameValidation: UsernameValidation = remember { UsernameValidation() },
+    emailValidation: EmailValidation = remember { EmailValidation() },
+    passwordValidation: PasswordValidation = remember { PasswordValidation() },
+    passwordConfirmValidation: PasswordConfirmValidation = remember { PasswordConfirmValidation() },
     modifier: Modifier = Modifier,
 ) {
-    val usernameValidation = remember { UsernameValidation() }
-    val emailValidation = remember { EmailValidation() }
-    val passwordValidation = remember { PasswordValidation() }
-    val passwordConfirmValidation = remember { PasswordConfirmValidation() }
-
     val usernameValidationResult by remember(username) {
         derivedStateOf {
             usernameValidation.isValid(username)
@@ -127,6 +140,76 @@ fun SignUpScreen(
         }
     }
 
+    val context = LocalContext.current
+    val snackBarHostState = remember { SnackbarHostState() }
+    var showSnackbar by remember { mutableStateOf(false) }
+    LaunchedEffect(showSnackbar) {
+        if (showSnackbar) {
+            val result =
+                snackBarHostState.showSnackbar(
+                    message = context.getString(R.string.compolete_sign_up_message),
+                    duration = SnackbarDuration.Short,
+                )
+            showSnackbar =
+                when (result) {
+                    SnackbarResult.Dismissed -> false
+                    SnackbarResult.ActionPerformed -> false
+                }
+        }
+    }
+
+    Scaffold(
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackBarHostState,
+                modifier = Modifier.testTag(stringResource(id = R.string.test_tag_snackbar)),
+            )
+        },
+        modifier = modifier,
+    ) { paddingValues ->
+        SignUpContent(
+            username = username,
+            email = email,
+            password = password,
+            passwordConfirm = passwordConfirm,
+            onUsernameChange = onUsernameChange,
+            onEmailChange = onEmailChange,
+            onPasswordChange = onPasswordChange,
+            onPasswordConfirmChange = onPasswordConfirmChange,
+            usernameValidationResult = usernameValidationResult,
+            emailValidationResult = emailValidationResult,
+            passwordValidationResult = passwordValidationResult,
+            passwordConfirmValidationResult = passwordConfirmValidationResult,
+            onSignUpClicked = { showSnackbar = true },
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .padding(32.dp),
+        )
+    }
+}
+
+@Composable
+private fun SignUpContent(
+    username: String,
+    email: String,
+    password: String,
+    passwordConfirm: String,
+    onUsernameChange: (String) -> Unit,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onPasswordConfirmChange: (String) -> Unit,
+    usernameValidationResult: UsernameValidationResult,
+    emailValidationResult: EmailValidationResult,
+    passwordValidationResult: PasswordValidationResult,
+    passwordConfirmValidationResult: PasswordConfirmValidationResult,
+    modifier: Modifier = Modifier,
+    onSignUpClicked: () -> Unit = {},
+) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
+
     Column(
         modifier = modifier,
     ) {
@@ -141,6 +224,14 @@ fun SignUpScreen(
         UsernameTextField(
             value = username,
             onValueChange = onUsernameChange,
+            keyboardOptions =
+                KeyboardOptions(
+                    imeAction = ImeAction.Next,
+                ),
+            keyboardActions =
+                KeyboardActions(
+                    onNext = { focusManager.moveFocus(FocusDirection.Down) },
+                ),
             validationResult = usernameValidationResult,
             modifier =
                 Modifier
@@ -152,6 +243,15 @@ fun SignUpScreen(
         EmailTextField(
             value = email,
             onValueChange = onEmailChange,
+            keyboardOptions =
+                KeyboardOptions(
+                    keyboardType = KeyboardType.Email,
+                    imeAction = ImeAction.Next,
+                ),
+            keyboardActions =
+                KeyboardActions(
+                    onNext = { focusManager.moveFocus(FocusDirection.Down) },
+                ),
             validationResult = emailValidationResult,
             modifier =
                 Modifier
@@ -163,6 +263,15 @@ fun SignUpScreen(
         PasswordTextField(
             value = password,
             onValueChange = onPasswordChange,
+            keyboardOptions =
+                KeyboardOptions(
+                    keyboardType = KeyboardType.Password,
+                    imeAction = ImeAction.Next,
+                ),
+            keyboardActions =
+                KeyboardActions(
+                    onNext = { focusManager.moveFocus(FocusDirection.Down) },
+                ),
             validationResult = passwordValidationResult,
             modifier =
                 Modifier
@@ -175,6 +284,18 @@ fun SignUpScreen(
             value = passwordConfirm,
             onValueChange = onPasswordConfirmChange,
             validationResult = passwordConfirmValidationResult,
+            keyboardOptions =
+                KeyboardOptions(
+                    keyboardType = KeyboardType.Password,
+                    imeAction = ImeAction.Done,
+                ),
+            keyboardActions =
+                KeyboardActions(
+                    onDone = {
+                        focusManager.clearFocus(true)
+                        onSignUpClicked()
+                    },
+                ),
             modifier =
                 Modifier
                     .fillMaxWidth()
@@ -191,7 +312,11 @@ fun SignUpScreen(
             )
 
         Button(
-            onClick = { /*TODO*/ },
+            onClick = {
+                Log.d("SignUpScreen", "Button Clicked")
+                keyboardController?.hide()
+                onSignUpClicked()
+            },
             colors =
                 ButtonDefaults.buttonColors(
                     containerColor = Blue50,
