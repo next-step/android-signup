@@ -34,7 +34,18 @@ class UserInputValidationTest {
     }
 
     @Test
-    fun 사용자_이름이_2에서_5자가_아니면_에러메시지가_노출된다() {
+    fun 사용자_이름이_2자보다_작으면_에러가노출() {
+        // when
+        inputData.value = "김"
+
+        // then
+        composeTestRule
+            .onNodeWithText(USERNAME_LENGTH_ERROR)
+            .assertExists()
+    }
+
+    @Test
+    fun 사용자_이름이_5자보다_크면_에러가노출() {
         // when
         inputData.value = "김컴포즈입니다"
 
