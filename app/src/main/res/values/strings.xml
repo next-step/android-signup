@@ -6,4 +6,5 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="password_confirm">Password Confirm</string>
+    <string name="password_do_not_match">비밀번호가 일치하지 않습니다.</string>
 </resources>

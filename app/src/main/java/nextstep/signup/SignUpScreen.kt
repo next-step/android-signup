@@ -3,6 +3,7 @@ package nextstep.signup
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -29,7 +30,6 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
 import nextstep.signup.Validator.isValid
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.Dimens.ButtonHeight
@@ -38,6 +38,8 @@ import nextstep.signup.ui.theme.Dimens.ButtonWidth
 import nextstep.signup.ui.theme.Dimens.EndPadding
 import nextstep.signup.ui.theme.Dimens.LargePadding
 import nextstep.signup.ui.theme.Dimens.StartPadding
+import nextstep.signup.ui.theme.Dimens.TextHelper
+import nextstep.signup.ui.theme.Dimens.TextTitle
 import nextstep.signup.ui.theme.Dimens.TopPadding
 import nextstep.signup.ui.theme.Red50
 import nextstep.signup.ui.theme.SignupTheme
@@ -45,6 +47,10 @@ import nextstep.signup.ui.theme.SignupTheme
 class SignUpScreen {
     @Composable
     fun InitViews() {
+        var password by remember { mutableStateOf("") }
+        var confirmPassword by remember { mutableStateOf("") }
+        var isMatchPassword by remember { mutableStateOf(true) }
+
         SignupTheme {
             Surface(
                 modifier = Modifier.fillMaxSize(),
@@ -69,14 +75,25 @@ class SignUpScreen {
                     SignUpTextField(
                         stringResource(id = R.string.password),
                         visualTransformation = PasswordVisualTransformation(),
-                        type = TextFieldType.Password
+                        type = TextFieldType.Password,
+                        onTextChange = {
+                            password = it
+                            isMatchPassword = password == confirmPassword
+                        }
                     )
                     Spacer(modifier = Modifier.height(LargePadding))
                     SignUpTextField(
                         stringResource(id = R.string.password_confirm),
                         visualTransformation = PasswordVisualTransformation(),
-                        type = TextFieldType.Password
+                        type = TextFieldType.Password,
+                        onTextChange = {
+                            confirmPassword = it
+                            isMatchPassword = password == confirmPassword
+                        }
                     )
+                    if (!isMatchPassword) {
+                        SignUpHelperText()
+                    }
                     Spacer(modifier = Modifier.height(LargePadding))
                     SignUpButton()
                 }
@@ -89,7 +106,7 @@ class SignUpScreen {
         Text(
             text = stringResource(id = R.string.welcome),
             textAlign = TextAlign.Center,
-            fontSize = 26.sp,
+            fontSize = TextTitle,
             fontFamily = FontFamily.Default,
             fontWeight = FontWeight.Bold,
         )
@@ -107,7 +124,8 @@ class SignUpScreen {
     private fun SignUpTextField(
         hint: String,
         type: TextFieldType,
-        visualTransformation: VisualTransformation = VisualTransformation.None
+        visualTransformation: VisualTransformation = VisualTransformation.None,
+        onTextChange: (String) -> Unit = {}
     ) {
         var textState by remember { mutableStateOf("") }
         var isValid: TextFieldState by remember { mutableStateOf(TextFieldState.InValid) }
@@ -115,6 +133,7 @@ class SignUpScreen {
         val onValueChange = { value: String ->
             textState = value
             isValid = isValid(value, type)
+            onTextChange(value)
         }
 
         TextField(
@@ -157,6 +176,27 @@ class SignUpScreen {
     private fun SignUpButtonPreview() {
         SignupTheme {
             SignUpButton()
+        }
+    }
+
+    @Composable
+    private fun SignUpHelperText() {
+        Text(
+            text = stringResource(id = R.string.password_do_not_match),
+            fontSize = TextHelper,
+            color = Red50,
+            textAlign = TextAlign.Start,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = StartPadding),
+        )
+    }
+
+    @Preview(showBackground = true)
+    @Composable
+    private fun SignUpHelperTextPreview() {
+        SignupTheme {
+            SignUpHelperText()
         }
     }
 }
