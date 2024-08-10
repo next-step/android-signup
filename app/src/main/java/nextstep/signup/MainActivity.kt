@@ -101,8 +101,7 @@ private fun SingUpButtonView(
         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2196F3)),
         modifier = modifier
             .fillMaxWidth()
-    )
-    {
+    ) {
         Text(text = "Sign Up", fontSize = 14.sp, color = Color(0xFFFFFFFF))
     }
 }
