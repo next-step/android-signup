@@ -1,12 +1,11 @@
 package nextstep.signup
 
-object Validator {
+object InputValidator {
     fun isValid(input: String, type: TextFieldType): TextFieldState {
         return when (type) {
             TextFieldType.Username -> isValidUsername(input)
             TextFieldType.Email -> isValidEmail(input)
             TextFieldType.Password -> isValidPassword(input)
-//            TextFieldType.PasswordConfirm -> isValidPassword(input)
             TextFieldType.Default -> TextFieldState.Default
         }
     }

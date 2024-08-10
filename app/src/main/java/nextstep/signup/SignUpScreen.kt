@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -32,7 +31,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import nextstep.signup.Validator.isValid
+import nextstep.signup.InputValidator.isValid
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.Dimens.ButtonHeight
 import nextstep.signup.ui.theme.Dimens.ButtonRadius
@@ -95,7 +94,7 @@ class SignUpScreen {
                         },
 
                         )
-                    if (!isMatchPassword) {
+                    if (isMatchPassword.not()) {
                         SignUpHelperText(stringResource(id = R.string.password_do_not_match))
                     }
                     Spacer(modifier = Modifier.height(LargePadding))
@@ -125,7 +124,7 @@ class SignUpScreen {
     }
 
     @Composable
-    private fun SignUpTextField(
+    fun SignUpTextField(
         hint: String,
         type: TextFieldType,
         visualTransformation: VisualTransformation = VisualTransformation.None,
@@ -231,7 +230,7 @@ class SignUpScreen {
     }
 
     @Composable
-    private fun SignUpHelperText(message: String) {
+    fun SignUpHelperText(message: String) {
         if (message.isNotEmpty()) {
             Row(
                 modifier = Modifier
