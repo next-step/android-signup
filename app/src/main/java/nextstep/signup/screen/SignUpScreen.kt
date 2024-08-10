@@ -223,4 +223,3 @@ fun PreviewSignUpButton() {
         }
     )
 }
-
