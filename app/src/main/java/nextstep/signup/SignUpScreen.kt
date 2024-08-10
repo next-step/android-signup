@@ -115,8 +115,7 @@ class SignUpScreen {
             label = {
                 Text(text = hint)
             },
-            visualTransformation = visualTransformation
-
+            visualTransformation = visualTransformation,
         )
     }
 
