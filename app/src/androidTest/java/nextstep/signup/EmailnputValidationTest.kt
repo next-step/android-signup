@@ -18,7 +18,7 @@ class EmailnputValidationTest {
     @Before
     fun setup() {
         composeTestRule.setContent {
-            TextFieldView("Email", keyboardType = KeyboardType.Email, inputString = inputData)
+            TextFieldView("Email", keyboardType = KeyboardType.Email, inputState = inputData)
         }
     }
 

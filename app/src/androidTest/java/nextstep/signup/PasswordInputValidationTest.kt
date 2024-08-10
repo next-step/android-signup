@@ -1,5 +1,6 @@
 package nextstep.signup
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
@@ -19,8 +20,10 @@ class PasswordInputValidationTest {
     @Before
     fun setup() {
         composeTestRule.setContent {
-            TextFieldView("Password", keyboardType = KeyboardType.Password, inputString = passwordData)
-//            TextFieldView("Password Confirm", keyboardType = KeyboardType.Password, inputString = passwordConfirm)
+            Column {
+                TextFieldView("Password", keyboardType = KeyboardType.Password, inputState = passwordData)
+                TextFieldView("Password Confirm", keyboardType = KeyboardType.Password, inputState = passwordConfirm, anotherInputState = passwordData)
+            }
         }
     }
 
@@ -64,7 +67,7 @@ class PasswordInputValidationTest {
 
         // then
         composeTestRule
-            .onNodeWithText(PASSWORD_LENGTH_ERROR)
+            .onNodeWithText(PASSWORD_REGEX_ERROR)
             .assertDoesNotExist()
     }
 
@@ -76,7 +79,7 @@ class PasswordInputValidationTest {
         // then
         composeTestRule
             .onNodeWithText(PASSWORD_REGEX_ERROR)
-            .assertDoesNotExist()
+            .assertExists()
     }
 
     @Test
@@ -87,11 +90,36 @@ class PasswordInputValidationTest {
         // then
         composeTestRule
             .onNodeWithText(PASSWORD_REGEX_ERROR)
+            .assertExists()
+    }
+
+    @Test
+    fun 비밀번호와_확인비밀번호는_일치해야_한다() {
+        // when
+        passwordData.value = "1q2w3e4r"
+        passwordConfirm.value = "1q2w3e4r"
+
+        // then
+        composeTestRule
+            .onNodeWithText(PASSWORD_COMPARE_ERROR)
             .assertDoesNotExist()
+    }
+
+    @Test
+    fun 비밀번호와_확인비밀번호는_일치하지않으면_에러메시지_노출() {
+        // when
+        passwordData.value = "1q2w3e4r"
+        passwordConfirm.value = "1q2w3e4"
+
+        // then
+        composeTestRule
+            .onNodeWithText(PASSWORD_COMPARE_ERROR)
+            .assertExists()
     }
 
     companion object {
         private const val PASSWORD_LENGTH_ERROR = "비밀번호는 8~16자여야 합니다."
-        private const val PASSWORD_REGEX_ERROR = "비밀번호는 8~16자여야 합니다."
+        private const val PASSWORD_REGEX_ERROR = "비밀번호는 영문과 숫자를 포함해야 합니다."
+        private const val PASSWORD_COMPARE_ERROR = "비밀번호가 일치하지 않습니다."
     }
 }

@@ -42,12 +42,13 @@ fun TextFieldView(
     label: String = "",
     keyboardType: KeyboardType = KeyboardType.Text,
     visualTransformation: VisualTransformation = VisualTransformation.None,
-    inputString: MutableState<String> = mutableStateOf("")
+    inputState: MutableState<String> = mutableStateOf(""),
+    anotherInputState: MutableState<String>? = null
 ) {
-    val text = remember { inputString }
+    val text = remember { inputState }
     val isFocused = remember { mutableStateOf(false) }
     val supportingText by remember(text, keyboardType) {
-        derivedStateOf { getErrorMessage(text.value, keyboardType) }
+        derivedStateOf { getErrorMessage(text.value, keyboardType, anotherInputState?.value) }
     }
     TextField(
         value = text.value,
@@ -86,30 +87,38 @@ fun TextFieldView(
 
 private fun getErrorMessage(
     input: String,
-    keyboardType: KeyboardType
+    keyboardType: KeyboardType,
+    anotherInput: String?
 ): String {
     return when (keyboardType) {
         KeyboardType.Text -> {
             if (input.length !in USERNAME_MIN_LENGTH..USERNAME_MAX_LENGTH) {
-                return "이름은 2~5자여야 합니다."
+                "이름은 2~5자여야 합니다."
             } else if (!input.matches(Regex(USERNAME_REGEX))) {
-                return "이름에는 숫자나 기호가 포함될 수 없습니다."
+                "이름에는 숫자나 기호가 포함될 수 없습니다."
             } else {
                 ""
             }
         }
         KeyboardType.Email -> {
             if (!input.matches(Regex(EMAIL_REGEX))) {
-                return "이메일 형식이 올바르지 않습니다."
+                "이메일 형식이 올바르지 않습니다."
             } else {
                 ""
             }
         }
         KeyboardType.Password -> {
+            if (anotherInput != null) {
+                return if (input != anotherInput) {
+                    "비밀번호가 일치하지 않습니다."
+                } else {
+                    ""
+                }
+            }
             if (input.length !in PASSWORD_MIN_LENGTH..PASSWORD_MAX_LENGTH) {
-                return "비밀번호는 8~16자여야 합니다."
+                "비밀번호는 8~16자여야 합니다."
             } else if (!input.matches(Regex(PASSWORD_REGEX))) {
-                return "비밀번호는 영문과 숫자를 포함해야 합니다."
+                "비밀번호는 영문과 숫자를 포함해야 합니다."
             } else {
                 ""
             }

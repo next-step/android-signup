@@ -18,7 +18,7 @@ class UserInputValidationTest {
     @Before
     fun setup() {
         composeTestRule.setContent {
-            TextFieldView("UserName", keyboardType = KeyboardType.Text, inputString = inputData)
+            TextFieldView("UserName", keyboardType = KeyboardType.Text, inputState = inputData)
         }
     }
 
