@@ -15,6 +15,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -74,12 +75,14 @@ class MainActivity : ComponentActivity() {
                     TextFieldView(
                         Modifier.padding(16.dp),
                         "Password",
-                        KeyboardType.Password
+                        KeyboardType.Password,
+                        PasswordVisualTransformation()
                     )
                     TextFieldView(
                         Modifier.padding(16.dp),
                         "Password Confirm",
-                        KeyboardType.Password
+                        KeyboardType.Password,
+                        PasswordVisualTransformation()
                     )
                     SingUpButtonView(
                         Modifier.padding(16.dp)
@@ -112,6 +115,7 @@ private fun TextFieldView(
     modifier: Modifier = Modifier,
     label: String = "UserName",
     keyboardType: KeyboardType = KeyboardType.Text,
+    visualTransformation: VisualTransformation = VisualTransformation.None
 ) {
     val text = remember { mutableStateOf("") }
     val isFocused = remember { mutableStateOf(false) }
@@ -124,19 +128,14 @@ private fun TextFieldView(
             Text(
                 text = label,
                 fontSize = if (isFocused.value) 12.sp else 16.sp,
-                color = if (keyboardType == KeyboardType.Text && isFocused.value) {
-                    Color(0xFF2196F3)
-                } else {
-                    Color(0xFF49454F)
-                }
             )
         },
+        colors = TextFieldDefaults.colors(
+            focusedLabelColor = Color(0xFF2196F3),
+            unfocusedLabelColor = Color(0xFF49454F)
+        ),
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-        visualTransformation = if (keyboardType == KeyboardType.Password) {
-            PasswordVisualTransformation()
-        } else {
-            VisualTransformation.None
-        },
+        visualTransformation = visualTransformation,
         modifier = modifier
             .fillMaxWidth()
             .onFocusChanged { focusState ->
