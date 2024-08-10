@@ -36,53 +36,58 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SignupTheme {
-                Scaffold(
-                    topBar = {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(top = 62.dp),
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            TitleView("Welcome to Compose \uD83D\uDE80")
-                        }
-                    },
-                    content = { paddingValues ->
-                        Column(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(paddingValues),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            TextFieldView(
-                                Modifier.padding(16.dp),
-                                "Username",
-                                KeyboardType.Text
-                            )
-                            TextFieldView(
-                                Modifier.padding(16.dp),
-                                "Email",
-                                KeyboardType.Email
-                            )
-                            TextFieldView(
-                                Modifier.padding(16.dp),
-                                "Password",
-                                KeyboardType.Password
-                            )
-                            TextFieldView(
-                                Modifier.padding(16.dp),
-                                "Password Confirm",
-                                KeyboardType.Password
-                            )
-                            SingUpButtonView(
-                                Modifier.padding(16.dp)
-                            )
-                        }
-                    },
-                    modifier = Modifier.padding(horizontal = 33.dp)
-                )
+                SingUpView()
             }
         }
+    }
+
+    @Composable
+    private fun SingUpView() {
+        Scaffold(
+            topBar = {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 62.dp),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    TitleView("Welcome to Compose \uD83D\uDE80")
+                }
+            },
+            content = { paddingValues ->
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    TextFieldView(
+                        Modifier.padding(16.dp),
+                        "Username",
+                        KeyboardType.Text
+                    )
+                    TextFieldView(
+                        Modifier.padding(16.dp),
+                        "Email",
+                        KeyboardType.Email
+                    )
+                    TextFieldView(
+                        Modifier.padding(16.dp),
+                        "Password",
+                        KeyboardType.Password
+                    )
+                    TextFieldView(
+                        Modifier.padding(16.dp),
+                        "Password Confirm",
+                        KeyboardType.Password
+                    )
+                    SingUpButtonView(
+                        Modifier.padding(16.dp)
+                    )
+                }
+            },
+            modifier = Modifier.padding(horizontal = 33.dp)
+        )
     }
 }
 
