@@ -3,9 +3,12 @@ package nextstep.signup.screen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -54,6 +57,9 @@ fun SignUpScreen() {
                     .fillMaxWidth()
                     .padding(top = 70.dp)
             )
+
+            //반복되는 TextField를 LazyColumn을 사용하여 구현
+            //signup 버튼도 추가하여, 화면 사이즈에서 가려지는 경우 scroll 되게 적용
             LazyColumn(
                 modifier = Modifier.padding(top = 25.dp)
             ) {
@@ -63,7 +69,10 @@ fun SignUpScreen() {
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(
-                                    top = 17.dp, bottom = 17.dp, start = 30.dp, end = 30.dp
+                                    top = 17.dp,
+                                    bottom = 17.dp,
+                                    start = 30.dp,
+                                    end = 30.dp
                                 ),
                             label = type.label,
                             keyboardType = type.keyboardType,
@@ -77,6 +86,17 @@ fun SignUpScreen() {
                             ),
                         )
                     }
+                }
+                item(key = "signUpButton") {
+                    SignUpButton(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(min = 115.dp)
+                            .padding(30.dp),
+                        onClick = {
+                            // 회원가입 버튼 클릭시 로직
+                        }
+                    )
                 }
             }
         }
@@ -166,6 +186,24 @@ fun SigneUpTextField(
 }
 
 /**
+ * 회원가입 버튼 composeable 함수
+ **/
+@Composable
+fun SignUpButton(
+    modifier: Modifier,
+    onClick: () -> Unit
+) {
+    Button(
+        colors = ButtonDefaults.buttonColors(Blue50),
+        modifier = modifier,
+        onClick = { onClick() }
+    ) {
+        Text(text = stringResource(id = R.string.sign_up))
+    }
+}
+
+
+/**
  * 회원가입 제목용 composeable 함수 미리보기
  * (@preview 사용위해 parameter없는 composable 생성)
  **/
@@ -211,3 +249,19 @@ fun PreviewSigneUpTextField() {
     )
 }
 
+/**
+ * 회원가입 버튼 composeable 함수 미리보기
+ **/
+@Preview
+@Composable
+fun PreviewSignUpButton() {
+    SignUpButton(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 115.dp)
+            .padding(30.dp),
+        onClick = {
+            // 회원가입 버튼 클릭시 로직
+        }
+    )
+}
