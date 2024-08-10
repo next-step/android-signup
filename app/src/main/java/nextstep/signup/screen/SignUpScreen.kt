@@ -58,47 +58,6 @@ fun SignUpScreen() {
                     .padding(top = 70.dp)
             )
 
-            //반복되는 TextField를 LazyColumn을 사용하여 구현
-            //signup 버튼도 추가하여, 화면 사이즈에서 가려지는 경우 scroll 되게 적용
-            LazyColumn(
-                modifier = Modifier.padding(top = 25.dp)
-            ) {
-                for (type in SignUpUserInputTextFieldType.entries) {
-                    item(key = type.name) {
-                        SigneUpTextField(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(
-                                    top = 17.dp,
-                                    bottom = 17.dp,
-                                    start = 30.dp,
-                                    end = 30.dp
-                                ),
-                            label = type.label,
-                            keyboardType = type.keyboardType,
-                            visualTransformation = type.visualTransformation,
-                            textFiledColor = TextFieldDefaults.colors(
-                                focusedLabelColor = type.focusedLabelColor,
-                                focusedIndicatorColor = type.focusedIndicatorColor,
-                                cursorColor = type.cursorColor,
-                                unfocusedContainerColor = type.containerColor,
-                                focusedContainerColor = type.containerColor
-                            ),
-                        )
-                    }
-                }
-                item(key = "signUpButton") {
-                    SignUpButton(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .heightIn(min = 115.dp)
-                            .padding(30.dp),
-                        onClick = {
-                            // 회원가입 버튼 클릭시 로직
-                        }
-                    )
-                }
-            }
         }
     }
 }
@@ -108,10 +67,12 @@ fun SignUpScreen() {
  **/
 @Composable
 fun SignUpTitle(
-    modifier: Modifier,
+    modifier: Modifier
 ) {
     Text(
-        text = stringResource(id = R.string.signe_up_title), modifier = modifier, style = TextStyle(
+        text = stringResource(id = R.string.signe_up_title),
+        modifier = modifier,
+        style = TextStyle(
             fontSize = 26.sp,
             fontFamily = FontFamily.SansSerif,
             fontWeight = FontWeight.Bold,
