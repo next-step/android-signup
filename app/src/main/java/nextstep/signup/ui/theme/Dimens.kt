@@ -6,6 +6,7 @@ import androidx.compose.ui.unit.sp
 object Dimens {
     val LargePadding = 24.dp
     val TopPadding = 112.dp
+    val HelperTextStartPadding = 16.dp
     val StartPadding = 33.dp
     val EndPadding = 33.dp
     val ButtonHeight = 50.dp

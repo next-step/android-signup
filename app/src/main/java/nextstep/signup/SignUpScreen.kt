@@ -1,12 +1,14 @@
 package nextstep.signup
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -36,6 +38,7 @@ import nextstep.signup.ui.theme.Dimens.ButtonHeight
 import nextstep.signup.ui.theme.Dimens.ButtonRadius
 import nextstep.signup.ui.theme.Dimens.ButtonWidth
 import nextstep.signup.ui.theme.Dimens.EndPadding
+import nextstep.signup.ui.theme.Dimens.HelperTextStartPadding
 import nextstep.signup.ui.theme.Dimens.LargePadding
 import nextstep.signup.ui.theme.Dimens.StartPadding
 import nextstep.signup.ui.theme.Dimens.TextHelper
@@ -89,10 +92,11 @@ class SignUpScreen {
                         onTextChange = {
                             confirmPassword = it
                             isMatchPassword = password == confirmPassword
-                        }
-                    )
+                        },
+
+                        )
                     if (!isMatchPassword) {
-                        SignUpHelperText()
+                        SignUpHelperText(stringResource(id = R.string.password_do_not_match))
                     }
                     Spacer(modifier = Modifier.height(LargePadding))
                     SignUpButton()
@@ -128,25 +132,72 @@ class SignUpScreen {
         onTextChange: (String) -> Unit = {}
     ) {
         var textState by remember { mutableStateOf("") }
-        var isValid: TextFieldState by remember { mutableStateOf(TextFieldState.InValid) }
+        var validationState: TextFieldState by remember { mutableStateOf(TextFieldState.Default) }
 
         val onValueChange = { value: String ->
             textState = value
-            isValid = isValid(value, type)
+            validationState = isValid(value, type)
             onTextChange(value)
         }
 
-        TextField(
-            value = textState,
-            onValueChange = onValueChange,
-            label = {
-                Text(text = hint)
-            },
-            visualTransformation = visualTransformation,
-            colors = TextFieldDefaults.colors(
-                focusedLabelColor = if (isValid == TextFieldState.Valid) MaterialTheme.colorScheme.primary else Red50
+        Column {
+            TextField(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                value = textState,
+                onValueChange = onValueChange,
+                label = {
+                    Text(text = hint)
+                },
+                visualTransformation = visualTransformation,
+                colors = TextFieldDefaults.colors(
+                    focusedLabelColor =
+                    if (validationState == TextFieldState.Valid || validationState == TextFieldState.Default) {
+                        MaterialTheme.colorScheme.primary
+                    } else {
+                        Red50
+                    }
+                ),
             )
-        )
+
+            SignUpHelperText(
+                setMessage(validationState, type)
+            )
+        }
+    }
+
+    @Composable
+    private fun setMessage(state: TextFieldState, type: TextFieldType): String {
+        when (type) {
+            TextFieldType.Username -> {
+                return when (state) {
+                    TextFieldState.Valid -> ""
+                    TextFieldState.InValid -> stringResource(id = R.string.username_invalid)
+                    TextFieldState.LengthError -> stringResource(id = R.string.username_invalid_length)
+                    TextFieldState.Default -> ""
+                }
+            }
+
+            TextFieldType.Email -> {
+                return when (state) {
+                    TextFieldState.Valid -> ""
+                    TextFieldState.InValid -> stringResource(id = R.string.email_invalid)
+                    TextFieldState.LengthError -> ""
+                    TextFieldState.Default -> ""
+                }
+            }
+
+            TextFieldType.Password -> {
+                return when (state) {
+                    TextFieldState.Valid -> ""
+                    TextFieldState.InValid -> stringResource(id = R.string.password_invalid)
+                    TextFieldState.LengthError -> stringResource(id = R.string.password_invalid_length)
+                    TextFieldState.Default -> ""
+                }
+            }
+
+            TextFieldType.Default -> return ""
+        }
     }
 
     @Preview(showBackground = true)
@@ -180,23 +231,28 @@ class SignUpScreen {
     }
 
     @Composable
-    private fun SignUpHelperText() {
-        Text(
-            text = stringResource(id = R.string.password_do_not_match),
-            fontSize = TextHelper,
-            color = Red50,
-            textAlign = TextAlign.Start,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = StartPadding),
-        )
+    private fun SignUpHelperText(message: String) {
+        if (message.isNotEmpty()) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = HelperTextStartPadding)
+            ) {
+                Text(
+                    text = message,
+                    fontSize = TextHelper,
+                    color = Red50,
+                    textAlign = TextAlign.Start,
+                )
+            }
+        }
     }
 
     @Preview(showBackground = true)
     @Composable
     private fun SignUpHelperTextPreview() {
         SignupTheme {
-            SignUpHelperText()
+            SignUpHelperText(stringResource(id = R.string.password_do_not_match))
         }
     }
 }
