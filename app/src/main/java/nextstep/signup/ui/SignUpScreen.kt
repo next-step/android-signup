@@ -9,12 +9,12 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -27,13 +27,16 @@ import androidx.compose.ui.unit.sp
 import nextstep.signup.R
 import nextstep.signup.ui.component.EmailTextField
 import nextstep.signup.ui.component.EmailValidation
+import nextstep.signup.ui.component.EmailValidation.EmailValidationResult
 import nextstep.signup.ui.component.PasswordConfirmTextField
 import nextstep.signup.ui.component.PasswordConfirmValidation
+import nextstep.signup.ui.component.PasswordConfirmValidation.PasswordConfirmValidationResult
 import nextstep.signup.ui.component.PasswordTextField
 import nextstep.signup.ui.component.PasswordValidation
+import nextstep.signup.ui.component.PasswordValidation.PasswordValidationResult
 import nextstep.signup.ui.component.UsernameTextField
 import nextstep.signup.ui.component.UsernameValidation
-import nextstep.signup.ui.component.rememberSignUpTextFieldValidation
+import nextstep.signup.ui.component.UsernameValidation.UsernameValidationResult
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.SignupTheme
 
@@ -85,25 +88,44 @@ fun SignUpScreen(
     onPasswordConfirmChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val usernameValidation =
-        rememberSignUpTextFieldValidation {
-            UsernameValidation()
-        }
+    val usernameValidation = remember { UsernameValidation() }
+    val emailValidation = remember { EmailValidation() }
+    val passwordValidation = remember { PasswordValidation() }
+    val passwordConfirmValidation = remember { PasswordConfirmValidation() }
 
-    val emailValidation =
-        rememberSignUpTextFieldValidation {
-            EmailValidation()
+    val usernameValidationResult by remember(username) {
+        derivedStateOf {
+            usernameValidation.isValid(username)
         }
+    }
 
-    val passwordValidation =
-        rememberSignUpTextFieldValidation {
-            PasswordValidation()
+    val emailValidationResult by remember(email) {
+        derivedStateOf {
+            emailValidation.isValid(email)
         }
+    }
 
-    val passwordConfirmValidation =
-        rememberSignUpTextFieldValidation {
-            PasswordConfirmValidation()
+    val passwordValidationResult by remember(password) {
+        derivedStateOf {
+            passwordValidation.isValid(password)
         }
+    }
+
+    val passwordConfirmValidationResult by remember(
+        PasswordConfirmValidation.PasswordConfirm(
+            password = password,
+            passwordConfirm = passwordConfirm,
+        ),
+    ) {
+        derivedStateOf {
+            passwordConfirmValidation.isValid(
+                PasswordConfirmValidation.PasswordConfirm(
+                    password = password,
+                    passwordConfirm = passwordConfirm,
+                ),
+            )
+        }
+    }
 
     Column(
         modifier = modifier,
@@ -119,7 +141,7 @@ fun SignUpScreen(
         UsernameTextField(
             value = username,
             onValueChange = onUsernameChange,
-            validationResult = usernameValidation.isValid(username),
+            validationResult = usernameValidationResult,
             modifier =
                 Modifier
                     .fillMaxWidth()
@@ -130,7 +152,7 @@ fun SignUpScreen(
         EmailTextField(
             value = email,
             onValueChange = onEmailChange,
-            validationResult = emailValidation.isValid(email),
+            validationResult = emailValidationResult,
             modifier =
                 Modifier
                     .fillMaxWidth()
@@ -141,7 +163,7 @@ fun SignUpScreen(
         PasswordTextField(
             value = password,
             onValueChange = onPasswordChange,
-            validationResult = passwordValidation.isValid(password),
+            validationResult = passwordValidationResult,
             modifier =
                 Modifier
                     .fillMaxWidth()
@@ -152,13 +174,7 @@ fun SignUpScreen(
         PasswordConfirmTextField(
             value = passwordConfirm,
             onValueChange = onPasswordConfirmChange,
-            validationResult =
-                passwordConfirmValidation.isValid(
-                    PasswordConfirmValidation.PasswordConfirm(
-                        password = password,
-                        passwordConfirm = passwordConfirm,
-                    ),
-                ),
+            validationResult = passwordConfirmValidationResult,
             modifier =
                 Modifier
                     .fillMaxWidth()
@@ -166,13 +182,21 @@ fun SignUpScreen(
                     .testTag(stringResource(id = R.string.test_tag_password_confirm)),
         )
 
+        val isSignUpEnabled =
+            isSignUpEnabled(
+                usernameValidationResult = usernameValidationResult,
+                emailValidationResult = emailValidationResult,
+                passwordValidationResult = passwordValidationResult,
+                passwordConfirmValidationResult = passwordConfirmValidationResult,
+            )
+
         Button(
             onClick = { /*TODO*/ },
             colors =
                 ButtonDefaults.buttonColors(
                     containerColor = Blue50,
-                    disabledContainerColor = Color(0x1D1820),
                 ),
+            enabled = isSignUpEnabled,
             modifier =
                 Modifier
                     .padding(top = 42.dp)
@@ -185,6 +209,24 @@ fun SignUpScreen(
             )
         }
     }
+}
+
+@Composable
+private fun isSignUpEnabled(
+    usernameValidationResult: UsernameValidationResult,
+    emailValidationResult: EmailValidationResult,
+    passwordValidationResult: PasswordValidationResult,
+    passwordConfirmValidationResult: PasswordConfirmValidationResult,
+) = remember(
+    usernameValidationResult,
+    emailValidationResult,
+    passwordValidationResult,
+    passwordConfirmValidationResult,
+) {
+    usernameValidationResult.isSuccessFull &&
+        emailValidationResult.isSuccessFull &&
+        passwordValidationResult.isSuccessFull &&
+        passwordConfirmValidationResult.isSuccessFull
 }
 
 @Preview(showBackground = true)
