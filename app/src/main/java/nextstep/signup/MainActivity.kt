@@ -17,6 +17,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,6 +37,7 @@ import androidx.compose.ui.unit.sp
 import nextstep.signup.ui.theme.SignupTheme
 
 class MainActivity : ComponentActivity() {
+    private val userName = mutableStateOf("")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -120,54 +123,73 @@ private fun TextFieldPreview() {
 }
 
 @Composable
-private fun TextFieldView(
-    label: String,
+fun TextFieldView(
+    label: String = "",
     keyboardType: KeyboardType = KeyboardType.Text,
-    visualTransformation: VisualTransformation = VisualTransformation.None
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    inputString: MutableState<String> = mutableStateOf("")
 ) {
-    val text = remember { mutableStateOf("") }
+    val text = remember { inputString }
     val isFocused = remember { mutableStateOf(false) }
-    var isError by remember { mutableStateOf(false)}
-    Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
-        TextField(
-            value = text.value,
-            onValueChange = { newText ->
-                text.value = newText
+    val supportingText by remember(text, keyboardType) {
+        derivedStateOf { getErrorMessage(text.value, keyboardType) }
+    }
+    TextField(
+        value = text.value,
+        onValueChange = {
+            text.value = it
+        },
+        label = {
+            Text(
+                text = label,
+                fontSize = if (isFocused.value) 12.sp else 16.sp,
+            )
+        },
+        colors = TextFieldDefaults.colors(
+            focusedLabelColor = Color(0xFF2196F3),
+            unfocusedLabelColor = Color(0xFF49454F),
+            errorIndicatorColor = Color(0xFFB3261E),
+            errorLabelColor = Color(0xFFB3261E),
+        ),
+        isError = supportingText.isNotEmpty(),
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+        visualTransformation = visualTransformation,
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)
+            .fillMaxWidth()
+            .onFocusChanged { focusState ->
+                isFocused.value = focusState.isFocused
             },
-            label = {
-                Text(
-                    text = label,
-                    fontSize = if (isFocused.value) 12.sp else 16.sp,
-                )
-            },
-            colors = TextFieldDefaults.colors(
-                focusedLabelColor = Color(0xFF2196F3),
-                unfocusedLabelColor = Color(0xFF49454F),
-                errorIndicatorColor = Color(0xFFB3261E),
-                errorLabelColor = Color(0xFFB3261E),
-            ),
-            isError = isError,
-            keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-            visualTransformation = visualTransformation,
-            modifier = Modifier
-                .fillMaxWidth()
-                .onFocusChanged { focusState ->
-                    isFocused.value = focusState.isFocused
-                },
-        )
-        Text(
-            text = "",
-            color = Color(0xFFB3261E),
-            fontSize = 12.sp,
-            modifier = Modifier.padding(start = 16.dp, top = 2.dp)
-        )
+        supportingText = {
+            Text(
+                text = supportingText,
+                color = Color(0xFFB3261E),
+                fontSize = 12.sp
+            )
+        }
+    )
+}
+
+private fun getErrorMessage(
+    input: String,
+    keyboardType: KeyboardType
+): String {
+    return when (keyboardType) {
+        KeyboardType.Text -> {
+            if (input.length in 2..5) {
+                return ""
+            } else {
+                "이름은 2~5자여야 합니다."
+            }
+        } else -> {
+            ""
+        }
     }
 }
 
 @Preview
 @Composable
 private fun TitlePreView() {
-    TitleView( "Welcome to Compose \uD83D\uDE80")
+    TitleView("Welcome to Compose \uD83D\uDE80")
 }
 
 @Composable
