@@ -17,8 +17,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
@@ -41,60 +43,62 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
-    @Composable
-    private fun SingUpView() {
-        Scaffold(
-            topBar = {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 62.dp),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    TitleView("Welcome to Compose \uD83D\uDE80")
-                }
-            },
-            content = { paddingValues ->
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    TextFieldView(
-                        Modifier.padding(16.dp),
-                        "Username",
-                        KeyboardType.Text
-                    )
-                    TextFieldView(
-                        Modifier.padding(16.dp),
-                        "Email",
-                        KeyboardType.Email
-                    )
-                    TextFieldView(
-                        Modifier.padding(16.dp),
-                        "Password",
-                        KeyboardType.Password,
-                        PasswordVisualTransformation()
-                    )
-                    TextFieldView(
-                        Modifier.padding(16.dp),
-                        "Password Confirm",
-                        KeyboardType.Password,
-                        PasswordVisualTransformation()
-                    )
-                    SingUpButtonView(
-                        Modifier.padding(16.dp)
-                    )
-                }
-            },
-            modifier = Modifier.padding(horizontal = 33.dp)
-        )
-    }
 }
 
 @Preview
+@Composable
+private fun SingUpView() {
+    Scaffold(
+        topBar = {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 62.dp),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                TitleView("Welcome to Compose \uD83D\uDE80")
+            }
+        },
+        content = { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                TextFieldView(
+                    "Username",
+                    KeyboardType.Text
+                )
+                TextFieldView(
+                    "Email",
+                    KeyboardType.Email
+                )
+                TextFieldView(
+                    "Password",
+                    KeyboardType.Password,
+                    PasswordVisualTransformation()
+                )
+                TextFieldView(
+                    "Password Confirm",
+                    KeyboardType.Password,
+                    PasswordVisualTransformation()
+                )
+                SingUpButtonView(
+                    Modifier.padding(16.dp)
+                )
+            }
+        },
+        modifier = Modifier.padding(horizontal = 33.dp)
+    )
+}
+
+@Preview
+@Composable
+private fun SingUpButtonPreView() {
+    SingUpButtonView(Modifier)
+}
+
 @Composable
 private fun SingUpButtonView(
     modifier: Modifier = Modifier
@@ -111,43 +115,64 @@ private fun SingUpButtonView(
 
 @Preview
 @Composable
+private fun TextFieldPreview() {
+    TextFieldView("Username", KeyboardType.Text)
+}
+
+@Composable
 private fun TextFieldView(
-    modifier: Modifier = Modifier,
-    label: String = "UserName",
+    label: String,
     keyboardType: KeyboardType = KeyboardType.Text,
     visualTransformation: VisualTransformation = VisualTransformation.None
 ) {
     val text = remember { mutableStateOf("") }
     val isFocused = remember { mutableStateOf(false) }
-    TextField(
-        value = text.value,
-        onValueChange = { newText ->
-            text.value = newText
-        },
-        label = {
-            Text(
-                text = label,
-                fontSize = if (isFocused.value) 12.sp else 16.sp,
-            )
-        },
-        colors = TextFieldDefaults.colors(
-            focusedLabelColor = Color(0xFF2196F3),
-            unfocusedLabelColor = Color(0xFF49454F)
-        ),
-        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-        visualTransformation = visualTransformation,
-        modifier = modifier
-            .fillMaxWidth()
-            .onFocusChanged { focusState ->
-                isFocused.value = focusState.isFocused
+    var isError by remember { mutableStateOf(false)}
+    Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
+        TextField(
+            value = text.value,
+            onValueChange = { newText ->
+                text.value = newText
             },
-    )
+            label = {
+                Text(
+                    text = label,
+                    fontSize = if (isFocused.value) 12.sp else 16.sp,
+                )
+            },
+            colors = TextFieldDefaults.colors(
+                focusedLabelColor = Color(0xFF2196F3),
+                unfocusedLabelColor = Color(0xFF49454F),
+                errorIndicatorColor = Color(0xFFB3261E),
+                errorLabelColor = Color(0xFFB3261E),
+            ),
+            isError = isError,
+            keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+            visualTransformation = visualTransformation,
+            modifier = Modifier
+                .fillMaxWidth()
+                .onFocusChanged { focusState ->
+                    isFocused.value = focusState.isFocused
+                },
+        )
+        Text(
+            text = "",
+            color = Color(0xFFB3261E),
+            fontSize = 12.sp,
+            modifier = Modifier.padding(start = 16.dp, top = 2.dp)
+        )
+    }
 }
 
 @Preview
 @Composable
+private fun TitlePreView() {
+    TitleView( "Welcome to Compose \uD83D\uDE80")
+}
+
+@Composable
 private fun TitleView(
-    title: String = "Welcome to Compose \uD83D\uDE80"
+    title: String
 ) {
     Text(
         text = title,
