@@ -13,6 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,6 +30,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import nextstep.signup.Validator.isValid
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.Dimens.ButtonHeight
 import nextstep.signup.ui.theme.Dimens.ButtonRadius
@@ -37,6 +39,7 @@ import nextstep.signup.ui.theme.Dimens.EndPadding
 import nextstep.signup.ui.theme.Dimens.LargePadding
 import nextstep.signup.ui.theme.Dimens.StartPadding
 import nextstep.signup.ui.theme.Dimens.TopPadding
+import nextstep.signup.ui.theme.Red50
 import nextstep.signup.ui.theme.SignupTheme
 
 class SignUpScreen {
@@ -59,18 +62,20 @@ class SignUpScreen {
                 ) {
                     SignUpTitle()
                     Spacer(modifier = Modifier.height(LargePadding))
-                    SignUpTextField(stringResource(id = R.string.username))
+                    SignUpTextField(stringResource(id = R.string.username), TextFieldType.Username)
                     Spacer(modifier = Modifier.height(LargePadding))
-                    SignUpTextField(stringResource(id = R.string.email))
+                    SignUpTextField(stringResource(id = R.string.email), TextFieldType.Email)
                     Spacer(modifier = Modifier.height(LargePadding))
                     SignUpTextField(
                         stringResource(id = R.string.password),
-                        visualTransformation = PasswordVisualTransformation()
+                        visualTransformation = PasswordVisualTransformation(),
+                        type = TextFieldType.Password
                     )
                     Spacer(modifier = Modifier.height(LargePadding))
                     SignUpTextField(
                         stringResource(id = R.string.password_confirm),
-                        visualTransformation = PasswordVisualTransformation()
+                        visualTransformation = PasswordVisualTransformation(),
+                        type = TextFieldType.Password
                     )
                     Spacer(modifier = Modifier.height(LargePadding))
                     SignUpButton()
@@ -101,12 +106,15 @@ class SignUpScreen {
     @Composable
     private fun SignUpTextField(
         hint: String,
+        type: TextFieldType,
         visualTransformation: VisualTransformation = VisualTransformation.None
     ) {
         var textState by remember { mutableStateOf("") }
+        var isValid: TextFieldState by remember { mutableStateOf(TextFieldState.InValid) }
 
         val onValueChange = { value: String ->
             textState = value
+            isValid = isValid(value, type)
         }
 
         TextField(
@@ -116,6 +124,9 @@ class SignUpScreen {
                 Text(text = hint)
             },
             visualTransformation = visualTransformation,
+            colors = TextFieldDefaults.colors(
+                focusedLabelColor = if (isValid == TextFieldState.Valid) MaterialTheme.colorScheme.primary else Red50
+            )
         )
     }
 
@@ -123,7 +134,7 @@ class SignUpScreen {
     @Composable
     private fun SignUpTextFieldPreview() {
         SignupTheme {
-            SignUpTextField(stringResource(id = R.string.username))
+            SignUpTextField(stringResource(id = R.string.username), TextFieldType.Username)
         }
     }
 
