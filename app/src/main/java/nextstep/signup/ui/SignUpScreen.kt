@@ -1,6 +1,5 @@
 package nextstep.signup.ui
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -313,7 +312,6 @@ private fun SignUpContent(
 
         Button(
             onClick = {
-                Log.d("SignUpScreen", "Button Clicked")
                 keyboardController?.hide()
                 onSignUpClicked()
             },
