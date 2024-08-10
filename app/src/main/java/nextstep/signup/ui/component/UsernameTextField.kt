@@ -14,24 +14,16 @@ fun UsernameTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    validationResult: ValidationResult = ValidationResult.Empty
 ) {
-    val usernameValidation =
-        rememberSignUpTextFieldValidation(value) { UsernameValidation(value) }
-    val isError = !usernameValidation.isValid()
     val supportText: @Composable (() -> Unit)? =
-        when {
-            isError -> {
-                when (usernameValidation.errorType) {
-                    UsernameValidation.ErrorType.LENGTH -> {
-                        { Text(text = stringResource(id = R.string.error_username_length)) }
-                    }
+        when (validationResult) {
+            is UsernameValidation.FailureUsernameLength -> {
+                { Text(text = stringResource(id = R.string.error_username_length)) }
+            }
 
-                    UsernameValidation.ErrorType.FORMAT -> {
-                        { Text(text = stringResource(id = R.string.error_username_format)) }
-                    }
-
-                    else -> null
-                }
+            is UsernameValidation.FailureUsernameFormat -> {
+                { Text(text = stringResource(id = R.string.error_username_format)) }
             }
 
             else -> null
@@ -42,7 +34,7 @@ fun UsernameTextField(
         onValueChange = onValueChange,
         label = { Text(text = stringResource(id = R.string.sign_up_label_username)) },
         modifier = modifier,
-        isError = isError,
+        isError = validationResult.isFailure,
         supportText = supportText,
     )
 }

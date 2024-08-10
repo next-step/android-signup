@@ -26,8 +26,8 @@
   - [v] SignScreen Preview Parameter 추가
 
 ## :rocket: 4단계 - 회원가입(리팩토링)
-- [] SignScreen 컴포넌트 리팩토링
+- [v] SignScreen 컴포넌트 리팩토링
   - [v] SignScreen 컴포넌트 테스트 코드 리팩토링
-  - [] SignScreen 컴포넌트 리팩토링
+  - [v] SignScreen 컴포넌트 리팩토링
 - [] 회원가입 버튼 비/활성화 로직 추가
 - [] 회원가입 성공시 스낵바 보여주기

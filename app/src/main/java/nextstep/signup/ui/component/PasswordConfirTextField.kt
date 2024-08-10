@@ -16,21 +16,12 @@ import nextstep.signup.R.string
 @Composable
 fun PasswordConfirmTextField(
     value: String,
-    target: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    validationResult: ValidationResult = ValidationResult.Empty,
 ) {
-    val validation =
-        rememberSignUpTextFieldValidation(value, target) {
-            PasswordConfirmValidation(
-                value,
-                target,
-            )
-        }
-
-    val isError = !validation.isValid()
     val supportText: @Composable (() -> Unit)? =
-        if (isError) {
+        if (validationResult is PasswordConfirmValidation.FailurePasswordNotMatch) {
             { Text(text = stringResource(id = R.string.error_password_confirm)) }
         } else {
             null
@@ -42,7 +33,7 @@ fun PasswordConfirmTextField(
         label = { Text(text = stringResource(id = string.sign_up_label_password_confirm)) },
         visualTransformation = PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-        isError = isError,
+        isError = validationResult.isFailure,
         supportText = supportText,
         modifier = modifier,
     )
@@ -51,17 +42,29 @@ fun PasswordConfirmTextField(
 @Preview(showBackground = true)
 @Composable
 fun PasswordConfirmTextFieldPreview(
-    @PreviewParameter(PasswordConfirmTextFieldPreviewParameterProvider::class) value: Pair<String, String>,
+    @PreviewParameter(PasswordConfirmTextFieldPreviewParameterProvider::class) param: PasswordConfirmTextFieldPreviewParameter,
 ) {
-    PasswordConfirmTextField(value = value.first, target = value.second, onValueChange = {})
+    PasswordConfirmTextField(
+        value = param.value,
+        onValueChange = {},
+        validationResult = param.validationResult,
+    )
 }
 
-class PasswordConfirmTextFieldPreviewParameterProvider : PreviewParameterProvider<Pair<String, String>> {
-    override val values: Sequence<Pair<String, String>>
+class PasswordConfirmTextFieldPreviewParameterProvider : PreviewParameterProvider<PasswordConfirmTextFieldPreviewParameter> {
+    override val values: Sequence<PasswordConfirmTextFieldPreviewParameter>
         get() =
             sequenceOf(
-                "password1234" to "password1234",
-                "password1234" to "password123",
-                "" to "",
+                PasswordConfirmTextFieldPreviewParameter("password1234", ValidationResult.Success),
+                PasswordConfirmTextFieldPreviewParameter(
+                    "password1234",
+                    PasswordConfirmValidation.FailurePasswordNotMatch,
+                ),
+                PasswordConfirmTextFieldPreviewParameter("", ValidationResult.Empty),
             )
 }
+
+data class PasswordConfirmTextFieldPreviewParameter(
+    val value: String,
+    val validationResult: ValidationResult,
+)

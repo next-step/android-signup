@@ -16,11 +16,10 @@ fun EmailTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    validationResult: ValidationResult = ValidationResult.Empty,
 ) {
-    val validation = rememberSignUpTextFieldValidation(value) { EmailValidation(value) }
-    val isError = !validation.isValid()
     val supportText: @Composable (() -> Unit)? =
-        if (isError) {
+        if (validationResult is EmailValidation.FailureEmailFormat) {
             { Text(text = stringResource(id = R.string.error_email_format)) }
         } else {
             null
@@ -31,7 +30,7 @@ fun EmailTextField(
         onValueChange = onValueChange,
         label = { Text(text = stringResource(id = R.string.sign_up_label_email)) },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-        isError = isError,
+        isError = validationResult.isFailure,
         supportText = supportText,
         modifier = modifier,
     )
@@ -40,16 +39,26 @@ fun EmailTextField(
 @Preview(showBackground = true)
 @Composable
 fun EmailTextFieldPreview(
-    @PreviewParameter(EmailTextFieldPreviewParameterProvider::class) value: String,
+    @PreviewParameter(EmailTextFieldPreviewParameterProvider::class) param: EmailTextFieldPreviewParameter,
 ) {
-    EmailTextField(value = value, onValueChange = {})
+    EmailTextField(
+        value = param.value,
+        onValueChange = {},
+        validationResult = param.validationResult,
+    )
 }
 
-class EmailTextFieldPreviewParameterProvider : PreviewParameterProvider<String> {
-    override val values: Sequence<String>
-        get() = sequenceOf(
-            "",
-            "email@yopmail.com",
-            "email@yopmail",
-        )
+class EmailTextFieldPreviewParameterProvider : PreviewParameterProvider<EmailTextFieldPreviewParameter> {
+    override val values: Sequence<EmailTextFieldPreviewParameter>
+        get() =
+            sequenceOf(
+                EmailTextFieldPreviewParameter("", ValidationResult.Empty),
+                EmailTextFieldPreviewParameter("email@yopmail.com", ValidationResult.Success),
+                EmailTextFieldPreviewParameter("email@yopmail", EmailValidation.FailureEmailFormat),
+            )
 }
+
+data class EmailTextFieldPreviewParameter(
+    val value: String,
+    val validationResult: ValidationResult,
+)

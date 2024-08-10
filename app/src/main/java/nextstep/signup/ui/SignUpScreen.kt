@@ -25,9 +25,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.R
 import nextstep.signup.ui.component.EmailTextField
+import nextstep.signup.ui.component.EmailValidation
 import nextstep.signup.ui.component.PasswordConfirmTextField
+import nextstep.signup.ui.component.PasswordConfirmValidation
 import nextstep.signup.ui.component.PasswordTextField
+import nextstep.signup.ui.component.PasswordValidation
 import nextstep.signup.ui.component.UsernameTextField
+import nextstep.signup.ui.component.UsernameValidation
+import nextstep.signup.ui.component.rememberSignUpTextFieldValidation
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.SignupTheme
 
@@ -79,6 +84,26 @@ fun SignUpScreen(
     onPasswordConfirmChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val usernameValidation =
+        rememberSignUpTextFieldValidation {
+            UsernameValidation()
+        }
+
+    val emailValidation =
+        rememberSignUpTextFieldValidation {
+            EmailValidation()
+        }
+
+    val passwordValidation =
+        rememberSignUpTextFieldValidation {
+            PasswordValidation()
+        }
+
+    val passwordConfirmValidation =
+        rememberSignUpTextFieldValidation {
+            PasswordConfirmValidation()
+        }
+
     Column(
         modifier = modifier,
     ) {
@@ -93,6 +118,7 @@ fun SignUpScreen(
         UsernameTextField(
             value = username,
             onValueChange = onUsernameChange,
+            validationResult = usernameValidation.isValid(username),
             modifier =
                 Modifier
                     .fillMaxWidth()
@@ -102,6 +128,7 @@ fun SignUpScreen(
         EmailTextField(
             value = email,
             onValueChange = onEmailChange,
+            validationResult = emailValidation.isValid(email),
             modifier =
                 Modifier
                     .fillMaxWidth()
@@ -111,6 +138,7 @@ fun SignUpScreen(
         PasswordTextField(
             value = password,
             onValueChange = onPasswordChange,
+            validationResult = passwordValidation.isValid(password),
             modifier =
                 Modifier
                     .fillMaxWidth()
@@ -119,8 +147,14 @@ fun SignUpScreen(
 
         PasswordConfirmTextField(
             value = passwordConfirm,
-            target = password,
             onValueChange = onPasswordConfirmChange,
+            validationResult =
+                passwordConfirmValidation.isValid(
+                    PasswordConfirmValidation.PasswordConfirm(
+                        password = password,
+                        passwordConfirm = passwordConfirm,
+                    ),
+                ),
             modifier =
                 Modifier
                     .fillMaxWidth()

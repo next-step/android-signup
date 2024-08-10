@@ -31,9 +31,9 @@ class UsernameValidation(
 
     private fun validateUsername(username: String): ValidationResult =
         when {
-            username.isEmpty() -> ValidationResult.Success
-            username.length !in lengthRange -> TODO()
-            !regex.toRegex().matches(username) -> TODO()
+            username.isEmpty() -> ValidationResult.Empty
+            username.length !in lengthRange -> FailureUsernameLength
+            !regex.toRegex().matches(username) -> FailureUsernameFormat
             else -> ValidationResult.Success
         }
 
@@ -58,8 +58,8 @@ class EmailValidation(
 
     private fun validateEmail(email: String): ValidationResult =
         when {
-            email.isEmpty() -> TODO()
-            !pattern.matcher(email).matches() -> TODO()
+            email.isEmpty() -> ValidationResult.Empty
+            !pattern.matcher(email).matches() -> FailureEmailFormat
             else -> ValidationResult.Success
         }
 
@@ -76,9 +76,9 @@ class PasswordValidation(
 
     private fun validatePassword(password: String): ValidationResult =
         when {
-            password.isEmpty() -> TODO()
-            password.length !in lengthRange -> TODO()
-            !regex.toRegex().matches(password) -> TODO()
+            password.isEmpty() -> ValidationResult.Empty
+            password.length !in lengthRange -> FailurePasswordLength
+            !regex.toRegex().matches(password) -> FailurePasswordFormat
             else -> ValidationResult.Success
         }
 
@@ -110,8 +110,9 @@ class PasswordConfirmValidation : SignUpTextFieldValidation<PasswordConfirmValid
         passwordConfirm: String,
     ): ValidationResult =
         when {
-            password.isEmpty() || passwordConfirm.isEmpty() -> TODO()
-            password != passwordConfirm -> TODO()
+            password.isEmpty() -> EmptyPassword
+            passwordConfirm.isEmpty() -> EmptyPasswordConfirm
+            password != passwordConfirm -> FailurePasswordNotMatch
             else -> ValidationResult.Success
         }
 

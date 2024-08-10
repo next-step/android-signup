@@ -73,20 +73,41 @@ object SignUpTextFieldDefaults {
 @Preview(showBackground = true)
 @Composable
 fun SignUpTextFieldPreview(
-    @PreviewParameter(SignUpTextFieldPreviewParameterProvider::class) value: Pair<String, String>,
+    @PreviewParameter(SignUpTextFieldPreviewParameterProvider::class) param: SignUpTextFieldPreviewParameter,
 ) {
     SignUpTextField(
-        value = value.first,
-        onValueChange = {},
-        label = { Text(text = value.second) },
+        value = param.value,
+        onValueChange = { },
+        label = { Text(text = param.label) },
+        isError = param.isError,
+        supportText = param.supportText?.let { { Text(text = it) } },
     )
 }
 
-class SignUpTextFieldPreviewParameterProvider : PreviewParameterProvider<Pair<String, String>> {
-    override val values: Sequence<Pair<String, String>>
+class SignUpTextFieldPreviewParameterProvider : PreviewParameterProvider<SignUpTextFieldPreviewParameter> {
+    override val values: Sequence<SignUpTextFieldPreviewParameter>
         get() =
             sequenceOf(
-                "" to "Welcome",
-                "user" to "Welcome",
+                SignUpTextFieldPreviewParameter(
+                    value = "User",
+                    label = "",
+                ),
+                SignUpTextFieldPreviewParameter(
+                    value = "User",
+                    label = "Welcome",
+                ),
+                SignUpTextFieldPreviewParameter(
+                    value = "User12345",
+                    label = "Welcome",
+                    isError = true,
+                    supportText = "Error",
+                ),
             )
 }
+
+data class SignUpTextFieldPreviewParameter(
+    val value: String,
+    val label: String,
+    val isError: Boolean = false,
+    val supportText: String? = null,
+)
