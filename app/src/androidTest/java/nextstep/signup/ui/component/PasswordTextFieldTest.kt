@@ -37,6 +37,10 @@ class PasswordTextFieldTest {
         composeTestRule
             .onNodeWithText(PASSWORD_FORMAT_ERROR)
             .assertDoesNotExist()
+
+        composeTestRule
+            .onNodeWithText('\u2022'.toString().repeat(password.value.length))
+            .assertExists()
     }
 
     @Test
