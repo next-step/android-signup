@@ -16,3 +16,4 @@ val BlueGrey20 = Color(0xFFE3E8F1)
 
 val Black10 = Color(0xFF1D1B20) // undefined color
 val Grey10 = Color(0xFF49454F) // undefined color
+val Red10 = Color(0xFFB3261E) // undefined color
