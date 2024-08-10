@@ -57,7 +57,6 @@ fun SignUpScreen() {
                     .fillMaxWidth()
                     .padding(top = 70.dp)
             )
-
         }
     }
 }
@@ -67,12 +66,10 @@ fun SignUpScreen() {
  **/
 @Composable
 fun SignUpTitle(
-    modifier: Modifier
+    modifier: Modifier,
 ) {
     Text(
-        text = stringResource(id = R.string.signe_up_title),
-        modifier = modifier,
-        style = TextStyle(
+        text = stringResource(id = R.string.signe_up_title), modifier = modifier, style = TextStyle(
             fontSize = 26.sp,
             fontFamily = FontFamily.SansSerif,
             fontWeight = FontWeight.Bold,
@@ -189,14 +186,7 @@ fun PreviewSignUpTitle() {
 fun PreviewSigneUpTextField() {
     val signUpType = SignUpUserInputTextFieldType.entries.toTypedArray().random()
     SigneUpTextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(
-                top = 17.dp,
-                bottom = 17.dp,
-                start = 30.dp,
-                end = 30.dp
-            ),
+        modifier = Modifier,
         label = signUpType.label,
         keyboardType = signUpType.keyboardType,
         visualTransformation = signUpType.visualTransformation,
@@ -226,3 +216,4 @@ fun PreviewSignUpButton() {
         }
     )
 }
+

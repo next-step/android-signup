@@ -1,7 +1,6 @@
 package nextstep.signup.ui.theme
 
 import androidx.compose.ui.graphics.Color
-import nextstep.signup.R
 
 val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)
