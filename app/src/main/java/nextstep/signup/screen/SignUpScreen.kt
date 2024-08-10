@@ -186,7 +186,14 @@ fun PreviewSignUpTitle() {
 fun PreviewSigneUpTextField() {
     val signUpType = SignUpUserInputTextFieldType.entries.toTypedArray().random()
     SigneUpTextField(
-        modifier = Modifier,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                top = 17.dp,
+                bottom = 17.dp,
+                start = 30.dp,
+                end = 30.dp
+            ),
         label = signUpType.label,
         keyboardType = signUpType.keyboardType,
         visualTransformation = signUpType.visualTransformation,

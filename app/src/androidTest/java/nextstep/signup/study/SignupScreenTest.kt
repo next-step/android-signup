@@ -3,6 +3,9 @@ package nextstep.signup.study
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c4d4631 (test:회원가입 Input textfiled 글자 썼을때 일치 여부 체크)
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -51,5 +54,6 @@ class SignupScreenTest {
             .onNodeWithText("Welcome to Compose \uD83D\uDE80")
             .assertExists()
     }
+
 
 }
