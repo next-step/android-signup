@@ -4,11 +4,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.text.input.KeyboardType
+import nextstep.signup.ui.theme.screen.TextFieldView
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class InputValidationTest {
+class UserInputValidationTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -75,51 +76,6 @@ class InputValidationTest {
             .onNodeWithText(USERNAME_REX_ERROR)
             .assertExists()
     }
-
-//    @Test
-//    fun 이메일_형식이_올바르지_않은경우_에러메시지가_노출된다() {
-//        // when
-//        username.value = "김컴포즈입니다"
-//
-//        // then
-//        composeTestRule
-//            .onNodeWithText(USERNAME_LENGTH_ERROR)
-//            .assertExists()
-//    }
-//
-//    @Test
-//    fun 비밀번호는_8에서_16자여야_한다() {
-//        // when
-//        username.value = "김컴포즈입니다"
-//
-//        // then
-//        composeTestRule
-//            .onNodeWithText(USERNAME_LENGTH_ERROR)
-//            .assertExists()
-//    }
-//
-//    @Test
-//    fun 비밀번호는_영문과_숫자를_포함해야_한다() {
-//        // when
-//        username.value = "김컴포즈입니다"
-//
-//        // then
-//        composeTestRule
-//            .onNodeWithText(USERNAME_LENGTH_ERROR)
-//            .assertExists()
-//    }
-//
-//    @Test
-//    fun 비밀번호가_확인비밀번호는_일치해야_한다() {
-//        // when
-//        username.value = "김컴포즈입니다"
-//
-//        // then
-//        composeTestRule
-//            .onNodeWithText(USERNAME_LENGTH_ERROR)
-//            .assertExists()
-//    }
-
 
     companion object {
         private const val USERNAME_LENGTH_ERROR = "이름은 2~5자여야 합니다."

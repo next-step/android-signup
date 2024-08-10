@@ -92,7 +92,15 @@ private fun getErrorMessage(
             } else {
                 ""
             }
-        } else -> {
+        }
+        KeyboardType.Email -> {
+            if (!input.matches(Regex(EMAIL_REGEX))) {
+                return "이메일 형식이 올바르지 않습니다."
+            } else {
+                ""
+            }
+        }
+        else -> {
             ""
         }
     }
