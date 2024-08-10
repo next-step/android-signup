@@ -2,7 +2,6 @@ package nextstep.signup
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.text.input.KeyboardType
 import org.junit.Before
@@ -41,6 +40,39 @@ class InputValidationTest {
         // then
         composeTestRule
             .onNodeWithText(USERNAME_LENGTH_ERROR)
+            .assertExists()
+    }
+
+    @Test
+    fun 사용자_이름에는_숫자나_기호가_포함될_수_없다() {
+        // when
+        inputData.value = "김컴포즈"
+
+        // then
+        composeTestRule
+            .onNodeWithText(USERNAME_REX_ERROR)
+            .assertDoesNotExist()
+    }
+
+    @Test
+    fun 사용자_이름에는_숫자가_포함되면_에러가_노출된다() {
+        // when
+        inputData.value = "1김컴포즈"
+
+        // then
+        composeTestRule
+            .onNodeWithText(USERNAME_REX_ERROR)
+            .assertExists()
+    }
+
+    @Test
+    fun 사용자_이름에는_기호가_포함되면_에러가_노출된다() {
+        // when
+        inputData.value = "!김컴포즈"
+
+        // then
+        composeTestRule
+            .onNodeWithText(USERNAME_REX_ERROR)
             .assertExists()
     }
 
@@ -91,5 +123,6 @@ class InputValidationTest {
 
     companion object {
         private const val USERNAME_LENGTH_ERROR = "이름은 2~5자여야 합니다."
+        private const val USERNAME_REX_ERROR = "이름에는 숫자나 기호가 포함될 수 없습니다."
     }
 }

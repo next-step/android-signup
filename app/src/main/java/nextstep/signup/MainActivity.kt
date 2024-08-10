@@ -175,10 +175,12 @@ private fun getErrorMessage(
 ): String {
     return when (keyboardType) {
         KeyboardType.Text -> {
-            if (input.length in 2..5) {
-                return ""
+            if (input.length !in 2..5) {
+                return "이름은 2~5자여야 합니다."
+            } else if (!input.matches(Regex(USERNAME_REGEX))) {
+                return "이름에는 숫자나 기호가 포함될 수 없습니다."
             } else {
-                "이름은 2~5자여야 합니다."
+                ""
             }
         } else -> {
             ""
@@ -203,3 +205,7 @@ private fun TitleView(
         fontWeight = FontWeight.Bold
     )
 }
+
+const val USERNAME_REGEX = "^[a-zA-Z가-힣]+$"
+const val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
+const val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$"
