@@ -1,65 +1,54 @@
 package nextstep.signup.ui.component
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import nextstep.signup.R
+import nextstep.signup.SignUpUiState
+import nextstep.signup.SignUpViewModel
 import nextstep.signup.ui.theme.SignupTheme
-
-const val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
 
 @Composable
 fun EmailInput(
     value: String,
     onValueChange: (String) -> Unit,
+    signUpUiState: SignUpUiState,
     modifier: Modifier = Modifier
 ) {
-    val errorMessageResId = getEmailErrorMessage(value)
-
-    TextField(
+    SignUpInput(
         value = value,
         onValueChange = onValueChange,
-        maxLines = 1,
-        isError = errorMessageResId != null,
+        isError = signUpUiState.isEmailFormatError,
         supportingText = {
-            if (errorMessageResId != null) {
-                Text(text = stringResource(id = errorMessageResId))
+            if (signUpUiState.isEmailFormatError) {
+                Text(text = stringResource(id = R.string.emailInvalidFormatMessage))
             }
         },
-        label = { Text(text = stringResource(id = R.string.emailLabel)) },
+        label = stringResource(id = R.string.emailLabel),
         modifier = modifier
     )
 }
 
-fun getEmailErrorMessage(value: String): Int? {
-    return when {
-        value.isEmpty() -> null
-        !value.matches(Regex(EMAIL_REGEX)) -> R.string.emailInvalidFormatMessage
-        else -> null
-    }
-}
-
+@SuppressLint("StateFlowValueCalledInComposition")
 @Preview
 @Composable
 private fun EmailInputPreview() {
-    var email by remember { mutableStateOf("") }
+    val viewmodel: SignUpViewModel = viewModel()
 
     SignupTheme {
         EmailInput(
-            value = email,
+            value = viewmodel.email,
             onValueChange = {
-                email = it
+                viewmodel.updateEmail(it)
             },
+            signUpUiState = viewmodel.uiState.value,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(20.dp)

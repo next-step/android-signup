@@ -1,8 +1,8 @@
 package nextstep.signup.study
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import nextstep.signup.SignUpViewModel
 import nextstep.signup.ui.component.EmailInput
 import nextstep.signup.ui.component.PasswordConfirmInput
 import nextstep.signup.ui.component.PasswordInput
@@ -15,40 +15,41 @@ class InputValidationTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
-    private val username = mutableStateOf("")
-    private val email = mutableStateOf("")
-    private val password = mutableStateOf("")
-    private val passConfirm = mutableStateOf("")
+    private val viewModel = SignUpViewModel()
 
     @Before
     fun setup() {
         composeTestRule.setContent {
             UserNameInput(
-                value = username.value,
+                value = viewModel.username,
+                signUpUiState = viewModel.uiState.value,
                 onValueChange = {
-                    username.value = it
+                    viewModel.updateUsername(it)
                 }
             )
 
             EmailInput(
-                value = email.value,
+                value = viewModel.email,
+                signUpUiState = viewModel.uiState.value,
                 onValueChange = {
-                    email.value = it
-                }
+                    viewModel.updateEmail(it)
+                },
+
             )
 
             PasswordInput(
-                value = password.value,
+                value = viewModel.password,
+                signUpUiState = viewModel.uiState.value,
                 onValueChange = {
-                    password.value = it
+                    viewModel.updatePassword(it)
                 }
             )
 
             PasswordConfirmInput(
-                value = passConfirm.value,
-                password = password.value,
+                value = viewModel.passwordConfirm,
+                signUpUiState = viewModel.uiState.value,
                 onValueChange = {
-                    passConfirm.value = it
+                    viewModel.updatePasswordConfirm(it)
                 }
             )
         }
@@ -57,7 +58,7 @@ class InputValidationTest {
     @Test
     fun 사용자_이름은_2에서_5자여야_한다() {
         // when
-        username.value = "김컴포즈"
+        viewModel.updateUsername("김컴포즈")
 
         // then
         composeTestRule
@@ -68,7 +69,7 @@ class InputValidationTest {
     @Test
     fun 사용자_이름이_2에서_5자가_아니면_에러메시지가_노출된다() {
         // when
-        username.value = "김컴포즈입니다"
+        viewModel.updateUsername("김컴포즈입니다")
 
         // then
         composeTestRule
@@ -78,7 +79,7 @@ class InputValidationTest {
 
     @Test
     fun 이메일은_형식에_맞게_작성되어야_한다() {
-        email.value = "1234@gmail.com"
+        viewModel.updateEmail("1234@gmail.com")
 
         composeTestRule
             .onNodeWithText(EMAIL_INVALID_FORMAT_ERROR)
@@ -87,7 +88,7 @@ class InputValidationTest {
 
     @Test
     fun 이메일이_형식에_맞지_않는다면_에러메시지가_노출된다() {
-        email.value = "1234@"
+        viewModel.updateEmail("1234@")
 
         composeTestRule
             .onNodeWithText(EMAIL_INVALID_FORMAT_ERROR)
@@ -96,7 +97,7 @@ class InputValidationTest {
 
     @Test
     fun 비밀번호는_8에서16자이고_영문과_숫자를_포함해야_한다() {
-        password.value = "asdf1234"
+        viewModel.updatePassword("asdf1234")
 
         composeTestRule
             .onNodeWithText(PASSWORD_VALIDATION_ERROR)
@@ -105,7 +106,7 @@ class InputValidationTest {
 
     @Test
     fun 비밀번호의_길이는_맞고_형식이_틀리면_에러메시지가_노출된다() {
-        password.value = "12341234"
+        viewModel.updatePassword("12341234")
 
         composeTestRule
             .onNodeWithText(PASSWORD_VALIDATION_ERROR)
@@ -114,7 +115,7 @@ class InputValidationTest {
 
     @Test
     fun 비밀번호의_형식은_맞고_길이가_맞지_않으면_에러메시지가_노출된다() {
-        password.value = "1234a"
+        viewModel.updatePassword("1234a")
 
         composeTestRule
             .onNodeWithText(PASSWORD_VALIDATION_ERROR)
@@ -123,7 +124,7 @@ class InputValidationTest {
 
     @Test
     fun 비밀번호의_길이와_형식이_맞지_않으면_에러메시지가_노출된다() {
-        password.value = "1234"
+        viewModel.updatePassword("1234")
 
         composeTestRule
             .onNodeWithText(PASSWORD_VALIDATION_ERROR)
@@ -132,8 +133,8 @@ class InputValidationTest {
 
     @Test
     fun 비밀번호와_비밀번호_확인값은_일치해야_한다() {
-        password.value = "asdf1234"
-        passConfirm.value = "asdf1234"
+        viewModel.updatePassword("asdf1234")
+        viewModel.updatePasswordConfirm("asdf1234")
 
         composeTestRule
             .onNodeWithText(PASSWORD_MISMATCH_ERROR)
@@ -142,8 +143,8 @@ class InputValidationTest {
 
     @Test
     fun 비밀번호와_비밀번호_확인값이_일치하지_않으면_에러메시지가_노출된다() {
-        password.value = "asdf1234"
-        passConfirm.value = "asdf12344"
+        viewModel.updatePassword("asdf1234")
+        viewModel.updatePasswordConfirm("asdf12344")
 
         composeTestRule
             .onNodeWithText(PASSWORD_MISMATCH_ERROR)
