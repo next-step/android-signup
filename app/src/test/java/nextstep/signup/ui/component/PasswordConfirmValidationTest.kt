@@ -1,59 +1,70 @@
 package nextstep.signup.ui.component
 
-import junit.framework.TestCase.assertFalse
-import junit.framework.TestCase.assertTrue
+import junit.framework.TestCase.assertEquals
 import org.junit.Test
 
 class PasswordConfirmValidationTest {
     @Test
-    fun `비밀번호가 일치하면 true를 반환한다`() {
+    fun `비밀번호가 일치하면 성공한다`() {
         // given
-        val password = "password"
-        val passwordConfirm = "password"
+        val passwordConfirm =
+            PasswordConfirmValidation.PasswordConfirm(
+                password = "password",
+                passwordConfirm = "password",
+            )
 
         // when
-        val result = PasswordConfirmValidation(password, passwordConfirm).isValid()
+        val result = PasswordConfirmValidation().isValid(passwordConfirm)
 
         // then
-        assertTrue(result)
+        assertEquals(ValidationResult.Success, result)
     }
 
     @Test
-    fun `비밀번호가 일치하지 않으면 false를 반환한다`() {
+    fun `비밀번호가 일치하지 않으면 실패한다`() {
         // given
-        val password = "password"
-        val passwordConfirm = "password1"
+        val passwordConfirm =
+            PasswordConfirmValidation.PasswordConfirm(
+                password = "password",
+                passwordConfirm = "password1",
+            )
 
         // when
-        val result = PasswordConfirmValidation(password, passwordConfirm).isValid()
+        val result = PasswordConfirmValidation().isValid(passwordConfirm)
 
         // then
-        assertFalse(result)
+        assertEquals(PasswordConfirmValidation.FailurePasswordNotMatch, result)
     }
 
     @Test
-    fun `비밀번호가 비어있으면 false를 반환한다`() {
+    fun `비밀번호가 비어있으면 비밀번호 비었음을 반환한다`() {
         // given
-        val password = ""
-        val passwordConfirm = ""
+        val passwordConfirm =
+            PasswordConfirmValidation.PasswordConfirm(
+                "",
+                "",
+            )
 
         // when
-        val result = PasswordConfirmValidation(password, passwordConfirm).isValid()
+        val result = PasswordConfirmValidation().isValid(passwordConfirm)
 
         // then
-        assertFalse(result)
+        assertEquals(PasswordConfirmValidation.EmptyPassword, result)
     }
 
     @Test
-    fun `비밀번호 확인이 비어있으면 false를 반환한다`() {
+    fun `비밀번호 확인이 비어있으면 비밀번호 비었을를 반환한다`() {
         // given
-        val password = "password"
-        val passwordConfirm = ""
+        val passwordConfirm =
+            PasswordConfirmValidation.PasswordConfirm(
+                password = "password",
+                passwordConfirm = "",
+            )
 
         // when
-        val result = PasswordConfirmValidation(password, passwordConfirm).isValid()
+        val result = PasswordConfirmValidation().isValid(passwordConfirm)
 
         // then
-        assertFalse(result)
+        assertEquals(PasswordConfirmValidation.EmptyPasswordConfirm, result)
     }
 }

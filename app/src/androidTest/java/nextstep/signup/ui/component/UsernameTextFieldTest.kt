@@ -11,6 +11,7 @@ class UsernameTextFieldTest {
     @get:Rule
     val composeTestRule = createComposeRule()
     private val username = mutableStateOf("")
+    private val usernameValidation = UsernameValidation()
 
     @Before
     fun setup() {
@@ -18,6 +19,7 @@ class UsernameTextFieldTest {
             UsernameTextField(
                 value = username.value,
                 onValueChange = { username.value = it },
+                validationResult = usernameValidation.isValid(username.value),
             )
         }
     }

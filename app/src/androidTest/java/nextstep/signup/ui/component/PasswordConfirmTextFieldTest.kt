@@ -12,14 +12,21 @@ class PasswordConfirmTextFieldTest {
     val composeTestRule = createComposeRule()
     private val password = mutableStateOf("")
     private val passwordConfirm = mutableStateOf("")
+    private val passwordConfirmValidation = PasswordConfirmValidation()
 
     @Before
     fun setup() {
         composeTestRule.setContent {
             PasswordConfirmTextField(
                 value = password.value,
-                target = passwordConfirm.value,
                 onValueChange = { password.value = it },
+                validationResult =
+                    passwordConfirmValidation.isValid(
+                        PasswordConfirmValidation.PasswordConfirm(
+                            password = password.value,
+                            passwordConfirm = passwordConfirm.value,
+                        ),
+                    ),
             )
         }
     }

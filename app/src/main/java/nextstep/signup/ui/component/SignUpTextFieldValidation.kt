@@ -4,39 +4,45 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.remember
 import androidx.core.util.PatternsCompat
+import java.util.regex.Pattern
 
 @Immutable
-interface SignUpTextFieldValidation {
-    var errorType: ValidationErrorType?
-
-    fun isValid(): Boolean
-
-    interface ValidationErrorType
+interface SignUpTextFieldValidation<T> {
+    fun isValid(value: T): ValidationResult
 }
 
-data class UsernameValidation(
-    private val value: String,
+sealed interface ValidationResult {
+    val isFailure: Boolean
+
+    data object Empty : ValidationResult {
+        override val isFailure: Boolean = false
+    }
+
+    data object Success : ValidationResult {
+        override val isFailure: Boolean = false
+    }
+}
+
+class UsernameValidation(
     private val regex: String = USERNAME_REGEX,
     private val lengthRange: IntRange = USERNAME_LENGTH_RANGE,
-) : SignUpTextFieldValidation {
-    override var errorType: SignUpTextFieldValidation.ValidationErrorType? = null
+) : SignUpTextFieldValidation<String> {
+    override fun isValid(value: String): ValidationResult = validateUsername(value)
 
-    override fun isValid(): Boolean =
-        validateUsername(value).also {
-            errorType = it
-        } == null
-
-    private fun validateUsername(username: String): ErrorType? =
+    private fun validateUsername(username: String): ValidationResult =
         when {
-            username.isEmpty() -> null
-            username.length !in lengthRange -> ErrorType.LENGTH
-            !regex.toRegex().matches(username) -> ErrorType.FORMAT
-            else -> null
+            username.isEmpty() -> ValidationResult.Success
+            username.length !in lengthRange -> TODO()
+            !regex.toRegex().matches(username) -> TODO()
+            else -> ValidationResult.Success
         }
 
-    enum class ErrorType : SignUpTextFieldValidation.ValidationErrorType {
-        LENGTH,
-        FORMAT,
+    data object FailureUsernameLength : ValidationResult {
+        override val isFailure: Boolean = true
+    }
+
+    data object FailureUsernameFormat : ValidationResult {
+        override val isFailure: Boolean = true
     }
 
     companion object {
@@ -45,51 +51,43 @@ data class UsernameValidation(
     }
 }
 
-data class EmailValidation(
-    private val value: String,
-) : SignUpTextFieldValidation {
-    override var errorType: SignUpTextFieldValidation.ValidationErrorType? = null
+class EmailValidation(
+    private val pattern: Pattern = PatternsCompat.EMAIL_ADDRESS,
+) : SignUpTextFieldValidation<String> {
+    override fun isValid(value: String): ValidationResult = validateEmail(value)
 
-    override fun isValid(): Boolean =
-        validateEmail(value).also {
-            errorType = it
-        } == null
-
-    private fun validateEmail(email: String): ErrorType? =
+    private fun validateEmail(email: String): ValidationResult =
         when {
-            email.isEmpty() -> null
-            !PatternsCompat.EMAIL_ADDRESS.matcher(email).matches() -> ErrorType.FORMAT
-            else -> null
+            email.isEmpty() -> TODO()
+            !pattern.matcher(email).matches() -> TODO()
+            else -> ValidationResult.Success
         }
 
-    enum class ErrorType : SignUpTextFieldValidation.ValidationErrorType {
-        FORMAT,
+    data object FailureEmailFormat : ValidationResult {
+        override val isFailure: Boolean = true
     }
 }
 
-data class PasswordValidation(
-    private val value: String,
+class PasswordValidation(
     private val regex: String = PASSWORD_REGEX,
     private val lengthRange: IntRange = PASSWORD_LENGTH_RANGE,
-) : SignUpTextFieldValidation {
-    override var errorType: SignUpTextFieldValidation.ValidationErrorType? = null
+) : SignUpTextFieldValidation<String> {
+    override fun isValid(value: String): ValidationResult = validatePassword(value)
 
-    override fun isValid(): Boolean =
-        validatePassword(value).also {
-            errorType = it
-        } == null
-
-    private fun validatePassword(password: String): ErrorType? =
+    private fun validatePassword(password: String): ValidationResult =
         when {
-            password.isEmpty() -> null
-            password.length !in lengthRange -> ErrorType.LENGTH
-            !PASSWORD_REGEX.toRegex().matches(password) -> ErrorType.FORMAT
-            else -> null
+            password.isEmpty() -> TODO()
+            password.length !in lengthRange -> TODO()
+            !regex.toRegex().matches(password) -> TODO()
+            else -> ValidationResult.Success
         }
 
-    enum class ErrorType : SignUpTextFieldValidation.ValidationErrorType {
-        LENGTH,
-        FORMAT,
+    data object FailurePasswordLength : ValidationResult {
+        override val isFailure: Boolean = true
+    }
+
+    data object FailurePasswordFormat : ValidationResult {
+        override val isFailure: Boolean = true
     }
 
     companion object {
@@ -100,37 +98,43 @@ data class PasswordValidation(
     }
 }
 
-data class PasswordConfirmValidation(
-    private val password: String,
-    private val passwordConfirm: String,
-) : SignUpTextFieldValidation {
-    override var errorType: SignUpTextFieldValidation.ValidationErrorType? = null
-
-    override fun isValid(): Boolean =
-        validatePasswordConfirm(password, passwordConfirm).also {
-            errorType = it
-        } == null
+class PasswordConfirmValidation : SignUpTextFieldValidation<PasswordConfirmValidation.PasswordConfirm> {
+    override fun isValid(value: PasswordConfirm): ValidationResult =
+        validatePasswordConfirm(
+            value.password,
+            value.passwordConfirm,
+        )
 
     private fun validatePasswordConfirm(
         password: String,
         passwordConfirm: String,
-    ): ErrorType? =
+    ): ValidationResult =
         when {
-            password.isEmpty() || passwordConfirm.isEmpty() -> null
-            password != passwordConfirm -> ErrorType.NOT_MATCH
-            else -> null
+            password.isEmpty() || passwordConfirm.isEmpty() -> TODO()
+            password != passwordConfirm -> TODO()
+            else -> ValidationResult.Success
         }
 
-    enum class ErrorType : SignUpTextFieldValidation.ValidationErrorType {
-        NOT_MATCH,
+    data object FailurePasswordNotMatch : ValidationResult {
+        override val isFailure: Boolean = true
     }
+
+    data object EmptyPassword : ValidationResult {
+        override val isFailure: Boolean = false
+    }
+
+    data object EmptyPasswordConfirm : ValidationResult {
+        override val isFailure: Boolean = false
+    }
+
+    data class PasswordConfirm(
+        val password: String,
+        val passwordConfirm: String,
+    )
 }
 
 @Composable
-fun rememberSignUpTextFieldValidation(
-    vararg values: Any,
-    validation: () -> SignUpTextFieldValidation,
-): SignUpTextFieldValidation =
-    remember(values) {
+fun <T> rememberSignUpTextFieldValidation(validation: () -> SignUpTextFieldValidation<T>): SignUpTextFieldValidation<T> =
+    remember {
         validation()
     }
