@@ -1,9 +1,16 @@
 package nextstep.signup.ui
 
+import android.content.Context
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.test.assertIsEnabled
+import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.test.platform.app.InstrumentationRegistry
+import nextstep.signup.R
 import org.junit.Before
 import org.junit.Rule
+import org.junit.Test
 
 class SignUpScreenTest {
     @get:Rule
@@ -12,6 +19,8 @@ class SignUpScreenTest {
     private val email = mutableStateOf("")
     private val password = mutableStateOf("")
     private val passwordConfirm = mutableStateOf("")
+
+    private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
 
     @Before
     fun setup() {
@@ -29,5 +38,129 @@ class SignUpScreenTest {
         }
     }
 
-    // TODO:각 컴퍼넌트에서 테스트 진행하고 있음, 추후에 추가 예정
+    @Test
+    fun 모든_필드가_정상_입력되어_있을_때_회원가입_버튼을_활성화한다() {
+        // given
+        username.value = "user"
+        email.value = "user@yopmail.com"
+        password.value = "password12"
+        passwordConfirm.value = "password12"
+
+        // then
+        composeTestRule
+            .onNodeWithTag(context.getString(R.string.test_tag_btn_sign_up))
+            .assertIsEnabled()
+    }
+
+    @Test
+    fun 유저이름이_비어있을_때_회원가입_버튼을_비활성화한다() {
+        // given
+        username.value = "user"
+        email.value = ""
+        password.value = "password12"
+        passwordConfirm.value = "password12"
+
+        // then
+        composeTestRule
+            .onNodeWithTag(context.getString(R.string.test_tag_btn_sign_up))
+            .assertIsNotEnabled()
+    }
+
+    @Test
+    fun 이메일이_비어있을_때_회원가입_버튼을_비활성화한다() {
+        // given
+        username.value = "user"
+        email.value = ""
+        password.value = "password12"
+        passwordConfirm.value = "password12"
+
+        // then
+        composeTestRule
+            .onNodeWithTag(context.getString(R.string.test_tag_btn_sign_up))
+            .assertIsNotEnabled()
+    }
+
+    @Test
+    fun 비밀번호가_비어있을_때_회원가입_버튼을_비활성화한다() {
+        // given
+        username.value = "user"
+        email.value = "user@yopmail.com"
+        password.value = ""
+        passwordConfirm.value = "password12"
+
+        // then
+        composeTestRule
+            .onNodeWithTag(context.getString(R.string.test_tag_btn_sign_up))
+            .assertIsNotEnabled()
+    }
+
+    @Test
+    fun 비밀번호_확인이_비어있을_때_회원가입_버튼을_비활성화한다() {
+        // given
+        username.value = "user"
+        email.value = "user@yopmail.com"
+        password.value = "password12"
+        passwordConfirm.value = ""
+
+        // then
+        composeTestRule
+            .onNodeWithTag(context.getString(R.string.test_tag_btn_sign_up))
+            .assertIsNotEnabled()
+    }
+
+    @Test
+    fun 비밀번호와_비밀번호_확인이_다를_때_회원가입_버튼을_비활성화한다() {
+        // given
+        username.value = "user"
+        email.value = "user@yopmail.com"
+        password.value = "password12"
+        passwordConfirm.value = "password1234"
+
+        // then
+        composeTestRule
+            .onNodeWithTag(context.getString(R.string.test_tag_btn_sign_up))
+            .assertIsNotEnabled()
+    }
+
+    @Test
+    fun 유저이름이_유효하지_않을_때_회원가입_버튼을_비활성화한다() {
+        // given
+        username.value = "u"
+        email.value = "user@yopmail.com"
+        password.value = "password12"
+        passwordConfirm.value = "password1234"
+
+        // then
+        composeTestRule
+            .onNodeWithTag(context.getString(R.string.test_tag_btn_sign_up))
+            .assertIsNotEnabled()
+    }
+
+    @Test
+    fun 이메일이_유효하지_않을_때_회원가입_버튼을_비활성화한다() {
+        // given
+        username.value = "user"
+        email.value = "user@yopmail"
+        password.value = "password12"
+        passwordConfirm.value = "password1234"
+
+        // then
+        composeTestRule
+            .onNodeWithTag(context.getString(R.string.test_tag_btn_sign_up))
+            .assertIsNotEnabled()
+    }
+
+    @Test
+    fun 비밀번호가_유효하지_않을_때_회원가입_버튼을_비활성화한다() {
+        // given
+        username.value = "user"
+        email.value = "user@yopmail"
+        password.value = "password12"
+        passwordConfirm.value = "password1234"
+
+        // then
+        composeTestRule
+            .onNodeWithTag(context.getString(R.string.test_tag_btn_sign_up))
+            .assertIsNotEnabled()
+    }
 }
