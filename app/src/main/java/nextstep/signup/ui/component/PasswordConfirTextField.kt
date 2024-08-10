@@ -12,16 +12,17 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import nextstep.signup.R
 import nextstep.signup.R.string
+import nextstep.signup.ui.component.PasswordConfirmValidation.PasswordConfirmValidationResult
 
 @Composable
 fun PasswordConfirmTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    validationResult: ValidationResult = ValidationResult.Empty,
+    validationResult: PasswordConfirmValidationResult = PasswordConfirmValidationResult.Empty,
 ) {
     val supportText: @Composable (() -> Unit)? =
-        if (validationResult is PasswordConfirmValidation.FailurePasswordNotMatch) {
+        if (validationResult is PasswordConfirmValidationResult.FailurePasswordNotMatch) {
             { Text(text = stringResource(id = R.string.error_password_confirm)) }
         } else {
             null
@@ -55,16 +56,16 @@ class PasswordConfirmTextFieldPreviewParameterProvider : PreviewParameterProvide
     override val values: Sequence<PasswordConfirmTextFieldPreviewParameter>
         get() =
             sequenceOf(
-                PasswordConfirmTextFieldPreviewParameter("password1234", ValidationResult.Success),
+                PasswordConfirmTextFieldPreviewParameter("password1234", PasswordConfirmValidationResult.Success),
                 PasswordConfirmTextFieldPreviewParameter(
                     "password1234",
-                    PasswordConfirmValidation.FailurePasswordNotMatch,
+                    PasswordConfirmValidationResult.FailurePasswordNotMatch,
                 ),
-                PasswordConfirmTextFieldPreviewParameter("", ValidationResult.Empty),
+                PasswordConfirmTextFieldPreviewParameter("", PasswordConfirmValidationResult.Empty),
             )
 }
 
 data class PasswordConfirmTextFieldPreviewParameter(
     val value: String,
-    val validationResult: ValidationResult,
+    val validationResult: PasswordConfirmValidationResult,
 )

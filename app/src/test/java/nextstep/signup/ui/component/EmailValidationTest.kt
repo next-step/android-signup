@@ -1,6 +1,7 @@
 package nextstep.signup.ui.component
 
 import junit.framework.TestCase.assertEquals
+import nextstep.signup.ui.component.EmailValidation.EmailValidationResult
 import org.junit.Test
 
 class EmailValidationTest {
@@ -13,7 +14,7 @@ class EmailValidationTest {
         val result = EmailValidation().isValid(email)
 
         // then
-        assertEquals(EmailValidation.FailureEmailFormat, result)
+        assertEquals(EmailValidationResult.FailureEmailFormat, result)
     }
 
     @Test
@@ -25,7 +26,7 @@ class EmailValidationTest {
         val result = EmailValidation().isValid(email)
 
         // then
-        assertEquals(ValidationResult.Success, result)
+        assertEquals(EmailValidationResult.Success, result)
     }
 
     @Test
@@ -37,6 +38,6 @@ class EmailValidationTest {
         val result = EmailValidation().isValid(email)
 
         // then
-        assertEquals(ValidationResult.Empty, result)
+        assertEquals(EmailValidationResult.Empty, result)
     }
 }

@@ -10,16 +10,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import nextstep.signup.R
+import nextstep.signup.ui.component.EmailValidation.EmailValidationResult
 
 @Composable
 fun EmailTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    validationResult: ValidationResult = ValidationResult.Empty,
+    validationResult: EmailValidationResult = EmailValidationResult.Empty,
 ) {
     val supportText: @Composable (() -> Unit)? =
-        if (validationResult is EmailValidation.FailureEmailFormat) {
+        if (validationResult is EmailValidationResult.FailureEmailFormat) {
             { Text(text = stringResource(id = R.string.error_email_format)) }
         } else {
             null
@@ -52,13 +53,16 @@ class EmailTextFieldPreviewParameterProvider : PreviewParameterProvider<EmailTex
     override val values: Sequence<EmailTextFieldPreviewParameter>
         get() =
             sequenceOf(
-                EmailTextFieldPreviewParameter("", ValidationResult.Empty),
-                EmailTextFieldPreviewParameter("email@yopmail.com", ValidationResult.Success),
-                EmailTextFieldPreviewParameter("email@yopmail", EmailValidation.FailureEmailFormat),
+                EmailTextFieldPreviewParameter("", EmailValidationResult.Empty),
+                EmailTextFieldPreviewParameter("email@yopmail.com", EmailValidationResult.Success),
+                EmailTextFieldPreviewParameter(
+                    "email@yopmail",
+                    EmailValidationResult.FailureEmailFormat,
+                ),
             )
 }
 
 data class EmailTextFieldPreviewParameter(
     val value: String,
-    val validationResult: ValidationResult,
+    val validationResult: EmailValidationResult,
 )

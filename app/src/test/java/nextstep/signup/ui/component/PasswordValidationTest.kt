@@ -1,6 +1,7 @@
 package nextstep.signup.ui.component
 
 import junit.framework.TestCase.assertEquals
+import nextstep.signup.ui.component.PasswordValidation.PasswordValidationResult
 import org.junit.Test
 
 class PasswordValidationTest {
@@ -14,7 +15,7 @@ class PasswordValidationTest {
         val result = PasswordValidation().isValid(password)
 
         // then
-        assertEquals(ValidationResult.Success, result)
+        assertEquals(PasswordValidationResult.Success, result)
     }
 
     @Test
@@ -26,7 +27,7 @@ class PasswordValidationTest {
         val result = PasswordValidation().isValid(password)
 
         // then
-        assertEquals(PasswordValidation.FailurePasswordLength, result)
+        assertEquals(PasswordValidationResult.FailurePasswordLength, result)
     }
 
     @Test
@@ -38,7 +39,7 @@ class PasswordValidationTest {
         val result = PasswordValidation().isValid(password)
 
         // then
-        assertEquals(PasswordValidation.FailurePasswordLength, result)
+        assertEquals(PasswordValidationResult.FailurePasswordLength, result)
     }
 
     @Test
@@ -50,7 +51,7 @@ class PasswordValidationTest {
         val result = PasswordValidation().isValid(password)
 
         // then
-        assertEquals(PasswordValidation.FailurePasswordFormat, result)
+        assertEquals(PasswordValidationResult.FailurePasswordFormat, result)
     }
 
     @Test
@@ -62,7 +63,7 @@ class PasswordValidationTest {
         val result = PasswordValidation().isValid(password)
 
         // then
-        assertEquals(PasswordValidation.FailurePasswordLength, result)
+        assertEquals(PasswordValidationResult.FailurePasswordLength, result)
     }
 
     @Test
@@ -74,7 +75,7 @@ class PasswordValidationTest {
         val result = PasswordValidation().isValid(password)
 
         // then
-        assertEquals(PasswordValidation.FailurePasswordLength, result)
+        assertEquals(PasswordValidationResult.FailurePasswordLength, result)
     }
 
     @Test
@@ -86,6 +87,6 @@ class PasswordValidationTest {
         val result = PasswordValidation().isValid(password)
 
         // then
-        assertEquals(ValidationResult.Empty, result)
+        assertEquals(PasswordValidationResult.Empty, result)
     }
 }

@@ -1,48 +1,58 @@
 package nextstep.signup.ui.component
 
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.remember
 import androidx.core.util.PatternsCompat
+import nextstep.signup.ui.component.EmailValidation.EmailValidationResult
+import nextstep.signup.ui.component.PasswordConfirmValidation.PasswordConfirm
+import nextstep.signup.ui.component.PasswordConfirmValidation.PasswordConfirmValidationResult
+import nextstep.signup.ui.component.PasswordValidation.PasswordValidationResult
+import nextstep.signup.ui.component.UsernameValidation.UsernameValidationResult
 import java.util.regex.Pattern
 
 @Immutable
-interface SignUpTextFieldValidation<T> {
-    fun isValid(value: T): ValidationResult
+interface SignUpTextFieldValidation<T, R : ValidationResult> {
+    fun isValid(value: T): R
 }
 
-sealed interface ValidationResult {
+interface ValidationResult {
     val isFailure: Boolean
-
-    data object Empty : ValidationResult {
-        override val isFailure: Boolean = false
-    }
-
-    data object Success : ValidationResult {
-        override val isFailure: Boolean = false
-    }
+    val isSuccessFull: Boolean
 }
 
 class UsernameValidation(
     private val regex: String = USERNAME_REGEX,
     private val lengthRange: IntRange = USERNAME_LENGTH_RANGE,
-) : SignUpTextFieldValidation<String> {
-    override fun isValid(value: String): ValidationResult = validateUsername(value)
+) : SignUpTextFieldValidation<String, UsernameValidationResult> {
+    override fun isValid(value: String): UsernameValidationResult = validateUsername(value)
 
-    private fun validateUsername(username: String): ValidationResult =
+    private fun validateUsername(username: String): UsernameValidationResult =
         when {
-            username.isEmpty() -> ValidationResult.Empty
-            username.length !in lengthRange -> FailureUsernameLength
-            !regex.toRegex().matches(username) -> FailureUsernameFormat
-            else -> ValidationResult.Success
+            username.isEmpty() -> UsernameValidationResult.Empty
+            username.length !in lengthRange -> UsernameValidationResult.FailureUsernameLength
+            !regex.toRegex().matches(username) -> UsernameValidationResult.FailureUsernameFormat
+            else -> UsernameValidationResult.Success
         }
 
-    data object FailureUsernameLength : ValidationResult {
-        override val isFailure: Boolean = true
-    }
+    sealed interface UsernameValidationResult : ValidationResult {
+        data object Empty : UsernameValidationResult {
+            override val isFailure: Boolean = false
+            override val isSuccessFull: Boolean = false
+        }
 
-    data object FailureUsernameFormat : ValidationResult {
-        override val isFailure: Boolean = true
+        data object Success : UsernameValidationResult {
+            override val isFailure: Boolean = false
+            override val isSuccessFull: Boolean = true
+        }
+
+        data object FailureUsernameLength : UsernameValidationResult {
+            override val isFailure: Boolean = true
+            override val isSuccessFull: Boolean = false
+        }
+
+        data object FailureUsernameFormat : UsernameValidationResult {
+            override val isFailure: Boolean = true
+            override val isSuccessFull: Boolean = false
+        }
     }
 
     companion object {
@@ -53,41 +63,68 @@ class UsernameValidation(
 
 class EmailValidation(
     private val pattern: Pattern = PatternsCompat.EMAIL_ADDRESS,
-) : SignUpTextFieldValidation<String> {
-    override fun isValid(value: String): ValidationResult = validateEmail(value)
+) : SignUpTextFieldValidation<String, EmailValidationResult> {
+    override fun isValid(value: String): EmailValidationResult = validateEmail(value)
 
-    private fun validateEmail(email: String): ValidationResult =
+    private fun validateEmail(email: String): EmailValidationResult =
         when {
-            email.isEmpty() -> ValidationResult.Empty
-            !pattern.matcher(email).matches() -> FailureEmailFormat
-            else -> ValidationResult.Success
+            email.isEmpty() -> EmailValidationResult.Empty
+            !pattern.matcher(email).matches() -> EmailValidationResult.FailureEmailFormat
+            else -> EmailValidationResult.Success
         }
 
-    data object FailureEmailFormat : ValidationResult {
-        override val isFailure: Boolean = true
+    sealed interface EmailValidationResult : ValidationResult {
+        data object Empty : EmailValidationResult {
+            override val isFailure: Boolean = false
+            override val isSuccessFull: Boolean = false
+        }
+
+        data object Success : EmailValidationResult {
+            override val isFailure: Boolean = false
+            override val isSuccessFull: Boolean = true
+        }
+
+        data object FailureEmailFormat : EmailValidationResult {
+            override val isFailure: Boolean = true
+            override val isSuccessFull: Boolean = false
+        }
     }
 }
 
 class PasswordValidation(
     private val regex: String = PASSWORD_REGEX,
     private val lengthRange: IntRange = PASSWORD_LENGTH_RANGE,
-) : SignUpTextFieldValidation<String> {
-    override fun isValid(value: String): ValidationResult = validatePassword(value)
+) : SignUpTextFieldValidation<String, PasswordValidationResult> {
+    override fun isValid(value: String): PasswordValidationResult = validatePassword(value)
 
-    private fun validatePassword(password: String): ValidationResult =
+    private fun validatePassword(password: String): PasswordValidationResult =
         when {
-            password.isEmpty() -> ValidationResult.Empty
-            password.length !in lengthRange -> FailurePasswordLength
-            !regex.toRegex().matches(password) -> FailurePasswordFormat
-            else -> ValidationResult.Success
+            password.isBlank() -> PasswordValidationResult.Empty
+            password.length !in lengthRange -> PasswordValidationResult.FailurePasswordLength
+            !regex.toRegex().matches(password) -> PasswordValidationResult.FailurePasswordFormat
+            else -> PasswordValidationResult.Success
         }
 
-    data object FailurePasswordLength : ValidationResult {
-        override val isFailure: Boolean = true
-    }
+    sealed interface PasswordValidationResult : ValidationResult {
+        data object Empty : PasswordValidationResult {
+            override val isFailure: Boolean = false
+            override val isSuccessFull: Boolean = false
+        }
 
-    data object FailurePasswordFormat : ValidationResult {
-        override val isFailure: Boolean = true
+        data object Success : PasswordValidationResult {
+            override val isFailure: Boolean = false
+            override val isSuccessFull: Boolean = true
+        }
+
+        data object FailurePasswordLength : PasswordValidationResult {
+            override val isFailure: Boolean = true
+            override val isSuccessFull: Boolean = false
+        }
+
+        data object FailurePasswordFormat : PasswordValidationResult {
+            override val isFailure: Boolean = true
+            override val isSuccessFull: Boolean = false
+        }
     }
 
     companion object {
@@ -98,8 +135,8 @@ class PasswordValidation(
     }
 }
 
-class PasswordConfirmValidation : SignUpTextFieldValidation<PasswordConfirmValidation.PasswordConfirm> {
-    override fun isValid(value: PasswordConfirm): ValidationResult =
+class PasswordConfirmValidation : SignUpTextFieldValidation<PasswordConfirm, PasswordConfirmValidationResult> {
+    override fun isValid(value: PasswordConfirm): PasswordConfirmValidationResult =
         validatePasswordConfirm(
             value.password,
             value.passwordConfirm,
@@ -108,15 +145,28 @@ class PasswordConfirmValidation : SignUpTextFieldValidation<PasswordConfirmValid
     private fun validatePasswordConfirm(
         password: String,
         passwordConfirm: String,
-    ): ValidationResult =
+    ): PasswordConfirmValidationResult =
         when {
-            password.isBlank() || passwordConfirm.isBlank() -> ValidationResult.Empty
-            password != passwordConfirm -> FailurePasswordNotMatch
-            else -> ValidationResult.Success
+            password.isBlank() || passwordConfirm.isBlank() -> PasswordConfirmValidationResult.Empty
+            password != passwordConfirm -> PasswordConfirmValidationResult.FailurePasswordNotMatch
+            else -> PasswordConfirmValidationResult.Success
         }
 
-    data object FailurePasswordNotMatch : ValidationResult {
-        override val isFailure: Boolean = true
+    sealed interface PasswordConfirmValidationResult : ValidationResult {
+        data object Empty : PasswordConfirmValidationResult {
+            override val isFailure: Boolean = false
+            override val isSuccessFull: Boolean = false
+        }
+
+        data object Success : PasswordConfirmValidationResult {
+            override val isFailure: Boolean = false
+            override val isSuccessFull: Boolean = true
+        }
+
+        data object FailurePasswordNotMatch : PasswordConfirmValidationResult {
+            override val isFailure: Boolean = true
+            override val isSuccessFull: Boolean = false
+        }
     }
 
     data class PasswordConfirm(
@@ -124,9 +174,3 @@ class PasswordConfirmValidation : SignUpTextFieldValidation<PasswordConfirmValid
         val passwordConfirm: String,
     )
 }
-
-@Composable
-fun <T> rememberSignUpTextFieldValidation(validation: () -> SignUpTextFieldValidation<T>): SignUpTextFieldValidation<T> =
-    remember {
-        validation()
-    }

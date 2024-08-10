@@ -8,21 +8,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import nextstep.signup.R
+import nextstep.signup.ui.component.UsernameValidation.UsernameValidationResult
 
 @Composable
 fun UsernameTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    validationResult: ValidationResult = ValidationResult.Empty
+    validationResult: UsernameValidationResult = UsernameValidationResult.Empty,
 ) {
     val supportText: @Composable (() -> Unit)? =
         when (validationResult) {
-            is UsernameValidation.FailureUsernameLength -> {
+            is UsernameValidationResult.FailureUsernameLength -> {
                 { Text(text = stringResource(id = R.string.error_username_length)) }
             }
 
-            is UsernameValidation.FailureUsernameFormat -> {
+            is UsernameValidationResult.FailureUsernameFormat -> {
                 { Text(text = stringResource(id = R.string.error_username_format)) }
             }
 

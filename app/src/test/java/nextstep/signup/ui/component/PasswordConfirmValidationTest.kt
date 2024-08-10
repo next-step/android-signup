@@ -1,6 +1,7 @@
 package nextstep.signup.ui.component
 
 import junit.framework.TestCase.assertEquals
+import nextstep.signup.ui.component.PasswordConfirmValidation.PasswordConfirmValidationResult
 import org.junit.Test
 
 class PasswordConfirmValidationTest {
@@ -17,7 +18,7 @@ class PasswordConfirmValidationTest {
         val result = PasswordConfirmValidation().isValid(passwordConfirm)
 
         // then
-        assertEquals(ValidationResult.Success, result)
+        assertEquals(PasswordConfirmValidationResult.Success, result)
     }
 
     @Test
@@ -33,7 +34,7 @@ class PasswordConfirmValidationTest {
         val result = PasswordConfirmValidation().isValid(passwordConfirm)
 
         // then
-        assertEquals(PasswordConfirmValidation.FailurePasswordNotMatch, result)
+        assertEquals(PasswordConfirmValidationResult.FailurePasswordNotMatch, result)
     }
 
     @Test
@@ -49,7 +50,7 @@ class PasswordConfirmValidationTest {
         val result = PasswordConfirmValidation().isValid(passwordConfirm)
 
         // then
-        assertEquals(ValidationResult.Empty, result)
+        assertEquals(PasswordConfirmValidationResult.Empty, result)
     }
 
     @Test
@@ -65,6 +66,6 @@ class PasswordConfirmValidationTest {
         val result = PasswordConfirmValidation().isValid(passwordConfirm)
 
         // then
-        assertEquals(ValidationResult.Empty, result)
+        assertEquals(PasswordConfirmValidationResult.Empty, result)
     }
 }

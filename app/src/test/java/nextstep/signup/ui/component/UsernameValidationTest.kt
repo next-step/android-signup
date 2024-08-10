@@ -1,6 +1,7 @@
 package nextstep.signup.ui.component
 
 import junit.framework.TestCase.assertEquals
+import nextstep.signup.ui.component.UsernameValidation.UsernameValidationResult
 import org.junit.Test
 
 class UsernameValidationTest {
@@ -13,7 +14,7 @@ class UsernameValidationTest {
         val result = usernameValidation.isValid("a")
 
         // thena
-        assertEquals(UsernameValidation.FailureUsernameLength, result)
+        assertEquals(UsernameValidationResult.FailureUsernameLength, result)
     }
 
     @Test
@@ -25,7 +26,7 @@ class UsernameValidationTest {
         val result = usernameValidation.isValid("abcdef")
 
         // then
-        assertEquals(UsernameValidation.FailureUsernameLength, result)
+        assertEquals(UsernameValidationResult.FailureUsernameLength, result)
     }
 
     @Test
@@ -37,7 +38,7 @@ class UsernameValidationTest {
         val result = usernameValidation.isValid("a!@#")
 
         // then
-        assertEquals(UsernameValidation.FailureUsernameFormat, result)
+        assertEquals(UsernameValidationResult.FailureUsernameFormat, result)
     }
 
     @Test
@@ -49,6 +50,6 @@ class UsernameValidationTest {
         val result = usernameValidation.isValid("abcde")
 
         // then
-        assertEquals(ValidationResult.Success, result)
+        assertEquals(UsernameValidationResult.Success, result)
     }
 }
