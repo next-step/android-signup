@@ -15,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -122,7 +123,8 @@ fun SignUpScreen(
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .padding(top = 32.dp),
+                    .padding(top = 32.dp)
+                    .testTag(stringResource(id = R.string.test_tag_username)),
         )
 
         EmailTextField(
@@ -132,7 +134,8 @@ fun SignUpScreen(
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .padding(top = 32.dp),
+                    .padding(top = 32.dp)
+                    .testTag(stringResource(id = R.string.test_tag_email)),
         )
 
         PasswordTextField(
@@ -142,7 +145,8 @@ fun SignUpScreen(
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .padding(top = 32.dp),
+                    .padding(top = 32.dp)
+                    .testTag(stringResource(id = R.string.test_tag_password)),
         )
 
         PasswordConfirmTextField(
@@ -158,7 +162,8 @@ fun SignUpScreen(
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .padding(top = 32.dp),
+                    .padding(top = 32.dp)
+                    .testTag(stringResource(id = R.string.test_tag_password_confirm)),
         )
 
         Button(
@@ -172,7 +177,8 @@ fun SignUpScreen(
                 Modifier
                     .padding(top = 42.dp)
                     .fillMaxWidth()
-                    .height(50.dp),
+                    .height(50.dp)
+                    .testTag(stringResource(id = R.string.test_tag_btn_sign_up)),
         ) {
             Text(
                 text = stringResource(id = R.string.button_sign_up),
