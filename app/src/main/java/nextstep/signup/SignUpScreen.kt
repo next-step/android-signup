@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,27 +25,31 @@ fun SignUpScreen() {
     val (password, setPassword) = remember { mutableStateOf("") }
     val (passwordConfirm, setPasswordConfirm) = remember { mutableStateOf("") }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 60.dp, start = 32.dp, end = 32.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(42.dp)
+    Scaffold(
+        modifier = Modifier.padding(top = 60.dp, start = 32.dp, end = 32.dp),
     ) {
-        SignUpTitleText(text = stringResource(id = R.string.sign_up_text_title))
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(42.dp)
+        ) {
+            SignUpTitleText(text = stringResource(id = R.string.sign_up_text_title))
 
-        SignUpFormComponent(
-            userName = userName,
-            email = email,
-            password = password,
-            passwordConfirm = passwordConfirm,
-            onUserNameChange = setUserName,
-            onEmailChange = setEmail,
-            onPasswordChange = setPassword,
-            onPasswordConfirmChange = setPasswordConfirm
-        )
+            SignUpFormComponent(
+                userName = userName,
+                email = email,
+                password = password,
+                passwordConfirm = passwordConfirm,
+                onUserNameChange = setUserName,
+                onEmailChange = setEmail,
+                onPasswordChange = setPassword,
+                onPasswordConfirmChange = setPasswordConfirm
+            )
 
-        SignUpButton(onClick = { /*TODO*/ })
+            SignUpButton(onClick = { /*TODO*/ })
+        }
     }
 }
 
