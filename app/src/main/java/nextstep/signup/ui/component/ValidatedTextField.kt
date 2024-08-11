@@ -27,7 +27,7 @@ fun ValidatedTextField(
         }
     }
 
-    var errorRes by remember(field.validator) {
+    val errorRes by remember(field.validator, field.value) {
         mutableStateOf(validateField(field.value))
     }
 
@@ -37,10 +37,7 @@ fun ValidatedTextField(
             value = field.value,
             label = field.label,
             isError = errorRes != null,
-            onValueChange = {
-                field.onValueChange(it)
-                errorRes = validateField(it)
-            },
+            onValueChange = { field.onValueChange(it) },
             singleLine = true,
             visualTransformation = field.visualTransformation,
             supportingText = {
