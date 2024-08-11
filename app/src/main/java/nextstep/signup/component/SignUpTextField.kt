@@ -80,6 +80,15 @@ fun signUpSupportingTextStringResource(
                 }
                 else null
             }
+            SignUpTextFieldType.Password ->{
+                when (validationResult.type) {
+                    ValidationErrorType.LengthError ->
+                        stringResource(id = R.string.sign_up_user_password_length_error)
+
+                    ValidationErrorType.RegexError ->
+                        stringResource(id = R.string.sign_up_user_password_regex_error)
+                }
+            }
         }
 
     } else null

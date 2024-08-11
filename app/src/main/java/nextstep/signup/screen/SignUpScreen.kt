@@ -25,13 +25,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
 import nextstep.signup.component.EmailTextField
+import nextstep.signup.component.PasswordTextField
 import nextstep.signup.component.SignUpTextField
 import nextstep.signup.component.UserNameTextField
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.SignupTheme
 
 enum class SignUpTextFieldType {
-    UserName, Email
+    UserName, Email, Password
 }
 
 @Composable
@@ -71,14 +72,12 @@ fun SignUpScreen(
                     email = value
                 }
             )
-            SignUpTextField(
+            PasswordTextField(
                 modifier = Modifier.fillMaxWidth(),
                 text = password,
                 onValueChange = { value ->
                     password = value
                 },
-                labelText = stringResource(id = R.string.sign_up_password_label),
-                visualTransformation = PasswordVisualTransformation(),
             )
             SignUpTextField(
                 modifier = Modifier.fillMaxWidth(),
