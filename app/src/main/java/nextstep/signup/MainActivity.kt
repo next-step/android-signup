@@ -81,26 +81,26 @@ fun SignUpScreen() {
         Spacer(modifier = Modifier.height(42.dp))
         SignUpTextField(
             label = stringResource(R.string.signup_user_name),
-            onTextChanged = { setUserName(it) },
+            onTextChanged = setUserName,
             text = userName,
         )
         Spacer(modifier = Modifier.height(36.dp))
         SignUpTextField(
             label = stringResource(R.string.signup_email),
-            onTextChanged = { setEmail(it) },
+            onTextChanged = setEmail,
             text = email,
         )
         Spacer(modifier = Modifier.height(36.dp))
         SignUpTextField(
             label = stringResource(R.string.signup_password),
-            onTextChanged = { setPassword(it) },
+            onTextChanged = setPassword,
             text = password,
             visualTransformation = PasswordVisualTransformation(),
         )
         Spacer(modifier = Modifier.height(36.dp))
         SignUpTextField(
             label = stringResource(R.string.signup_password_confirm),
-            onTextChanged = { setPasswordConfirm(it) },
+            onTextChanged = setPasswordConfirm,
             text = passwordConfirm,
             visualTransformation = PasswordVisualTransformation(),
         )
