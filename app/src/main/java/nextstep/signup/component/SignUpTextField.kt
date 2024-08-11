@@ -3,43 +3,21 @@ package nextstep.signup.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import nextstep.signup.R
-
-
-@Composable
-fun SignUpTitleText(text: String) {
-    Text(
-        text = text,
-        textAlign = TextAlign.Center,
-        style = TextStyle(
-            fontSize = 26.sp, fontWeight = FontWeight.Bold, fontFamily = FontFamily.SansSerif
-        ),
-    )
-}
 
 @Composable
 private fun SignUpTextField(
@@ -64,7 +42,7 @@ private fun SignUpTextField(
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
         colors = customColors,
-        shape = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp)
+        shape = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp),
     )
 }
 
@@ -113,28 +91,6 @@ fun SignUpFormComponent(
     }
 }
 
-@Composable
-fun SignUpButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
-    Button(modifier = modifier
-        .fillMaxWidth()
-        .height(50.dp),
-        colors = ButtonDefaults.buttonColors(colorResource(id = R.color.blue_50)),
-        onClick = { onClick() }) {
-        Text(
-            text = stringResource(R.string.sign_up_button),
-            color = Color.White,
-            fontSize = 14.sp,
-            style = MaterialTheme.typography.labelLarge
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun PreviewSignUpTitleText() {
-    SignUpTitleText(text = stringResource(R.string.sign_up_text_title))
-}
-
 @Preview
 @Composable
 private fun PreviewSignUpTextField() {
@@ -152,10 +108,4 @@ private fun PreviewSignUpFormComponent() {
         onEmailChange = {},
         onPasswordChange = {},
         onPasswordConfirmChange = {})
-}
-
-@Preview
-@Composable
-private fun PreviewSignUpButton() {
-    SignUpButton(onClick = {})
 }
