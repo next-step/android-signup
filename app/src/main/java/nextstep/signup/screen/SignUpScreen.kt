@@ -150,12 +150,13 @@ fun EmailTextField(
     onEmailChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val validator = remember { EmailValidator() }
     ValidatedTextField(
         modifier = modifier,
         field = InputFieldModel(
             value = email,
             onValueChange = onEmailChange,
-            validator = remember { EmailValidator() },
+            validator = validator,
             label = { Text(text = stringResource(id = R.string.signup_email)) }
         )
     )
