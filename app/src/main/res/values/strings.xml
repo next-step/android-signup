@@ -6,4 +6,15 @@
     <string name="sign_up_text_field_password">Password</string>
     <string name="sign_up_text_field_password_confirm">Password Confirm</string>
     <string name="sign_up_button">Sign Up</string>
+    <!--    username 유효성 검사-->
+    <string name="sign_up_error_name_length">이름은 2~5자여야 합니다.</string>
+    <string name="sign_up_error_name_invalid_chars">이름에는 숫자나 기호가 포함될 수 없습니다.</string>
+
+    <!-- email 유효성 검사 -->
+    <string name="sig_nup_error_email_invalid">이메일 형식이 올바르지 않습니다.</string>
+
+    <!-- password 유효성 검사 -->
+    <string name="sign_up_error_password_length">비밀번호는 8~16자여야 합니다.</string>
+    <string name="sign_up_error_password_requirement">비밀번호는 영문과 숫자를 포함해야 합니다.</string>
+    <string name="sign_up_error_password_mismatch">비밀번호가 일치하지 않습니다.</string>
 </resources>
