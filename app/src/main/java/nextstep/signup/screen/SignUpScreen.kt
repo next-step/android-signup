@@ -127,7 +127,7 @@ private fun SignUpInputComponent(
 }
 
 @Composable
-fun NameTextField(
+internal fun NameTextField(
     userName: String,
     onUserNameChange: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -145,7 +145,7 @@ fun NameTextField(
 }
 
 @Composable
-fun EmailTextField(
+internal fun EmailTextField(
     email: String,
     onEmailChange: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -163,7 +163,7 @@ fun EmailTextField(
 }
 
 @Composable
-fun PasswordTextField(
+internal fun PasswordTextField(
     password: String,
     onPasswordChange: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -182,7 +182,7 @@ fun PasswordTextField(
 }
 
 @Composable
-fun PasswordConfirmTextField(
+internal fun PasswordConfirmTextField(
     password: String,
     passwordConfirmValue: String,
     onPasswordConfirmChange: (String) -> Unit,
