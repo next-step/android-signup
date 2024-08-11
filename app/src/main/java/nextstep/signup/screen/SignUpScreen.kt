@@ -6,12 +6,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -115,6 +117,14 @@ fun SignUpTextFiled(
     labelText: String,
     modifier: Modifier = Modifier,
     maxLines : Int = 1,
+    colors : TextFieldColors = TextFieldDefaults.colors(
+        focusedLabelColor = Blue50,
+        focusedIndicatorColor = Blue50,
+        unfocusedLabelColor = Gray40,
+        cursorColor = Blue50,
+        focusedTextColor = Gray10,
+        unfocusedTextColor = Gray10
+    ),
     visualTransformation: VisualTransformation = VisualTransformation.None
 ) {
     TextField(
@@ -126,14 +136,7 @@ fun SignUpTextFiled(
                 text = labelText
             )
         },
-        colors = TextFieldDefaults.colors(
-            focusedLabelColor = Blue50,
-            focusedIndicatorColor = Blue50,
-            unfocusedLabelColor = Gray40,
-            cursorColor = Blue50,
-            focusedTextColor = Gray10,
-            unfocusedTextColor = Gray10
-        ),
+        colors = colors,
         maxLines = maxLines,
         singleLine = maxLines == 1,
         visualTransformation = visualTransformation
