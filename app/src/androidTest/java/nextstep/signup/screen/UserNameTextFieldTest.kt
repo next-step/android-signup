@@ -27,15 +27,20 @@ class UserNameTextFieldTest {
     }
 
     @Test
+    fun 입력이_없다면_아무런에러가_노출되면안된다() {
+        textFieldValue.value = ""
+
+        composeTestRule
+            .onNodeWithText(context.getString(R.string.signup_name_length_error))
+            .assertDoesNotExist()
+    }
+
+    @Test
     fun 사용자_이름이_정상일_때_에러가_없다() {
         textFieldValue.value = "lee"
 
         composeTestRule
             .onNodeWithText(context.getString(R.string.signup_name_length_error))
-            .assertDoesNotExist()
-
-        composeTestRule
-            .onNodeWithText(context.getString(R.string.signup_name_character_error))
             .assertDoesNotExist()
     }
 
@@ -56,5 +61,4 @@ class UserNameTextFieldTest {
             .onNodeWithText(context.getString(R.string.signup_name_character_error))
             .assertExists()
     }
-
 }

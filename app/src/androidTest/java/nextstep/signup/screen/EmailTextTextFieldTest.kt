@@ -28,14 +28,13 @@ class EmailTextTextFieldTest {
     }
 
     @Test
-    fun 이메일은_올바른_형식이어야_한다() {
-        textFieldValue.value = "invalid_email"
+    fun 입력이_없다면_아무런에러가_노출되면안된다() {
+        textFieldValue.value = ""
 
         composeTestRule
             .onNodeWithText(context.getString(R.string.sign_up_invalid_email))
-            .assertExists()
+            .assertDoesNotExist()
     }
-
 
     @Test
     fun 이메일이_올바른_형식일_때_에러가_없다() {
@@ -44,5 +43,14 @@ class EmailTextTextFieldTest {
         composeTestRule
             .onNodeWithText(context.getString(R.string.sign_up_invalid_email))
             .assertDoesNotExist()
+    }
+
+    @Test
+    fun 이메일은_올바른_형식이어야_한다() {
+        textFieldValue.value = "invalid_email"
+
+        composeTestRule
+            .onNodeWithText(context.getString(R.string.sign_up_invalid_email))
+            .assertExists()
     }
 }

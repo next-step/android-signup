@@ -28,8 +28,8 @@ class PasswordTextFieldTest {
     }
 
     @Test
-    fun 비밀번호가_정상_길이_내에_있을_때_에러가_없다() {
-        textFieldValue.value = "Valid1234"
+    fun 입력이_없다면_아무런에러가_노출되면안된다() {
+        textFieldValue.value = ""
 
         composeTestRule
             .onNodeWithText(context.getString(R.string.signup_password_length_error))
@@ -37,7 +37,7 @@ class PasswordTextFieldTest {
     }
 
     @Test
-    fun 비밀번호가_영문과_숫자를_포함할_때_에러가_없다() {
+    fun 비밀번호가_8에서_16자이내이며_영문과_숫자를_포함할_때_에러가_없다() {
         textFieldValue.value = "Password123"
 
         composeTestRule
@@ -48,7 +48,7 @@ class PasswordTextFieldTest {
 
     @Test
     fun 비밀번호는_8에서_16자여야_한다() {
-        textFieldValue.value = "short1"
+        textFieldValue.value = "short"
 
         composeTestRule
             .onNodeWithText(context.getString(R.string.signup_password_length_error))
@@ -60,7 +60,7 @@ class PasswordTextFieldTest {
         textFieldValue.value = "Password"
 
         composeTestRule
-            .onNodeWithText(context.getString(R.string.signup_password_complexity_error))
+            .onNodeWithText(context.getString(R.string.signup_password_complexity_error), useUnmergedTree = true)
             .assertExists()
     }
 }

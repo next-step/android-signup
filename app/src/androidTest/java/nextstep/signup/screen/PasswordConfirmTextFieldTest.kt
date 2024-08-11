@@ -29,6 +29,15 @@ class PasswordConfirmTextFieldTest {
         }
     }
 
+    @Test
+    fun 입력이_없다면_아무런에러가_노출되면안된다() {
+        passwordConfirmFieldValue.value = ""
+        passwordFieldValue.value = ""
+
+        composeTestRule
+            .onNodeWithText(context.getString(R.string.signup_password_mismatch_error))
+            .assertDoesNotExist()
+    }
 
     @Test
     fun 비밀번호가_일치할_때_에러가_없다() {
@@ -43,6 +52,22 @@ class PasswordConfirmTextFieldTest {
     @Test
     fun 비밀번호가_일치해야_한다() {
         passwordConfirmFieldValue.value = "CorrectPassword123"
+        passwordFieldValue.value = "WrongPassword"
+
+        composeTestRule
+            .onNodeWithText(context.getString(R.string.signup_password_mismatch_error))
+            .assertExists()
+    }
+
+    @Test
+    fun 비밀번호가_일치했다가_변경이되면_에러가_노출이되어야한다() {
+        passwordConfirmFieldValue.value = "CorrectPassword123"
+        passwordFieldValue.value = "CorrectPassword123"
+
+        composeTestRule
+            .onNodeWithText(context.getString(R.string.signup_password_mismatch_error))
+            .assertDoesNotExist()
+
         passwordFieldValue.value = "WrongPassword"
 
         composeTestRule
