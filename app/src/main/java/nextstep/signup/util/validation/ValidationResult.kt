@@ -7,5 +7,5 @@ sealed class ValidationResult{
 }
 
 enum class ValidationErrorType {
-    LengthError, RegexError
+    LengthError, RegexError, EqualityError
 }

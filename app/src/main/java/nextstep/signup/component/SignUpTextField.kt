@@ -72,6 +72,7 @@ fun signUpSupportingTextStringResource(
 
                     ValidationErrorType.RegexError ->
                         stringResource(id = R.string.sign_up_user_name_regex_error)
+                    else -> null
                 }
             }
             SignUpTextFieldType.Email -> {
@@ -87,7 +88,14 @@ fun signUpSupportingTextStringResource(
 
                     ValidationErrorType.RegexError ->
                         stringResource(id = R.string.sign_up_user_password_regex_error)
+                    else -> null
                 }
+            }
+            SignUpTextFieldType.PasswordConfirm ->{
+                if(validationResult.type == ValidationErrorType.EqualityError) {
+                    stringResource(id = R.string.sign_up_user_password_confirm_not_equal)
+                }
+                else null
             }
         }
 

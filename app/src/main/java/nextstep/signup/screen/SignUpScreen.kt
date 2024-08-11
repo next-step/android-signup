@@ -25,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
 import nextstep.signup.component.EmailTextField
+import nextstep.signup.component.PasswordConfirmTextField
 import nextstep.signup.component.PasswordTextField
 import nextstep.signup.component.SignUpTextField
 import nextstep.signup.component.UserNameTextField
@@ -32,7 +33,7 @@ import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.SignupTheme
 
 enum class SignUpTextFieldType {
-    UserName, Email, Password
+    UserName, Email, Password, PasswordConfirm
 }
 
 @Composable
@@ -79,14 +80,13 @@ fun SignUpScreen(
                     password = value
                 },
             )
-            SignUpTextField(
+            PasswordConfirmTextField(
                 modifier = Modifier.fillMaxWidth(),
                 text = passwordConfirm,
+                target = password,
                 onValueChange = { value ->
                     passwordConfirm = value
                 },
-                labelText = stringResource(id = R.string.sign_up_password_confirm_label),
-                visualTransformation = PasswordVisualTransformation()
             )
             TextButton(
                 modifier = Modifier

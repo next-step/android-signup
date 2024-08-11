@@ -6,30 +6,41 @@ object ValidationUtil {
     private const val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$"
 
 
-    fun userNameValidate(userName : String) : ValidationResult {
-        if(userName.isBlank()) return ValidationResult.ValidationPending
-        if(userName.length !in 2 .. 6)
+    fun userNameValidate(userName: String): ValidationResult {
+        if (userName.isBlank()) return ValidationResult.ValidationPending
+        if (userName.length !in 2..6)
             return ValidationResult.ValidationError(ValidationErrorType.LengthError)
-        if(!userName.matches(Regex(USERNAME_REGEX)))
+        if (!userName.matches(Regex(USERNAME_REGEX)))
             return ValidationResult.ValidationError(ValidationErrorType.RegexError)
 
         return ValidationResult.ValidationSuccess
     }
 
-    fun emailValidate(email : String) : ValidationResult {
-        if(email.isBlank()) return ValidationResult.ValidationPending
-        if(!email.matches(Regex(EMAIL_REGEX)))
+    fun emailValidate(email: String): ValidationResult {
+        if (email.isBlank()) return ValidationResult.ValidationPending
+        if (!email.matches(Regex(EMAIL_REGEX)))
             return ValidationResult.ValidationError(ValidationErrorType.RegexError)
 
         return ValidationResult.ValidationSuccess
     }
 
-    fun passwordValidate(password : String) : ValidationResult {
-        if(password.isBlank()) return ValidationResult.ValidationPending
-        if(password.length !in 8 .. 16)
+    fun passwordValidate(password: String): ValidationResult {
+        if (password.isBlank()) return ValidationResult.ValidationPending
+        if (password.length !in 8..16)
             return ValidationResult.ValidationError(ValidationErrorType.LengthError)
-        if(!password.matches(Regex(PASSWORD_REGEX)))
+        if (!password.matches(Regex(PASSWORD_REGEX)))
             return ValidationResult.ValidationError(ValidationErrorType.RegexError)
+
+        return ValidationResult.ValidationSuccess
+    }
+
+    fun passwordConfirmValidate(
+        password: String,
+        passwordConfirm: String
+    ): ValidationResult {
+        if (passwordConfirm.isBlank()) return ValidationResult.ValidationPending
+        if (password != passwordConfirm)
+            return ValidationResult.ValidationError(ValidationErrorType.EqualityError)
 
         return ValidationResult.ValidationSuccess
     }
