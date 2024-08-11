@@ -114,6 +114,7 @@ fun SignUpTextFiled(
     onValueChange: (String) -> Unit,
     labelText: String,
     modifier: Modifier = Modifier,
+    maxLines : Int = 1,
     visualTransformation: VisualTransformation = VisualTransformation.None
 ) {
     TextField(
@@ -133,6 +134,8 @@ fun SignUpTextFiled(
             focusedTextColor = Gray10,
             unfocusedTextColor = Gray10
         ),
+        maxLines = maxLines,
+        singleLine = maxLines == 1,
         visualTransformation = visualTransformation
     )
 }
