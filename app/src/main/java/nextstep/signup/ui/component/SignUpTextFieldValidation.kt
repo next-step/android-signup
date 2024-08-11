@@ -14,6 +14,7 @@ interface SignUpTextFieldValidation<T, R : ValidationResult> {
     fun isValid(value: T): R
 }
 
+@Immutable
 interface ValidationResult {
     val isFailure: Boolean
     val isSuccessFull: Boolean
