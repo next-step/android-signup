@@ -9,6 +9,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -96,45 +97,106 @@ private fun SignUpInputComponent(
     onPasswordConfirmChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val fields = listOf(
-        InputFieldModel(
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(20.dp)
+    ) {
+        NameTextField(
+            userName = userName,
+            onUserNameChange = onUserNameChange
+        )
+        EmailTextField(
+            email = email,
+            onEmailChange = onEmailChange
+        )
+        PasswordTextField(
+            password = password,
+            onPasswordChange = onPasswordChange,
+        )
+        PasswordConfirmTextField(
+            password = password,
+            passwordConfirmValue = passwordConfirm,
+            onPasswordConfirmChange = onPasswordConfirmChange
+        )
+    }
+}
+
+@Composable
+fun NameTextField(
+    userName: String,
+    onUserNameChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val validator = remember { NameValidator() }
+    ValidatedTextField(
+        modifier = modifier,
+        field = InputFieldModel(
             value = userName,
             onValueChange = onUserNameChange,
-            validator = remember { NameValidator() },
+            validator = validator,
             label = { Text(text = stringResource(id = R.string.signup_username)) }
-        ),
-        InputFieldModel(
+        )
+    )
+}
+
+@Composable
+fun EmailTextField(
+    email: String,
+    onEmailChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    ValidatedTextField(
+        modifier = modifier,
+        field = InputFieldModel(
             value = email,
             onValueChange = onEmailChange,
             validator = remember { EmailValidator() },
             label = { Text(text = stringResource(id = R.string.signup_email)) }
-        ),
-        InputFieldModel(
+        )
+    )
+}
+
+@Composable
+fun PasswordTextField(
+    password: String,
+    onPasswordChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val validator = remember { PasswordValidator() }
+    ValidatedTextField(
+        modifier = modifier,
+        field = InputFieldModel(
             value = password,
             onValueChange = onPasswordChange,
-            validator = remember { PasswordValidator() },
+            validator = validator,
             label = { Text(text = stringResource(id = R.string.signup_password)) },
             visualTransformation = PasswordVisualTransformation()
-        ),
-        InputFieldModel(
-            value = passwordConfirm,
+        )
+    )
+}
+
+@Composable
+fun PasswordConfirmTextField(
+    password: String,
+    passwordConfirmValue: String,
+    onPasswordConfirmChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val validator by remember(password) {
+        derivedStateOf { PasswordMatchValidator(password) }
+    }
+
+    ValidatedTextField(
+        modifier = modifier,
+        field = InputFieldModel(
+            value = passwordConfirmValue,
             onValueChange = onPasswordConfirmChange,
-            validator = remember(password) { PasswordMatchValidator(password) },
+            validator = validator,
             label = { Text(text = stringResource(id = R.string.signup_password_confirm)) },
             visualTransformation = PasswordVisualTransformation()
         )
     )
-
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(36.dp)
-    ) {
-        fields.forEach { validationData ->
-            ValidatedTextField(validationData)
-        }
-    }
 }
-
 
 
 @Composable
