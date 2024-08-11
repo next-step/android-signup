@@ -1,5 +1,6 @@
 package nextstep.signup.screen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,9 +12,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldColors
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,14 +22,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
+import nextstep.signup.component.SignUpTextField
+import nextstep.signup.component.UserNameTextField
 import nextstep.signup.ui.theme.Blue50
-import nextstep.signup.ui.theme.Gray10
-import nextstep.signup.ui.theme.Gray40
 import nextstep.signup.ui.theme.SignupTheme
+import nextstep.signup.util.validation.ValidationErrorType
+import nextstep.signup.util.validation.ValidationResult
+
+enum class SignUpTextFieldType {
+    UserName
+}
 
 @Composable
 fun SignUpScreen(
@@ -48,7 +51,7 @@ fun SignUpScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
                 .padding(horizontal = 32.dp),
-            verticalArrangement = Arrangement.spacedBy(36.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
@@ -56,13 +59,12 @@ fun SignUpScreen(
                 text = stringResource(id = R.string.sign_up_title),
                 style = MaterialTheme.typography.headlineMedium
             )
-            SignUpTextField(
+            UserNameTextField(
                 modifier = Modifier.fillMaxWidth(),
                 text = userName,
                 onValueChange = { value ->
                     userName = value
                 },
-                labelText = stringResource(id = R.string.sign_up_user_name_label)
             )
             SignUpTextField(
                 modifier = Modifier.fillMaxWidth(),
@@ -70,7 +72,7 @@ fun SignUpScreen(
                 onValueChange = { value ->
                     email = value
                 },
-                labelText = stringResource(id = R.string.sign_up_email_label)
+                labelText = stringResource(id = R.string.sign_up_email_label),
             )
             SignUpTextField(
                 modifier = Modifier.fillMaxWidth(),
@@ -79,7 +81,7 @@ fun SignUpScreen(
                     password = value
                 },
                 labelText = stringResource(id = R.string.sign_up_password_label),
-                visualTransformation = PasswordVisualTransformation()
+                visualTransformation = PasswordVisualTransformation(),
             )
             SignUpTextField(
                 modifier = Modifier.fillMaxWidth(),
@@ -110,48 +112,25 @@ fun SignUpScreen(
 }
 
 @Composable
-fun SignUpTextField(
-    text: String,
-    onValueChange: (String) -> Unit,
-    labelText: String,
-    modifier: Modifier = Modifier,
-    maxLines : Int = 1,
-    colors : TextFieldColors = TextFieldDefaults.colors(
-        focusedLabelColor = Blue50,
-        focusedIndicatorColor = Blue50,
-        unfocusedLabelColor = Gray40,
-        cursorColor = Blue50,
-        focusedTextColor = Gray10,
-        unfocusedTextColor = Gray10
-    ),
-    visualTransformation: VisualTransformation = VisualTransformation.None
-) {
-    TextField(
-        modifier = modifier,
-        value = text,
-        onValueChange = onValueChange,
-        label = {
-            Text(
-                text = labelText
-            )
-        },
-        colors = colors,
-        maxLines = maxLines,
-        singleLine = maxLines == 1,
-        visualTransformation = visualTransformation
-    )
-}
+fun signUpSupportingTextStringResource(
+    signUpTextFieldType: SignUpTextFieldType,
+    validationResult: ValidationResult
+): String? {
+    return if (validationResult is ValidationResult.ValidationError) {
+        when (signUpTextFieldType) {
+            SignUpTextFieldType.UserName -> {
+                when (validationResult.type) {
+                    ValidationErrorType.LengthError ->
+                        stringResource(id = R.string.sign_up_user_name_length_error)
 
-@Preview(showBackground = true)
-@Composable
-private fun SignUpTextFieldPreview() {
-    SignupTheme {
-        SignUpTextField(
-            text = "",
-            labelText = "Preview",
-            onValueChange = {}
-        )
-    }
+                    ValidationErrorType.RegexError ->
+                        stringResource(id = R.string.sign_up_user_name_regex_error)
+                }
+            }
+        }
+
+    } else null
+
 }
 
 @Preview(showBackground = true)

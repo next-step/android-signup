@@ -6,4 +6,7 @@
     <string name="sign_up_password_label">Password</string>
     <string name="sign_up_password_confirm_label">Password Confirm</string>
     <string name="sign_up_button">Sign Up</string>
+
+    <string name="sign_up_user_name_length_error">이름은 2~5자여야 합니다.</string>
+    <string name="sign_up_user_name_regex_error">이름에는 숫자나 기호가 포함될 수 없습니다.</string>
 </resources>
