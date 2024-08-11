@@ -175,3 +175,19 @@ fun SignUpTextField(
 private fun SignUpScreenPreview() {
     SignUpScreen()
 }
+
+@Preview
+@Composable
+private fun SignUpTextFieldPreview() {
+    SignUpTextField(
+        label = "비밀번호",
+        onTextChanged = {},
+        text = "산군",
+    )
+}
+
+@Preview
+@Composable
+private fun SignUpButtonPreview() {
+    SignUpButton()
+}
