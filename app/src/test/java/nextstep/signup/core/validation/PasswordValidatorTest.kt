@@ -19,7 +19,7 @@ class PasswordValidatorTest {
     }
 
     @Test
-    fun `비밀번호가 너무 짧으면 실패해야 한다`() {
+    fun `비밀번호가 8자 미만이면 실패해야 한다`() {
         val result = validator.validate("pass1")
         assertFalse(result.isValid)
         assertEquals(R.string.signup_password_length_error, result.message)
