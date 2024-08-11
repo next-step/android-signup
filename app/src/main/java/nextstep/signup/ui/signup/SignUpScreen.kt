@@ -85,7 +85,7 @@ fun SignUpInputs(
     onPasswordConfirmChange: (String) -> Unit
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(36.dp)
+        verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         UsernameField(
             username = username,
@@ -100,6 +100,7 @@ fun SignUpInputs(
             onPasswordChange = onPasswordChange
         )
         PasswordConfirmField(
+            password = password,
             passwordConfirm = passwordConfirm,
             onPasswordConfirmChange = onPasswordConfirmChange
         )
