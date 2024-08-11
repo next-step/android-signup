@@ -40,6 +40,11 @@ fun SignUpScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordConfirm by remember { mutableStateOf("") }
+    val onUserNameChange = remember { { newUseName: String -> userName = newUseName } }
+    val onEmailChange = remember { { newEmail: String -> email = newEmail } }
+    val onPasswordChange = remember { { newPassword: String -> password = newPassword } }
+    val onPasswordMatchChange = remember { { newPasswordConfirm: String -> passwordConfirm = newPasswordConfirm } }
+
 
     Column(
         modifier = modifier
@@ -58,10 +63,10 @@ fun SignUpScreen(
             email = email,
             password = password,
             passwordConfirm = passwordConfirm,
-            onUserNameChange = { userName = it },
-            onEmailChange = { email = it },
-            onPasswordChange = { password = it },
-            onPasswordConfirmChange = { passwordConfirm = it }
+            onUserNameChange = onUserNameChange,
+            onEmailChange = onEmailChange,
+            onPasswordChange = onPasswordChange,
+            onPasswordConfirmChange = onPasswordMatchChange
         )
 
         SignUpButton(
