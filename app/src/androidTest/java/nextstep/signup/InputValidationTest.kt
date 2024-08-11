@@ -2,10 +2,18 @@ package nextstep.signup
 
 import android.content.Context
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.test.assertIsEnabled
+import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.unit.dp
 import androidx.test.core.app.ApplicationProvider
 import nextstep.signup.ui.component.EmailTextField
 import nextstep.signup.ui.component.InputErrorText
@@ -94,6 +102,24 @@ class InputValidationTest {
                             passwordConfirmValid.value
                         )
                     }
+                }
+
+                Button(
+                    modifier = Modifier
+                        .padding(32.dp)
+                        .fillMaxWidth(),
+                    onClick = { },
+                    enabled = userNameValid.value && emailValid.value && passwordValid.value && passwordConfirmValid.value
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.sign_up),
+                        modifier = Modifier.padding(
+                            top = 16.dp,
+                            bottom = 16.dp,
+                            start = 24.dp,
+                            end = 24.dp
+                        )
+                    )
                 }
             }
         }
@@ -196,5 +222,31 @@ class InputValidationTest {
         composeTestRule
             .onNodeWithText(context.getString(R.string.err_msg_password_confirm))
             .assertDoesNotExist()
+    }
+
+    @Test
+    fun 모든_입력항목의_유효성_검사가_통과될_때_회원가입_버튼이_활성화된다() {
+        // when
+        userName.value = "김컴포즈"
+        email.value = "oyj7677@gmail.com"
+        password.value = "12345678dd"
+        passwordConfirm.value = "12345678dd"
+
+        composeTestRule
+            .onNodeWithText(context.getString(R.string.sign_up))
+            .assertIsEnabled()
+    }
+
+    @Test
+    fun 입력항목중_하나라도_통과하지_못한다면_회원가입_버튼은_비활성화된다() {
+        // when : 이메일 형식이 올바르지 않은 경우
+        userName.value = "김컴포즈"
+        email.value = "oyj7677@gmail"
+        password.value = "12345678dd"
+        passwordConfirm.value = "12345678dd"
+
+        composeTestRule
+            .onNodeWithText(context.getString(R.string.sign_up))
+            .assertIsNotEnabled()
     }
 }

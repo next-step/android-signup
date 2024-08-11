@@ -4,6 +4,7 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="password_confirm">Password Confirm</string>
+    <string name="sign_up">Sign up</string>
 
     <string name="err_msg_user_name">이름은 2~5자여야 합니다.\n이름에는 숫자나 기호가 포함될 수 없습니다.</string>
     <string name="err_msg_email">이메일 형식이 올바르지 않습니다.</string>

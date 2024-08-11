@@ -74,7 +74,6 @@ fun SignUpScreen() {
                         userNameValid
                     )
                 }
-
             }
 
             Column {
@@ -128,11 +127,15 @@ fun SignUpScreen() {
             }
         }
 
-        Button(modifier = Modifier
-            .padding(32.dp)
-            .fillMaxWidth(), onClick = {}) {
+        Button(
+            modifier = Modifier
+                .padding(32.dp)
+                .fillMaxWidth(),
+            onClick = { },
+            enabled = userNameValid && emailValid && passwordValid && passwordConfirmValid
+        ) {
             Text(
-                text = "Sign Up",
+                text = stringResource(id = R.string.sign_up),
                 modifier = Modifier.padding(
                     top = 16.dp,
                     bottom = 16.dp,
