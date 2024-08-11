@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import nextstep.signup.ui.theme.SignupTheme
 
 class MainActivity : ComponentActivity() {
@@ -70,66 +71,49 @@ fun SignUpScreen() {
                 verticalArrangement = Arrangement.Top,
                 modifier = Modifier.padding(16.dp)
             ) {
-                var username by remember { mutableStateOf("") }
-                var email by remember { mutableStateOf("") }
-                var password by remember { mutableStateOf("") }
-                var passwordConfirm by remember { mutableStateOf("") }
-
-                TextField(
-                    value = username,
-                    onValueChange = { username = it },
-                    label = { Text("Username") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp),
-                    shape = RoundedCornerShape(8.dp)
-                )
-
-                TextField(
-                    value = email,
-                    onValueChange = { email = it },
-                    label = { Text("Email") },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp),
-                    shape = RoundedCornerShape(8.dp)
-                )
-
-                TextField(
-                    value = password,
-                    onValueChange = { password = it },
-                    label = { Text("Password") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp),
-                    shape = RoundedCornerShape(8.dp),
-                    visualTransformation = PasswordVisualTransformation()
-                )
-
-                TextField(
-                    value = passwordConfirm,
-                    onValueChange = { passwordConfirm = it },
-                    label = { Text("Password Confirm") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp),
-                    shape = RoundedCornerShape(8.dp),
-                    visualTransformation = PasswordVisualTransformation()
-                )
-
-                Button(
-                    onClick = { /* Handle Sign Up */ },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 16.dp),
-                    shape = RoundedCornerShape(50)
-                ) {
-                    Text("Sign Up")
-                }
+                TextFieldComponent("Username")
+                TextFieldComponent("Email", keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email))
+                TextFieldComponent("Password", PasswordVisualTransformation())
+                TextFieldComponent("Password Confirm", PasswordVisualTransformation())
+                ButtonSignUpComponent { /* Handle Sign Up */ }
             }
-
         }
+    }
+}
+
+@Composable
+private fun TextFieldComponent(
+    labelText: String,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+) {
+    var inputText by remember { mutableStateOf("") }
+
+    TextField(
+        value = inputText,
+        onValueChange = { inputText = it },
+        label = { Text(labelText) },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        shape = RoundedCornerShape(8.dp),
+        visualTransformation = visualTransformation,
+        keyboardOptions = keyboardOptions
+    )
+}
+
+@Composable
+private fun ButtonSignUpComponent(
+    onClick: () -> Unit
+) {
+    Button(
+        onClick = onClick,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 16.dp),
+        shape = RoundedCornerShape(50)
+    ) {
+        Text("Sign Up")
     }
 }
 
