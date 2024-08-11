@@ -29,13 +29,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import nextstep.signup.ui.theme.SignupTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
-            SignUpScreen()
+            SignupTheme(dynamicColor = false) {
+                SignUpScreen()
+            }
         }
     }
 }
