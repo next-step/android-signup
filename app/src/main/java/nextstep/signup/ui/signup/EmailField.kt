@@ -9,11 +9,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import nextstep.signup.R
 
 
 @Composable
-internal fun EmailField(
+fun EmailField(
     email: String,
     onEmailChange: (String) -> Unit
 ) {
@@ -21,8 +23,8 @@ internal fun EmailField(
         value = email,
         onValueChange = { onEmailChange(it) },
         modifier = Modifier.fillMaxWidth(),
-        label = { Text(text = "Email") },
-        placeholder = { Text(text = "Email") },
+        label = { Text(text = stringResource(id = R.string.email)) },
+        placeholder = { Text(text = stringResource(id = R.string.email)) },
     )
 }
 

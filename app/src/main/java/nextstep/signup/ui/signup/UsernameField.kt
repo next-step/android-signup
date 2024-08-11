@@ -9,7 +9,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import nextstep.signup.R
 
 
 @Composable
@@ -23,8 +25,8 @@ fun UsernameField(
         value = username,
         onValueChange = { onUsernameChange(it) },
         modifier = Modifier.fillMaxWidth(),
-        label = { Text(text = "Username") },
-        placeholder = { Text(text = "Username") },
+        label = { Text(text = stringResource(id = R.string.username)) },
+        placeholder = { Text(text = stringResource(id = R.string.username)) },
         supportingText = {
             if (errorCondition) {
                 Text(text = "이름은 2~5자여야 합니다.")

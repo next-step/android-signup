@@ -15,11 +15,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
+import nextstep.signup.R
 
 @Composable
 fun SignUpScreen(
@@ -61,7 +63,7 @@ fun SignUpScreen(
 @Composable
 fun SignUpTitle() {
     Text(
-        text = "Welcome to Compose \uD83D\uDE80",
+        text = stringResource(id = R.string.sign_up_title),
         modifier = Modifier.padding(top = 64.dp),
         color = Color.Black,
         fontSize = 26.sp,
@@ -110,7 +112,7 @@ fun SignUpButton(
 ) {
     FullButton(
         modifier = Modifier.fillMaxWidth(),
-        text = "Sign Up",
+        text = stringResource(id = R.string.sign_up),
         textColor = Color.White,
         containerColor = Color(0xFF2196F3),
         onButtonClick = { onSignUpClick() }
