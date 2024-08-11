@@ -21,10 +21,10 @@ import nextstep.signup.R
 
 @Composable
 private fun SignUpTextField(
-    modifier: Modifier = Modifier,
     text: String,
     onValueChange: (String) -> Unit,
     label: String,
+    modifier: Modifier = Modifier,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default
 ) {
