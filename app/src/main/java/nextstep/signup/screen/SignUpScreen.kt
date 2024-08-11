@@ -95,13 +95,13 @@ fun SignUpScreen(
                     .fillMaxWidth()
                     .height(50.dp),
                 colors = ButtonDefaults.textButtonColors(
-                    containerColor = Blue50
+                    containerColor = Blue50,
+                    contentColor = Color.White
                 ),
                 onClick = { /*TODO*/ }
             ) {
                 Text(
-                    text = stringResource(id = R.string.sign_up_button),
-                    color = Color.White
+                    text = stringResource(id = R.string.sign_up_button)
                 )
             }
         }
