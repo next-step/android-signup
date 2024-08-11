@@ -1,5 +1,6 @@
 package nextstep.signup
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -52,31 +53,55 @@ class SignUpViewModel : ViewModel() {
         checkPasswordConfirmValidation(value)
     }
 
+    private fun validateSignUpFields(): Boolean {
+        return username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && passwordConfirm.isNotEmpty()
+    }
+
     private fun checkUsernameValidation(username: String) {
 
         if (username.isEmpty()) {
             _uiState.update { currentState ->
                 currentState.copy(
-                    isUsernameLengthError = false, isUsernameFormatError = false
+                    isUsernameLengthError = false,
+                    isUsernameFormatError = false,
+                    isSignUpButtonEnabled = false
                 )
             }
         } else if (!username.matches(Regex(usernameRegex))) {
             _uiState.update { currentState ->
                 currentState.copy(
-                    isUsernameLengthError = false, isUsernameFormatError = true
+                    isUsernameLengthError = false,
+                    isUsernameFormatError = true,
+                    isSignUpButtonEnabled = false
                 )
             }
         } else if (username.length !in 2..5) {
             _uiState.update { currentState ->
                 currentState.copy(
-                    isUsernameLengthError = true, isUsernameFormatError = false
+                    isUsernameLengthError = true,
+                    isUsernameFormatError = false,
+                    isSignUpButtonEnabled = false
                 )
             }
         } else {
             _uiState.update { currentState ->
-                currentState.copy(
-                    isUsernameLengthError = false, isUsernameFormatError = false
-                )
+                if (validateSignUpFields()
+                    && !currentState.isUsernameLengthError
+                    && !currentState.isUsernameFormatError
+                    && !currentState.isEmailFormatError
+                    && !currentState.isPasswordValidationError) {
+                    currentState.copy(
+                        isUsernameLengthError = false,
+                        isUsernameFormatError = false,
+                        isSignUpButtonEnabled = true
+                    )
+                } else {
+                    currentState.copy(
+                        isUsernameLengthError = false,
+                        isUsernameFormatError = false,
+                        isSignUpButtonEnabled = false
+                    )
+                }
             }
         }
     }
@@ -85,20 +110,30 @@ class SignUpViewModel : ViewModel() {
         if (email.isEmpty()) {
             _uiState.update { currentState ->
                 currentState.copy(
-                    isEmailFormatError = false
+                    isEmailFormatError = false, isSignUpButtonEnabled = false
                 )
             }
         } else if (!email.matches(Regex(emailREGEX))) {
             _uiState.update { currentState ->
                 currentState.copy(
-                   isEmailFormatError = true
+                    isEmailFormatError = true, isSignUpButtonEnabled = false
                 )
             }
         } else {
             _uiState.update { currentState ->
-                currentState.copy(
-                    isEmailFormatError = false
-                )
+                if (validateSignUpFields()
+                    && !currentState.isUsernameLengthError
+                    && !currentState.isUsernameFormatError
+                    && !currentState.isEmailFormatError
+                    && !currentState.isPasswordValidationError) {
+                    currentState.copy(
+                        isEmailFormatError = false, isSignUpButtonEnabled = true
+                    )
+                } else {
+                    currentState.copy(
+                        isEmailFormatError = false, isSignUpButtonEnabled = false
+                    )
+                }
             }
         }
     }
@@ -107,20 +142,30 @@ class SignUpViewModel : ViewModel() {
         if (password.isEmpty()) {
             _uiState.update { currentState ->
                 currentState.copy(
-                    isPasswordValidationError = false
+                    isPasswordValidationError = false, isSignUpButtonEnabled = false
                 )
             }
         } else if (!password.matches(Regex(passwordREGEX))) {
             _uiState.update { currentState ->
                 currentState.copy(
-                    isPasswordValidationError = true
+                    isPasswordValidationError = true, isSignUpButtonEnabled = false
                 )
             }
         } else {
             _uiState.update { currentState ->
-                currentState.copy(
-                    isPasswordValidationError = false
-                )
+                if (validateSignUpFields()
+                    && !currentState.isUsernameLengthError
+                    && !currentState.isUsernameFormatError
+                    && !currentState.isEmailFormatError
+                    && !currentState.isPasswordValidationError) {
+                    currentState.copy(
+                        isPasswordValidationError = false, isSignUpButtonEnabled = true
+                    )
+                } else {
+                    currentState.copy(
+                        isPasswordValidationError = false
+                    )
+                }
             }
         }
     }
@@ -129,14 +174,27 @@ class SignUpViewModel : ViewModel() {
         if (passwordConfirm != password) {
             _uiState.update { currentState ->
                 currentState.copy(
-                    isPasswordMismatchError = true
+                    isPasswordMismatchError = true, isSignUpButtonEnabled = false
                 )
             }
         } else {
             _uiState.update { currentState ->
-                currentState.copy(
-                    isPasswordMismatchError = false
-                )
+                Log.d("결과", "validateSignUpFields() : ${validateSignUpFields()}, " +
+                        "${!currentState.isUsernameLengthError}, ${currentState.isUsernameFormatError}, " +
+                        "${!currentState.isEmailFormatError}, ${!currentState.isPasswordValidationError}")
+                if (validateSignUpFields()
+                    && !currentState.isUsernameLengthError
+                    && !currentState.isUsernameFormatError
+                    && !currentState.isEmailFormatError
+                    && !currentState.isPasswordValidationError) {
+                    currentState.copy(
+                        isPasswordMismatchError = false, isSignUpButtonEnabled = true
+                    )
+                } else {
+                    currentState.copy(
+                        isPasswordMismatchError = false, isSignUpButtonEnabled = false
+                    )
+                }
             }
         }
     }
