@@ -99,7 +99,7 @@ class SignUpScreenTest {
         composeTestRule.setContent {
             InputErrorText(
                 stringResource(id = R.string.err_msg_user_name),
-                !userName.matches(Regex(stringResource(id = R.string.regex_user_name)))
+                userName.matches(Regex(stringResource(id = R.string.regex_user_name)))
             )
         }
 
@@ -116,7 +116,7 @@ class SignUpScreenTest {
         composeTestRule.setContent {
             InputErrorText(
                 stringResource(id = R.string.err_msg_user_name),
-                !userName.matches(Regex(stringResource(id = R.string.regex_user_name)))
+                userName.matches(Regex(stringResource(id = R.string.regex_user_name)))
             )
         }
 
@@ -134,7 +134,7 @@ class SignUpScreenTest {
         composeTestRule.setContent {
             InputErrorText(
                 stringResource(id = R.string.err_msg_email),
-                !email.matches(Regex(stringResource(id = R.string.regex_email)))
+                email.matches(Regex(stringResource(id = R.string.regex_email)))
             )
         }
 
@@ -154,7 +154,7 @@ class SignUpScreenTest {
                 stringResource(
                     id = R.string.err_msg_email
                 ),
-                !email.matches(Regex(stringResource(id = R.string.regex_email)))
+                email.matches(Regex(stringResource(id = R.string.regex_email)))
             )
         }
 
@@ -174,7 +174,7 @@ class SignUpScreenTest {
         composeTestRule.setContent {
             InputErrorText(
                 errMsg = stringResource(id = R.string.err_msg_password),
-                !password.matches(Regex(stringResource(id = R.string.regex_password)))
+                password.matches(Regex(stringResource(id = R.string.regex_password)))
             )
         }
 
@@ -192,7 +192,7 @@ class SignUpScreenTest {
         composeTestRule.setContent {
             InputErrorText(
                 errMsg = stringResource(id = R.string.err_msg_password),
-                !password.matches(Regex(stringResource(id = R.string.regex_password)))
+                password.matches(Regex(stringResource(id = R.string.regex_password)))
             )
         }
 
