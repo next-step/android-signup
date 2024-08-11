@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -57,7 +56,7 @@ fun SignUpScreen(
                 text = stringResource(id = R.string.sign_up_title),
                 style = MaterialTheme.typography.headlineMedium
             )
-            SignUpTextFiled(
+            SignUpTextField(
                 modifier = Modifier.fillMaxWidth(),
                 text = userName,
                 onValueChange = { value ->
@@ -65,7 +64,7 @@ fun SignUpScreen(
                 },
                 labelText = stringResource(id = R.string.sign_up_user_name_label)
             )
-            SignUpTextFiled(
+            SignUpTextField(
                 modifier = Modifier.fillMaxWidth(),
                 text = email,
                 onValueChange = { value ->
@@ -73,7 +72,7 @@ fun SignUpScreen(
                 },
                 labelText = stringResource(id = R.string.sign_up_email_label)
             )
-            SignUpTextFiled(
+            SignUpTextField(
                 modifier = Modifier.fillMaxWidth(),
                 text = password,
                 onValueChange = { value ->
@@ -82,7 +81,7 @@ fun SignUpScreen(
                 labelText = stringResource(id = R.string.sign_up_password_label),
                 visualTransformation = PasswordVisualTransformation()
             )
-            SignUpTextFiled(
+            SignUpTextField(
                 modifier = Modifier.fillMaxWidth(),
                 text = passwordConfirm,
                 onValueChange = { value ->
@@ -111,7 +110,7 @@ fun SignUpScreen(
 }
 
 @Composable
-fun SignUpTextFiled(
+fun SignUpTextField(
     text: String,
     onValueChange: (String) -> Unit,
     labelText: String,
@@ -145,9 +144,9 @@ fun SignUpTextFiled(
 
 @Preview(showBackground = true)
 @Composable
-private fun SignUpTextFiledPreview() {
+private fun SignUpTextFieldPreview() {
     SignupTheme {
-        SignUpTextFiled(
+        SignUpTextField(
             text = "",
             labelText = "Preview",
             onValueChange = {}
