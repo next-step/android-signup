@@ -14,28 +14,27 @@ import nextstep.signup.ui.theme.SignupTheme
 import nextstep.signup.util.validation.ValidationResult
 import nextstep.signup.util.validation.ValidationUtil
 
-
 @Composable
-fun UserNameTextField(
+fun EmailTextField(
     text: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
 
     val validationResult by remember(text) {
-        derivedStateOf { ValidationUtil.userNameValidate(text) }
+        derivedStateOf { ValidationUtil.emailValidate(text) }
     }
 
     SignUpTextField(
         modifier = modifier,
         text = text,
         onValueChange = onValueChange,
-        labelText = stringResource(id = R.string.sign_up_user_name_label),
+        labelText = stringResource(id = R.string.sign_up_email_label),
         isError = validationResult is ValidationResult.ValidationError,
         supportingText = {
             signUpSupportingTextStringResource(
                 validationResult = validationResult,
-                signUpTextFieldType = SignUpTextFieldType.UserName
+                signUpTextFieldType = SignUpTextFieldType.Email
             )?.let { supportingText ->
                 Text(text = supportingText)
             }
@@ -45,10 +44,10 @@ fun UserNameTextField(
 
 @Preview(showBackground = true)
 @Composable
-private fun UserNameTextFieldPreview() {
+private fun EmailTextFieldPreview() {
     SignupTheme {
-        UserNameTextField(
-            text = "Test",
+        EmailTextField(
+            text = "test@test.com",
             onValueChange = {},
         )
     }
@@ -56,21 +55,10 @@ private fun UserNameTextFieldPreview() {
 
 @Preview(showBackground = true)
 @Composable
-private fun UserNameTextFieldPreviewAsLengthError() {
+private fun EmailTextFieldPreviewAsRegexError() {
     SignupTheme {
-        UserNameTextField(
-            text = "김컴포즈입니다",
-            onValueChange = {},
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun UserNameTextFieldPreviewAsRegexError() {
-    SignupTheme {
-        UserNameTextField(
-            text = "23",
+        EmailTextField(
+            text = "test!test.com",
             onValueChange = {},
         )
     }
