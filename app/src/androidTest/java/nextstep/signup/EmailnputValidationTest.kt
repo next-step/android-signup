@@ -3,13 +3,12 @@ package nextstep.signup
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.text.input.KeyboardType
-import nextstep.signup.ui.theme.screen.TextFieldView
+import nextstep.signup.ui.theme.screen.EmailTextFieldView
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class EmailnputValidationTest {
+class EmailInputValidationTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -18,7 +17,7 @@ class EmailnputValidationTest {
     @Before
     fun setup() {
         composeTestRule.setContent {
-            TextFieldView("Email", keyboardType = KeyboardType.Email, inputState = inputData)
+            EmailTextFieldView("Email", inputState = inputData)
         }
     }
 
@@ -29,7 +28,7 @@ class EmailnputValidationTest {
 
         // then
         composeTestRule
-            .onNodeWithText(EMAIL_REX_ERROR)
+            .onNodeWithText("이메일 형식이 올바르지 않습니다.")
             .assertDoesNotExist()
     }
 
@@ -40,11 +39,7 @@ class EmailnputValidationTest {
 
         // then
         composeTestRule
-            .onNodeWithText(EMAIL_REX_ERROR)
+            .onNodeWithText("이메일 형식이 올바르지 않습니다.")
             .assertExists()
-    }
-
-    companion object {
-        private const val EMAIL_REX_ERROR = "이메일 형식이 올바르지 않습니다."
     }
 }

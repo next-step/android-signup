@@ -11,12 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun SingUpView() {
     val password = mutableStateOf("")
@@ -38,24 +36,18 @@ fun SingUpView() {
                     .padding(paddingValues),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                TextFieldView(
-                    "Username",
-                    KeyboardType.Text
+                NameTextFieldView(
+                    "Username"
                 )
-                TextFieldView(
-                    "Email",
-                    KeyboardType.Email
+                EmailTextFieldView(
+                    "Email"
                 )
-                TextFieldView(
+                PasswordTextFieldView(
                     "Password",
-                    KeyboardType.Password,
-                    PasswordVisualTransformation(),
                     inputState = password
                 )
-                TextFieldView(
+                PasswordConfirmTextFieldView(
                     "Password Confirm",
-                    KeyboardType.Password,
-                    PasswordVisualTransformation(),
                     anotherInputState = password
                 )
                 SingUpButtonView(

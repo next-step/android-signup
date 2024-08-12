@@ -4,8 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.text.input.KeyboardType
-import nextstep.signup.ui.theme.screen.TextFieldView
+import nextstep.signup.ui.theme.screen.PasswordConfirmTextFieldView
+import nextstep.signup.ui.theme.screen.PasswordTextFieldView
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -21,8 +21,8 @@ class PasswordInputValidationTest {
     fun setup() {
         composeTestRule.setContent {
             Column {
-                TextFieldView("Password", keyboardType = KeyboardType.Password, inputState = passwordData)
-                TextFieldView("Password Confirm", keyboardType = KeyboardType.Password, inputState = passwordConfirm, anotherInputState = passwordData)
+                PasswordTextFieldView("Password", inputState = passwordData)
+                PasswordConfirmTextFieldView("Password Confirm", inputState = passwordConfirm, anotherInputState = passwordData)
             }
         }
     }
@@ -34,7 +34,7 @@ class PasswordInputValidationTest {
 
         // then
         composeTestRule
-            .onNodeWithText(PASSWORD_LENGTH_ERROR)
+            .onNodeWithText( "비밀번호는 8~16자여야 합니다.")
             .assertDoesNotExist()
     }
 
@@ -45,7 +45,7 @@ class PasswordInputValidationTest {
 
         // then
         composeTestRule
-            .onNodeWithText(PASSWORD_LENGTH_ERROR)
+            .onNodeWithText( "비밀번호는 8~16자여야 합니다.")
             .assertExists()
     }
 
@@ -56,7 +56,7 @@ class PasswordInputValidationTest {
 
         // then
         composeTestRule
-            .onNodeWithText(PASSWORD_LENGTH_ERROR)
+            .onNodeWithText( "비밀번호는 8~16자여야 합니다.")
             .assertExists()
     }
 
@@ -67,7 +67,7 @@ class PasswordInputValidationTest {
 
         // then
         composeTestRule
-            .onNodeWithText(PASSWORD_REGEX_ERROR)
+            .onNodeWithText("비밀번호는 영문과 숫자를 포함해야 합니다.")
             .assertDoesNotExist()
     }
 
@@ -78,7 +78,7 @@ class PasswordInputValidationTest {
 
         // then
         composeTestRule
-            .onNodeWithText(PASSWORD_REGEX_ERROR)
+            .onNodeWithText("비밀번호는 영문과 숫자를 포함해야 합니다.")
             .assertExists()
     }
 
@@ -89,7 +89,7 @@ class PasswordInputValidationTest {
 
         // then
         composeTestRule
-            .onNodeWithText(PASSWORD_REGEX_ERROR)
+            .onNodeWithText("비밀번호는 영문과 숫자를 포함해야 합니다.")
             .assertExists()
     }
 
@@ -101,7 +101,7 @@ class PasswordInputValidationTest {
 
         // then
         composeTestRule
-            .onNodeWithText(PASSWORD_COMPARE_ERROR)
+            .onNodeWithText("비밀번호가 일치하지 않습니다.")
             .assertDoesNotExist()
     }
 
@@ -113,13 +113,7 @@ class PasswordInputValidationTest {
 
         // then
         composeTestRule
-            .onNodeWithText(PASSWORD_COMPARE_ERROR)
+            .onNodeWithText("비밀번호가 일치하지 않습니다.")
             .assertExists()
-    }
-
-    companion object {
-        private const val PASSWORD_LENGTH_ERROR = "비밀번호는 8~16자여야 합니다."
-        private const val PASSWORD_REGEX_ERROR = "비밀번호는 영문과 숫자를 포함해야 합니다."
-        private const val PASSWORD_COMPARE_ERROR = "비밀번호가 일치하지 않습니다."
     }
 }

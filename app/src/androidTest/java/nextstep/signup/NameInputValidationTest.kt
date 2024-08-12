@@ -3,13 +3,12 @@ package nextstep.signup
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.text.input.KeyboardType
-import nextstep.signup.ui.theme.screen.TextFieldView
+import nextstep.signup.ui.theme.screen.NameTextFieldView
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class UserInputValidationTest {
+class NameInputValidationTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -18,7 +17,7 @@ class UserInputValidationTest {
     @Before
     fun setup() {
         composeTestRule.setContent {
-            TextFieldView("UserName", keyboardType = KeyboardType.Text, inputState = inputData)
+            NameTextFieldView("UserName", inputState = inputData)
         }
     }
 
@@ -29,7 +28,7 @@ class UserInputValidationTest {
 
         // then
         composeTestRule
-            .onNodeWithText(USERNAME_LENGTH_ERROR)
+            .onNodeWithText("이름은 2~5자여야 합니다.")
             .assertDoesNotExist()
     }
 
@@ -40,7 +39,7 @@ class UserInputValidationTest {
 
         // then
         composeTestRule
-            .onNodeWithText(USERNAME_LENGTH_ERROR)
+            .onNodeWithText("이름은 2~5자여야 합니다.")
             .assertExists()
     }
 
@@ -51,7 +50,7 @@ class UserInputValidationTest {
 
         // then
         composeTestRule
-            .onNodeWithText(USERNAME_LENGTH_ERROR)
+            .onNodeWithText("이름은 2~5자여야 합니다.")
             .assertExists()
     }
 
@@ -62,7 +61,7 @@ class UserInputValidationTest {
 
         // then
         composeTestRule
-            .onNodeWithText(USERNAME_REX_ERROR)
+            .onNodeWithText("이름에는 숫자나 기호가 포함될 수 없습니다.")
             .assertDoesNotExist()
     }
 
@@ -73,7 +72,7 @@ class UserInputValidationTest {
 
         // then
         composeTestRule
-            .onNodeWithText(USERNAME_REX_ERROR)
+            .onNodeWithText("이름에는 숫자나 기호가 포함될 수 없습니다.")
             .assertExists()
     }
 
@@ -84,12 +83,11 @@ class UserInputValidationTest {
 
         // then
         composeTestRule
-            .onNodeWithText(USERNAME_REX_ERROR)
+            .onNodeWithText("이름에는 숫자나 기호가 포함될 수 없습니다.")
             .assertExists()
     }
 
     companion object {
-        private const val USERNAME_LENGTH_ERROR = "이름은 2~5자여야 합니다."
-        private const val USERNAME_REX_ERROR = "이름에는 숫자나 기호가 포함될 수 없습니다."
+
     }
 }
