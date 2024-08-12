@@ -29,6 +29,7 @@ import nextstep.signup.util.SignUpInputValidation
 fun PasswordInputField(
     password: String,
     onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
     space: Dp = 0.dp,
     passwordHint: String = stringResource(R.string.sign_up_password),
     passwordConfirmHint: String = stringResource(R.string.sign_up_password_confirm),
@@ -55,7 +56,7 @@ fun PasswordInputField(
         }
     }
 
-    Column {
+    Column(modifier = modifier) {
         // password
         TextField(
             modifier = Modifier

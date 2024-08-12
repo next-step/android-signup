@@ -21,6 +21,7 @@ import nextstep.signup.util.SignUpInputValidation
 fun EmailInputField(
     email: String,
     onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
     hint: String = stringResource(R.string.sign_up_email),
 ) {
     val context = LocalContext.current
@@ -34,7 +35,7 @@ fun EmailInputField(
         }
     }
     TextField(
-        modifier = Modifier
+        modifier = modifier
             .testTag("email")
             .fillMaxWidth(),
         value = email,

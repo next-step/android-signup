@@ -19,6 +19,7 @@ import nextstep.signup.util.SignUpInputValidation
 fun UsernameInputField(
     username: String,
     onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
     hint: String = stringResource(R.string.sign_up_username),
 ) {
     val context = LocalContext.current
@@ -34,7 +35,7 @@ fun UsernameInputField(
     }
 
     TextField(
-        modifier = Modifier
+        modifier = modifier
             .testTag("username")
             .fillMaxWidth(),
         value = username,
