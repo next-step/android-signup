@@ -19,9 +19,9 @@
       - [x] Email 정규식 테스트
   - [x] Password 유효성 검사 구현
     - [x] Password 글자수 제한
-      - [ ] Password 글자수 테스트
+      - [x] Password 글자수 테스트
     - [x] Password 정규식 제한
-      - [ ] Password 정규식 테스트
+      - [x] Password 정규식 테스트
   - [ ] Password Confirm 유효성 검사 구현
     - [ ] Password Confirm 비밀번호 일치 여부
       - [ ] Password Confirm 비밀번호 일치 여부
