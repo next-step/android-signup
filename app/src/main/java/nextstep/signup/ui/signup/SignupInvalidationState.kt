@@ -9,5 +9,11 @@ enum class SignupInvalidationState(val message: String) {
     ),
     EMAIL_RULE_INVALIDATION(
         "이메일 형식이 올바르지 않습니다."
-    )
+    ),
+    PASSWORD_LENGTH_INVALIDATION(
+        "비밀번호는 8~16자여야 합니다."
+    ),
+    PASSWORD_RULE_INVALIDATION(
+        "비밀번호는 영문과 숫자를 포함해야 합니다."
+    ),
 }
