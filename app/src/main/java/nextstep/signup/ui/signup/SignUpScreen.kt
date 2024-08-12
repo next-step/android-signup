@@ -15,6 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,19 +39,18 @@ import nextstep.signup.ui.theme.Blue50
 @Composable
 fun SignUpScreen(
     modifier: Modifier = Modifier,
+    onShowSnackbar: (message: String) -> Unit,
 ) {
+    val context = LocalContext.current
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordConfirm by remember { mutableStateOf("") }
     val enabled by remember(username, email, password, passwordConfirm) {
-        val enabled =
-            UsernameValidator.match(username) == UsernameValidType.VALID && EmailValidator.match(
-                email
-            ) == EmailValidType.VALID && PasswordValidator.match(password) == PasswordValidType.VALID && PasswordConfirmValidator.match(
-                password,
-                passwordConfirm
-            ) == PasswordConfirmValidType.VALID
+        val enabled = UsernameValidator.match(username) == UsernameValidType.VALID &&
+                EmailValidator.match(email) == EmailValidType.VALID &&
+                PasswordValidator.match(password) == PasswordValidType.VALID &&
+                PasswordConfirmValidator.match(password, passwordConfirm) == PasswordConfirmValidType.VALID
         mutableStateOf(enabled)
     }
 
@@ -102,7 +102,7 @@ fun SignUpScreen(
         )
 
         Button(
-            onClick = { }, // todo: need to implement
+            onClick = { onShowSnackbar(context.getString(R.string.success_sign_up)) },
             colors = ButtonDefaults.buttonColors(containerColor = Blue50),
             enabled = enabled,
             modifier = Modifier
@@ -118,5 +118,5 @@ fun SignUpScreen(
 @Preview(showBackground = true)
 @Composable
 private fun SignUpScreenPreview() {
-    SignUpScreen()
+    SignUpScreen(onShowSnackbar = {})
 }

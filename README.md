@@ -25,5 +25,6 @@
 - (선택사항) Sign up 버튼을 클릭하면 회원가입 완료 스낵바가 노출된다
 
 ### 기능 요구 사항
-- [ ] sign up activate
-- [ ] display snack bar
+- [x] sign up activate
+- [x] display snack bar
+- [x] refactor(feedback, test code)
