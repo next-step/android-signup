@@ -13,16 +13,23 @@ import androidx.compose.ui.unit.sp
 @Preview(showBackground = true)
 @Composable
 private fun SingUpButtonPreView() {
-    SingUpButtonView()
+    SingUpButtonScreen(enabled = false)
 }
 
 @Composable
-fun SingUpButtonView(
-    modifier: Modifier = Modifier
+fun SingUpButtonScreen(
+    modifier: Modifier = Modifier,
+    enabled: Boolean = false
 ) {
+    val scaffoldState = rememberSc
     Button(
-        onClick = { /*TODO*/ },
+        onClick = {
+            if (enabled) {
+
+            }
+        },
         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2196F3)),
+        enabled = enabled,
         modifier = modifier
             .fillMaxWidth()
     ) {

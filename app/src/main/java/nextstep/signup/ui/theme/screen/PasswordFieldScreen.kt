@@ -7,7 +7,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,23 +32,25 @@ const val PASSWORD_MAX_LENGTH = 16
 @Preview(showBackground = true)
 @Composable
 private fun PasswordTextFieldPreview() {
-    PasswordTextFieldView("Username")
+    PasswordTextFieldScreen("Username", "")
 }
 
 @Composable
-fun PasswordTextFieldView(
+fun PasswordTextFieldScreen(
     label: String = "",
-    inputState: MutableState<String> = mutableStateOf("")
+    inputText: String,
+    onValueChange: (String) -> Unit = {},
+    onValidChanged: (Boolean) -> Unit = {},
 ) {
-    val text = remember { inputState }
     val isFocused = remember { mutableStateOf(false) }
-    val supportingText by remember(text) {
-        derivedStateOf { getErrorMessage(text.value) }
+    val supportingText by remember(inputText) {
+        derivedStateOf { getErrorMessage(inputText) }
     }
     TextField(
-        value = text.value,
+        value = inputText,
         onValueChange = {
-            text.value = it
+            onValueChange(it)
+            onValidChanged(supportingText.isEmpty())
         },
         label = {
             Text(

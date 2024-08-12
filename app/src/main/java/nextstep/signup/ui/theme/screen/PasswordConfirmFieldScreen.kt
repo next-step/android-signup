@@ -7,7 +7,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,24 +25,28 @@ private const val PASSWORD_COMPARE_ERROR = "비밀번호가 일치하지 않습�
 @Preview(showBackground = true)
 @Composable
 private fun PasswordConfirmTextFieldPreview() {
-    PasswordConfirmTextFieldView("Username")
+    PasswordConfirmTextFieldScreen("Username", "", "") {
+
+    }
 }
 
 @Composable
-fun PasswordConfirmTextFieldView(
+fun PasswordConfirmTextFieldScreen(
     label: String = "",
-    inputState: MutableState<String> = mutableStateOf(""),
-    anotherInputState: MutableState<String>? = null
+    inputText: String,
+    anotherPassword: String,
+    onValueChange: (String) -> Unit = {},
+    onValidChanged: (Boolean) -> Unit = {},
 ) {
-    val text = remember { inputState }
     val isFocused = remember { mutableStateOf(false) }
-    val supportingText by remember(text) {
-        derivedStateOf { getErrorMessage(text.value, anotherInputState?.value) }
+    val supportingText by remember(inputText, anotherPassword) {
+        derivedStateOf { getErrorMessage(inputText, anotherPassword) }
     }
     TextField(
-        value = text.value,
+        value = inputText,
         onValueChange = {
-            text.value = it
+            onValueChange(it)
+            onValidChanged(supportingText.isEmpty())
         },
         label = {
             Text(

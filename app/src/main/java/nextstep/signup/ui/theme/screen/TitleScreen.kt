@@ -10,11 +10,11 @@ import androidx.compose.ui.unit.sp
 @Preview(showBackground = true)
 @Composable
 private fun TitlePreView() {
-    TitleView("Welcome to Compose \uD83D\uDE80")
+    TitleScreen("Welcome to Compose \uD83D\uDE80")
 }
 
 @Composable
-fun TitleView(
+fun TitleScreen(
     title: String
 ) {
     Text(

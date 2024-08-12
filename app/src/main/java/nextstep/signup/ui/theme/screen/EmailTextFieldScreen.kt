@@ -7,7 +7,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,23 +27,25 @@ const val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
 @Preview(showBackground = true)
 @Composable
 private fun EmailTextFieldPreview() {
-    EmailTextFieldView("Username")
+    EmailTextFieldScreen("Username","")
 }
 
 @Composable
-fun EmailTextFieldView(
+fun EmailTextFieldScreen(
     label: String = "",
-    inputState: MutableState<String> = mutableStateOf("")
+    inputText: String,
+    onValueChange: (String) -> Unit = {},
+    onValidChanged: (Boolean) -> Unit = {},
 ) {
-    val text = remember { inputState }
     val isFocused = remember { mutableStateOf(false) }
-    val supportingText by remember(text) {
-        derivedStateOf { getErrorMessage(text.value) }
+    val supportingText by remember(inputText) {
+        derivedStateOf { getErrorMessage(inputText) }
     }
     TextField(
-        value = text.value,
+        value = inputText,
         onValueChange = {
-            text.value = it
+            onValueChange(it)
+            onValidChanged(supportingText.isEmpty())
         },
         label = {
             Text(

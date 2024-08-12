@@ -33,23 +33,25 @@ const val USERNAME_MAX_LENGTH = 5
 @Preview(showBackground = true)
 @Composable
 private fun NameTextFieldPreview() {
-    NameTextFieldView("Username")
+    NameTextFieldScreen("Username", "")
 }
 
 @Composable
-fun NameTextFieldView(
+fun NameTextFieldScreen(
     label: String = "",
-    inputState: MutableState<String> = mutableStateOf("")
+    inputText: String,
+    onValueChange: (String) -> Unit = {},
+    onValidChanged: (Boolean) -> Unit = {},
 ) {
-    val text = remember { inputState }
     val isFocused = remember { mutableStateOf(false) }
-    val supportingText by remember(text) {
-        derivedStateOf { getErrorMessage(text.value) }
+    val supportingText by remember(inputText) {
+        derivedStateOf { getErrorMessage(inputText) }
     }
     TextField(
-        value = text.value,
+        value = inputText,
         onValueChange = {
-            text.value = it
+            onValueChange(it)
+            onValidChanged(supportingText.isEmpty())
         },
         label = {
             Text(
