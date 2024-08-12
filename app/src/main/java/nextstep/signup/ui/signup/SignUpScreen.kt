@@ -17,12 +17,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.R
-import nextstep.signup.ui.component.BaseTextField
+import nextstep.signup.domain.EmailValidType
+import nextstep.signup.domain.EmailValidator
+import nextstep.signup.domain.PasswordConfirmValidType
+import nextstep.signup.domain.PasswordConfirmValidator
+import nextstep.signup.domain.PasswordValidType
+import nextstep.signup.domain.PasswordValidator
+import nextstep.signup.domain.UsernameValidType
+import nextstep.signup.domain.UsernameValidator
 import nextstep.signup.ui.component.EmailTextField
 import nextstep.signup.ui.component.PasswordConfirmTextField
 import nextstep.signup.ui.component.PasswordTextField
@@ -37,6 +43,16 @@ fun SignUpScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordConfirm by remember { mutableStateOf("") }
+    val enabled by remember(username, email, password, passwordConfirm) {
+        val enabled =
+            UsernameValidator.match(username) == UsernameValidType.VALID && EmailValidator.match(
+                email
+            ) == EmailValidType.VALID && PasswordValidator.match(password) == PasswordValidType.VALID && PasswordConfirmValidator.match(
+                password,
+                passwordConfirm
+            ) == PasswordConfirmValidType.VALID
+        mutableStateOf(enabled)
+    }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -88,6 +104,7 @@ fun SignUpScreen(
         Button(
             onClick = { }, // todo: need to implement
             colors = ButtonDefaults.buttonColors(containerColor = Blue50),
+            enabled = enabled,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 32.dp)
