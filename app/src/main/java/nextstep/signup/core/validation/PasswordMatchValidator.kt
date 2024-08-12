@@ -1,13 +1,20 @@
 package nextstep.signup.core.validation
 
-import nextstep.signup.R
+enum class PasswordMatchValidationResult {
+    VALID,
+    MISMATCH,
+}
 
-class PasswordMatchValidator(private val originalPassword: String) : Validator {
-    override fun validate(value: String): ValidationResult {
-        return if (value == originalPassword) {
-            ValidationResult(true)
+class PasswordMatchValidator {
+
+    fun validate(
+        confirmPassword: String,
+        password: String
+    ): PasswordMatchValidationResult {
+        return if (password == confirmPassword) {
+            PasswordMatchValidationResult.VALID
         } else {
-            ValidationResult(false, R.string.signup_password_mismatch_error)
+            PasswordMatchValidationResult.MISMATCH
         }
     }
 }

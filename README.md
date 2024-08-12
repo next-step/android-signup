@@ -110,7 +110,7 @@ class ValidatedTextFieldTest {
 
 ## step4
 
-- [ ] Validator들 R.string 의존성 제거 후 리팩
+- [x] Validator들 R.string 의존성 제거 후 리팩
 - [ ] `SignUpButton`에 대한 상태 추가
 - [ ] 모든 Validate 하나로 관리하는 State 추가
   - [ ] `SignUpButton` 과 연결
