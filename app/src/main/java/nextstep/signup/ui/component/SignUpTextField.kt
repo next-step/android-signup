@@ -23,26 +23,24 @@ fun SignUpTextField(
     supportingText: @Composable (() -> Unit)? = null,
     visualTransformation: VisualTransformation = VisualTransformation.None,
 ) {
-    Column(modifier = modifier) {
-        TextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = value,
-            label = label,
-            isError = supportingText != null,
-            onValueChange = { onValueChange(it) },
-            singleLine = true,
-            visualTransformation = visualTransformation,
-            supportingText = {
-                supportingText?.let {
-                    CompositionLocalProvider(
-                        LocalContentColor provides MaterialTheme.colorScheme.error,
-                        LocalTextStyle provides MaterialTheme.typography.labelSmall,
-                        content = it
-                    )
-                }
+    TextField(
+        modifier = modifier.fillMaxWidth(),
+        value = value,
+        label = label,
+        isError = supportingText != null,
+        onValueChange = { onValueChange(it) },
+        singleLine = true,
+        visualTransformation = visualTransformation,
+        supportingText = {
+            supportingText?.let {
+                CompositionLocalProvider(
+                    LocalContentColor provides MaterialTheme.colorScheme.error,
+                    LocalTextStyle provides MaterialTheme.typography.labelSmall,
+                    content = it
+                )
             }
-        )
-    }
+        }
+    )
 }
 
 @ThemePreviews

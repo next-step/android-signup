@@ -4,6 +4,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.layout
+import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
@@ -33,7 +36,7 @@ internal fun NameTextField(
     }
 
     SignUpTextField(
-        modifier = modifier,
+        modifier = modifier.testTag("name"),
         value = userName,
         onValueChange = onUserNameChange,
         label = { Text(text = stringResource(id = R.string.signup_username)) },
