@@ -14,10 +14,8 @@
       - [x] Username 글자수 테스트
     - [x] Username 정규식 제한
       - [x] Username 정규식 테스트
-  - [ ] Email 유효성 구현
-    - [ ] Email 글자수 제한
-      - [ ] Email 글자수 테스트
-    - [ ] Email 정규식 제한
+  - [x] Email 유효성 구현
+    - [x] Email 정규식 제한
       - [ ] Email 정규식 테스트
   - [ ] Password 유효성 구현
     - [ ] Password 글자수 제한
