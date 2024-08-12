@@ -113,7 +113,7 @@ class ValidatedTextFieldTest {
 - [x] Validator들 R.string 의존성 제거 후 리팩
   - [x] Validator 리팩토링으로 인한 View 로직 수정
   - [x] 각 SignUp Component들 클래스 분리
-  - [ ] 테스트 코드 수정
+  - [x] 테스트 코드 수정
 - [ ] `SignUpButton`에 대한 상태 추가
 - [ ] 모든 Validate 하나로 관리하는 State 추가
   - [ ] `SignUpButton` 과 연결
