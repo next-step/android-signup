@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -19,6 +20,7 @@ import nextstep.signup.util.SignUpInputValidation
 fun UsernameInputField(
     username: String,
     onValueChange: (String) -> Unit,
+    onValidationSuccess: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     hint: String = stringResource(R.string.sign_up_username),
 ) {
@@ -32,6 +34,10 @@ fun UsernameInputField(
                 else -> ""
             }
         }
+    }
+
+    LaunchedEffect(key1 = username, key2 = supportingText) {
+        onValidationSuccess(username.isNotBlank() && supportingText.isBlank())
     }
 
     TextField(
@@ -52,7 +58,8 @@ fun UsernameInputField(
 private fun TextInputFieldPreview() {
     UsernameInputField(
         username = "",
-        onValueChange = {}
+        onValueChange = {},
+        onValidationSuccess = {},
     )
 }
 
@@ -63,6 +70,7 @@ private fun TextInputFieldPreviewWithLabel() {
         username = "",
         onValueChange = {},
         hint = "Username",
+        onValidationSuccess = {},
     )
 }
 
@@ -72,6 +80,7 @@ private fun TextInputFieldPreviewWithValue() {
     UsernameInputField(
         username = "username",
         onValueChange = {},
+        onValidationSuccess = {},
     )
 }
 
@@ -82,5 +91,6 @@ private fun TextInputFieldPreviewWithValueAndLabel() {
         username = "username",
         onValueChange = {},
         hint = "Username",
+        onValidationSuccess = {},
     )
 }

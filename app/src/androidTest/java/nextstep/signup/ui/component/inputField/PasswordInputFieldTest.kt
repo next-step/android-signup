@@ -21,7 +21,11 @@ class PasswordInputFieldTest {
     @Before
     fun setUp() {
         composeTestRule.setContent {
-            PasswordInputField(password = password.value, onValueChange = { password.value = it })
+            PasswordInputField(
+                password = password.value,
+                onValueChange = { password.value = it },
+                onValidationSuccess = {}
+            )
         }
     }
 

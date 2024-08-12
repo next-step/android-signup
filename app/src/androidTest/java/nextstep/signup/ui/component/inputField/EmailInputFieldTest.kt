@@ -19,7 +19,11 @@ class EmailInputFieldTest {
     @Before
     fun setUp() {
         composeTestRule.setContent {
-            EmailInputField(email = email.value, onValueChange = { email.value = it })
+            EmailInputField(
+                email = email.value,
+                onValueChange = { email.value = it },
+                onValidationSuccess = {}
+            )
         }
     }
 

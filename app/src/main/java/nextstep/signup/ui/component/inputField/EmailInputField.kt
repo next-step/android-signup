@@ -5,6 +5,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -21,6 +22,7 @@ import nextstep.signup.util.SignUpInputValidation
 fun EmailInputField(
     email: String,
     onValueChange: (String) -> Unit,
+    onValidationSuccess: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     hint: String = stringResource(R.string.sign_up_email),
 ) {
@@ -34,6 +36,11 @@ fun EmailInputField(
             }
         }
     }
+
+    LaunchedEffect(key1 = email, key2 = supportingText) {
+        onValidationSuccess(email.isNotBlank() && supportingText.isBlank())
+    }
+
     TextField(
         modifier = modifier
             .testTag("email")
@@ -53,7 +60,8 @@ fun EmailInputField(
 private fun EmailInputFieldPreview() {
     EmailInputField(
         email = "",
-        onValueChange = {}
+        onValueChange = {},
+        onValidationSuccess = {},
     )
 }
 
@@ -63,6 +71,7 @@ private fun EmailInputFieldPreviewWithLabel() {
     EmailInputField(
         email = "",
         onValueChange = {},
+        onValidationSuccess = {},
         hint = "Email",
     )
 }
@@ -73,6 +82,7 @@ private fun EmailInputFieldPreviewWithValue() {
     EmailInputField(
         email = "abc@nextstep.com",
         onValueChange = {},
+        onValidationSuccess = {},
     )
 }
 
@@ -82,6 +92,7 @@ private fun EmailInputFieldPreviewWithValueAndLabel() {
     EmailInputField(
         email = "abc@nextstep.com",
         onValueChange = {},
+        onValidationSuccess = {},
         hint = "Email",
     )
 }
@@ -92,6 +103,7 @@ private fun EmailInputFieldPreviewErrorEmailFormat() {
     EmailInputField(
         email = "abcnextstep.com",
         onValueChange = {},
+        onValidationSuccess = {},
         hint = "Email",
     )
 }

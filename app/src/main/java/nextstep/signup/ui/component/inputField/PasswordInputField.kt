@@ -8,6 +8,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,6 +30,7 @@ import nextstep.signup.util.SignUpInputValidation
 fun PasswordInputField(
     password: String,
     onValueChange: (String) -> Unit,
+    onValidationSuccess: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     space: Dp = 0.dp,
     passwordHint: String = stringResource(R.string.sign_up_password),
@@ -54,6 +56,15 @@ fun PasswordInputField(
                 else -> ""
             }
         }
+    }
+
+    LaunchedEffect(
+        password,
+        passwordConfirm,
+        passwordSupportingText,
+        passwordConfirmSupportingText
+    ) {
+        onValidationSuccess(password.isNotBlank() && passwordConfirm.isNotBlank() && passwordSupportingText.isBlank() && passwordConfirmSupportingText.isBlank())
     }
 
     Column(modifier = modifier) {
@@ -96,7 +107,8 @@ fun PasswordInputField(
 private fun PasswordInputFieldPreview() {
     PasswordInputField(
         password = "",
-        onValueChange = {}
+        onValueChange = {},
+        onValidationSuccess = {},
     )
 }
 
@@ -106,6 +118,7 @@ private fun PasswordInputFieldPreviewWithValue() {
     PasswordInputField(
         password = "1q2w3e4r",
         onValueChange = {},
+        onValidationSuccess = {},
     )
 }
 
@@ -114,7 +127,8 @@ private fun PasswordInputFieldPreviewWithValue() {
 private fun PasswordInputFieldPreviewErrorShortPassword() {
     PasswordInputField(
         password = "1q2w3e",
-        onValueChange = {}
+        onValueChange = {},
+        onValidationSuccess = {},
     )
 }
 
@@ -123,6 +137,7 @@ private fun PasswordInputFieldPreviewErrorShortPassword() {
 private fun PasswordInputFieldPreviewErrorMustIncludeEnglishAndNumber() {
     PasswordInputField(
         password = "1234567890",
-        onValueChange = {}
+        onValueChange = {},
+        onValidationSuccess = {},
     )
 }

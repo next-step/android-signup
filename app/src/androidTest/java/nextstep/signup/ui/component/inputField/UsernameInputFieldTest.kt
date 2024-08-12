@@ -19,7 +19,11 @@ class UsernameInputFieldTest {
     @Before
     fun setup() {
         composeTestRule.setContent {
-            UsernameInputField(username = username.value, { username.value = it })
+            UsernameInputField(
+                username = username.value,
+                onValueChange = { username.value = it },
+                onValidationSuccess = {}
+            )
         }
     }
 
