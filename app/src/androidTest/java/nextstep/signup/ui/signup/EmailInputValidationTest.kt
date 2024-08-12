@@ -5,7 +5,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import nextstep.signup.R
-import nextstep.signup.ui.component.NSTextField
+import nextstep.signup.ui.component.BaseTextField
+import nextstep.signup.ui.component.EmailTextField
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -19,11 +20,9 @@ class EmailInputValidationTest {
     @Before
     fun setup() {
         composeTestRule.setContent {
-            NSTextField(
+            EmailTextField(
                 value = email.value,
                 onValueChange = {},
-                labelValue = stringResource(id = R.string.email),
-                supportingTextValue = getEmailSupportingText(email.value),
             )
         }
     }

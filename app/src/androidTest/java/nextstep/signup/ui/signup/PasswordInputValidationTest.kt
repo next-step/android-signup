@@ -6,7 +6,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import nextstep.signup.R
-import nextstep.signup.ui.component.NSTextField
+import nextstep.signup.ui.component.BaseTextField
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -22,13 +22,13 @@ class PasswordInputValidationTest {
     fun setup() {
         composeTestRule.setContent {
             Column {
-                NSTextField(
+                BaseTextField(
                     value = password.value,
                     onValueChange = {},
                     labelValue = stringResource(id = R.string.password),
                     supportingTextValue = getPasswordSupportingText(password.value),
                 )
-                NSTextField(
+                BaseTextField(
                     value = passwordConfirm.value,
                     onValueChange = {},
                     labelValue = stringResource(id = R.string.password_confirm),

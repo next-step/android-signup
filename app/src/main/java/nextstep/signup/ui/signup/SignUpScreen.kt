@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -18,13 +17,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.R
-import nextstep.signup.ui.component.NSTextField
+import nextstep.signup.ui.component.BaseTextField
+import nextstep.signup.ui.component.EmailTextField
 import nextstep.signup.ui.theme.Blue50
 
 private const val USERNAME_REGEX = "^[a-zA-Z가-힣]+$"
@@ -54,7 +53,7 @@ fun SignUpScreen(
             modifier = Modifier.padding(top = 60.dp),
         )
 
-        NSTextField(
+        BaseTextField(
             value = username,
             onValueChange = { username = it },
             labelValue = stringResource(id = R.string.username),
@@ -64,18 +63,15 @@ fun SignUpScreen(
                 .padding(top = 32.dp),
         )
 
-        NSTextField(
+        EmailTextField(
             value = email,
             onValueChange = { email = it },
-            labelValue = stringResource(id = R.string.email),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-            supportingTextValue = getEmailSupportingText(email),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 32.dp),
         )
 
-        NSTextField(
+        BaseTextField(
             value = password,
             onValueChange = { password = it },
             labelValue = stringResource(id = R.string.password),
@@ -86,7 +82,7 @@ fun SignUpScreen(
                 .padding(top = 32.dp),
         )
 
-        NSTextField(
+        BaseTextField(
             value = passwordConfirm,
             onValueChange = { passwordConfirm = it },
             labelValue = stringResource(id = R.string.password_confirm),
@@ -119,16 +115,6 @@ fun getUsernameSupportingText(username: String): String? {
 
     if (!username.matches(Regex(USERNAME_REGEX))) {
         return stringResource(id = R.string.username_regex_error)
-    }
-
-    return null
-}
-
-@Composable
-fun getEmailSupportingText(email: String): String? {
-    if (email.isEmpty()) return null
-    if (!email.matches(Regex(EMAIL_REGEX))) {
-        return stringResource(id = R.string.email_regex_error)
     }
 
     return null

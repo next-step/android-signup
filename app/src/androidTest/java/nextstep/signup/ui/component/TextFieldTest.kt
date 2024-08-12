@@ -20,7 +20,7 @@ class TextFieldTest {
         val text = mutableStateOf(value)
 
         composeTestRule.setContent {
-            NSTextField(value = text.value, onValueChange = {}, labelValue = "")
+            BaseTextField(value = text.value, onValueChange = {}, labelValue = "")
         }
 
         // then
@@ -35,7 +35,7 @@ class TextFieldTest {
         // given
         val value = "ABC"
         composeTestRule.setContent {
-            NSTextField(
+            BaseTextField(
                 value = "",
                 onValueChange = {},
                 labelValue = "",
