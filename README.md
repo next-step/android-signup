@@ -119,3 +119,4 @@ class ValidatedTextFieldTest {
   - [x] `SignUpButton` 과 연결
 - [x] `SignUpButton` 테스트 코드 추가
 - [x] 회원가입 완료 `Snackbar` 추가 
+  - [x] 테스트 코드 도전 
