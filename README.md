@@ -107,3 +107,11 @@ class ValidatedTextFieldTest {
 `.value` 로 값을 넣는 상황인데 내가 짠 `TextField` 는 초기값은 아예 고려가 되지 않은 상태여서 에러가 나는 것이였다.
 
 그래서 테스트 코드를 `performTextInput` 로 변경하는 방법도 있지만 초기값을 체크하는게 맞다고 생각을 해서 `ValidateTextField` 자체를 수정하는 것으로 변경
+
+## step4
+
+- [ ] Validator들 R.string 의존성 제거 후 리팩
+- [ ] `SignUpButton`에 대한 상태 추가
+- [ ] 모든 Validate 하나로 관리하는 State 추가
+  - [ ] `SignUpButton` 과 연결
+- 회원가입 완료 `Snackbar` 추가 
