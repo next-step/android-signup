@@ -1,4 +1,4 @@
-package nextstep.signup.ui.theme
+package nextstep.signup.view.ui.theme
 
 import android.app.Activity
 import android.os.Build

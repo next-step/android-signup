@@ -1,4 +1,4 @@
-package nextstep.signup
+package nextstep.signup.view
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -8,7 +8,7 @@ class SignUpActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            SignUpScreen().InitViews()
+            SignUpScreen().Screen()
         }
     }
 }
