@@ -2,10 +2,12 @@ package nextstep.signup
 
 import android.content.Context
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.test.core.app.ApplicationProvider
 import nextstep.signup.ui.screen.SignUpScreen
@@ -151,9 +153,28 @@ class InputValidationTest {
             .onNodeWithText(context.getString(R.string.sign_up))
             .assertIsNotEnabled()
     }
+
+    @Test
+    fun 활성화된_회원가입_버튼을_누르면_스낵바가_노출된다() {
+        viewModel.userName = "김컴포즈"
+        viewModel.email = "oyj7677@gmail.com"
+        viewModel.password = "12345678dd"
+        viewModel.passwordConfirm = "12345678dd"
+
+        composeTestRule
+            .onNodeWithText(context.getString(R.string.sign_up))
+            .performClick()
+
+        composeTestRule
+            .onNodeWithText(context.getString(R.string.text_sign_up_success))
+            .assertIsDisplayed()
+    }
 }
 
-@Preview
+@Preview(
+    showBackground = true,
+    backgroundColor = 0xFFFFFFFF
+)
 @Composable
 private fun test() {
     SignUpScreen(viewModel = SignUpViewModel())
