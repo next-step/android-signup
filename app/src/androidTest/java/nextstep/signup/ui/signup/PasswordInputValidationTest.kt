@@ -113,6 +113,32 @@ class PasswordInputValidationTest {
             .assertExists()
     }
 
+    @Test
+    fun 비밀번호가_비어있으면_에러메시지가_노출되지_않는다() {
+        // when
+        password.value = ""
+
+        // then
+        composeTestRule
+            .onNodeWithText(PASSWORD_LENGTH_ERROR)
+            .assertDoesNotExist()
+        composeTestRule
+            .onNodeWithText(PASSWORD_REGEX_ERROR)
+            .assertDoesNotExist()
+    }
+
+    @Test
+    fun 더블체크용_비밀번호가_비어있으면_에러메시지가_노출되지_않는다() {
+        // when
+        password.value = "aa120000"
+        passwordConfirm.value = ""
+
+        // then
+        composeTestRule
+            .onNodeWithText(PASSWORD_CONFIRM_EQUAL_ERROR)
+            .assertDoesNotExist()
+    }
+
     companion object {
         private const val PASSWORD_LENGTH_ERROR = "비밀번호는 8~16자여야 합니다."
         private const val PASSWORD_REGEX_ERROR = "비밀번호는 영문과 숫자를 포함해야 합니다."
