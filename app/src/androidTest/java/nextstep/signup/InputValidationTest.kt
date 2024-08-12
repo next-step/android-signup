@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
+import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
@@ -168,6 +169,22 @@ class InputValidationTest {
         composeTestRule
             .onNodeWithText(context.getString(R.string.text_sign_up_success))
             .assertIsDisplayed()
+    }
+
+    @Test
+    fun 비활성화된_회원가입_버튼을_누르면_스낵바가_노출되지_않는다() {
+        viewModel.userName = "김컴포즈"
+        viewModel.email = "oyj7677@gmail.com"
+        viewModel.password = "12345678dd"
+        viewModel.passwordConfirm = "12345678"
+
+        composeTestRule
+            .onNodeWithText(context.getString(R.string.sign_up))
+            .performClick()
+
+        composeTestRule
+            .onNodeWithText(context.getString(R.string.text_sign_up_success))
+            .assertIsNotDisplayed()
     }
 }
 
