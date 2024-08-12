@@ -1,4 +1,4 @@
-package nextstep.signup.username
+package nextstep.signup
 
 import nextstep.signup.ui.signup.SignupInputType.Username
 import nextstep.signup.ui.signup.SignupInvalidationState.USERNAME_LENGTH_INVALIDATION
