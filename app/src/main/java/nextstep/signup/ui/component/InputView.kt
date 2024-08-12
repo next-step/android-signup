@@ -3,7 +3,6 @@ package nextstep.signup.ui.component
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -18,8 +17,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun InputView(hint: String) {
-    var inputValue by remember { mutableStateOf("") }
+fun InputView(hint: String, changeListener: (String) -> Unit) {
+    val inputValue by remember { mutableStateOf("") }
     TextField(modifier = Modifier
         .width(296.dp)
         .height(53.dp),
@@ -31,9 +30,7 @@ fun InputView(hint: String) {
         ),
         shape = RoundedCornerShape(4.dp, 4.dp, 0.dp, 0.dp),
         value = inputValue,
-        onValueChange = {
-            inputValue = it
-        },
+        onValueChange = changeListener,
         label = {
             Text(hint)
         })
@@ -42,5 +39,7 @@ fun InputView(hint: String) {
 @Preview
 @Composable
 fun PreviewInputView() {
-    InputView("이름을 입력해주세요")
+    InputView("이름을 입력해주세요") {
+        // do nothing
+    }
 }
