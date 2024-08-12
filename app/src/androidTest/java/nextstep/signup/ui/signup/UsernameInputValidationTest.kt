@@ -6,6 +6,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import nextstep.signup.R
 import nextstep.signup.ui.component.BaseTextField
+import nextstep.signup.ui.component.UsernameTextField
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -19,11 +20,9 @@ class UsernameInputValidationTest {
     @Before
     fun setup() {
         composeTestRule.setContent {
-            BaseTextField(
+            UsernameTextField(
                 value = username.value,
                 onValueChange = {},
-                labelValue = stringResource(id = R.string.username),
-                supportingTextValue = getUsernameSupportingText(username.value),
             )
         }
     }

@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import nextstep.signup.R
 import nextstep.signup.ui.component.BaseTextField
 import nextstep.signup.ui.component.EmailTextField
+import nextstep.signup.ui.component.UsernameTextField
 import nextstep.signup.ui.theme.Blue50
 
 private const val USERNAME_REGEX = "^[a-zA-Z가-힣]+$"
@@ -53,11 +54,9 @@ fun SignUpScreen(
             modifier = Modifier.padding(top = 60.dp),
         )
 
-        BaseTextField(
+        UsernameTextField(
             value = username,
             onValueChange = { username = it },
-            labelValue = stringResource(id = R.string.username),
-            supportingTextValue = getUsernameSupportingText(username),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 32.dp),
