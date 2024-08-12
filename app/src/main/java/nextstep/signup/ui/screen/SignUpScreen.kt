@@ -8,10 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -22,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.R
+import nextstep.signup.SignUpViewModel
 import nextstep.signup.ui.component.EmailTextField
 import nextstep.signup.ui.component.InputErrorText
 import nextstep.signup.ui.component.PasswordConfirmTextField
@@ -29,17 +26,9 @@ import nextstep.signup.ui.component.PasswordTextField
 import nextstep.signup.ui.component.UserNameTextField
 
 @Composable
-fun SignUpScreen() {
-    var userName by rememberSaveable { mutableStateOf("") }
-    var email by rememberSaveable { mutableStateOf("") }
-    var password by rememberSaveable { mutableStateOf("") }
-    var passwordConfirm by rememberSaveable { mutableStateOf("") }
-
-    var userNameValid by rememberSaveable { mutableStateOf(false) }
-    var emailValid by rememberSaveable { mutableStateOf(false) }
-    var passwordValid by rememberSaveable { mutableStateOf(false) }
-    var passwordConfirmValid by rememberSaveable { mutableStateOf(false) }
-
+fun SignUpScreen(
+    viewModel: SignUpViewModel
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -61,67 +50,59 @@ fun SignUpScreen() {
         ) {
             Column {
                 UserNameTextField(
-                    userName,
-                    onTextValueChange = { userName = it }
+                    viewModel.userName,
+                    onTextValueChange = { viewModel.userName = it }
                 )
 
-                userNameValid =
-                    userName.matches(Regex(stringResource(id = R.string.regex_user_name)))
-
-                if (userName.isNotEmpty()) {
+                if (viewModel.userName.isNotEmpty()) {
                     InputErrorText(
                         stringResource(id = R.string.err_msg_user_name),
-                        userNameValid
+                        viewModel.validateUserName()
                     )
                 }
             }
 
             Column {
                 EmailTextField(
-                    text = email,
-                    onTextValueChange = { email = it }
+                    text = viewModel.email,
+                    onTextValueChange = { viewModel.email = it }
                 )
 
-                emailValid = email.matches(Regex(stringResource(id = R.string.regex_email)))
 
-                if (email.isNotEmpty()) {
+                if (viewModel.email.isNotEmpty()) {
                     InputErrorText(
                         stringResource(id = R.string.err_msg_email),
-                        emailValid
+                        viewModel.validateEmail()
                     )
                 }
             }
 
             Column {
                 PasswordTextField(
-                    text = password,
-                    onTextValueChange = { password = it }
+                    text = viewModel.password,
+                    onTextValueChange = { viewModel.password = it }
                 )
 
-                passwordValid =
-                    password.matches(Regex(stringResource(id = R.string.regex_password)))
 
-                if (password.isNotEmpty()) {
+                if (viewModel.password.isNotEmpty()) {
                     InputErrorText(
                         stringResource(id = R.string.err_msg_password),
-                        passwordValid
+                        viewModel.validatePassword()
                     )
                 }
             }
 
             Column {
                 PasswordConfirmTextField(
-                    text = passwordConfirm,
-                    onTextValueChange = { passwordConfirm = it },
-                    password
+                    text = viewModel.passwordConfirm,
+                    onTextValueChange = { viewModel.passwordConfirm = it },
+                    viewModel.password
                 )
 
-                passwordConfirmValid = password == passwordConfirm
-
-                if (passwordConfirm.isNotEmpty()) {
+                if (viewModel.passwordConfirm.isNotEmpty()) {
                     InputErrorText(
                         stringResource(id = R.string.err_msg_password_confirm),
-                        passwordConfirmValid
+                        viewModel.validatePasswordConfirm()
                     )
                 }
             }
@@ -132,7 +113,7 @@ fun SignUpScreen() {
                 .padding(32.dp)
                 .fillMaxWidth(),
             onClick = { },
-            enabled = userNameValid && emailValid && passwordValid && passwordConfirmValid
+            enabled = viewModel.validateAll()
         ) {
             Text(
                 text = stringResource(id = R.string.sign_up),
@@ -150,5 +131,5 @@ fun SignUpScreen() {
 @Preview(showBackground = true)
 @Composable
 private fun SignUpScreenPreview() {
-    SignUpScreen()
+    SignUpScreen(SignUpViewModel())
 }
