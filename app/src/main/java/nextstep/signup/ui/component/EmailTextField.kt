@@ -46,3 +46,36 @@ private fun EmailTextFieldPreview() {
         onValueChange = { email = it },
     )
 }
+
+@Preview
+@Composable
+private fun EmptyEmailTextFieldPreview() {
+    var email by remember { mutableStateOf("") }
+
+    EmailTextField(
+        value = email,
+        onValueChange = { email = it },
+    )
+}
+
+@Preview
+@Composable
+private fun InvalidEmailTextFieldPreview1() {
+    var email by remember { mutableStateOf("jihoi.kang") }
+
+    EmailTextField(
+        value = email,
+        onValueChange = { email = it },
+    )
+}
+
+@Preview
+@Composable
+private fun InvalidEmailTextFieldPreview2() {
+    var email by remember { mutableStateOf("jihoi.kang@aa.a") }
+
+    EmailTextField(
+        value = email,
+        onValueChange = { email = it },
+    )
+}

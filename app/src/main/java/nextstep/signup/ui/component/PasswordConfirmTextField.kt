@@ -39,6 +39,28 @@ fun PasswordConfirmTextField(
 @Preview
 @Composable
 private fun PasswordConfirmTextFieldPreview() {
+    var passwordConfirm by remember { mutableStateOf("aa120000") }
+    PasswordConfirmTextField(
+        value = passwordConfirm,
+        onValueChange = { passwordConfirm = it },
+        passwordValue = "aa120000",
+    )
+}
+
+@Preview
+@Composable
+private fun EmptyPasswordConfirmTextFieldPreview() {
+    var passwordConfirm by remember { mutableStateOf("") }
+    PasswordConfirmTextField(
+        value = passwordConfirm,
+        onValueChange = { passwordConfirm = it },
+        passwordValue = "aa120000",
+    )
+}
+
+@Preview
+@Composable
+private fun NotEqualPasswordConfirmTextFieldPreview() {
     var passwordConfirm by remember { mutableStateOf("aa120001") }
     PasswordConfirmTextField(
         value = passwordConfirm,

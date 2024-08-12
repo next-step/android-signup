@@ -44,3 +44,36 @@ private fun UsernameTextFieldPreview() {
         onValueChange = { username = it },
     )
 }
+
+@Preview
+@Composable
+private fun EmptyUsernameTextFieldPreview() {
+    var username by remember { mutableStateOf("") }
+
+    UsernameTextField(
+        value = username,
+        onValueChange = { username = it },
+    )
+}
+
+@Preview
+@Composable
+private fun InvalidUsernameTextFieldPreview1() {
+    var username by remember { mutableStateOf("j") }
+
+    UsernameTextField(
+        value = username,
+        onValueChange = { username = it },
+    )
+}
+
+@Preview
+@Composable
+private fun InvalidUsernameTextFieldPreview2() {
+    var username by remember { mutableStateOf("jihoik") }
+
+    UsernameTextField(
+        value = username,
+        onValueChange = { username = it },
+    )
+}

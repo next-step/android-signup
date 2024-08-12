@@ -42,3 +42,31 @@ private fun PasswordTextFieldPreview() {
     var password by remember { mutableStateOf("aa120000") }
     PasswordTextField(value = password, onValueChange = { password = it })
 }
+
+@Preview
+@Composable
+private fun EmptyPasswordTextFieldPreview() {
+    var password by remember { mutableStateOf("") }
+    PasswordTextField(value = password, onValueChange = { password = it })
+}
+
+@Preview
+@Composable
+private fun InvalidPasswordTextFieldPreview1() {
+    var password by remember { mutableStateOf("aa12") }
+    PasswordTextField(value = password, onValueChange = { password = it })
+}
+
+@Preview
+@Composable
+private fun InvalidOnlyNumberPasswordTextFieldPreview() {
+    var password by remember { mutableStateOf("11111111") }
+    PasswordTextField(value = password, onValueChange = { password = it })
+}
+
+@Preview
+@Composable
+private fun InvalidOnlyCharPasswordTextFieldPreview() {
+    var password by remember { mutableStateOf("abcdefgh") }
+    PasswordTextField(value = password, onValueChange = { password = it })
+}
