@@ -1,6 +1,7 @@
 package nextstep.signup
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -39,6 +40,10 @@ import nextstep.signup.ui.theme.RobotoBold
 import nextstep.signup.ui.theme.RobotoMedium
 import nextstep.signup.ui.theme.RobotoRegular
 import nextstep.signup.ui.theme.SignupTheme
+
+const val USERNAME_REGEX = "^[a-zA-Z가-힣]+$"
+const val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
+const val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$"
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,6 +88,7 @@ fun SignUpScreen() {
             label = stringResource(R.string.signup_user_name),
             onTextChanged = setUserName,
             text = userName,
+            isError = !userName.matches(Regex(USERNAME_REGEX)),
         )
         Spacer(modifier = Modifier.height(36.dp))
         SignUpTextField(
@@ -133,6 +139,7 @@ fun SignUpTextField(
     label: String,
     onTextChanged: (String) -> Unit,
     text: String,
+    isError: Boolean = false,
     visualTransformation: VisualTransformation = VisualTransformation.None,
 ) {
     TextField(
@@ -157,6 +164,12 @@ fun SignUpTextField(
             focusedContainerColor = BlueGray20,
             focusedIndicatorColor = Blue50,
         ),
+        isError = isError,
+        supportingText = {
+            if (isError) {
+                Text(text = "errorMessage")
+            }
+        },
         visualTransformation = visualTransformation,
         modifier = Modifier
             .fillMaxWidth()
