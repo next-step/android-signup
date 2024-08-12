@@ -9,3 +9,4 @@
 - 리뷰 수정
 - Validation Check 로직 추가
 - Username, email, password, passwordConfirm 유효성 검사
+- UI 테스트 추가
