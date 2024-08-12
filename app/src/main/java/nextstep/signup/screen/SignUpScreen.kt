@@ -38,7 +38,7 @@ import nextstep.signup.ui.component.PasswordTextField
 import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
-fun SignUpScreen(
+fun SignUpRoute(
     modifier: Modifier = Modifier
 ) {
     var userName by remember { mutableStateOf("") }
@@ -60,7 +60,7 @@ fun SignUpScreen(
     val onUserNameChange = remember { { newUseName: String -> userName = newUseName } }
     val onEmailChange = remember { { newEmail: String -> email = newEmail } }
     val onPasswordChange = remember { { newPassword: String -> password = newPassword } }
-    val onPasswordMatchChange = remember { { newPasswordConfirm: String -> passwordConfirm = newPasswordConfirm } }
+    val onPasswordConfirmChange = remember { { newPasswordConfirm: String -> passwordConfirm = newPasswordConfirm } }
     val isSignUpEnabled by remember {
         derivedStateOf {
             userNameValidationResult == NameValidationResult.VALID && emailValidationResult == EmailValidationResult.VALID &&
@@ -68,6 +68,41 @@ fun SignUpScreen(
         }
     }
 
+    SignUpScreen(
+        userName = userName,
+        email = email,
+        password = password,
+        passwordConfirm = passwordConfirm,
+        userNameValidationResult = userNameValidationResult,
+        emailValidationResult = emailValidationResult,
+        passwordValidationResult = passwordValidationResult,
+        passwordMatchValidationResult = passwordMatchValidationResult,
+        onUserNameChange = onUserNameChange,
+        onEmailChange = onEmailChange,
+        onPasswordChange = onPasswordChange,
+        onPasswordConfirmChange = onPasswordConfirmChange,
+        isSignUpEnabled = isSignUpEnabled,
+        modifier = modifier
+    )
+}
+
+@Composable
+internal fun SignUpScreen(
+    userName: String,
+    email: String,
+    password: String,
+    passwordConfirm: String,
+    userNameValidationResult: NameValidationResult,
+    emailValidationResult: EmailValidationResult,
+    passwordValidationResult: PasswordValidationResult,
+    passwordMatchValidationResult: PasswordMatchValidationResult,
+    isSignUpEnabled: Boolean,
+    onUserNameChange: (String) -> Unit,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onPasswordConfirmChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -92,7 +127,7 @@ fun SignUpScreen(
             onUserNameChange = onUserNameChange,
             onEmailChange = onEmailChange,
             onPasswordChange = onPasswordChange,
-            onPasswordConfirmChange = onPasswordMatchChange
+            onPasswordConfirmChange = onPasswordConfirmChange
         )
 
         SignUpButton(
@@ -208,6 +243,6 @@ private fun SignUpButtonDisabledPreview() {
 @Composable
 private fun SignUpScreenPreview() {
     SignupTheme {
-        SignUpScreen()
+        SignUpRoute()
     }
 }
