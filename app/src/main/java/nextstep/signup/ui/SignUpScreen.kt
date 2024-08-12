@@ -290,10 +290,7 @@ private fun SignUpContent(
                 ),
             keyboardActions =
                 KeyboardActions(
-                    onDone = {
-                        focusManager.clearFocus(true)
-                        onSignUpClicked()
-                    },
+                    onDone = { focusManager.clearFocus(true) },
                 ),
             modifier =
                 Modifier
