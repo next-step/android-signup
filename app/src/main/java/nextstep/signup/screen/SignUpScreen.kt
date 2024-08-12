@@ -19,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.R
@@ -32,6 +31,10 @@ import nextstep.signup.core.validation.PasswordMatchValidator
 import nextstep.signup.core.validation.PasswordValidationResult
 import nextstep.signup.core.validation.PasswordValidator
 import nextstep.signup.ui.ThemePreviews
+import nextstep.signup.ui.component.EmailTextField
+import nextstep.signup.ui.component.NameTextField
+import nextstep.signup.ui.component.PasswordConfirmTextField
+import nextstep.signup.ui.component.PasswordTextField
 import nextstep.signup.ui.component.SignUpTextField
 import nextstep.signup.ui.theme.SignupTheme
 
@@ -153,121 +156,6 @@ private fun SignUpInputComponent(
 }
 
 @Composable
-internal fun NameTextField(
-    userName: String,
-    nameValidationResult: NameValidationResult,
-    onUserNameChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    val supportingText: @Composable (() -> Unit)? = remember(userName, nameValidationResult) {
-        if (userName.isEmpty()) return@remember null
-        when (nameValidationResult) {
-            NameValidationResult.VALID -> null
-            NameValidationResult.LENGTH_ERROR -> {
-                { Text(text = stringResource(id = R.string.signup_name_length_error)) }
-            }
-
-            NameValidationResult.CHARACTER_ERROR -> {
-                { Text(text = stringResource(id = R.string.signup_name_character_error)) }
-            }
-        }
-    }
-
-    SignUpTextField(
-        modifier = modifier,
-        value = userName,
-        onValueChange = onUserNameChange,
-        label = { Text(text = stringResource(id = R.string.signup_username)) },
-        supportingText = supportingText,
-    )
-}
-
-@Composable
-internal fun EmailTextField(
-    email: String,
-    emailValidationResult: EmailValidationResult,
-    onEmailChange: (String) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    val supportingText: @Composable (() -> Unit)? = remember(email, emailValidationResult) {
-        if (email.isEmpty()) return@remember null
-        when (emailValidationResult) {
-            EmailValidationResult.VALID -> null
-            EmailValidationResult.INVALID_FORMAT -> {
-                { Text(text = stringResource(id = R.string.signup_invalid_email)) }
-            }
-        }
-    }
-
-    SignUpTextField(
-        modifier = modifier,
-        value = email,
-        onValueChange = onEmailChange,
-        label = { Text(text = stringResource(id = R.string.signup_email)) },
-        supportingText = supportingText,
-    )
-}
-
-@Composable
-internal fun PasswordTextField(
-    password: String,
-    passwordValidationResult: PasswordValidationResult,
-    onPasswordChange: (String) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    val supportingText: @Composable (() -> Unit)? = remember(password, passwordValidationResult) {
-        if (password.isEmpty()) return@remember null
-        when (passwordValidationResult) {
-            PasswordValidationResult.VALID -> null
-            PasswordValidationResult.INVALID_LENGTH -> {
-                { Text(text = stringResource(id = R.string.signup_password_length_error)) }
-            }
-
-            PasswordValidationResult.INVALID_COMPLEXITY -> {
-                { Text(text = stringResource(id = R.string.signup_password_complexity_error)) }
-            }
-        }
-    }
-
-    SignUpTextField(
-        modifier = modifier,
-        value = password,
-        onValueChange = onPasswordChange,
-        label = { Text(text = stringResource(id = R.string.signup_password)) },
-        visualTransformation = PasswordVisualTransformation(),
-        supportingText = supportingText,
-    )
-}
-
-@Composable
-internal fun PasswordConfirmTextField(
-    passwordConfirmValue: String,
-    passwordMatchValidationResult: PasswordMatchValidationResult,
-    onPasswordConfirmChange: (String) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    val supportingText: @Composable (() -> Unit)? = remember(passwordConfirmValue, passwordMatchValidationResult) {
-        if (passwordConfirmValue.isEmpty()) return@remember null
-        when (passwordMatchValidationResult) {
-            PasswordMatchValidationResult.VALID -> null
-            PasswordMatchValidationResult.MISMATCH -> {
-                { Text(text = stringResource(id = R.string.signup_password_mismatch_error)) }
-            }
-        }
-    }
-
-    SignUpTextField(
-        modifier = modifier,
-        value = passwordConfirmValue,
-        onValueChange = onPasswordConfirmChange,
-        label = { Text(text = stringResource(id = R.string.signup_password_confirm)) },
-        visualTransformation = PasswordVisualTransformation(),
-        supportingText = supportingText
-    )
-}
-
-
-@Composable
 private fun SignUpButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -306,29 +194,5 @@ private fun SignUpButtonPreview() {
 private fun SignUpScreenPreview() {
     SignupTheme {
         SignUpScreen()
-    }
-}
-
-@ThemePreviews
-@Composable
-private fun SignUpTextFieldPreview() {
-    SignupTheme {
-        SignUpTextField(
-            value = "이지훈",
-            onValueChange = {},
-            label = { Text(text = "이름") }
-        )
-    }
-}
-
-@ThemePreviews
-@Composable
-private fun SignUpTextFieldErrorPreview() {
-    SignupTheme {
-        SignUpTextField(
-            value = "이지훈",
-            onValueChange = {},
-            label = { Text(text = "이름") }
-        )
     }
 }
