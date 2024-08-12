@@ -39,92 +39,95 @@ import nextstep.signup.ui.component.UserNameTextField
 fun SignUpScreen(
     viewModel: SignUpViewModel
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 112.dp)
+
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
+
+    Scaffold(
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
     ) {
-        val snackbarHostState = remember { SnackbarHostState() }
-        val coroutineScope = rememberCoroutineScope()
-        val context = LocalContext.current
 
-        Text(
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center,
-            text = "Welcome to Compose \uD83D\uDE80",
-            fontSize = 26.sp,
-            color = Color.Black,
-            style = TextStyle(
-                fontWeight = FontWeight.Bold
-            )
-        )
         Column(
-            modifier = Modifier.padding(top = 62.dp),
-            verticalArrangement = Arrangement.spacedBy(32.dp)
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 112.dp)
         ) {
-            Column {
-                UserNameTextField(
-                    viewModel.userName,
-                    onTextValueChange = { viewModel.userName = it }
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                text = "Welcome to Compose \uD83D\uDE80",
+                fontSize = 26.sp,
+                color = Color.Black,
+                style = TextStyle(
+                    fontWeight = FontWeight.Bold
                 )
-
-                if (viewModel.userName.isNotEmpty()) {
-                    InputErrorText(
-                        stringResource(id = R.string.err_msg_user_name),
-                        viewModel.validateUserName()
+            )
+            Column(
+                modifier = Modifier.padding(top = 62.dp),
+                verticalArrangement = Arrangement.spacedBy(32.dp)
+            ) {
+                Column {
+                    UserNameTextField(
+                        viewModel.userName,
+                        onTextValueChange = { viewModel.userName = it }
                     )
+
+                    if (viewModel.userName.isNotEmpty()) {
+                        InputErrorText(
+                            stringResource(id = R.string.err_msg_user_name),
+                            viewModel.validateUserName()
+                        )
+                    }
+                }
+
+                Column {
+                    EmailTextField(
+                        text = viewModel.email,
+                        onTextValueChange = { viewModel.email = it }
+                    )
+
+
+                    if (viewModel.email.isNotEmpty()) {
+                        InputErrorText(
+                            stringResource(id = R.string.err_msg_email),
+                            viewModel.validateEmail()
+                        )
+                    }
+                }
+
+                Column {
+                    PasswordTextField(
+                        text = viewModel.password,
+                        onTextValueChange = { viewModel.password = it }
+                    )
+
+
+                    if (viewModel.password.isNotEmpty()) {
+                        InputErrorText(
+                            stringResource(id = R.string.err_msg_password),
+                            viewModel.validatePassword()
+                        )
+                    }
+                }
+
+                Column {
+                    PasswordConfirmTextField(
+                        text = viewModel.passwordConfirm,
+                        onTextValueChange = { viewModel.passwordConfirm = it },
+                        viewModel.password
+                    )
+
+                    if (viewModel.passwordConfirm.isNotEmpty()) {
+                        InputErrorText(
+                            stringResource(id = R.string.err_msg_password_confirm),
+                            viewModel.validatePasswordConfirm()
+                        )
+                    }
                 }
             }
 
-            Column {
-                EmailTextField(
-                    text = viewModel.email,
-                    onTextValueChange = { viewModel.email = it }
-                )
 
-
-                if (viewModel.email.isNotEmpty()) {
-                    InputErrorText(
-                        stringResource(id = R.string.err_msg_email),
-                        viewModel.validateEmail()
-                    )
-                }
-            }
-
-            Column {
-                PasswordTextField(
-                    text = viewModel.password,
-                    onTextValueChange = { viewModel.password = it }
-                )
-
-
-                if (viewModel.password.isNotEmpty()) {
-                    InputErrorText(
-                        stringResource(id = R.string.err_msg_password),
-                        viewModel.validatePassword()
-                    )
-                }
-            }
-
-            Column {
-                PasswordConfirmTextField(
-                    text = viewModel.passwordConfirm,
-                    onTextValueChange = { viewModel.passwordConfirm = it },
-                    viewModel.password
-                )
-
-                if (viewModel.passwordConfirm.isNotEmpty()) {
-                    InputErrorText(
-                        stringResource(id = R.string.err_msg_password_confirm),
-                        viewModel.validatePasswordConfirm()
-                    )
-                }
-            }
-        }
-
-        Scaffold(
-            snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
-        ) {
             Button(
                 modifier = Modifier
                     .padding(32.dp)
