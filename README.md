@@ -8,7 +8,7 @@
 - [x] 회원정보 입력 컴포넌트 구현
 - [x] 회원가입 버튼 구현
 - [x] 유효성 에러 UI 구현
-- [ ] 유효성 검사 로직 구현
+- [x] 유효성 검사 로직 구현
   - [x] Username 유효성 검사 구현
     - [x] Username 글자수 제한
       - [x] Username 글자수 테스트
@@ -24,4 +24,4 @@
       - [x] Password 정규식 테스트
   - [x] Password Confirm 유효성 검사 구현
     - [x] Password Confirm 비밀번호 일치 여부
-      - [ ] Password Confirm 비밀번호 일치 여부 테스트
+      - [x] Password Confirm 비밀번호 일치 여부 테스트
