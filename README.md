@@ -3,7 +3,7 @@
 ## Step4 구현 목록
 
 - [x] 컴포넌트 단위로 뷰 및 테스트 코드 단순 분리
-- [] SignUpTitle 테스트 코드 작성
+- [x] SignUpTitle 테스트 코드 작성
 - [] SignUpHelperText 테스트 코드 작성
 - [] 컴포넌트 공통 요소 추출
 - [] 컴포넌트 고유 속성 주입
