@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,7 +27,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 private fun TitleTextComponent() {
     Text(
-        text = "Welcome to Compose \uD83D\uDE80",
+        text = stringResource(id = R.string.signup_title),
         style = TextStyle(
             fontSize = 26.sp,
             lineHeight = 20.sp,
