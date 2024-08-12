@@ -61,7 +61,12 @@ fun SignUpScreen(
     val onEmailChange = remember { { newEmail: String -> email = newEmail } }
     val onPasswordChange = remember { { newPassword: String -> password = newPassword } }
     val onPasswordMatchChange = remember { { newPasswordConfirm: String -> passwordConfirm = newPasswordConfirm } }
-
+    val isSignUpEnabled by remember {
+        derivedStateOf {
+            userNameValidationResult == NameValidationResult.VALID && emailValidationResult == EmailValidationResult.VALID &&
+                    passwordValidationResult == PasswordValidationResult.VALID && passwordMatchValidationResult == PasswordMatchValidationResult.VALID
+        }
+    }
 
     Column(
         modifier = modifier
@@ -91,6 +96,7 @@ fun SignUpScreen(
         )
 
         SignUpButton(
+            enabled = isSignUpEnabled,
             onClick = { /* TODO */ }
         )
     }
@@ -156,10 +162,12 @@ private fun SignUpInputComponent(
 
 @Composable
 private fun SignUpButton(
+    enabled: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Button(
+        enabled = enabled,
         modifier = modifier.fillMaxWidth(),
         onClick = { onClick() }
     ) {
@@ -182,9 +190,17 @@ private fun SignUpTitlePreview() {
 
 @ThemePreviews
 @Composable
-private fun SignUpButtonPreview() {
+private fun SignUpButtonEnablePreview() {
     SignupTheme {
-        SignUpButton(onClick = {})
+        SignUpButton(enabled = true, onClick = {})
+    }
+}
+
+@ThemePreviews
+@Composable
+private fun SignUpButtonDisabledPreview() {
+    SignupTheme {
+        SignUpButton(enabled = false, onClick = {})
     }
 }
 
