@@ -7,9 +7,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -44,14 +41,13 @@ fun NameTextFieldScreen(
     onValidChanged: (Boolean) -> Unit = {},
 ) {
     val isFocused = remember { mutableStateOf(false) }
-    val supportingText by remember(inputText) {
-        derivedStateOf { getErrorMessage(inputText) }
-    }
+    var supportingText = getErrorMessage(inputText)
     TextField(
         value = inputText,
         onValueChange = {
             onValueChange(it)
-            onValidChanged(supportingText.isEmpty())
+            supportingText = getErrorMessage(it)
+            onValidChanged(supportingText.isNotEmpty())
         },
         label = {
             Text(

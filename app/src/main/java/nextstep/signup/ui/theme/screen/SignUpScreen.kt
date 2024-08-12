@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 
 @Preview(showBackground = true)
 @Composable
-fun SingUpScreen() {
+fun SignUpScreen() {
     val userName = remember { mutableStateOf("" ) }
     val email = remember { mutableStateOf("" ) }
     val password = remember { mutableStateOf("" ) }
@@ -104,7 +104,7 @@ fun SingUpScreen() {
                         isPasswordConfirmError.value = it
                     }
                 )
-                SingUpButtonScreen(
+                SignUpButtonScreen(
                     Modifier.padding(16.dp),
                     enabled = isFormValid,
                     onClick = {
