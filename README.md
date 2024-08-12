@@ -10,10 +10,10 @@
 - [x] 유효성 에러 UI 구현
 - [ ] 유효성 검사 로직 구현
   - [x] Username 유효성 구현
-    - [ ] Username 글자수 제한
-      - [ ] Username 글자수 테스트
-    - [ ] Username 정규식 제한
-      - [ ] Username 정규식 테스트
+    - [x] Username 글자수 제한
+      - [x] Username 글자수 테스트
+    - [x] Username 정규식 제한
+      - [x] Username 정규식 테스트
   - [ ] Email 유효성 구현
     - [ ] Email 글자수 제한
       - [ ] Email 글자수 테스트
