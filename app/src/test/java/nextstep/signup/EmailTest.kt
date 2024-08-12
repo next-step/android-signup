@@ -1,9 +1,9 @@
 package nextstep.signup
 
-import nextstep.signup.ui.signup.SignupValidator.Email
 import nextstep.signup.ui.signup.SignupInvalidationState.EMAIL_RULE_INVALIDATION
 import nextstep.signup.ui.signup.SignupValidationResult.Failure
 import nextstep.signup.ui.signup.SignupValidationResult.Success
+import nextstep.signup.ui.signup.SignupValidator.Email
 import nextstep.signup.ui.signup.isValid
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -29,7 +29,6 @@ class EmailTest {
     @Test
     fun `형식에 맞지 않는 이메일은 다음 문자열을 반환한다`() {
         // given:
-        val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
         val email: String = "s2ehun"
 
         // when:

@@ -75,7 +75,6 @@ class UsernameTest {
     @Test
     fun `특수문자를 사용한 닉네임은 다음 문자열을 반환한다`() {
         // given:
-        val USERNAME_REGEX = "^[a-zA-Z가-힣]+$"
         val username: String = "!%@$"
 
         // when:
