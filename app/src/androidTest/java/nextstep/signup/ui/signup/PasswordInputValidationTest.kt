@@ -2,11 +2,10 @@ package nextstep.signup.ui.signup
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import nextstep.signup.R
-import nextstep.signup.ui.component.BaseTextField
+import nextstep.signup.ui.component.PasswordConfirmTextField
+import nextstep.signup.ui.component.PasswordTextField
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -22,17 +21,14 @@ class PasswordInputValidationTest {
     fun setup() {
         composeTestRule.setContent {
             Column {
-                BaseTextField(
+                PasswordTextField(
                     value = password.value,
                     onValueChange = {},
-                    labelValue = stringResource(id = R.string.password),
-                    supportingTextValue = getPasswordSupportingText(password.value),
                 )
-                BaseTextField(
+                PasswordConfirmTextField(
                     value = passwordConfirm.value,
+                    passwordValue = password.value,
                     onValueChange = {},
-                    labelValue = stringResource(id = R.string.password_confirm),
-                    supportingTextValue = getPasswordConfirmSupportingText(password.value, passwordConfirm.value),
                 )
             }
         }

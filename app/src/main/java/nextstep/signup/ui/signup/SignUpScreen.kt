@@ -24,12 +24,10 @@ import androidx.compose.ui.unit.sp
 import nextstep.signup.R
 import nextstep.signup.ui.component.BaseTextField
 import nextstep.signup.ui.component.EmailTextField
+import nextstep.signup.ui.component.PasswordConfirmTextField
+import nextstep.signup.ui.component.PasswordTextField
 import nextstep.signup.ui.component.UsernameTextField
 import nextstep.signup.ui.theme.Blue50
-
-private const val USERNAME_REGEX = "^[a-zA-Z가-힣]+$"
-private const val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
-private const val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$"
 
 @Composable
 fun SignUpScreen(
@@ -70,23 +68,18 @@ fun SignUpScreen(
                 .padding(top = 32.dp),
         )
 
-        BaseTextField(
+        PasswordTextField(
             value = password,
             onValueChange = { password = it },
-            labelValue = stringResource(id = R.string.password),
-            visualTransformation = PasswordVisualTransformation(),
-            supportingTextValue = getPasswordSupportingText(password),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 32.dp),
         )
 
-        BaseTextField(
+        PasswordConfirmTextField(
             value = passwordConfirm,
+            passwordValue = password,
             onValueChange = { passwordConfirm = it },
-            labelValue = stringResource(id = R.string.password_confirm),
-            visualTransformation = PasswordVisualTransformation(),
-            supportingTextValue = getPasswordConfirmSupportingText(password, passwordConfirm),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 32.dp),
@@ -103,42 +96,6 @@ fun SignUpScreen(
             Text(text = stringResource(id = R.string.sign_up))
         }
     }
-}
-
-@Composable
-fun getUsernameSupportingText(username: String): String? {
-    if (username.isEmpty()) return null
-    if (username.length < 2 || username.length > 5) {
-        return stringResource(id = R.string.username_length_error)
-    }
-
-    if (!username.matches(Regex(USERNAME_REGEX))) {
-        return stringResource(id = R.string.username_regex_error)
-    }
-
-    return null
-}
-
-@Composable
-fun getPasswordSupportingText(password: String): String? {
-    if (password.isEmpty()) return null
-    if (password.length < 8 || password.length > 16) {
-        return stringResource(id = R.string.password_length_error)
-    }
-    if (!password.matches(Regex(PASSWORD_REGEX))) {
-        return stringResource(id = R.string.password_regex_error)
-    }
-
-    return null
-}
-
-@Composable
-fun getPasswordConfirmSupportingText(password: String, passwordConfirm: String): String? {
-    if (passwordConfirm.isEmpty()) return null
-    if (password != passwordConfirm) {
-        return stringResource(id = R.string.password_confirm_equal_error)
-    }
-    return null
 }
 
 @Preview(showBackground = true)
