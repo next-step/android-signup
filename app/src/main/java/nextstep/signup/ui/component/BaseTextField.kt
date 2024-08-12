@@ -52,7 +52,7 @@ fun BaseTextField(
             errorIndicatorColor = Red10,
             errorSupportingTextColor = Red10,
         ),
-        modifier = modifier.testTag("nsTextField"),
+        modifier = modifier.testTag("baseTextField"),
     )
 }
 
