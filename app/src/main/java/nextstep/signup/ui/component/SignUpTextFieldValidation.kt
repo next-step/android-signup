@@ -16,12 +16,12 @@ interface SignUpTextFieldValidation<T, R : ValidationResult> {
 
 @Immutable
 interface ValidationResult {
-    val isFailure: Boolean
     val isSuccessFull: Boolean
+    val isFailure: Boolean
 }
 
 class UsernameValidation(
-    private val regex: String = USERNAME_REGEX,
+    private val regex: Regex = USERNAME_REGEX.toRegex(),
     private val lengthRange: IntRange = USERNAME_LENGTH_RANGE,
 ) : SignUpTextFieldValidation<String, UsernameValidationResult> {
     override fun isValid(value: String): UsernameValidationResult = validateUsername(value)
@@ -30,7 +30,7 @@ class UsernameValidation(
         when {
             username.isEmpty() -> UsernameValidationResult.Empty
             username.length !in lengthRange -> UsernameValidationResult.FailureUsernameLength
-            !regex.toRegex().matches(username) -> UsernameValidationResult.FailureUsernameFormat
+            !regex.matches(username) -> UsernameValidationResult.FailureUsernameFormat
             else -> UsernameValidationResult.Success
         }
 
@@ -93,7 +93,7 @@ class EmailValidation(
 }
 
 class PasswordValidation(
-    private val regex: String = PASSWORD_REGEX,
+    private val regex: Regex = PASSWORD_REGEX.toRegex(),
     private val lengthRange: IntRange = PASSWORD_LENGTH_RANGE,
 ) : SignUpTextFieldValidation<String, PasswordValidationResult> {
     override fun isValid(value: String): PasswordValidationResult = validatePassword(value)
@@ -102,7 +102,7 @@ class PasswordValidation(
         when {
             password.isBlank() -> PasswordValidationResult.Empty
             password.length !in lengthRange -> PasswordValidationResult.FailurePasswordLength
-            !regex.toRegex().matches(password) -> PasswordValidationResult.FailurePasswordFormat
+            !regex.matches(password) -> PasswordValidationResult.FailurePasswordFormat
             else -> PasswordValidationResult.Success
         }
 
