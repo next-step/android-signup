@@ -11,7 +11,7 @@ class EmailValidationTest {
         val email = "test"
 
         // when
-        val result = EmailValidation().isValid(email)
+        val result = EmailValidation().validate(email)
 
         // then
         assertEquals(EmailValidationResult.FailureEmailFormat, result)
@@ -23,7 +23,7 @@ class EmailValidationTest {
         val email = "test@yopmail.com"
 
         // when
-        val result = EmailValidation().isValid(email)
+        val result = EmailValidation().validate(email)
 
         // then
         assertEquals(EmailValidationResult.Success, result)
@@ -35,7 +35,7 @@ class EmailValidationTest {
         val email = ""
 
         // when
-        val result = EmailValidation().isValid(email)
+        val result = EmailValidation().validate(email)
 
         // then
         assertEquals(EmailValidationResult.Empty, result)

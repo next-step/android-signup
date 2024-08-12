@@ -19,7 +19,7 @@ class EmailTextFieldTest {
             EmailTextField(
                 value = email.value,
                 onValueChange = { email.value = it },
-                validationResult = emailValidation.isValid(email.value),
+                validationResult = emailValidation.validate(email.value),
             )
         }
     }

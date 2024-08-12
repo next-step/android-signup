@@ -11,7 +11,7 @@ import java.util.regex.Pattern
 
 @Immutable
 interface SignUpTextFieldValidation<T, R : ValidationResult> {
-    fun isValid(value: T): R
+    fun validate(value: T): R
 }
 
 @Immutable
@@ -24,7 +24,7 @@ class UsernameValidation(
     private val regex: Regex = USERNAME_REGEX.toRegex(),
     private val lengthRange: IntRange = USERNAME_LENGTH_RANGE,
 ) : SignUpTextFieldValidation<String, UsernameValidationResult> {
-    override fun isValid(value: String): UsernameValidationResult = validateUsername(value)
+    override fun validate(value: String): UsernameValidationResult = validateUsername(value)
 
     private fun validateUsername(username: String): UsernameValidationResult =
         when {
@@ -65,7 +65,7 @@ class UsernameValidation(
 class EmailValidation(
     private val pattern: Pattern = PatternsCompat.EMAIL_ADDRESS,
 ) : SignUpTextFieldValidation<String, EmailValidationResult> {
-    override fun isValid(value: String): EmailValidationResult = validateEmail(value)
+    override fun validate(value: String): EmailValidationResult = validateEmail(value)
 
     private fun validateEmail(email: String): EmailValidationResult =
         when {
@@ -96,7 +96,7 @@ class PasswordValidation(
     private val regex: Regex = PASSWORD_REGEX.toRegex(),
     private val lengthRange: IntRange = PASSWORD_LENGTH_RANGE,
 ) : SignUpTextFieldValidation<String, PasswordValidationResult> {
-    override fun isValid(value: String): PasswordValidationResult = validatePassword(value)
+    override fun validate(value: String): PasswordValidationResult = validatePassword(value)
 
     private fun validatePassword(password: String): PasswordValidationResult =
         when {
@@ -137,7 +137,7 @@ class PasswordValidation(
 }
 
 class PasswordConfirmValidation : SignUpTextFieldValidation<PasswordConfirm, PasswordConfirmValidationResult> {
-    override fun isValid(value: PasswordConfirm): PasswordConfirmValidationResult =
+    override fun validate(value: PasswordConfirm): PasswordConfirmValidationResult =
         validatePasswordConfirm(
             value.password,
             value.passwordConfirm,

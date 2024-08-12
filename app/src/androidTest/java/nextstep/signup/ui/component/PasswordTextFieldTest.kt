@@ -19,7 +19,7 @@ class PasswordTextFieldTest {
             PasswordTextField(
                 value = password.value,
                 onValueChange = { password.value = it },
-                validationResult = passwordValidation.isValid(password.value),
+                validationResult = passwordValidation.validate(password.value),
             )
         }
     }

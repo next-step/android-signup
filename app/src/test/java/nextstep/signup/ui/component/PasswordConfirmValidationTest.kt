@@ -15,7 +15,7 @@ class PasswordConfirmValidationTest {
             )
 
         // when
-        val result = PasswordConfirmValidation().isValid(passwordConfirm)
+        val result = PasswordConfirmValidation().validate(passwordConfirm)
 
         // then
         assertEquals(PasswordConfirmValidationResult.Success, result)
@@ -31,7 +31,7 @@ class PasswordConfirmValidationTest {
             )
 
         // when
-        val result = PasswordConfirmValidation().isValid(passwordConfirm)
+        val result = PasswordConfirmValidation().validate(passwordConfirm)
 
         // then
         assertEquals(PasswordConfirmValidationResult.FailurePasswordNotMatch, result)
@@ -47,7 +47,7 @@ class PasswordConfirmValidationTest {
             )
 
         // when
-        val result = PasswordConfirmValidation().isValid(passwordConfirm)
+        val result = PasswordConfirmValidation().validate(passwordConfirm)
 
         // then
         assertEquals(PasswordConfirmValidationResult.Empty, result)
@@ -63,7 +63,7 @@ class PasswordConfirmValidationTest {
             )
 
         // when
-        val result = PasswordConfirmValidation().isValid(passwordConfirm)
+        val result = PasswordConfirmValidation().validate(passwordConfirm)
 
         // then
         assertEquals(PasswordConfirmValidationResult.Empty, result)

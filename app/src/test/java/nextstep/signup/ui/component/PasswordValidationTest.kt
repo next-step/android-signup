@@ -12,7 +12,7 @@ class PasswordValidationTest {
         val password = "ab123456789"
 
         // when
-        val result = PasswordValidation().isValid(password)
+        val result = PasswordValidation().validate(password)
 
         // then
         assertEquals(PasswordValidationResult.Success, result)
@@ -24,7 +24,7 @@ class PasswordValidationTest {
         val password = "12345678901234567"
 
         // when
-        val result = PasswordValidation().isValid(password)
+        val result = PasswordValidation().validate(password)
 
         // then
         assertEquals(PasswordValidationResult.FailurePasswordLength, result)
@@ -36,7 +36,7 @@ class PasswordValidationTest {
         val password = "12345"
 
         // when
-        val result = PasswordValidation().isValid(password)
+        val result = PasswordValidation().validate(password)
 
         // then
         assertEquals(PasswordValidationResult.FailurePasswordLength, result)
@@ -48,7 +48,7 @@ class PasswordValidationTest {
         val password = "123456789"
 
         // when
-        val result = PasswordValidation().isValid(password)
+        val result = PasswordValidation().validate(password)
 
         // then
         assertEquals(PasswordValidationResult.FailurePasswordFormat, result)
@@ -60,7 +60,7 @@ class PasswordValidationTest {
         val password = "ab12345"
 
         // when
-        val result = PasswordValidation().isValid(password)
+        val result = PasswordValidation().validate(password)
 
         // then
         assertEquals(PasswordValidationResult.FailurePasswordLength, result)
@@ -72,7 +72,7 @@ class PasswordValidationTest {
         val password = "ab123456789abcdefg"
 
         // when
-        val result = PasswordValidation().isValid(password)
+        val result = PasswordValidation().validate(password)
 
         // then
         assertEquals(PasswordValidationResult.FailurePasswordLength, result)
@@ -84,7 +84,7 @@ class PasswordValidationTest {
         val password = ""
 
         // when
-        val result = PasswordValidation().isValid(password)
+        val result = PasswordValidation().validate(password)
 
         // then
         assertEquals(PasswordValidationResult.Empty, result)

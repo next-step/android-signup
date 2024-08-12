@@ -19,7 +19,7 @@ class UsernameTextFieldTest {
             UsernameTextField(
                 value = username.value,
                 onValueChange = { username.value = it },
-                validationResult = usernameValidation.isValid(username.value),
+                validationResult = usernameValidation.validate(username.value),
             )
         }
     }

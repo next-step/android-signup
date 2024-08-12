@@ -107,19 +107,19 @@ internal fun SignUpScreen(
 ) {
     val usernameValidationResult by remember(username) {
         derivedStateOf {
-            usernameValidation.isValid(username)
+            usernameValidation.validate(username)
         }
     }
 
     val emailValidationResult by remember(email) {
         derivedStateOf {
-            emailValidation.isValid(email)
+            emailValidation.validate(email)
         }
     }
 
     val passwordValidationResult by remember(password) {
         derivedStateOf {
-            passwordValidation.isValid(password)
+            passwordValidation.validate(password)
         }
     }
 
@@ -130,7 +130,7 @@ internal fun SignUpScreen(
         ),
     ) {
         derivedStateOf {
-            passwordConfirmValidation.isValid(
+            passwordConfirmValidation.validate(
                 PasswordConfirmValidation.PasswordConfirm(
                     password = password,
                     passwordConfirm = passwordConfirm,

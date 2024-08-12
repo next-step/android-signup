@@ -11,7 +11,7 @@ class UsernameValidationTest {
         val usernameValidation = UsernameValidation()
 
         // when
-        val result = usernameValidation.isValid("a")
+        val result = usernameValidation.validate("a")
 
         // thena
         assertEquals(UsernameValidationResult.FailureUsernameLength, result)
@@ -23,7 +23,7 @@ class UsernameValidationTest {
         val usernameValidation = UsernameValidation()
 
         // when
-        val result = usernameValidation.isValid("abcdef")
+        val result = usernameValidation.validate("abcdef")
 
         // then
         assertEquals(UsernameValidationResult.FailureUsernameLength, result)
@@ -35,7 +35,7 @@ class UsernameValidationTest {
         val usernameValidation = UsernameValidation()
 
         // when
-        val result = usernameValidation.isValid("a!@#")
+        val result = usernameValidation.validate("a!@#")
 
         // then
         assertEquals(UsernameValidationResult.FailureUsernameFormat, result)
@@ -47,7 +47,7 @@ class UsernameValidationTest {
         val usernameValidation = UsernameValidation()
 
         // when
-        val result = usernameValidation.isValid("abcde")
+        val result = usernameValidation.validate("abcde")
 
         // then
         assertEquals(UsernameValidationResult.Success, result)

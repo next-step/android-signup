@@ -21,7 +21,7 @@ class PasswordConfirmTextFieldTest {
                 value = password.value,
                 onValueChange = { password.value = it },
                 validationResult =
-                    passwordConfirmValidation.isValid(
+                    passwordConfirmValidation.validate(
                         PasswordConfirmValidation.PasswordConfirm(
                             password = password.value,
                             passwordConfirm = passwordConfirm.value,
