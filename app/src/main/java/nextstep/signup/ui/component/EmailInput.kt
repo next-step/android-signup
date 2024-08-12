@@ -44,7 +44,7 @@ private fun EmailInputPreview() {
 
     SignupTheme {
         EmailInput(
-            value = viewmodel.email,
+            value = viewmodel.uiState.value.email,
             onValueChange = {
                 viewmodel.updateEmail(it)
             },

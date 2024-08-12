@@ -44,7 +44,7 @@ private fun PasswordConfirmInputPreview() {
 
     SignupTheme {
         PasswordConfirmInput(
-            value = viewmodel.passwordConfirm,
+            value = viewmodel.uiState.value.passwordConfirm,
             onValueChange = {
                 viewmodel.updatePasswordConfirm(it)
             },

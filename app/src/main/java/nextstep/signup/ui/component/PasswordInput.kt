@@ -45,7 +45,7 @@ private fun PasswordInputPreview() {
 
     SignupTheme {
         PasswordInput(
-            value = viewmodel.password,
+            value = viewmodel.uiState.value.password,
             onValueChange = {
                 viewmodel.updatePassword(it)
             },

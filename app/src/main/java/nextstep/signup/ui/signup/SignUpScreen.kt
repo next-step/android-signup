@@ -53,37 +53,29 @@ fun SignUpScreen(
         )
 
         UserNameInput(
-            value = viewModel.username,
-            onValueChange = {
-                viewModel.updateUsername(it)
-            },
+            value = signUpUiState.username,
+            onValueChange = viewModel::updateUsername,
             signUpUiState = signUpUiState,
             modifier = inputModifier
         )
 
         EmailInput(
-            value = viewModel.email,
-            onValueChange = {
-                viewModel.updateEmail(it)
-            },
+            value = signUpUiState.email,
+            onValueChange = viewModel::updateEmail,
             signUpUiState = signUpUiState,
             modifier = inputModifier
         )
 
         PasswordInput(
-            value = viewModel.password,
-            onValueChange = {
-                viewModel.updatePassword(it)
-            },
+            value = signUpUiState.password,
+            onValueChange = viewModel::updatePassword,
             signUpUiState = signUpUiState,
             modifier = inputModifier
         )
 
         PasswordConfirmInput(
-            value = viewModel.passwordConfirm,
-            onValueChange = {
-                viewModel.updatePasswordConfirm(it)
-            },
+            value = signUpUiState.passwordConfirm,
+            onValueChange = viewModel::updatePasswordConfirm,
             signUpUiState = signUpUiState,
             modifier = inputModifier
         )
