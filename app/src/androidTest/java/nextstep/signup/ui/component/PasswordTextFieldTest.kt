@@ -1,4 +1,4 @@
-package nextstep.signup.screen
+package nextstep.signup.ui.component
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -6,7 +6,6 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.test.platform.app.InstrumentationRegistry
 import nextstep.signup.R
 import nextstep.signup.core.validation.PasswordValidationResult
-import nextstep.signup.ui.component.PasswordTextField
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

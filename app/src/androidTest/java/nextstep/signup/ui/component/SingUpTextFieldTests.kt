@@ -1,4 +1,4 @@
-package nextstep.signup.screen
+package nextstep.signup.ui.component
 
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
