@@ -5,13 +5,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,6 +26,7 @@ import nextstep.signup.SignUpViewModel
 import nextstep.signup.ui.component.EmailInput
 import nextstep.signup.ui.component.PasswordConfirmInput
 import nextstep.signup.ui.component.PasswordInput
+import nextstep.signup.ui.component.SignUpButton
 import nextstep.signup.ui.component.UserNameInput
 import nextstep.signup.ui.theme.SignupTheme
 
@@ -33,6 +35,7 @@ fun SignUpScreen(
     viewModel: SignUpViewModel = viewModel(),
     modifier: Modifier = Modifier
 ) {
+    val snackbarHostState = remember { SnackbarHostState() }
     val signUpUiState by viewModel.uiState.collectAsState()
 
     val inputModifier = Modifier.padding(top = 20.dp)
@@ -79,20 +82,13 @@ fun SignUpScreen(
             signUpUiState = signUpUiState,
             modifier = inputModifier
         )
-
-        Button(
-            onClick = { /*TODO*/ },
+        SignUpButton(
             colors = ButtonDefaults.buttonColors(
                 contentColor = Color.White,
                 disabledContainerColor = Color.LightGray,
                 disabledContentColor = Color.Gray
             ),
-            content = {
-                Text(
-                    text = stringResource(id = R.string.signUp)
-                )
-            },
-            enabled = signUpUiState.isSignUpButtonEnabled,
+            signUpUiState = signUpUiState,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(100.dp)

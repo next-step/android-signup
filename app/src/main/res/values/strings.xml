@@ -11,4 +11,6 @@
     <string name="emailInvalidFormatMessage">이메일 형식이 올바르지 않습니다.</string>
     <string name="passwordValidationMessage">비밀번호는 8~16자여야 합니다.\n비밀번호는 영문과 숫자를 포함해야 합니다.</string>
     <string name="passwordMismatchMessage">비밀번호가 일치하지 않습니다.</string>
+    <string name="signupSuccessSnackBarContentDescription">회원가입 성공!</string>
+    <string name="signupSuccessSnackBarActionLabel">확인</string>
 </resources>
