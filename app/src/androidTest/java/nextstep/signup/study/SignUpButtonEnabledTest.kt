@@ -3,10 +3,12 @@ package nextstep.signup.study
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import kotlinx.coroutines.flow.MutableStateFlow
 import nextstep.signup.SignUpUiState
 import nextstep.signup.ui.component.SignUpButton
@@ -24,7 +26,6 @@ class SignUpButtonEnabledTest {
     fun setup() {
         composeTestRule.setContent {
             SignUpButton(
-                onclick = { /*TODO*/ },
                 colors = ButtonDefaults.buttonColors(
                     contentColor = Color.White,
                     disabledContainerColor = Color.LightGray,
@@ -67,4 +68,23 @@ class SignUpButtonEnabledTest {
             .onNodeWithText("Sign Up")
             .assertIsEnabled()
     }
+
+    @Test
+    fun 활성화된_회원가입_버튼을_클릭시_스낵바가_노출된다() {
+        signUpUiState.value = SignUpUiState(username = "asd", email = "123@gmail.com", password = "asdf1234", passwordConfirm = "asdf1234")
+
+        composeTestRule
+            .onNodeWithText(SIGN_UP_BUTTON_TITLE)
+            .performClick()
+
+        composeTestRule
+            .onNodeWithText(SUCCESS_SIGNUP_MESSAGE)
+            .assertIsDisplayed()
+    }
+
+    companion object {
+        private const val SIGN_UP_BUTTON_TITLE = "Sign Up"
+        private const val SUCCESS_SIGNUP_MESSAGE = "회원가입 성공!"
+    }
+
 }
