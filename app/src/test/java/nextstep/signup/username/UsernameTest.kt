@@ -1,10 +1,11 @@
 package nextstep.signup.username
 
-import nextstep.signup.ui.signup.SignupInputType.Username.isValid
+import nextstep.signup.ui.signup.SignupInputType.Username
 import nextstep.signup.ui.signup.SignupInvalidationState.USERNAME_LENGTH_INVALIDATION
 import nextstep.signup.ui.signup.SignupInvalidationState.USERNAME_RULE_INVALIDATION
 import nextstep.signup.ui.signup.SignupValidationResult.Failure
 import nextstep.signup.ui.signup.SignupValidationResult.Success
+import nextstep.signup.ui.signup.isValid
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -16,7 +17,7 @@ class UsernameTest {
         val username: String = "산"
 
         // when:
-        val actual = username.isValid()
+        val actual = username.isValid<Username>()
 
         // then:
         assertEquals(true, actual !is Success)
@@ -28,7 +29,7 @@ class UsernameTest {
         val username: String = "산군산군산군"
 
         // when:
-        val actual = username.isValid()
+        val actual = username.isValid<Username>()
 
         // then:
         assertEquals(true, actual !is Success)
@@ -40,7 +41,7 @@ class UsernameTest {
         val username: String = "산군산군산군"
 
         // when:
-        val actual = username.isValid()
+        val actual = username.isValid<Username>()
 
         // then:
         assertEquals(USERNAME_LENGTH_INVALIDATION.message, (actual as Failure).result.message)
@@ -52,7 +53,7 @@ class UsernameTest {
         val usernames: List<String> = List<String>(4) { "산군" + "산군산".take(it) }
 
         // when:
-        val actual = usernames.map { it.isValid() }
+        val actual = usernames.map { it.isValid<Username>() }
 
         // then:
         assertEquals(4, actual.count { it is Success })
@@ -65,7 +66,7 @@ class UsernameTest {
         val username: String = "!%@$"
 
         // when:
-        val actual = username.isValid()
+        val actual = username.isValid<Username>()
 
         // then:
         assertEquals(!username.matches(Regex(USERNAME_REGEX)), actual !is Success)
@@ -78,7 +79,7 @@ class UsernameTest {
         val username: String = "!%@$"
 
         // when:
-        val actual = username.isValid()
+        val actual = username.isValid<Username>()
 
         // then:
         assertEquals(USERNAME_RULE_INVALIDATION.message, (actual as Failure).result.message)
