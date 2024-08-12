@@ -7,12 +7,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
 import nextstep.signup.R
 import nextstep.signup.core.validation.EmailValidationResult
 import nextstep.signup.core.validation.EmailValidator
@@ -41,6 +46,9 @@ import nextstep.signup.ui.theme.SignupTheme
 fun SignUpRoute(
     modifier: Modifier = Modifier
 ) {
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
+    val snackbarMessage = stringResource(id = R.string.signup_success)
     var userName by remember { mutableStateOf("") }
     val userNameValidationResult by remember(userName) {
         derivedStateOf { NameValidator().validate(userName) }
@@ -61,6 +69,13 @@ fun SignUpRoute(
     val onEmailChange = remember { { newEmail: String -> email = newEmail } }
     val onPasswordChange = remember { { newPassword: String -> password = newPassword } }
     val onPasswordConfirmChange = remember { { newPasswordConfirm: String -> passwordConfirm = newPasswordConfirm } }
+    val onSignUpClick: () -> Unit = remember {
+        {
+            coroutineScope.launch {
+                snackbarHostState.showSnackbar(snackbarMessage)
+            }
+        }
+    }
     val isSignUpEnabled by remember {
         derivedStateOf {
             userNameValidationResult == NameValidationResult.VALID && emailValidationResult == EmailValidationResult.VALID &&
@@ -68,22 +83,29 @@ fun SignUpRoute(
         }
     }
 
-    SignUpScreen(
-        userName = userName,
-        email = email,
-        password = password,
-        passwordConfirm = passwordConfirm,
-        userNameValidationResult = userNameValidationResult,
-        emailValidationResult = emailValidationResult,
-        passwordValidationResult = passwordValidationResult,
-        passwordMatchValidationResult = passwordMatchValidationResult,
-        onUserNameChange = onUserNameChange,
-        onEmailChange = onEmailChange,
-        onPasswordChange = onPasswordChange,
-        onPasswordConfirmChange = onPasswordConfirmChange,
-        isSignUpEnabled = isSignUpEnabled,
-        modifier = modifier
-    )
+    Scaffold(
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
+        }
+    ) {
+        SignUpScreen(
+            userName = userName,
+            email = email,
+            password = password,
+            passwordConfirm = passwordConfirm,
+            userNameValidationResult = userNameValidationResult,
+            emailValidationResult = emailValidationResult,
+            passwordValidationResult = passwordValidationResult,
+            passwordMatchValidationResult = passwordMatchValidationResult,
+            onUserNameChange = onUserNameChange,
+            onEmailChange = onEmailChange,
+            onPasswordChange = onPasswordChange,
+            onPasswordConfirmChange = onPasswordConfirmChange,
+            isSignUpEnabled = isSignUpEnabled,
+            onSignUpClick = onSignUpClick,
+            modifier = modifier.padding(it)
+        )
+    }
 }
 
 @Composable
@@ -101,6 +123,7 @@ internal fun SignUpScreen(
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onPasswordConfirmChange: (String) -> Unit,
+    onSignUpClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -132,7 +155,7 @@ internal fun SignUpScreen(
 
         SignUpButton(
             enabled = isSignUpEnabled,
-            onClick = { /* TODO */ }
+            onClick = { onSignUpClick() }
         )
     }
 }

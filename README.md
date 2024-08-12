@@ -118,4 +118,4 @@ class ValidatedTextFieldTest {
 - [x] 모든 Validate 하나로 관리하는 State 추가
   - [x] `SignUpButton` 과 연결
 - [x] `SignUpButton` 테스트 코드 추가
-- [ ] 회원가입 완료 `Snackbar` 추가 
+- [x] 회원가입 완료 `Snackbar` 추가 

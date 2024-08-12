@@ -12,4 +12,5 @@
     <string name="signup_password_mismatch_error">비밀번호가 일치하지 않습니다.</string>
     <string name="signup_password_length_error">비밀번호는 8~16자여야 합니다.</string>
     <string name="signup_password_complexity_error">비밀번호는 영문과 숫자를 포함해야 합니다.</string>
+    <string name="signup_success">회원가입이 완료되었습니다.</string>
 </resources>

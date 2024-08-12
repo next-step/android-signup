@@ -39,6 +39,7 @@ class SignUpScreenTest {
                 onEmailChange = {},
                 onPasswordChange = {},
                 onPasswordConfirmChange = {},
+                onSignUpClick = {},
                 isSignUpEnabled = userNameValidationResult.value == NameValidationResult.VALID && emailValidationResult.value == EmailValidationResult.VALID &&
                         passwordValidationResult.value == PasswordValidationResult.VALID && passwordMatchValidationResult.value == PasswordMatchValidationResult.VALID,
             )
