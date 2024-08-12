@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="blue_50">#FF2196F3</color>
+    <color name="disable_button_color">#1D1B201F</color>
+    <color name="warning_text_color">#B3261E</color>
 </resources>
