@@ -1,6 +1,6 @@
 package nextstep.signup
 
-import nextstep.signup.ui.signup.SignupInputType.Email
+import nextstep.signup.ui.signup.SignupValidator.Email
 import nextstep.signup.ui.signup.SignupInvalidationState.EMAIL_RULE_INVALIDATION
 import nextstep.signup.ui.signup.SignupValidationResult.Failure
 import nextstep.signup.ui.signup.SignupValidationResult.Success

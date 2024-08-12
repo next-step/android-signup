@@ -1,6 +1,6 @@
 package nextstep.signup
 
-import nextstep.signup.ui.signup.SignupInputType.Username
+import nextstep.signup.ui.signup.SignupValidator.Username
 import nextstep.signup.ui.signup.SignupInvalidationState.USERNAME_LENGTH_INVALIDATION
 import nextstep.signup.ui.signup.SignupInvalidationState.USERNAME_RULE_INVALIDATION
 import nextstep.signup.ui.signup.SignupValidationResult.Failure

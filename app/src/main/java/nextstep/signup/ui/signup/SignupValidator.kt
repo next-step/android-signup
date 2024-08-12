@@ -1,8 +1,8 @@
 package nextstep.signup.ui.signup
 
-import nextstep.signup.ui.signup.SignupInputType.Email
-import nextstep.signup.ui.signup.SignupInputType.Password
-import nextstep.signup.ui.signup.SignupInputType.Username
+import nextstep.signup.ui.signup.SignupValidator.Email
+import nextstep.signup.ui.signup.SignupValidator.Password
+import nextstep.signup.ui.signup.SignupValidator.Username
 import nextstep.signup.ui.signup.SignupInvalidationState.EMAIL_RULE_INVALIDATION
 import nextstep.signup.ui.signup.SignupInvalidationState.PASSWORD_LENGTH_INVALIDATION
 import nextstep.signup.ui.signup.SignupInvalidationState.PASSWORD_RULE_INVALIDATION
@@ -11,10 +11,10 @@ import nextstep.signup.ui.signup.SignupInvalidationState.USERNAME_RULE_INVALIDAT
 import nextstep.signup.ui.signup.SignupValidationResult.Failure
 import nextstep.signup.ui.signup.SignupValidationResult.Success
 
-sealed interface SignupInputType {
+sealed interface SignupValidator {
     fun String.validate(): SignupValidationResult
 
-    data object Username : SignupInputType {
+    data object Username : SignupValidator {
         private const val USERNAME_REGEX = "^[a-zA-Z가-힣]+$"
         private val USERNAME_RANGE = 2..5
 
@@ -25,7 +25,7 @@ sealed interface SignupInputType {
         }
     }
 
-    data object Email : SignupInputType {
+    data object Email : SignupValidator {
         private const val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
 
         override fun String.validate(): SignupValidationResult = when {
@@ -34,7 +34,7 @@ sealed interface SignupInputType {
         }
     }
 
-    data object Password : SignupInputType {
+    data object Password : SignupValidator {
         private const val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$"
         private val PASSWORD_RANGE = 8..16
 
@@ -46,7 +46,7 @@ sealed interface SignupInputType {
     }
 }
 
-inline fun <reified T : SignupInputType> String.isValid(): SignupValidationResult {
+inline fun <reified T : SignupValidator> String.isValid(): SignupValidationResult {
     return when (T::class) {
         Username::class -> Username.run { validate() }
         Email::class -> Email.run { validate() }
