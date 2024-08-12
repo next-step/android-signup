@@ -19,15 +19,11 @@ private fun SingUpButtonPreView() {
 @Composable
 fun SingUpButtonScreen(
     modifier: Modifier = Modifier,
-    enabled: Boolean = false
+    enabled: Boolean = false,
+    onClick: () -> Unit = {}
 ) {
-    val scaffoldState = rememberSc
     Button(
-        onClick = {
-            if (enabled) {
-
-            }
-        },
+        onClick = onClick,
         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2196F3)),
         enabled = enabled,
         modifier = modifier
