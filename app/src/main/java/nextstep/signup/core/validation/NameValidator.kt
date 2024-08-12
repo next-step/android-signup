@@ -6,8 +6,9 @@ enum class NameValidationResult {
     CHARACTER_ERROR,
 }
 
-class NameValidator {
-    fun validate(value: String): NameValidationResult {
+class NameValidator : Validator<NameValidationResult> {
+
+    override fun validate(value: String): NameValidationResult {
         return when {
             value.length !in 2..5 -> NameValidationResult.LENGTH_ERROR
             value.any { it.isDigit() || !it.isLetter() } -> NameValidationResult.CHARACTER_ERROR

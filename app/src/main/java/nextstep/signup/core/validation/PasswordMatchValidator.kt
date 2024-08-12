@@ -5,13 +5,12 @@ enum class PasswordMatchValidationResult {
     MISMATCH,
 }
 
-class PasswordMatchValidator {
+class PasswordMatchValidator(
+    private val originalPassword: String
+) : Validator<PasswordMatchValidationResult> {
 
-    fun validate(
-        confirmPassword: String,
-        password: String
-    ): PasswordMatchValidationResult {
-        return if (password == confirmPassword) {
+    override fun validate(value: String): PasswordMatchValidationResult {
+        return if (originalPassword == value) {
             PasswordMatchValidationResult.VALID
         } else {
             PasswordMatchValidationResult.MISMATCH

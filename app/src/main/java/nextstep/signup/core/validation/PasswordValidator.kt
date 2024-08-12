@@ -6,8 +6,9 @@ enum class PasswordValidationResult {
     INVALID_COMPLEXITY,
 }
 
-class PasswordValidator {
-    fun validate(value: String): PasswordValidationResult {
+class PasswordValidator : Validator<PasswordValidationResult> {
+
+    override fun validate(value: String): PasswordValidationResult {
         return when {
             value.length !in 8..16 -> PasswordValidationResult.INVALID_LENGTH
             !value.any { it.isDigit() } || !value.any { it.isLetter() } -> PasswordValidationResult.INVALID_COMPLEXITY

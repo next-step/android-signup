@@ -35,7 +35,6 @@ import nextstep.signup.ui.component.EmailTextField
 import nextstep.signup.ui.component.NameTextField
 import nextstep.signup.ui.component.PasswordConfirmTextField
 import nextstep.signup.ui.component.PasswordTextField
-import nextstep.signup.ui.component.SignUpTextField
 import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
@@ -56,7 +55,7 @@ fun SignUpScreen(
     }
     var passwordConfirm by remember { mutableStateOf("") }
     val passwordMatchValidationResult by remember(passwordConfirm, password) {
-        derivedStateOf { PasswordMatchValidator().validate(passwordConfirm, password) }
+        derivedStateOf { PasswordMatchValidator(password).validate(passwordConfirm) }
     }
     val onUserNameChange = remember { { newUseName: String -> userName = newUseName } }
     val onEmailChange = remember { { newEmail: String -> email = newEmail } }

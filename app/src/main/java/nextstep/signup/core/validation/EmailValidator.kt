@@ -5,8 +5,9 @@ enum class EmailValidationResult {
     INVALID_FORMAT,
 }
 
-class EmailValidator {
-    fun validate(value: String): EmailValidationResult {
+class EmailValidator : Validator<EmailValidationResult> {
+
+    override fun validate(value: String): EmailValidationResult {
         return if (EMAIL_PATTERN.matches(value)) {
             EmailValidationResult.VALID
         } else {
