@@ -51,4 +51,8 @@ fun BaseSignUpTextField(
 }
 
 
-
+@Preview
+@Composable
+private fun BaseSignUpTextFieldPreview() {
+    BaseSignUpTextField(text = "compose", onValueChange = {}, label = "Username")
+}

@@ -28,3 +28,14 @@ fun PasswordConfirmTextField(
         }
     )
 }
+
+
+@Preview(showBackground = true)
+@Composable
+fun PasswordConfirmTextFieldPreview() {
+    PasswordConfirmTextField(
+        passwordConfirm = "Password123",
+        onPasswordConfirmChange = {},
+        passwordConfirmState = PasswordConfirmState.Valid
+    )
+}

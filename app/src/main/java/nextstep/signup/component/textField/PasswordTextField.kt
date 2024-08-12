@@ -31,3 +31,14 @@ fun PasswordTextField(
         }
     )
 }
+
+
+@Preview(showBackground = true)
+@Composable
+fun PasswordTextFieldPreview() {
+    PasswordTextField(
+        password = "Password123",
+        onPasswordChange = {},
+        passwordState = PasswordState.Valid
+    )
+}

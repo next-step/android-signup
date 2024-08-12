@@ -23,3 +23,13 @@ fun EmailTextField(
         }
     )
 }
+
+@Preview(showBackground = true)
+@Composable
+fun EmailTextFieldPreview() {
+    EmailTextField(
+        email = "example@email.com",
+        onEmailChange = {},
+        emailState = EmailState.Valid
+    )
+}

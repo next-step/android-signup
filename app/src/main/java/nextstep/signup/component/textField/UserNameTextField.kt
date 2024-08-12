@@ -28,3 +28,13 @@ fun UserNameTextField(
         }
     )
 }
+
+@Preview(showBackground = true)
+@Composable
+fun UserNameTextFieldPreview() {
+    UserNameTextField(
+        userName = "JohnDoe",
+        onUserNameChange = {},
+        userNameState = UserNameState.Valid
+    )
+}

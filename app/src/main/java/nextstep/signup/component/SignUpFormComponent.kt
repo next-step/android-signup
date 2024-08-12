@@ -64,3 +64,19 @@ fun SignUpFormComponent(
         )
     }
 }
+
+
+@Preview(showBackground = true)
+@Composable
+fun SignUpFormComponentPreview() {
+    SignUpFormComponent(
+        userName = "JohnDoe",
+        email = "john@example.com",
+        password = "Password123",
+        passwordConfirm = "Password123",
+        onUserNameChange = {},
+        onEmailChange = {},
+        onPasswordChange = {},
+        onPasswordConfirmChange = {}
+    )
+}
