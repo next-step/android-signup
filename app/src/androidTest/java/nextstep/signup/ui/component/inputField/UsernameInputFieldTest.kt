@@ -27,28 +27,34 @@ class UsernameInputFieldTest {
     fun 사용자_이름은_2에서_5자여야_한다() {
         // given
         val errorMessage = context.getString(R.string.sign_up_username_input_validation_length_message)
+        val valueSource = listOf("김컴", "김컴포", "김컴포즈", "김컴포즈다")
 
-        // when
-        username.value = "김컴포즈"
+        valueSource.forEach {
+            // when
+            username.value = it
 
-        // then
-        composeTestRule
-            .onNodeWithText(errorMessage)
-            .assertDoesNotExist()
+            // then
+            composeTestRule
+                .onNodeWithText(errorMessage)
+                .assertDoesNotExist()
+        }
     }
 
     @Test
     fun 사용자_이름이_2에서_5자가_아니면_에러메시지가_노출된다() {
         // given
         val errorMessage = context.getString(R.string.sign_up_username_input_validation_length_message)
+        val valueSource = listOf("김", "김컴포즈다아")
 
-        // when
-        username.value = "김컴포즈입니다"
+        valueSource.forEach {
+            // when
+            username.value = it
 
-        // then
-        composeTestRule
-            .onNodeWithText(errorMessage)
-            .assertExists()
+            // then
+            composeTestRule
+                .onNodeWithText(errorMessage)
+                .assertExists()
+        }
     }
 
     @Test
