@@ -12,7 +12,7 @@ import nextstep.signup.R
 import nextstep.signup.screen.SignUpTextFieldType
 import nextstep.signup.ui.theme.SignupTheme
 import nextstep.signup.util.validation.ValidationResult
-import nextstep.signup.util.validation.ValidationUtil
+import nextstep.signup.util.validation.Validator
 
 
 @Composable
@@ -23,7 +23,7 @@ fun UserNameTextField(
 ) {
 
     val validationResult by remember(text) {
-        derivedStateOf { ValidationUtil.userNameValidate(text) }
+        derivedStateOf { Validator.userNameValidate(text) }
     }
 
     SignUpTextField(
@@ -31,7 +31,7 @@ fun UserNameTextField(
         text = text,
         onValueChange = onValueChange,
         labelText = stringResource(id = R.string.sign_up_user_name_label),
-        isError = validationResult is ValidationResult.ValidationError,
+        isError = validationResult is ValidationResult.Error,
         supportingText = {
             signUpSupportingTextStringResource(
                 validationResult = validationResult,
@@ -43,9 +43,9 @@ fun UserNameTextField(
     )
 }
 
-@Preview(showBackground = true)
+@Preview(name = "정상 케이스",showBackground = true)
 @Composable
-private fun UserNameTextFieldPreview() {
+private fun Preview1() {
     SignupTheme {
         UserNameTextField(
             text = "Test",
@@ -54,9 +54,9 @@ private fun UserNameTextFieldPreview() {
     }
 }
 
-@Preview(showBackground = true)
+@Preview(name = "글자수 에러 케이스",showBackground = true)
 @Composable
-private fun UserNameTextFieldPreviewAsLengthError() {
+private fun Preview2() {
     SignupTheme {
         UserNameTextField(
             text = "김컴포즈입니다",
@@ -65,9 +65,9 @@ private fun UserNameTextFieldPreviewAsLengthError() {
     }
 }
 
-@Preview(showBackground = true)
+@Preview(name = "조건 에러 케이스",showBackground = true)
 @Composable
-private fun UserNameTextFieldPreviewAsRegexError() {
+private fun Preview3() {
     SignupTheme {
         UserNameTextField(
             text = "23",

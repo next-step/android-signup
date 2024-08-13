@@ -13,7 +13,7 @@ import nextstep.signup.R
 import nextstep.signup.screen.SignUpTextFieldType
 import nextstep.signup.ui.theme.SignupTheme
 import nextstep.signup.util.validation.ValidationResult
-import nextstep.signup.util.validation.ValidationUtil
+import nextstep.signup.util.validation.Validator
 
 
 @Composable
@@ -26,7 +26,7 @@ fun PasswordConfirmTextField(
 
     val validationResult by remember(text) {
         derivedStateOf {
-            ValidationUtil.passwordConfirmValidate(
+            Validator.passwordConfirmValidate(
                 password = target,
                 passwordConfirm = text
             )
@@ -38,7 +38,7 @@ fun PasswordConfirmTextField(
         text = text,
         onValueChange = onValueChange,
         labelText = stringResource(id = R.string.sign_up_password_confirm_label),
-        isError = validationResult is ValidationResult.ValidationError,
+        isError = validationResult is ValidationResult.Error,
         supportingText = {
             signUpSupportingTextStringResource(
                 validationResult = validationResult,
@@ -51,25 +51,25 @@ fun PasswordConfirmTextField(
     )
 }
 
-@Preview(showBackground = true)
+@Preview(name = "정상 케이스",showBackground = true)
 @Composable
-private fun PasswordConfirmTextFieldPreview() {
+private fun Preview1() {
     SignupTheme {
         PasswordConfirmTextField(
-            text = "abc123",
-            target = "abc123",
+            text = "abcd1234",
+            target = "abcd1234",
             onValueChange = {},
         )
     }
 }
 
-@Preview(showBackground = true)
+@Preview(name = "에러 케이스",showBackground = true)
 @Composable
-private fun PasswordConfirmTextFieldPreviewAsEqualityError() {
+private fun Preview2() {
     SignupTheme {
         PasswordConfirmTextField(
-            text = "abc123",
-            target = "abc12",
+            text = "abcd1234",
+            target = "abcd123",
             onValueChange = {},
         )
     }

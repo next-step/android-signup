@@ -13,7 +13,7 @@ import nextstep.signup.R
 import nextstep.signup.screen.SignUpTextFieldType
 import nextstep.signup.ui.theme.SignupTheme
 import nextstep.signup.util.validation.ValidationResult
-import nextstep.signup.util.validation.ValidationUtil
+import nextstep.signup.util.validation.Validator
 
 
 @Composable
@@ -24,7 +24,7 @@ fun PasswordTextField(
 ) {
 
     val validationResult by remember(text) {
-        derivedStateOf { ValidationUtil.passwordValidate(text) }
+        derivedStateOf { Validator.passwordValidate(text) }
     }
 
     SignUpTextField(
@@ -32,7 +32,7 @@ fun PasswordTextField(
         text = text,
         onValueChange = onValueChange,
         labelText = stringResource(id = R.string.sign_up_password_label),
-        isError = validationResult is ValidationResult.ValidationError,
+        isError = validationResult is ValidationResult.Error,
         supportingText = {
             signUpSupportingTextStringResource(
                 validationResult = validationResult,
@@ -45,20 +45,21 @@ fun PasswordTextField(
     )
 }
 
-@Preview(showBackground = true)
+
+@Preview(name = "정상 케이스",showBackground = true)
 @Composable
-private fun PasswordTextFieldPreview() {
+private fun Preview1() {
     SignupTheme {
-        UserNameTextField(
-            text = "Test",
+        PasswordTextField(
+            text = "abcd1234",
             onValueChange = {},
         )
     }
 }
 
-@Preview(showBackground = true)
+@Preview(name = "글자수 에러 케이스",showBackground = true)
 @Composable
-private fun PasswordTextFieldPreviewAsLengthError() {
+private fun Preview2() {
     SignupTheme {
         PasswordTextField(
             text = "abc123",
@@ -67,12 +68,23 @@ private fun PasswordTextFieldPreviewAsLengthError() {
     }
 }
 
-@Preview(showBackground = true)
+@Preview(name = "조건 에러 케이스 - 영문만",showBackground = true)
 @Composable
-private fun PasswordTextFieldPreviewAsRegexError() {
+private fun Preview3() {
     SignupTheme {
         PasswordTextField(
             text = "aaaaaaaa",
+            onValueChange = {},
+        )
+    }
+}
+
+@Preview(name = "조건 에러 케이스 - 숫자만",showBackground = true)
+@Composable
+private fun Preview4() {
+    SignupTheme {
+        PasswordTextField(
+            text = "123123123",
             onValueChange = {},
         )
     }

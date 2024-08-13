@@ -63,7 +63,7 @@ fun signUpSupportingTextStringResource(
     signUpTextFieldType: SignUpTextFieldType,
     validationResult: ValidationResult
 ): String? {
-    return if (validationResult is ValidationResult.ValidationError) {
+    return if (validationResult is ValidationResult.Error) {
         when (signUpTextFieldType) {
             SignUpTextFieldType.UserName -> {
                 when (validationResult.type) {
