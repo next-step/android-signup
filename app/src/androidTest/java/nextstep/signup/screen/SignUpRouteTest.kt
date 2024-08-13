@@ -25,7 +25,7 @@ class SignUpRouteTest {
     }
 
     @Test
-    fun 모든_입력값이_VALID면_SingUpButton은_활성화되고_클릭하면_스낵바가뜬다() {
+    fun 모든_입력값이_VALID면_회원가입버튼은_활성화되고_클릭하면_스낵바가뜬다() {
         composeTestRule.onNodeWithTag("name").performTextInput("user")
         composeTestRule.onNodeWithTag("email").performTextInput("dlwlgns1240@gmail.com")
         composeTestRule.onNodeWithTag("password").performTextInput("qwer1234")
@@ -42,7 +42,7 @@ class SignUpRouteTest {
     }
 
     @Test
-    fun 입력값이_하나라도_VALID가아니라면_SigunUpButton은_비활성화된다() {
+    fun 입력값이_하나라도_VALID가아니라면_회원가입버튼은_비활성화된다() {
         composeTestRule.onNodeWithTag("name").performTextInput("user")
         composeTestRule.onNodeWithTag("email").performTextInput("dlwlgns1240")
         composeTestRule.onNodeWithTag("password").performTextInput("qwer1234")
