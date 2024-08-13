@@ -31,7 +31,7 @@ class SignUpUserInfoTest {
     }
 
     @Test
-    fun `이름이_올바를_때_isNamePass_반환값은_None`() {
+    fun `이름이_올바를_때_nameError_반환값은_None`() {
         val signUpUserInfo = SignUpUserInfo(
             username = "John",
             email = "johndoe@example.com",
@@ -39,11 +39,11 @@ class SignUpUserInfoTest {
             passwordConfirm = "Password123"
         )
 
-        assertEquals(NameError.None, signUpUserInfo.isNamePass)
+        assertEquals(NameError.None, signUpUserInfo.nameError)
     }
 
     @Test
-    fun `이름이_너무_짧거나_길_때_isNamePass_반환값은_LengthError`() {
+    fun `이름이_너무_짧거나_길_때_nameError_반환값은_LengthError`() {
         val signUpUserInfo = SignUpUserInfo(
             username = "J",
             email = "johndoe@example.com",
@@ -51,11 +51,11 @@ class SignUpUserInfoTest {
             passwordConfirm = "Password123"
         )
 
-        assertEquals(NameError.Length, signUpUserInfo.isNamePass)
+        assertEquals(NameError.Length, signUpUserInfo.nameError)
     }
 
     @Test
-    fun `이름에_숫자나_기호가_포함될_때_isNamePass_반환값은_NumberOrSymbol`() {
+    fun `이름에_숫자나_기호가_포함될_때_nameError_반환값은_NumberOrSymbol`() {
         val signUpUserInfo = SignUpUserInfo(
             username = "John1",
             email = "beom@example.com",
@@ -63,11 +63,11 @@ class SignUpUserInfoTest {
             passwordConfirm = "Password123"
         )
 
-        assertEquals(NameError.NumberOrSymbol, signUpUserInfo.isNamePass)
+        assertEquals(NameError.NumberOrSymbol, signUpUserInfo.nameError)
     }
 
     @Test
-    fun `이름에_숫자나_기호가_포함되면서_길이가_5초과일_때_isNamePass_반환값은_Length`() {
+    fun `이름에_숫자나_기호가_포함되면서_길이가_5초과일_때_nameError_반환값은_Length`() {
         val signUpUserInfo = SignUpUserInfo(
             username = "BeomSeok123",
             email = "beom@example.com",
@@ -75,11 +75,11 @@ class SignUpUserInfoTest {
             passwordConfirm = "Password123"
         )
 
-        assertEquals(NameError.Length, signUpUserInfo.isNamePass)
+        assertEquals(NameError.Length, signUpUserInfo.nameError)
     }
 
     @Test
-    fun `이메일_형식이_올바를_때_isEmailPass_반환값은_None`() {
+    fun `이메일_형식이_올바를_때_emailError_반환값은_None`() {
         val signUpUserInfo = SignUpUserInfo(
             username = "JohnDoe",
             email = "beom@example.com",
@@ -87,11 +87,11 @@ class SignUpUserInfoTest {
             passwordConfirm = "Password123"
         )
 
-        assertEquals(EmailError.None, signUpUserInfo.isEmailPass)
+        assertEquals(EmailError.None, signUpUserInfo.emailError)
     }
 
     @Test
-    fun `이메일_형식이_잘못됐을_때_isEmailPass_반환값은_EmailFormat`() {
+    fun `이메일_형식이_잘못됐을_때_emailError_반환값은_EmailFormat`() {
         val signUpUserInfo = SignUpUserInfo(
             username = "Beom",
             email = "beom@example",
@@ -99,11 +99,11 @@ class SignUpUserInfoTest {
             passwordConfirm = "Password123"
         )
 
-        assertEquals(EmailError.EmailFormat, signUpUserInfo.isEmailPass)
+        assertEquals(EmailError.EmailFormat, signUpUserInfo.emailError)
     }
 
     @Test
-    fun `비밀번호_형식이_올바를_때_isPasswordPass_반환값은_None`() {
+    fun `비밀번호_형식이_올바를_때_passwordError_반환값은_None`() {
         val signUpUserInfo = SignUpUserInfo(
             username = "Beom",
             email = "beom@example.com",
@@ -111,11 +111,11 @@ class SignUpUserInfoTest {
             passwordConfirm = "Password123"
         )
 
-        assertEquals(PasswordError.None, signUpUserInfo.isPasswordPass)
+        assertEquals(PasswordError.None, signUpUserInfo.passwordError)
     }
 
     @Test
-    fun `비밀번호_길이가_잘못됐을_때_isPasswordPass_반환값은_PasswordLength`() {
+    fun `비밀번호_길이가_잘못됐을_때_passwordError_반환값은_PasswordLength`() {
         val signUpUserInfo = SignUpUserInfo(
             username = "Beom",
             email = "beom@example.com",
@@ -123,11 +123,11 @@ class SignUpUserInfoTest {
             passwordConfirm = "Pass1"
         )
 
-        assertEquals(PasswordError.PasswordLength, signUpUserInfo.isPasswordPass)
+        assertEquals(PasswordError.PasswordLength, signUpUserInfo.passwordError)
     }
 
     @Test
-    fun `비밀번호_형식이_잘못됐을_때_isPasswordPass_반환값은_PasswordFormat`() {
+    fun `비밀번호_형식이_잘못됐을_때_passwordError_반환값은_PasswordFormat`() {
         val signUpUserInfo = SignUpUserInfo(
             username = "Beom",
             email = "beom@example.com",
@@ -135,11 +135,11 @@ class SignUpUserInfoTest {
             passwordConfirm = "password"
         )
 
-        assertEquals(PasswordError.PasswordFormat, signUpUserInfo.isPasswordPass)
+        assertEquals(PasswordError.PasswordFormat, signUpUserInfo.passwordError)
     }
 
     @Test
-    fun `비밀번호와_비밀번호_확인이_일치하지_않을_때_isPasswordConfirmPass_반환값은_PasswordEqual`() {
+    fun `비밀번호와_비밀번호_확인이_일치하지_않을_때_passwordConfirmError_반환값은_PasswordEqual`() {
         val signUpUserInfo = SignUpUserInfo(
             username = "Beom",
             email = "Beom@example.com",
@@ -147,7 +147,7 @@ class SignUpUserInfoTest {
             passwordConfirm = "Password456"
         )
 
-        assertEquals(PasswordConfirmError.PasswordEqual, signUpUserInfo.isPasswordConfirmPass)
+        assertEquals(PasswordConfirmError.PasswordEqual, signUpUserInfo.passwordConfirmError)
     }
 
     @Test

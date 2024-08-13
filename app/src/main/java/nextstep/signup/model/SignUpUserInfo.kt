@@ -8,13 +8,13 @@ internal data class SignUpUserInfo(
 ) {
     val isNotContainBlank: Boolean
         get() = listOf(
-            isNamePass,
-            isEmailPass,
-            isPasswordPass,
-            isPasswordConfirmPass
+            nameError,
+            emailError,
+            passwordError,
+            passwordConfirmError
         ).none { it.isBlank }
 
-    val isNamePass: NameError
+    val nameError: NameError
         get() = when {
             username.isBlank() -> NameError.Blank
             (username.length in 2..5).not() -> NameError.Length
@@ -22,14 +22,14 @@ internal data class SignUpUserInfo(
             else -> NameError.None
         }
 
-    val isEmailPass: EmailError
+    val emailError: EmailError
         get() = when {
             email.isBlank() -> EmailError.Blank
             email.matches(Regex(EMAIL_REGEX)).not() -> EmailError.EmailFormat
             else -> EmailError.None
         }
 
-    val isPasswordPass: PasswordError
+    val passwordError: PasswordError
         get() = when {
             password.isBlank() -> PasswordError.Blank
             (password.length in 8..16).not() -> PasswordError.PasswordLength
@@ -37,7 +37,7 @@ internal data class SignUpUserInfo(
             else -> PasswordError.None
         }
 
-    val isPasswordConfirmPass: PasswordConfirmError
+    val passwordConfirmError: PasswordConfirmError
         get() = when {
             passwordConfirm.isBlank() -> PasswordConfirmError.Blank
             passwordConfirm != password -> PasswordConfirmError.PasswordEqual
@@ -46,10 +46,10 @@ internal data class SignUpUserInfo(
 
     val isAllFieldsValid: Boolean
         get() = listOf(
-            isNamePass,
-            isEmailPass,
-            isPasswordPass,
-            isPasswordConfirmPass
+            nameError,
+            emailError,
+            passwordError,
+            passwordConfirmError
         ).all { it.isNone }
 
 

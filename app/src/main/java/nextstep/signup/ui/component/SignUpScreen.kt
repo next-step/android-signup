@@ -132,9 +132,9 @@ private fun Content(
             value = signUpUserInfo.username,
             onValueChange = onUsernameChange,
             label = { Text(text = stringResource(id = R.string.username_label)) },
-            isError = signUpUserInfo.isNamePass != NameError.None,
+            isError = signUpUserInfo.nameError != NameError.None,
             errorMessage = {
-                when (signUpUserInfo.isNamePass) {
+                when (signUpUserInfo.nameError) {
                     NameError.Length -> Text(
                         text = stringResource(R.string.name_length_error),
                         style = MaterialTheme.typography.bodySmall
@@ -154,9 +154,9 @@ private fun Content(
             value = signUpUserInfo.email,
             onValueChange = onEmailChange,
             label = { Text(text = stringResource(id = R.string.email_label)) },
-            isError = signUpUserInfo.isEmailPass != EmailError.None,
+            isError = signUpUserInfo.emailError != EmailError.None,
             errorMessage = {
-                when (signUpUserInfo.isEmailPass) {
+                when (signUpUserInfo.emailError) {
                     EmailError.EmailFormat -> Text(
                         text = stringResource(R.string.email_format_error),
                         style = MaterialTheme.typography.bodySmall
@@ -172,9 +172,9 @@ private fun Content(
             onValueChange = onPasswordChange,
             label = { Text(text = stringResource(id = R.string.password_label)) },
             visualTransformation = PasswordVisualTransformation(),
-            isError = signUpUserInfo.isPasswordPass != PasswordError.None,
+            isError = signUpUserInfo.passwordError != PasswordError.None,
             errorMessage = {
-                when (signUpUserInfo.isPasswordPass) {
+                when (signUpUserInfo.passwordError) {
                     PasswordError.PasswordLength -> Text(
                         text = stringResource(R.string.password_length_error),
                         style = MaterialTheme.typography.bodySmall
@@ -195,9 +195,9 @@ private fun Content(
             onValueChange = onPasswordConfirmChange,
             label = { Text(text = stringResource(id = R.string.password_confirm_label)) },
             visualTransformation = PasswordVisualTransformation(),
-            isError = signUpUserInfo.isPasswordConfirmPass != PasswordConfirmError.None,
+            isError = signUpUserInfo.passwordConfirmError != PasswordConfirmError.None,
             errorMessage = {
-                when (signUpUserInfo.isPasswordConfirmPass) {
+                when (signUpUserInfo.passwordConfirmError) {
                     PasswordConfirmError.PasswordEqual -> {
                         Text(
                             text = stringResource(R.string.password_confirm_error),
@@ -232,7 +232,7 @@ private fun BottomBar() {
 @Preview
 @Composable
 private fun SignUpScreenPreview() {
-    var signUpUserInfo by remember { mutableStateOf(SignUpUserInfo()) }
+    var signUpUserInfo by remember { mutableStateOf(SignUpUserInfo(username = "dddddd")) }
     SignupTheme {
         SignUpScreen(
             signUpUserInfo = signUpUserInfo,
