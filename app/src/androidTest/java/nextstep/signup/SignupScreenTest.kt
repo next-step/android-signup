@@ -2,9 +2,15 @@ package nextstep.signup
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.SemanticsNodeInteraction
+import androidx.compose.ui.test.assertIsEnabled
+import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.test.runTest
 import nextstep.signup.ui.signup.SignupScreen
 import org.junit.Before
 import org.junit.Rule
@@ -18,6 +24,7 @@ class SignupScreenTest {
     private lateinit var emailTextField: SemanticsNodeInteraction
     private lateinit var passwordTextField: SemanticsNodeInteraction
     private lateinit var passwordConfirmTextField: SemanticsNodeInteraction
+    private lateinit var createAccountButton: SemanticsNodeInteraction
 
     @Before
     fun setup() {
@@ -33,6 +40,9 @@ class SignupScreenTest {
             passwordTextField = onNodeWithContentDescription(PASSWORD_CONTENT_DESCRIPTION)
             passwordConfirmTextField = onNodeWithContentDescription(
                 PASSWORD_CONFIRM_CONTENT_DESCRIPTION
+            )
+            createAccountButton = onNodeWithContentDescription(
+                CREATE_ACCOUNT_BUTTON_CONTENT_DESCRIPTION
             )
         }
     }
@@ -66,7 +76,7 @@ class SignupScreenTest {
     @Test
     fun 사용자_이름에_숫자가_포함될_경우_에러메시지가_출력된다() {
         // given:
-        val username: String = "산군1"
+        val username = "산군1"
 
         // when:
         userNameTextField.performTextInput(username)
@@ -79,7 +89,7 @@ class SignupScreenTest {
     @Test
     fun 사용자_이름에_기호가_포함될_경우_에러메시지가_출력된다() {
         // given:
-        val username: String = "산군@"
+        val username = "산군@"
 
         // when:
         userNameTextField.performTextInput(username)
@@ -116,7 +126,7 @@ class SignupScreenTest {
     @Test
     fun 비밀번호가_8자보다_적은_경우_에러메시지가_출력된다() {
         // given:
-        val password: String = "1234567"
+        val password = "1234567"
 
         // when:
         passwordTextField.performTextInput(password)
@@ -129,7 +139,7 @@ class SignupScreenTest {
     @Test
     fun 비밀번호가_16자보다_많은_경우_에러메시지가_출력된다() {
         // given:
-        val password: String = "12345678123456789"
+        val password = "12345678123456789"
 
         // when:
         passwordTextField.performTextInput(password)
@@ -142,7 +152,7 @@ class SignupScreenTest {
     @Test
     fun 비밀번호에_영어가_포함되지_않을_경우_에러메시지가_출력된다() {
         // given:
-        val password: String = "12345678"
+        val password = "12345678"
 
         // when:
         passwordTextField.performTextInput(password)
@@ -155,7 +165,7 @@ class SignupScreenTest {
     @Test
     fun 비밀번호에_숫자가_포함되지_않을_경우_에러메시지가_출력된다() {
         // given:
-        val password: String = "abcdefgh"
+        val password = "abcdefgh"
 
         // when:
         passwordTextField.performTextInput(password)
@@ -168,7 +178,7 @@ class SignupScreenTest {
     @Test
     fun 비밀번호에_영문과_숫자가_반드시_포함되어야_한다() {
         // given:
-        val password: String = "abcd1234"
+        val password = "abcd1234"
 
         // when:
         passwordTextField.performTextInput(password)
@@ -182,7 +192,7 @@ class SignupScreenTest {
     fun 비밀번호_확인은_비밀번호와_일치해야_한다() {
         // given:
         val password = "abcd1234"
-        val passwordConfirm: String = password
+        val passwordConfirm = password
 
         // when:
         passwordTextField.performTextInput(password)
@@ -197,7 +207,7 @@ class SignupScreenTest {
     fun 비밀번호_확인이_비밀번호와_일치하지_않을_경우_에러메시지가_출력된다() {
         // given:
         val password = "abcd1234"
-        val passwordConfirm: String = "abcd1233"
+        val passwordConfirm = "abcd1233"
 
         // when:
         passwordTextField.performTextInput(password)
@@ -206,6 +216,50 @@ class SignupScreenTest {
         // then:
         composeTestRule.onNodeWithContentDescription(PASSWORD_CONFIRM_ERROR_CONTENT_DESCRIPTION)
             .assertExists()
+    }
+
+    @Test
+    fun 버튼의_기본값은_비활성화이다() {
+        // given:
+        // when:
+        // then:
+        createAccountButton.assertIsNotEnabled()
+    }
+
+    @Test
+    fun 어느하나_조건을_만족하지_못해도_버튼이_활성화_되지_않는다() {
+        // given:
+        val username = "산군"
+        val email = "s9hn@github.com"
+        val password = "abcd1234"
+        val passwordConfirm = "abcd1233"
+
+        // when:
+        userNameTextField.performTextInput(username)
+        emailTextField.performTextInput(email)
+        passwordTextField.performTextInput(password)
+        passwordConfirmTextField.performTextInput(passwordConfirm)
+
+        // then:
+        createAccountButton.assertIsNotEnabled()
+    }
+
+    @Test
+    fun 회원가입_모든_조건을_만족하면_버튼이_활성화된다() {
+        // given:
+        val username = "산군"
+        val email = "s9hn@github.com"
+        val password = "abcd1234"
+        val passwordConfirm = "abcd1234"
+
+        // when:
+        userNameTextField.performTextInput(username)
+        emailTextField.performTextInput(email)
+        passwordTextField.performTextInput(password)
+        passwordConfirmTextField.performTextInput(passwordConfirm)
+
+        // then:
+        createAccountButton.assertIsEnabled()
     }
 
     companion object {
