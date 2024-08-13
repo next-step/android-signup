@@ -2,24 +2,11 @@ package nextstep.signup.study
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> c4d4631 (test:회원가입 Input textfiled 글자 썼을때 일치 여부 체크)
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.test.assert
-import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performTextInput
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import nextstep.signup.screen.SignUpTitle
-import nextstep.signup.screen.SignUpUserInputTextFieldType
-import nextstep.signup.screen.SigneUpTextField
 import org.junit.Rule
 import org.junit.Test
 
@@ -54,6 +41,4 @@ class SignupScreenTest {
             .onNodeWithText("Welcome to Compose \uD83D\uDE80")
             .assertExists()
     }
-
-
 }

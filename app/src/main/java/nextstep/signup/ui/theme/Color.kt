@@ -14,4 +14,4 @@ val BlueGrey20 = Color(0xFFE3E8F1)
 val Blue50 = Color(0xFF2196F3)
 
 val SignUpTextFieldLabelColor = Color(0xFF49454F)
-
+val SignUpTextFieldErrorColor = Color(0xFFB3261E)

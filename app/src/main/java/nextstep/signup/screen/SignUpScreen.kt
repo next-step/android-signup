@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -14,7 +13,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -27,7 +25,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,6 +33,13 @@ import androidx.compose.ui.unit.sp
 import nextstep.signup.R
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.BlueGrey20
+import nextstep.signup.ui.theme.SignUpTextFieldErrorColor
+import nextstep.signup.util.SignUpEmailValidator
+import nextstep.signup.util.SignUpInputValidator
+import nextstep.signup.util.SignUpPasswordConfirmValidator
+import nextstep.signup.util.SignUpPasswordValidator
+import nextstep.signup.util.SignUpUserNameValidator
+import nextstep.signup.util.SignUpValidSate
 
 /**
  * Create Date: 2024. 8. 11.
@@ -55,11 +59,17 @@ fun SignUpScreen() {
     val (passWordInputValue, setPassWordInputValue) = remember { mutableStateOf("") }//패스워드 적용
     val (passWordConfirmValue, setPassWordConfirmValue) = remember { mutableStateOf("") }//패스워드 확인 적용
 
+    val (userNameInputValidState, setUserNameInputValidState) = remember { mutableStateOf(SignUpValidSate.NOTHING) }//유저 이름 유효성 상태
+    val (emailInputValidState, setEmailInputValidState) = remember { mutableStateOf(SignUpValidSate.NOTHING) }//유저 이메일 유효성 상태
+    val (passWordInputValidState, setPassWordInputValidState) = remember { mutableStateOf(SignUpValidSate.NOTHING) } //유저 패스워드 유효성 상태
+    val (passWordConfirmInputValidState, setPasswordConfirmInputValidState) = remember { mutableStateOf(SignUpValidSate.NOTHING) }//유저 패스워드 확인 유효성 상태
+
     Scaffold(
         Modifier.background(Color.White)
     ) { contentPadding ->
         Column(
-            modifier = Modifier.padding(contentPadding)
+            modifier = Modifier
+                .padding(contentPadding)
                 .verticalScroll(rememberScrollState()),
         ) {
             SignUpTitle(
@@ -72,19 +82,28 @@ fun SignUpScreen() {
             )
             UserNameSigneUpTextField(
                 textContent = userNameInputValue,
-                onTextValueChange = setUserNameInputValue
+                onTextValueChange = setUserNameInputValue,
+                signUpInputValidState = userNameInputValidState,
+                setSignUpInputValidState = setUserNameInputValidState,
             )
             EmailSigneUpTextField(
                 textContent = emailInputValue,
-                onTextValueChange = setEmailInputValue
+                onTextValueChange = setEmailInputValue,
+                signUpInputValidState = emailInputValidState,
+                setSignUpInputValidState = setEmailInputValidState,
             )
             PassWordSigneUpTextField(
                 textContent = passWordInputValue,
-                onTextValueChange = setPassWordInputValue
+                onTextValueChange = setPassWordInputValue,
+                signUpInputValidState = passWordInputValidState,
+                setSignUpInputValidState = setPassWordInputValidState,
             )
             PassWordConfirmSigneUpTextField(
+                writtenPassWord = passWordInputValue,
                 textContent = passWordConfirmValue,
-                onTextValueChange = setPassWordConfirmValue
+                onTextValueChange = setPassWordConfirmValue,
+                signUpInputValidState = passWordConfirmInputValidState,
+                setSignUpInputValidState = setPasswordConfirmInputValidState,
             )
             SignUpButton(
                 modifier = Modifier
@@ -118,67 +137,88 @@ fun SignUpTitle(
 
 /**
  * 닉네임 입력 TextField
-**/
+ **/
 @Composable
 fun UserNameSigneUpTextField(
     textContent: String,
     onTextValueChange: (String) -> Unit,
-){
+    signUpInputValidState: SignUpValidSate,
+    setSignUpInputValidState: (SignUpValidSate) -> Unit,
+) {
     SigneUpTextField(
         keyboardType = KeyboardType.Text,
         label = { Text(text = stringResource(id = R.string.username)) },
         textContent = textContent,
         onTextValueChange = onTextValueChange,
+        signUpValidator = SignUpUserNameValidator(),
+        signUpInputValidState = signUpInputValidState,
+        setSignUpInputValidState = setSignUpInputValidState,
     )
 }
 
 /**
  * 이메일 입력용 TextField
-**/
+ **/
 @Composable
 fun EmailSigneUpTextField(
     textContent: String,
     onTextValueChange: (String) -> Unit,
-){
+    signUpInputValidState: SignUpValidSate,
+    setSignUpInputValidState: (SignUpValidSate) -> Unit,
+) {
     SigneUpTextField(
         keyboardType = KeyboardType.Email,
         label = { Text(text = stringResource(id = R.string.email)) },
         textContent = textContent,
         onTextValueChange = onTextValueChange,
+        signUpValidator = SignUpEmailValidator(),
+        signUpInputValidState = signUpInputValidState,
+        setSignUpInputValidState = setSignUpInputValidState,
     )
 }
 
 /**
  * 패스워드 입력용 TextField
-**/
+ **/
 @Composable
 fun PassWordSigneUpTextField(
     textContent: String,
     onTextValueChange: (String) -> Unit,
-){
+    signUpInputValidState: SignUpValidSate,
+    setSignUpInputValidState: (SignUpValidSate) -> Unit,
+) {
     SigneUpTextField(
         keyboardType = KeyboardType.Password,
         label = { Text(text = stringResource(id = R.string.password)) },
         textContent = textContent,
         onTextValueChange = onTextValueChange,
-        visualTransformation = PasswordVisualTransformation()
+        visualTransformation = PasswordVisualTransformation(),
+        signUpValidator = SignUpPasswordValidator(),
+        signUpInputValidState = signUpInputValidState,
+        setSignUpInputValidState = setSignUpInputValidState,
     )
 }
 
 /**
  * 패스워드 확인용 TextField
-**/
+ **/
 @Composable
 fun PassWordConfirmSigneUpTextField(
+    writtenPassWord: String,
     textContent: String,
     onTextValueChange: (String) -> Unit,
+    signUpInputValidState: SignUpValidSate,
+    setSignUpInputValidState: (SignUpValidSate) -> Unit,
 ) {
     SigneUpTextField(
         keyboardType = KeyboardType.Password,
         label = { Text(text = stringResource(id = R.string.password_confirm)) },
         textContent = textContent,
         onTextValueChange = onTextValueChange,
-        visualTransformation = PasswordVisualTransformation()
+        visualTransformation = PasswordVisualTransformation(),
+        signUpValidator = SignUpPasswordConfirmValidator(password = writtenPassWord),
+        signUpInputValidState = signUpInputValidState,
+        setSignUpInputValidState = setSignUpInputValidState,
     )
 }
 
@@ -194,20 +234,49 @@ fun SigneUpTextField(
     modifier: Modifier = Modifier,
     textContent: String,
     onTextValueChange: (String) -> Unit,
+    signUpValidator: SignUpInputValidator,
+    signUpInputValidState: SignUpValidSate,
+    setSignUpInputValidState: (SignUpValidSate) -> Unit,
     visualTransformation: VisualTransformation = VisualTransformation.None,
 ) {
+
+    //valid 나 nothing 상태가 아니면 not valid true 넣어줌.
+    setSignUpInputValidState(signUpValidator.getValidState(textContent))
+
     TextField(
         colors = TextFieldDefaults.colors(
             focusedLabelColor = Blue50,
             focusedIndicatorColor = Blue50,
             cursorColor = Blue50,
             unfocusedContainerColor = BlueGrey20,
-            focusedContainerColor = BlueGrey20
+            focusedContainerColor = BlueGrey20,
+            errorLabelColor = SignUpTextFieldErrorColor,
+            errorCursorColor = SignUpTextFieldErrorColor,
         ),
+        isError = signUpInputValidState != SignUpValidSate.VALID && signUpInputValidState != SignUpValidSate.NOTHING,
+        supportingText = {
+            if (signUpInputValidState != SignUpValidSate.VALID && signUpInputValidState != SignUpValidSate.NOTHING) {
+                val errorMessage = when (signUpValidator.getValidState(textContent)) {
+                    SignUpValidSate.ERROR_USER_NAME_LENGTH -> stringResource(id = R.string.error_length_username)
+                    SignUpValidSate.ERROR_USER_NAME_REGEX -> stringResource(id = R.string.error_regex_username)
+                    SignUpValidSate.ERROR_EMAIL_REGEX -> stringResource(id = R.string.error_regex_email)
+                    SignUpValidSate.ERROR_PASSWORD_LENGTH -> stringResource(id = R.string.error_length_pwd)
+                    SignUpValidSate.ERROR_PASSWORD_REGEX -> stringResource(id = R.string.error_regex_pwd)
+                    SignUpValidSate.ERROR_PASSWORD_CONFIRM -> stringResource(id = R.string.error_not_matched_pwd)
+                    else -> ""
+                }
+                Text(
+                    text = errorMessage,
+                    color = SignUpTextFieldErrorColor
+                )
+            }
+        },
         modifier = modifier
             .fillMaxWidth()
             .padding(
-                top = 17.dp, bottom = 17.dp, start = 30.dp, end = 30.dp
+                top = 15.dp,
+                start = 30.dp,
+                end = 30.dp
             ),
         value = textContent,
         onValueChange = onTextValueChange,
@@ -258,9 +327,13 @@ fun PreviewSignUpTitle() {
 @Preview
 @Composable
 fun PreviewSigneUpTextField() {
-    val (inputValue, setInputValue) = remember {
-        mutableStateOf("")
+    val (inputValue, setInputValue) = remember { mutableStateOf("@j") }
+    val (userNameInputValidState, setUserNameInputValidState) = remember {
+        mutableStateOf(
+            SignUpValidSate.NOTHING
+        )
     }
+
     SigneUpTextField(
         modifier = Modifier
             .fillMaxWidth()
@@ -273,7 +346,10 @@ fun PreviewSigneUpTextField() {
         keyboardType = KeyboardType.Text,
         visualTransformation = VisualTransformation.None,
         textContent = inputValue,
-        onTextValueChange = setInputValue
+        onTextValueChange = setInputValue,
+        signUpInputValidState = userNameInputValidState,
+        setSignUpInputValidState = setUserNameInputValidState,
+        signUpValidator = SignUpUserNameValidator(),
     )
 }
 
