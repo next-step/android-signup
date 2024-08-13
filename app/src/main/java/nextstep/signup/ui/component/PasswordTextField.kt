@@ -25,11 +25,11 @@ fun PasswordTextField(
 ) {
     val supportText: @Composable (() -> Unit)? =
         when (validationResult) {
-            is PasswordValidationResult.FailurePasswordLength -> {
+            is PasswordValidationResult.PasswordLengthError -> {
                 { Text(text = stringResource(id = R.string.error_password_length)) }
             }
 
-            is PasswordValidationResult.FailurePasswordFormat -> {
+            is PasswordValidationResult.PasswordFormatError -> {
                 { Text(text = stringResource(id = R.string.error_password_format)) }
             }
 
@@ -43,7 +43,7 @@ fun PasswordTextField(
         visualTransformation = PasswordVisualTransformation(),
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
-        isError = validationResult.isFailure,
+        isError = validationResult.isError,
         supportText = supportText,
         modifier = modifier,
     )
@@ -69,11 +69,11 @@ class PasswordTextFieldPreviewParameterProvider : PreviewParameterProvider<Passw
                 PasswordTextFieldPreviewParameter("password1234", PasswordValidationResult.Success),
                 PasswordTextFieldPreviewParameter(
                     "password",
-                    PasswordValidationResult.FailurePasswordFormat,
+                    PasswordValidationResult.PasswordFormatError,
                 ),
                 PasswordTextFieldPreviewParameter(
                     "1234",
-                    PasswordValidationResult.FailurePasswordLength,
+                    PasswordValidationResult.PasswordLengthError,
                 ),
             )
 }

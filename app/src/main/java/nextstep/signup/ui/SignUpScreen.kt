@@ -343,10 +343,10 @@ private fun isSignUpEnabled(
     passwordValidationResult,
     passwordConfirmValidationResult,
 ) {
-    usernameValidationResult.isSuccessFull &&
-        emailValidationResult.isSuccessFull &&
-        passwordValidationResult.isSuccessFull &&
-        passwordConfirmValidationResult.isSuccessFull
+    usernameValidationResult.isValid &&
+        emailValidationResult.isValid &&
+        passwordValidationResult.isValid &&
+        passwordConfirmValidationResult.isValid
 }
 
 @Preview(showBackground = true)

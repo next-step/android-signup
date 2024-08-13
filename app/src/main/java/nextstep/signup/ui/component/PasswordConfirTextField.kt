@@ -25,7 +25,7 @@ fun PasswordConfirmTextField(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
 ) {
     val supportText: @Composable (() -> Unit)? =
-        if (validationResult is PasswordConfirmValidationResult.FailurePasswordNotMatch) {
+        if (validationResult is PasswordConfirmValidationResult.PasswordNotMatchError) {
             { Text(text = stringResource(id = R.string.error_password_confirm)) }
         } else {
             null
@@ -38,7 +38,7 @@ fun PasswordConfirmTextField(
         visualTransformation = PasswordVisualTransformation(),
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
-        isError = validationResult.isFailure,
+        isError = validationResult.isError,
         supportText = supportText,
         modifier = modifier,
     )
@@ -66,7 +66,7 @@ class PasswordConfirmTextFieldPreviewParameterProvider : PreviewParameterProvide
                 ),
                 PasswordConfirmTextFieldPreviewParameter(
                     "password1234",
-                    PasswordConfirmValidationResult.FailurePasswordNotMatch,
+                    PasswordConfirmValidationResult.PasswordNotMatchError,
                 ),
                 PasswordConfirmTextFieldPreviewParameter("", PasswordConfirmValidationResult.Empty),
             )

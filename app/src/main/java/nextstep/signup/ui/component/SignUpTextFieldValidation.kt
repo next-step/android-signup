@@ -16,8 +16,8 @@ interface SignUpTextFieldValidation<T, R : ValidationResult> {
 
 @Immutable
 interface ValidationResult {
-    val isSuccessFull: Boolean
-    val isFailure: Boolean
+    val isValid: Boolean
+    val isError: Boolean
 }
 
 class UsernameValidation(
@@ -29,31 +29,25 @@ class UsernameValidation(
     private fun validateUsername(username: String): UsernameValidationResult =
         when {
             username.isEmpty() -> UsernameValidationResult.Empty
-            username.length !in lengthRange -> UsernameValidationResult.FailureUsernameLength
-            !regex.matches(username) -> UsernameValidationResult.FailureUsernameFormat
+            username.length !in lengthRange -> UsernameValidationResult.UsernameLengthError
+            !regex.matches(username) -> UsernameValidationResult.UsernameFormatError
             else -> UsernameValidationResult.Success
         }
 
     sealed interface UsernameValidationResult : ValidationResult {
-        data object Empty : UsernameValidationResult {
-            override val isFailure: Boolean = false
-            override val isSuccessFull: Boolean = false
-        }
+        override val isValid: Boolean
+            get() = this is Success
 
-        data object Success : UsernameValidationResult {
-            override val isFailure: Boolean = false
-            override val isSuccessFull: Boolean = true
-        }
+        override val isError: Boolean
+            get() = this is UsernameLengthError || this is UsernameFormatError
 
-        data object FailureUsernameLength : UsernameValidationResult {
-            override val isFailure: Boolean = true
-            override val isSuccessFull: Boolean = false
-        }
+        data object Empty : UsernameValidationResult
 
-        data object FailureUsernameFormat : UsernameValidationResult {
-            override val isFailure: Boolean = true
-            override val isSuccessFull: Boolean = false
-        }
+        data object Success : UsernameValidationResult
+
+        data object UsernameLengthError : UsernameValidationResult
+
+        data object UsernameFormatError : UsernameValidationResult
     }
 
     companion object {
@@ -70,25 +64,22 @@ class EmailValidation(
     private fun validateEmail(email: String): EmailValidationResult =
         when {
             email.isEmpty() -> EmailValidationResult.Empty
-            !pattern.matcher(email).matches() -> EmailValidationResult.FailureEmailFormat
+            !pattern.matcher(email).matches() -> EmailValidationResult.EmailFormatError
             else -> EmailValidationResult.Success
         }
 
     sealed interface EmailValidationResult : ValidationResult {
-        data object Empty : EmailValidationResult {
-            override val isFailure: Boolean = false
-            override val isSuccessFull: Boolean = false
-        }
+        override val isValid: Boolean
+            get() = this is Success
 
-        data object Success : EmailValidationResult {
-            override val isFailure: Boolean = false
-            override val isSuccessFull: Boolean = true
-        }
+        override val isError: Boolean
+            get() = this is EmailFormatError
 
-        data object FailureEmailFormat : EmailValidationResult {
-            override val isFailure: Boolean = true
-            override val isSuccessFull: Boolean = false
-        }
+        data object Empty : EmailValidationResult
+
+        data object Success : EmailValidationResult
+
+        data object EmailFormatError : EmailValidationResult
     }
 }
 
@@ -101,31 +92,25 @@ class PasswordValidation(
     private fun validatePassword(password: String): PasswordValidationResult =
         when {
             password.isBlank() -> PasswordValidationResult.Empty
-            password.length !in lengthRange -> PasswordValidationResult.FailurePasswordLength
-            !regex.matches(password) -> PasswordValidationResult.FailurePasswordFormat
+            password.length !in lengthRange -> PasswordValidationResult.PasswordLengthError
+            !regex.matches(password) -> PasswordValidationResult.PasswordFormatError
             else -> PasswordValidationResult.Success
         }
 
     sealed interface PasswordValidationResult : ValidationResult {
-        data object Empty : PasswordValidationResult {
-            override val isFailure: Boolean = false
-            override val isSuccessFull: Boolean = false
-        }
+        override val isValid: Boolean
+            get() = this is Success
 
-        data object Success : PasswordValidationResult {
-            override val isFailure: Boolean = false
-            override val isSuccessFull: Boolean = true
-        }
+        override val isError: Boolean
+            get() = this is PasswordFormatError || this is PasswordLengthError
 
-        data object FailurePasswordLength : PasswordValidationResult {
-            override val isFailure: Boolean = true
-            override val isSuccessFull: Boolean = false
-        }
+        data object Empty : PasswordValidationResult
 
-        data object FailurePasswordFormat : PasswordValidationResult {
-            override val isFailure: Boolean = true
-            override val isSuccessFull: Boolean = false
-        }
+        data object Success : PasswordValidationResult
+
+        data object PasswordLengthError : PasswordValidationResult
+
+        data object PasswordFormatError : PasswordValidationResult
     }
 
     companion object {
@@ -149,25 +134,22 @@ class PasswordConfirmValidation : SignUpTextFieldValidation<PasswordConfirm, Pas
     ): PasswordConfirmValidationResult =
         when {
             password.isBlank() || passwordConfirm.isBlank() -> PasswordConfirmValidationResult.Empty
-            password != passwordConfirm -> PasswordConfirmValidationResult.FailurePasswordNotMatch
+            password != passwordConfirm -> PasswordConfirmValidationResult.PasswordNotMatchError
             else -> PasswordConfirmValidationResult.Success
         }
 
     sealed interface PasswordConfirmValidationResult : ValidationResult {
-        data object Empty : PasswordConfirmValidationResult {
-            override val isFailure: Boolean = false
-            override val isSuccessFull: Boolean = false
-        }
+        override val isValid: Boolean
+            get() = this is Success
 
-        data object Success : PasswordConfirmValidationResult {
-            override val isFailure: Boolean = false
-            override val isSuccessFull: Boolean = true
-        }
+        override val isError: Boolean
+            get() = this is PasswordNotMatchError
 
-        data object FailurePasswordNotMatch : PasswordConfirmValidationResult {
-            override val isFailure: Boolean = true
-            override val isSuccessFull: Boolean = false
-        }
+        data object Empty : PasswordConfirmValidationResult
+
+        data object Success : PasswordConfirmValidationResult
+
+        data object PasswordNotMatchError : PasswordConfirmValidationResult
     }
 
     data class PasswordConfirm(

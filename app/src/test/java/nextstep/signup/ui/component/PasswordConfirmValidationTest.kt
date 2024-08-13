@@ -22,7 +22,7 @@ class PasswordConfirmValidationTest {
     }
 
     @Test
-    fun `비밀번호가 일치하지 않으면 비밀번호 일치하지 않음을 반환한다`() {
+    fun `비밀번호가 일치하지 않으면 비밀번호 일치하지 않음 에러를 반환한다`() {
         // given
         val passwordConfirm =
             PasswordConfirmValidation.PasswordConfirm(
@@ -34,7 +34,7 @@ class PasswordConfirmValidationTest {
         val result = PasswordConfirmValidation().validate(passwordConfirm)
 
         // then
-        assertEquals(PasswordConfirmValidationResult.FailurePasswordNotMatch, result)
+        assertEquals(PasswordConfirmValidationResult.PasswordNotMatchError, result)
     }
 
     @Test

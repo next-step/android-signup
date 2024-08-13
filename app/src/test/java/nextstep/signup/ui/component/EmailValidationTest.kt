@@ -6,7 +6,7 @@ import org.junit.Test
 
 class EmailValidationTest {
     @Test
-    fun `이메일 형식이 올바르지 않으면 이미지 실패 결과를 반환한다`() {
+    fun `이메일 형식이 올바르지 않으면 이미지 실패 에러를 반환한다`() {
         // given
         val email = "test"
 
@@ -14,7 +14,7 @@ class EmailValidationTest {
         val result = EmailValidation().validate(email)
 
         // then
-        assertEquals(EmailValidationResult.FailureEmailFormat, result)
+        assertEquals(EmailValidationResult.EmailFormatError, result)
     }
 
     @Test

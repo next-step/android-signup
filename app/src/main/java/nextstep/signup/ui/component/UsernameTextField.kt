@@ -23,11 +23,11 @@ fun UsernameTextField(
 ) {
     val supportText: @Composable (() -> Unit)? =
         when (validationResult) {
-            is UsernameValidationResult.FailureUsernameLength -> {
+            is UsernameValidationResult.UsernameLengthError -> {
                 { Text(text = stringResource(id = R.string.error_username_length)) }
             }
 
-            is UsernameValidationResult.FailureUsernameFormat -> {
+            is UsernameValidationResult.UsernameFormatError -> {
                 { Text(text = stringResource(id = R.string.error_username_format)) }
             }
 
@@ -41,7 +41,7 @@ fun UsernameTextField(
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
         modifier = modifier,
-        isError = validationResult.isFailure,
+        isError = validationResult.isError,
         supportText = supportText,
     )
 }

@@ -23,7 +23,7 @@ fun EmailTextField(
     validationResult: EmailValidationResult = EmailValidationResult.Empty,
 ) {
     val supportText: @Composable (() -> Unit)? =
-        if (validationResult is EmailValidationResult.FailureEmailFormat) {
+        if (validationResult is EmailValidationResult.EmailFormatError) {
             { Text(text = stringResource(id = R.string.error_email_format)) }
         } else {
             null
@@ -35,7 +35,7 @@ fun EmailTextField(
         label = { Text(text = stringResource(id = R.string.sign_up_label_email)) },
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
-        isError = validationResult.isFailure,
+        isError = validationResult.isError,
         supportText = supportText,
         modifier = modifier,
     )
@@ -61,7 +61,7 @@ class EmailTextFieldPreviewParameterProvider : PreviewParameterProvider<EmailTex
                 EmailTextFieldPreviewParameter("email@yopmail.com", EmailValidationResult.Success),
                 EmailTextFieldPreviewParameter(
                     "email@yopmail",
-                    EmailValidationResult.FailureEmailFormat,
+                    EmailValidationResult.EmailFormatError,
                 ),
             )
 }
