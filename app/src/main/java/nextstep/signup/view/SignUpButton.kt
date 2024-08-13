@@ -1,6 +1,7 @@
 package nextstep.signup.view
 
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -19,10 +20,13 @@ import nextstep.signup.view.ui.theme.Dimens.ButtonWidth
 import nextstep.signup.view.ui.theme.SignupTheme
 
 @Composable
-fun SignUpButton(enabled: Boolean = true) {
+fun SignUpButton(
+    enabled: Boolean,
+    modifier: Modifier = Modifier,
+) {
     Button(
         onClick = { /*TODO*/ },
-        modifier = Modifier
+        modifier = modifier
             .height(ButtonHeight)
             .width(ButtonWidth)
             .clip(RoundedCornerShape(ButtonRadius)),
@@ -37,6 +41,6 @@ fun SignUpButton(enabled: Boolean = true) {
 @Composable
 private fun SignUpButtonPreview() {
     SignupTheme {
-        SignUpButton()
+        SignUpButton(true)
     }
 }

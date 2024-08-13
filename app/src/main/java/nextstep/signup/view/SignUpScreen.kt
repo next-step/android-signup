@@ -3,6 +3,7 @@ package nextstep.signup.view
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -60,7 +61,6 @@ fun SignUpScreen() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 SignUpTitleText()
-                Spacer(modifier = Modifier.height(LargePadding))
                 UsernameContent(
                     username,
                     onValueChange = { value: String ->
@@ -72,8 +72,10 @@ fun SignUpScreen() {
                         isUsernameValid = usernameState == TextFieldState.Valid
                     },
                     usernameState,
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(top = LargePadding),
                 )
-                Spacer(modifier = Modifier.height(LargePadding))
                 EmailContent(
                     email,
                     onValueChange = { value: String ->
@@ -85,8 +87,10 @@ fun SignUpScreen() {
                         isEmailValid = emailState == TextFieldState.Valid
                     },
                     emailState,
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(top = LargePadding),
                 )
-                Spacer(modifier = Modifier.height(LargePadding))
                 PasswordContent(
                     password,
                     onValueChange = { value: String ->
@@ -99,17 +103,26 @@ fun SignUpScreen() {
                         isMatchPassword = password == passwordConfirm
                     },
                     passwordState,
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(top = LargePadding),
                 )
-                Spacer(modifier = Modifier.height(LargePadding))
                 PasswordConfirmTextField(
                     onTextChange = {
                         passwordConfirm = it
                         isMatchPassword = password == passwordConfirm
                     },
                     isMatchPassword,
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(top = LargePadding),
                 )
-                Spacer(modifier = Modifier.height(LargePadding))
-                SignUpButton(isFormValid)
+                SignUpButton(
+                    isFormValid,
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(top = LargePadding),
+                )
             }
         }
     }

@@ -13,6 +13,9 @@
 - [x] SignUpButton 활성화 로직 추가
 - [x] SignUpButton 활성화 뷰 반영
 - [x] SignUpButton 테스트 코드 작성
+- [x] 피드백 1차 반영 주요 사항
+  - [x] HelperTextMessage 제거
+  - [x] Modifier 파라미터로 전달
 
 ## Step4 진행 중 의식의 흐름
 
