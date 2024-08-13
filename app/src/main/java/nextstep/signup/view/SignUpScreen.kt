@@ -20,51 +20,49 @@ import nextstep.signup.view.ui.theme.Dimens.StartPadding
 import nextstep.signup.view.ui.theme.Dimens.TopPadding
 import nextstep.signup.view.ui.theme.SignupTheme
 
-class SignUpScreen {
-    @Composable
-    fun Screen() {
-        var password by remember { mutableStateOf("") }
-        var passwordConfirm by remember { mutableStateOf("") }
-        var isMatchPassword by remember { mutableStateOf(true) }
+@Composable
+fun SignUpScreen() {
+    var password by remember { mutableStateOf("") }
+    var passwordConfirm by remember { mutableStateOf("") }
+    var isMatchPassword by remember { mutableStateOf(true) }
 
-        SignupTheme {
-            Surface(
-                modifier = Modifier.fillMaxSize(),
-                color = MaterialTheme.colorScheme.background
+    SignupTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(
+                        top = TopPadding,
+                        start = StartPadding,
+                        end = EndPadding
+                    ),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(
-                            top = TopPadding,
-                            start = StartPadding,
-                            end = EndPadding
-                        ),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    SignUpTitle()
-                    Spacer(modifier = Modifier.height(LargePadding))
-                    UsernameTextField()
-                    Spacer(modifier = Modifier.height(LargePadding))
-                    EmailTextField()
-                    Spacer(modifier = Modifier.height(LargePadding))
-                    PasswordTextField(
-                        onTextChange = {
-                            password = it
-                            isMatchPassword = password == passwordConfirm
-                        }
-                    )
-                    Spacer(modifier = Modifier.height(LargePadding))
-                    PasswordConfirmTextField(
-                        onTextChange = {
-                            passwordConfirm = it
-                            isMatchPassword = password == passwordConfirm
-                        },
-                        isMatchPassword,
-                    )
-                    Spacer(modifier = Modifier.height(LargePadding))
-                    SignUpButton()
-                }
+                SignUpTitle()
+                Spacer(modifier = Modifier.height(LargePadding))
+                UsernameTextField()
+                Spacer(modifier = Modifier.height(LargePadding))
+                EmailTextField()
+                Spacer(modifier = Modifier.height(LargePadding))
+                PasswordTextField(
+                    onTextChange = {
+                        password = it
+                        isMatchPassword = password == passwordConfirm
+                    }
+                )
+                Spacer(modifier = Modifier.height(LargePadding))
+                PasswordConfirmTextField(
+                    onTextChange = {
+                        passwordConfirm = it
+                        isMatchPassword = password == passwordConfirm
+                    },
+                    isMatchPassword,
+                )
+                Spacer(modifier = Modifier.height(LargePadding))
+                SignUpButton()
             }
         }
     }

@@ -6,7 +6,7 @@
 - [x] SignUpTitle 테스트 코드 작성
 - [x] SignUpHelperText 테스트 코드 작성
 - [x] PasswordConfirmTextField 컴포넌트 고유 속성 주입
-- [] PasswordConfirmTextField 테스트 코드 작성
+- [x] PasswordConfirmTextField 테스트 코드 작성
 - [] 테스트 코드 리팩터링
 - [] 유효성 검사 로직 테스트 코드 추가
 - [] SignUpButton 활성화 로직 추가
