@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
@@ -46,6 +48,13 @@ import nextstep.signup.ui.theme.BlueGrey20
 @Preview
 @Composable
 fun SignUpScreen() {
+
+    //state 최상위로 끌어올림 (state hoisting)
+    val (userNameInputValue, setUserNameInputValue) = remember { mutableStateOf("") }//유저 이름
+    val (emailInputValue, setEmailInputValue) = remember { mutableStateOf("") }//이메일 적용
+    val (passWordInputValue, setPassWordInputValue) = remember { mutableStateOf("") }//패스워드 적용
+    val (passWordConfirmValue, setPassWordConfirmValue) = remember { mutableStateOf("") }//패스워드 확인 적용
+
     Scaffold(
         Modifier.background(Color.White)
     ) { contentPadding ->
@@ -55,7 +64,35 @@ fun SignUpScreen() {
             SignUpTitle(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 70.dp)
+                    .padding(
+                        top = 70.dp,
+                        bottom = 25.dp
+                    )
+            )
+            UserNameSigneUpTextField(
+                textContent = userNameInputValue,
+                onTextValueChange = setUserNameInputValue
+            )
+            EmailSigneUpTextField(
+                textContent = emailInputValue,
+                onTextValueChange = setEmailInputValue
+            )
+            PassWordSigneUpTextField(
+                textContent = passWordInputValue,
+                onTextValueChange = setPassWordInputValue
+            )
+            PassWordConfirmSigneUpTextField(
+                textContent = passWordConfirmValue,
+                onTextValueChange = setPassWordConfirmValue
+            )
+            SignUpButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = 115.dp)
+                    .padding(30.dp),
+                onClick = {
+                    //회원가입 버튼 클릭시 로직
+                }
             )
         }
     }
@@ -79,42 +116,71 @@ fun SignUpTitle(
 }
 
 /**
- * 회원가입 화면  input textfiled의 type 뷰 구성의 필요 값들을 정의
- **/
-enum class SignUpUserInputTextFieldType(
-    val label: @Composable (() -> Unit)?,
-    val keyboardType: KeyboardType = KeyboardType.Text,
-    val visualTransformation: VisualTransformation = VisualTransformation.None,
-    val focusedLabelColor: Color = Blue50,
-    val focusedIndicatorColor: Color = Blue50,
-    val cursorColor: Color = Blue50,
-    val containerColor: Color = BlueGrey20
-) {
-    USERNAME(
-        label = {
-            Text(text = stringResource(id = R.string.username))
-        },
-    ),
-    EMAIL(
-        label = {
-            Text(text = stringResource(id = R.string.email))
-        },
-        keyboardType = KeyboardType.Email,
-    ),
-    PASSWORD(
-        label = {
-            Text(text = stringResource(id = R.string.password))
-        },
-        keyboardType = KeyboardType.Password,
-        visualTransformation = PasswordVisualTransformation(),
-    ),
-    PASSWORD_CONFIRM(
-        label = {
-            Text(text = stringResource(id = R.string.password_confirm))
-        },
-        visualTransformation = PasswordVisualTransformation(),
+ * 닉네임 입력 TextField
+**/
+@Composable
+fun UserNameSigneUpTextField(
+    textContent: String,
+    onTextValueChange: (String) -> Unit,
+){
+    SigneUpTextField(
+        keyboardType = KeyboardType.Text,
+        label = { Text(text = stringResource(id = R.string.username)) },
+        textContent = textContent,
+        onTextValueChange = onTextValueChange,
     )
 }
+
+/**
+ * 이메일 입력용 TextField
+**/
+@Composable
+fun EmailSigneUpTextField(
+    textContent: String,
+    onTextValueChange: (String) -> Unit,
+){
+    SigneUpTextField(
+        keyboardType = KeyboardType.Email,
+        label = { Text(text = stringResource(id = R.string.email)) },
+        textContent = textContent,
+        onTextValueChange = onTextValueChange,
+    )
+}
+
+/**
+ * 패스워드 입력용 TextField
+**/
+@Composable
+fun PassWordSigneUpTextField(
+    textContent: String,
+    onTextValueChange: (String) -> Unit,
+){
+    SigneUpTextField(
+        keyboardType = KeyboardType.Password,
+        label = { Text(text = stringResource(id = R.string.password)) },
+        textContent = textContent,
+        onTextValueChange = onTextValueChange,
+        visualTransformation = PasswordVisualTransformation()
+    )
+}
+
+/**
+ * 패스워드 확인용 TextField
+**/
+@Composable
+fun PassWordConfirmSigneUpTextField(
+    textContent: String,
+    onTextValueChange: (String) -> Unit,
+) {
+    SigneUpTextField(
+        keyboardType = KeyboardType.Password,
+        label = { Text(text = stringResource(id = R.string.password_confirm)) },
+        textContent = textContent,
+        onTextValueChange = onTextValueChange,
+        visualTransformation = PasswordVisualTransformation()
+    )
+}
+
 
 /**
  * 회원가입 화면에서 사용되는
@@ -122,20 +188,28 @@ enum class SignUpUserInputTextFieldType(
  **/
 @Composable
 fun SigneUpTextField(
-    modifier: Modifier,
     keyboardType: KeyboardType,
-    textFiledColor: TextFieldColors,
     label: @Composable (() -> Unit)?,
+    modifier: Modifier = Modifier,
+    textContent: String,
+    onTextValueChange: (String) -> Unit,
     visualTransformation: VisualTransformation = VisualTransformation.None,
 ) {
-    val (inputValue, setInputValue) = remember {
-        mutableStateOf(TextFieldValue())
-    }
     TextField(
-        colors = textFiledColor,
-        modifier = modifier,
-        value = inputValue,
-        onValueChange = setInputValue,
+        colors = TextFieldDefaults.colors(
+            focusedLabelColor = Blue50,
+            focusedIndicatorColor = Blue50,
+            cursorColor = Blue50,
+            unfocusedContainerColor = BlueGrey20,
+            focusedContainerColor = BlueGrey20
+        ),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(
+                top = 17.dp, bottom = 17.dp, start = 30.dp, end = 30.dp
+            ),
+        value = textContent,
+        onValueChange = onTextValueChange,
         label = label,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
         singleLine = true,
@@ -160,7 +234,6 @@ fun SignUpButton(
     }
 }
 
-
 /**
  * 회원가입 제목용 composeable 함수 미리보기
  * (@preview 사용위해 parameter없는 composable 생성)
@@ -184,26 +257,22 @@ fun PreviewSignUpTitle() {
 @Preview
 @Composable
 fun PreviewSigneUpTextField() {
-    val signUpType = SignUpUserInputTextFieldType.entries.toTypedArray().random()
+    val (inputValue, setInputValue) = remember {
+        mutableStateOf("")
+    }
     SigneUpTextField(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                top = 17.dp,
-                bottom = 17.dp,
-                start = 30.dp,
-                end = 30.dp
+                top = 17.dp, bottom = 17.dp, start = 30.dp, end = 30.dp
             ),
-        label = signUpType.label,
-        keyboardType = signUpType.keyboardType,
-        visualTransformation = signUpType.visualTransformation,
-        textFiledColor = TextFieldDefaults.colors(
-            focusedLabelColor = signUpType.focusedLabelColor,
-            focusedIndicatorColor = signUpType.focusedIndicatorColor,
-            cursorColor = signUpType.cursorColor,
-            unfocusedContainerColor = signUpType.containerColor,
-            focusedContainerColor = signUpType.containerColor
-        )
+        label = {
+            Text(stringResource(id = R.string.username))
+        },
+        keyboardType = KeyboardType.Text,
+        visualTransformation = VisualTransformation.None,
+        textContent = inputValue,
+        onTextValueChange = setInputValue
     )
 }
 
