@@ -67,37 +67,37 @@ fun SignUpScreen(
                 verticalArrangement = Arrangement.spacedBy(32.dp)
             ) {
                 SignUpTextField(
-                    inputText = viewModel.userName,
+                    inputText = viewModel.userNameValue,
                     label = stringResource(id = R.string.user_name),
-                    onTextValueChange = { viewModel.userName = it },
-                    validResult = viewModel.validateUserName(),
+                    onTextValueChange = viewModel::setUserName,
+                    validResult = viewModel.isUserNameError,
                     visualTransformation = VisualTransformation.None,
                     errMsg = stringResource(id = R.string.err_msg_user_name)
                 )
 
                 SignUpTextField(
-                    inputText = viewModel.email,
+                    inputText = viewModel.emailValue,
                     label = stringResource(id = R.string.email),
-                    onTextValueChange = { viewModel.email = it },
-                    validResult = viewModel.validateEmail(),
+                    onTextValueChange = viewModel::setEmail,
+                    validResult = viewModel.isEmailError,
                     visualTransformation = VisualTransformation.None,
                     errMsg = stringResource(id = R.string.err_msg_email)
                 )
 
                 SignUpTextField(
-                    inputText = viewModel.password,
+                    inputText = viewModel.passwordValue,
                     label = stringResource(id = R.string.password),
-                    onTextValueChange = { viewModel.password = it },
-                    validResult = viewModel.validatePassword(),
+                    onTextValueChange = viewModel::setPassword,
+                    validResult = viewModel.isPasswordError,
                     visualTransformation = PasswordVisualTransformation(),
                     errMsg = stringResource(id = R.string.err_msg_password)
                 )
 
                 SignUpTextField(
-                    inputText = viewModel.passwordConfirm,
+                    inputText = viewModel.passwordConfirmValue,
                     label = stringResource(id = R.string.password_confirm),
-                    onTextValueChange = { viewModel.passwordConfirm = it },
-                    validResult = viewModel.validatePasswordConfirm(),
+                    onTextValueChange = viewModel::setPasswordConfirm,
+                    validResult = viewModel.isPasswordConfirmError,
                     visualTransformation = PasswordVisualTransformation(),
                     errMsg = stringResource(id = R.string.err_msg_password_confirm)
                 )
