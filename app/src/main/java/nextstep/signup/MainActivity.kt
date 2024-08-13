@@ -21,11 +21,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -68,7 +72,9 @@ private fun TextFieldComponent(
     input: MutableState<String>,
     inputEntered: MutableState<Boolean>
 ) {
-    Row(modifier = Modifier.padding(top = 0.dp, bottom = 32.dp)) {
+    Row(modifier = Modifier.padding(bottom = 32.dp)) {
+        val focusManager = LocalFocusManager.current
+
         TextField(
             value = input.value,
             onValueChange = {
@@ -81,13 +87,25 @@ private fun TextFieldComponent(
                 .alignByBaseline()
                 .weight(1.0F),
             singleLine = true,
+            visualTransformation = if (label == R.string.signup_password || label == R.string.signup_password_confirm) PasswordVisualTransformation() else VisualTransformation.None,
             keyboardOptions = KeyboardOptions(
                 autoCorrect = false,
-                capitalization = KeyboardCapitalization.Words
+                keyboardType = when (label) {
+                    R.string.signup_username -> KeyboardType.Text
+                    R.string.signup_email -> KeyboardType.Email
+                    R.string.signup_password,
+                    R.string.signup_password_confirm -> KeyboardType.Password
+
+                    else -> KeyboardType.Text
+                }
             ),
-            keyboardActions = KeyboardActions(onAny = {
-                inputEntered.value = true
-            })
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    inputEntered.value = true
+                    if (label == R.string.signup_password_confirm) focusManager.clearFocus()
+                    else focusManager.moveFocus(FocusDirection.Next)
+                }
+            )
         )
     }
 }
@@ -121,10 +139,28 @@ private fun SignupButtonComponent() {
 
 @Composable
 private fun ScreenLayoutSetting() {
-    val input = remember {
+    val name = remember {
         mutableStateOf("")
     }
-    val inputEntered = remember {
+    val nameEntered = remember {
+        mutableStateOf(false)
+    }
+    val email = remember {
+        mutableStateOf("")
+    }
+    val emailEntered = remember {
+        mutableStateOf(false)
+    }
+    val password = remember {
+        mutableStateOf("")
+    }
+    val passwordEntered = remember {
+        mutableStateOf(false)
+    }
+    val passwordConfirm = remember {
+        mutableStateOf("")
+    }
+    val passwordConfirmEntered = remember {
         mutableStateOf(false)
     }
     Box(
@@ -137,23 +173,23 @@ private fun ScreenLayoutSetting() {
             TitleTextComponent()
             TextFieldComponent(
                 label = R.string.signup_username,
-                input = input,
-                inputEntered = inputEntered
+                input = name,
+                inputEntered = nameEntered
             )
             TextFieldComponent(
                 label = R.string.signup_email,
-                input = input,
-                inputEntered = inputEntered
+                input = email,
+                inputEntered = emailEntered
             )
             TextFieldComponent(
                 label = R.string.signup_password,
-                input = input,
-                inputEntered = inputEntered
+                input = password,
+                inputEntered = passwordEntered
             )
             TextFieldComponent(
                 label = R.string.signup_password_confirm,
-                input = input,
-                inputEntered = inputEntered
+                input = passwordConfirm,
+                inputEntered = passwordConfirmEntered
             )
             SignupButtonComponent()
         }

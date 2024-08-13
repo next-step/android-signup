@@ -6,9 +6,9 @@
 
 - [x]  타이틀 텍스트 구현
 - [x]  Username 입력 구현
-- [ ]  Email 입력 구현
-- [ ]  Password 입력 구현
-- [ ]  Password Confirm 입력 구현
+- [x]  Email 입력 구현
+- [x]  Password 입력 구현
+- [x]  Password Confirm 입력 구현
 - [x]  Sign Up 버튼 구현
 - [x]  레이아웃 배치하기(padding)
-- [ ]  함수 분리 및 리팩토링
+- [x]  함수 분리 및 리팩토링
