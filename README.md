@@ -5,7 +5,7 @@
 ### ✅ 구현할 기능 목록
 
 - [x]  타이틀 텍스트 구현
-- [ ]  Username 입력 구현
+- [x]  Username 입력 구현
 - [ ]  Email 입력 구현
 - [ ]  Password 입력 구현
 - [ ]  Password Confirm 입력 구현

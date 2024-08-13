@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Signup</string>
     <string name="signup_title">Welcome to Compose \uD83D\uDE80</string>
+    <string name="signup_username">Username</string>
 </resources>
