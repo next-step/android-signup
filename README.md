@@ -22,8 +22,8 @@
     - [x] Password Confirm 비밀번호 일치 여부
       - [x] Password Confirm 비밀번호 일치 여부 테스트
 - [x] 유효성 통과일 경우 Button 활성화
-  - [ ] Button 활성화 UI 테스트
+  - [x] Button 활성화 UI 테스트
   - [x] 버튼 클릭 시 스낵 바 UI 구현
-    - [ ] 스낵 바 UI 테스트
+    - [x] 스낵 바 UI 테스트
 - [ ] 회원가입 TextField UI 테스트
 - [ ] 회원가입 Button UI 테스트
