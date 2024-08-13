@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SignupTheme {
-                TextFieldSetting(R.string.signup_username)
+                TextFieldSetting()
             }
         }
     }
@@ -101,7 +101,7 @@ private fun TextFieldComponent(
 }
 
 @Composable
-fun TextFieldSetting(placeholder: Int) {
+fun TextFieldSetting() {
     val input = remember {
         mutableStateOf("")
     }
@@ -117,22 +117,22 @@ fun TextFieldSetting(placeholder: Int) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             TitleTextComponent()
             TextFieldComponent(
-                placeholder = placeholder,
+                placeholder = R.string.signup_username,
                 input = input,
                 inputEntered = inputEntered
             )
             TextFieldComponent(
-                placeholder = placeholder,
+                placeholder = R.string.signup_email,
                 input = input,
                 inputEntered = inputEntered
             )
             TextFieldComponent(
-                placeholder = placeholder,
+                placeholder = R.string.signup_password,
                 input = input,
                 inputEntered = inputEntered
             )
             TextFieldComponent(
-                placeholder = placeholder,
+                placeholder = R.string.signup_password_confirm,
                 input = input,
                 inputEntered = inputEntered
             )
@@ -144,6 +144,6 @@ fun TextFieldSetting(placeholder: Int) {
 @Composable
 fun TextFieldSettingPreview() {
     SignupTheme {
-        TextFieldSetting(R.string.signup_username)
+        TextFieldSetting()
     }
 }

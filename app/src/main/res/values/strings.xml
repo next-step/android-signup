@@ -2,4 +2,7 @@
     <string name="app_name">Signup</string>
     <string name="signup_title">Welcome to Compose \uD83D\uDE80</string>
     <string name="signup_username">Username</string>
+    <string name="signup_email">Email</string>
+    <string name="signup_password">Password</string>
+    <string name="signup_password_confirm">Password Confirm</string>
 </resources>
