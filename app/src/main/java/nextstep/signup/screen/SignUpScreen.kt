@@ -59,7 +59,8 @@ fun SignUpScreen() {
         Modifier.background(Color.White)
     ) { contentPadding ->
         Column(
-            modifier = Modifier.padding(contentPadding),
+            modifier = Modifier.padding(contentPadding)
+                .verticalScroll(rememberScrollState()),
         ) {
             SignUpTitle(
                 modifier = Modifier
