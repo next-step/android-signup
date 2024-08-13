@@ -55,7 +55,13 @@ import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
-internal fun SignUpRoute(modifier: Modifier = Modifier) {
+internal fun SignUpRoute(
+    modifier: Modifier = Modifier,
+    usernameValidation: UsernameValidation = remember { UsernameValidation() },
+    emailValidation: EmailValidation = remember { EmailValidation() },
+    passwordValidation: PasswordValidation = remember { PasswordValidation() },
+    passwordConfirmValidation: PasswordConfirmValidation = remember { PasswordConfirmValidation() },
+) {
     var uiState by remember {
         mutableStateOf(SignUpUiState.DEFAULT)
     }
@@ -73,31 +79,6 @@ internal fun SignUpRoute(modifier: Modifier = Modifier) {
         uiState = uiState.copy(passwordConfirm = value)
     }
 
-    SignUpScreen(
-        uiState = uiState,
-        onUsernameChange = onUsernameChange,
-        onEmailChange = onEmailChange,
-        onPasswordChange = onPasswordChange,
-        onPasswordConfirmChange = onPasswordConfirmChange,
-        modifier =
-            modifier
-                .fillMaxSize(),
-    )
-}
-
-@Composable
-internal fun SignUpScreen(
-    uiState: SignUpUiState,
-    onUsernameChange: (String) -> Unit,
-    onEmailChange: (String) -> Unit,
-    onPasswordChange: (String) -> Unit,
-    onPasswordConfirmChange: (String) -> Unit,
-    usernameValidation: UsernameValidation = remember { UsernameValidation() },
-    emailValidation: EmailValidation = remember { EmailValidation() },
-    passwordValidation: PasswordValidation = remember { PasswordValidation() },
-    passwordConfirmValidation: PasswordConfirmValidation = remember { PasswordConfirmValidation() },
-    modifier: Modifier = Modifier,
-) {
     val usernameValidationResult by remember(uiState.username) {
         derivedStateOf {
             usernameValidation.validate(uiState.username)
@@ -130,6 +111,35 @@ internal fun SignUpScreen(
         }
     }
 
+    SignUpScreen(
+        uiState = uiState,
+        onUsernameChange = onUsernameChange,
+        onEmailChange = onEmailChange,
+        onPasswordChange = onPasswordChange,
+        onPasswordConfirmChange = onPasswordConfirmChange,
+        usernameValidationResult = usernameValidationResult,
+        emailValidationResult = emailValidationResult,
+        passwordValidationResult = passwordValidationResult,
+        passwordConfirmValidationResult = passwordConfirmValidationResult,
+        modifier =
+            modifier
+                .fillMaxSize(),
+    )
+}
+
+@Composable
+internal fun SignUpScreen(
+    uiState: SignUpUiState,
+    onUsernameChange: (String) -> Unit,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onPasswordConfirmChange: (String) -> Unit,
+    usernameValidationResult: UsernameValidationResult,
+    emailValidationResult: EmailValidationResult,
+    passwordValidationResult: PasswordValidationResult,
+    passwordConfirmValidationResult: PasswordConfirmValidationResult,
+    modifier: Modifier = Modifier,
+) {
     val context = LocalContext.current
     val snackBarHostState = remember { SnackbarHostState() }
     var showSnackbar by remember { mutableStateOf(false) }
@@ -337,76 +347,132 @@ private fun isSignUpEnabled(
 @Preview(showBackground = true)
 @Composable
 fun SignUpScreenPreview(
-    @PreviewParameter(SignInUiStateProvider::class) uiState: SignUpUiState,
+    @PreviewParameter(SignInUiStateProvider::class) param: SignUpScreenPreviewParameter,
 ) {
     SignupTheme {
         SignUpScreen(
-            uiState = uiState,
+            uiState = param.uiState,
             onUsernameChange = {},
             onEmailChange = {},
             onPasswordChange = {},
             onPasswordConfirmChange = {},
+            usernameValidationResult = param.usernameValidationResult,
+            emailValidationResult = param.emailValidationResult,
+            passwordValidationResult = param.passwordValidationResult,
+            passwordConfirmValidationResult = param.passwordConfirmValidationResult,
         )
     }
 }
 
-class SignInUiStateProvider : PreviewParameterProvider<SignUpUiState> {
-    override val values: Sequence<SignUpUiState>
+data class SignUpScreenPreviewParameter(
+    val uiState: SignUpUiState,
+    val usernameValidationResult: UsernameValidationResult,
+    val emailValidationResult: EmailValidationResult,
+    val passwordValidationResult: PasswordValidationResult,
+    val passwordConfirmValidationResult: PasswordConfirmValidationResult,
+)
+
+class SignInUiStateProvider : PreviewParameterProvider<SignUpScreenPreviewParameter> {
+    override val values: Sequence<SignUpScreenPreviewParameter>
         get() =
             sequenceOf(
-                SignUpUiState(
-                    username = "user",
-                    email = "email@yopmail.com",
-                    password = "1q2w3e4r",
-                    passwordConfirm = "1q2w3e4r",
+                SignUpScreenPreviewParameter(
+                    uiState = SignUpUiState.DEFAULT,
+                    usernameValidationResult = UsernameValidationResult.Empty,
+                    emailValidationResult = EmailValidationResult.Empty,
+                    passwordValidationResult = PasswordValidationResult.Empty,
+                    passwordConfirmValidationResult = PasswordConfirmValidationResult.Empty,
                 ),
-                SignUpUiState(
-                    username = "user",
-                    email = "",
-                    password = "",
-                    passwordConfirm = "",
+                SignUpScreenPreviewParameter(
+                    uiState =
+                        SignUpUiState(
+                            username = "user",
+                            email = "email@yopmail.com",
+                            password = "1q2w3e4r",
+                            passwordConfirm = "1q2w3e4r",
+                        ),
+                    usernameValidationResult = UsernameValidationResult.Success,
+                    emailValidationResult = EmailValidationResult.Success,
+                    passwordValidationResult = PasswordValidationResult.Success,
+                    passwordConfirmValidationResult = PasswordConfirmValidationResult.Success,
                 ),
-                SignUpUiState(
-                    username = "user",
-                    email = "email@yopmail.com",
-                    password = "",
-                    passwordConfirm = "",
+                SignUpScreenPreviewParameter(
+                    uiState =
+                        SignUpUiState(
+                            username = "user",
+                            email = "",
+                            password = "",
+                            passwordConfirm = "",
+                        ),
+                    usernameValidationResult = UsernameValidationResult.Success,
+                    emailValidationResult = EmailValidationResult.Empty,
+                    passwordValidationResult = PasswordValidationResult.Empty,
+                    passwordConfirmValidationResult = PasswordConfirmValidationResult.Empty,
                 ),
-                SignUpUiState(
-                    username = "user",
-                    email = "email@yopmail.com",
-                    password = "",
-                    passwordConfirm = "",
+                SignUpScreenPreviewParameter(
+                    uiState =
+                        SignUpUiState(
+                            username = "user",
+                            email = "email@yopmail.com",
+                            password = "",
+                            passwordConfirm = "",
+                        ),
+                    usernameValidationResult = UsernameValidationResult.Success,
+                    emailValidationResult = EmailValidationResult.Success,
+                    passwordValidationResult = PasswordValidationResult.Empty,
+                    passwordConfirmValidationResult = PasswordConfirmValidationResult.Empty,
                 ),
-                SignUpUiState(
-                    username = "user",
-                    email = "email@yopmail.com",
-                    password = "1q2w3e4r",
-                    passwordConfirm = "",
+                SignUpScreenPreviewParameter(
+                    uiState =
+                        SignUpUiState(
+                            username = "username",
+                            email = "email@yopmail.com",
+                            password = "1q2w3e4r",
+                            passwordConfirm = "1q2w3e4r",
+                        ),
+                    usernameValidationResult = UsernameValidationResult.UsernameLengthError,
+                    emailValidationResult = EmailValidationResult.Success,
+                    passwordValidationResult = PasswordValidationResult.Success,
+                    passwordConfirmValidationResult = PasswordConfirmValidationResult.Success,
                 ),
-                SignUpUiState(
-                    username = "username",
-                    email = "email@yopmail.com",
-                    password = "1q2w3e4r",
-                    passwordConfirm = "1q2w3e4r",
+                SignUpScreenPreviewParameter(
+                    uiState =
+                        SignUpUiState(
+                            username = "user",
+                            email = "email@yopmail",
+                            password = "1q2w3e4r",
+                            passwordConfirm = "1q2w3e4r",
+                        ),
+                    usernameValidationResult = UsernameValidationResult.Success,
+                    emailValidationResult = EmailValidationResult.EmailFormatError,
+                    passwordValidationResult = PasswordValidationResult.Success,
+                    passwordConfirmValidationResult = PasswordConfirmValidationResult.Success,
                 ),
-                SignUpUiState(
-                    username = "user",
-                    email = "email@yopmail",
-                    password = "1q2w3e4r",
-                    passwordConfirm = "1q2w3e4r",
+                SignUpScreenPreviewParameter(
+                    uiState =
+                        SignUpUiState(
+                            username = "user",
+                            email = "email@yopmail.com",
+                            password = "1q2",
+                            passwordConfirm = "",
+                        ),
+                    usernameValidationResult = UsernameValidationResult.Success,
+                    emailValidationResult = EmailValidationResult.Success,
+                    passwordValidationResult = PasswordValidationResult.PasswordLengthError,
+                    passwordConfirmValidationResult = PasswordConfirmValidationResult.Empty,
                 ),
-                SignUpUiState(
-                    username = "user",
-                    email = "email@yopmail.com",
-                    password = "1q2",
-                    passwordConfirm = "",
-                ),
-                SignUpUiState(
-                    username = "user",
-                    email = "email@yopmail.com",
-                    password = "1q2w3e4r",
-                    passwordConfirm = "1q2w3e4",
+                SignUpScreenPreviewParameter(
+                    uiState =
+                        SignUpUiState(
+                            username = "user",
+                            email = "email@yopmail.com",
+                            password = "1q2w3e4r",
+                            passwordConfirm = "1q2w3e4",
+                        ),
+                    usernameValidationResult = UsernameValidationResult.Success,
+                    emailValidationResult = EmailValidationResult.Success,
+                    passwordValidationResult = PasswordValidationResult.Success,
+                    passwordConfirmValidationResult = PasswordConfirmValidationResult.PasswordNotMatchError,
                 ),
             )
 }
