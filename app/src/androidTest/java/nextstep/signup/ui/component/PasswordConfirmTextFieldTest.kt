@@ -2,10 +2,9 @@ package nextstep.signup.ui.component
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithText
-import androidx.test.platform.app.InstrumentationRegistry
-import nextstep.signup.R
 import nextstep.signup.core.validation.PasswordMatchValidationResult
+import nextstep.signup.utils.assertExists
+import nextstep.signup.utils.assertDoesNotExist
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -34,9 +33,7 @@ class PasswordConfirmTextFieldTest {
         passwordConfirmFieldValue.value = ""
         passwordMatchValidationResult.value = PasswordMatchValidationResult.VALID
 
-        composeTestRule
-            .onNodeWithText("비밀번호가 일치하지 않습니다.")
-            .assertDoesNotExist()
+        composeTestRule.assertDoesNotExist("비밀번호가 일치하지 않습니다.")
     }
 
     @Test
@@ -44,9 +41,7 @@ class PasswordConfirmTextFieldTest {
         passwordConfirmFieldValue.value = "CorrectPassword123"
         passwordMatchValidationResult.value = PasswordMatchValidationResult.VALID
 
-        composeTestRule
-            .onNodeWithText("비밀번호가 일치하지 않습니다.")
-            .assertDoesNotExist()
+        composeTestRule.assertDoesNotExist("비밀번호가 일치하지 않습니다.")
     }
 
     @Test
@@ -54,9 +49,7 @@ class PasswordConfirmTextFieldTest {
         passwordConfirmFieldValue.value = "CorrectPassword123"
         passwordMatchValidationResult.value = PasswordMatchValidationResult.MISMATCH
 
-        composeTestRule
-            .onNodeWithText("비밀번호가 일치하지 않습니다.")
-            .assertExists()
+        composeTestRule.assertExists("비밀번호가 일치하지 않습니다.")
     }
 
     @Test
@@ -64,14 +57,10 @@ class PasswordConfirmTextFieldTest {
         passwordConfirmFieldValue.value = "CorrectPassword123"
         passwordMatchValidationResult.value = PasswordMatchValidationResult.VALID
 
-        composeTestRule
-            .onNodeWithText("비밀번호가 일치하지 않습니다.")
-            .assertDoesNotExist()
+        composeTestRule.assertDoesNotExist("비밀번호가 일치하지 않습니다.")
 
         passwordMatchValidationResult.value = PasswordMatchValidationResult.MISMATCH
 
-        composeTestRule
-            .onNodeWithText("비밀번호가 일치하지 않습니다.")
-            .assertExists()
+        composeTestRule.assertExists("비밀번호가 일치하지 않습니다.")
     }
 }

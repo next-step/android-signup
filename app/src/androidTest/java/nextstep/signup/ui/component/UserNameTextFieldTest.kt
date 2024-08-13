@@ -2,8 +2,9 @@ package nextstep.signup.ui.component
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithText
 import nextstep.signup.core.validation.NameValidationResult
+import nextstep.signup.utils.assertExists
+import nextstep.signup.utils.assertDoesNotExist
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -31,13 +32,8 @@ class UserNameTextFieldTest {
         textFieldValue.value = ""
         userNameValidationResult.value = NameValidationResult.VALID
 
-        composeTestRule
-            .onNodeWithText("이름은 2~5자여야 합니다.")
-            .assertDoesNotExist()
-
-        composeTestRule
-            .onNodeWithText("이름에는 숫자나 기호가 포함될 수 없습니다.")
-            .assertDoesNotExist()
+        composeTestRule.assertDoesNotExist("이름은 2~5자여야 합니다.")
+        composeTestRule.assertDoesNotExist("이름에는 숫자나 기호가 포함될 수 없습니다.")
     }
 
     @Test
@@ -45,13 +41,8 @@ class UserNameTextFieldTest {
         textFieldValue.value = "lee"
         userNameValidationResult.value = NameValidationResult.VALID
 
-        composeTestRule
-            .onNodeWithText("이름은 2~5자여야 합니다.")
-            .assertDoesNotExist()
-
-        composeTestRule
-            .onNodeWithText("이름에는 숫자나 기호가 포함될 수 없습니다.")
-            .assertDoesNotExist()
+        composeTestRule.assertDoesNotExist("이름은 2~5자여야 합니다.")
+        composeTestRule.assertDoesNotExist("이름에는 숫자나 기호가 포함될 수 없습니다.")
     }
 
     @Test
@@ -59,9 +50,7 @@ class UserNameTextFieldTest {
         textFieldValue.value = "lee-ji-hoon"
         userNameValidationResult.value = NameValidationResult.LENGTH_ERROR
 
-        composeTestRule
-            .onNodeWithText("이름은 2~5자여야 합니다.")
-            .assertExists()
+        composeTestRule.assertExists("이름은 2~5자여야 합니다.")
     }
 
     @Test
@@ -69,8 +58,6 @@ class UserNameTextFieldTest {
         textFieldValue.value = "lee1"
         userNameValidationResult.value = NameValidationResult.CHARACTER_ERROR
 
-        composeTestRule
-            .onNodeWithText("이름에는 숫자나 기호가 포함될 수 없습니다.")
-            .assertExists()
+        composeTestRule.assertExists("이름에는 숫자나 기호가 포함될 수 없습니다.")
     }
 }

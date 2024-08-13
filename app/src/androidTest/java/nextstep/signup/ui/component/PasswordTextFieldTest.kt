@@ -2,10 +2,9 @@ package nextstep.signup.ui.component
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithText
-import androidx.test.platform.app.InstrumentationRegistry
-import nextstep.signup.R
 import nextstep.signup.core.validation.PasswordValidationResult
+import nextstep.signup.utils.assertExists
+import nextstep.signup.utils.assertDoesNotExist
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -34,12 +33,8 @@ class PasswordTextFieldTest {
         textFieldValue.value = ""
         passwordValidationResult.value = PasswordValidationResult.VALID
 
-        composeTestRule
-            .onNodeWithText("비밀번호는 8~16자여야 합니다.")
-            .assertDoesNotExist()
-        composeTestRule
-            .onNodeWithText("비밀번호는 영문과 숫자를 포함해야 합니다.")
-            .assertDoesNotExist()
+        composeTestRule.assertDoesNotExist("비밀번호는 8~16자여야 합니다.")
+        composeTestRule.assertDoesNotExist("비밀번호는 영문과 숫자를 포함해야 합니다.")
     }
 
     @Test
@@ -47,12 +42,8 @@ class PasswordTextFieldTest {
         textFieldValue.value = "Password123"
         passwordValidationResult.value = PasswordValidationResult.VALID
 
-        composeTestRule
-            .onNodeWithText("비밀번호는 8~16자여야 합니다.")
-            .assertDoesNotExist()
-        composeTestRule
-            .onNodeWithText("비밀번호는 영문과 숫자를 포함해야 합니다.")
-            .assertDoesNotExist()
+        composeTestRule.assertDoesNotExist("비밀번호는 8~16자여야 합니다.")
+        composeTestRule.assertDoesNotExist("비밀번호는 영문과 숫자를 포함해야 합니다.")
     }
 
 
@@ -61,9 +52,7 @@ class PasswordTextFieldTest {
         textFieldValue.value = "short"
         passwordValidationResult.value = PasswordValidationResult.INVALID_LENGTH
 
-        composeTestRule
-            .onNodeWithText("비밀번호는 8~16자여야 합니다.")
-            .assertExists()
+        composeTestRule.assertExists("비밀번호는 8~16자여야 합니다.")
     }
 
     @Test
@@ -71,8 +60,6 @@ class PasswordTextFieldTest {
         textFieldValue.value = "Password"
         passwordValidationResult.value = PasswordValidationResult.INVALID_COMPLEXITY
 
-        composeTestRule
-            .onNodeWithText("비밀번호는 영문과 숫자를 포함해야 합니다.")
-            .assertExists()
+        composeTestRule.assertExists("비밀번호는 영문과 숫자를 포함해야 합니다.")
     }
 }

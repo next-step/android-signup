@@ -2,10 +2,9 @@ package nextstep.signup.ui.component
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithText
-import androidx.test.platform.app.InstrumentationRegistry
-import nextstep.signup.R
 import nextstep.signup.core.validation.EmailValidationResult
+import nextstep.signup.utils.assertExists
+import nextstep.signup.utils.assertDoesNotExist
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -34,9 +33,7 @@ class EmailTextTextFieldTest {
         textFieldValue.value = ""
         emailValidationResult.value = EmailValidationResult.VALID
 
-        composeTestRule
-            .onNodeWithText("이메일 형식이 올바르지 않습니다.")
-            .assertDoesNotExist()
+        composeTestRule.assertDoesNotExist("이메일 형식이 올바르지 않습니다.")
     }
 
     @Test
@@ -44,9 +41,7 @@ class EmailTextTextFieldTest {
         textFieldValue.value = "dlwlgns1240@gmail.com"
         emailValidationResult.value = EmailValidationResult.VALID
 
-        composeTestRule
-            .onNodeWithText("이메일 형식이 올바르지 않습니다.")
-            .assertDoesNotExist()
+        composeTestRule.assertExists("이메일 형식이 올바르지 않습니다.")
     }
 
     @Test
@@ -54,8 +49,6 @@ class EmailTextTextFieldTest {
         textFieldValue.value = "invalid_email"
         emailValidationResult.value = EmailValidationResult.INVALID_FORMAT
 
-        composeTestRule
-            .onNodeWithText("이메일 형식이 올바르지 않습니다.")
-            .assertExists()
+        composeTestRule.assertExists("이메일 형식이 올바르지 않습니다.")
     }
 }
