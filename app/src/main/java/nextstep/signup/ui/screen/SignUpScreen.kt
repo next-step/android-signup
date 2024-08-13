@@ -3,6 +3,7 @@ package nextstep.signup.ui.screen
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -107,6 +108,12 @@ fun SignUpScreen(
                     .padding(32.dp)
                     .fillMaxWidth(),
                 enabled = viewModel.validateAll(),
+                contentPadding = PaddingValues(
+                    top = 16.dp,
+                    bottom = 16.dp,
+                    start = 24.dp,
+                    end = 24.dp
+                ),
                 onClick = {
                     coroutineScope.launch {
                         snackbarHostState.showSnackbar(
@@ -118,12 +125,6 @@ fun SignUpScreen(
             ) {
                 Text(
                     text = stringResource(id = R.string.sign_up),
-                    modifier = Modifier.padding(
-                        top = 16.dp,
-                        bottom = 16.dp,
-                        start = 24.dp,
-                        end = 24.dp
-                    )
                 )
             }
         }
