@@ -17,6 +17,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -54,15 +55,15 @@ import nextstep.signup.util.SignUpValidSate
 fun SignUpScreen() {
 
     //state 최상위로 끌어올림 (state hoisting)
-    val (userNameInputValue, setUserNameInputValue) = remember { mutableStateOf("") }//유저 이름
-    val (emailInputValue, setEmailInputValue) = remember { mutableStateOf("") }//이메일 적용
-    val (passWordInputValue, setPassWordInputValue) = remember { mutableStateOf("") }//패스워드 적용
-    val (passWordConfirmValue, setPassWordConfirmValue) = remember { mutableStateOf("") }//패스워드 확인 적용
+    val (userNameInputValue, setUserNameInputValue) = rememberSaveable { mutableStateOf("") }//유저 이름
+    val (emailInputValue, setEmailInputValue) = rememberSaveable { mutableStateOf("") }//이메일 적용
+    val (passWordInputValue, setPassWordInputValue) = rememberSaveable { mutableStateOf("") }//패스워드 적용
+    val (passWordConfirmValue, setPassWordConfirmValue) = rememberSaveable { mutableStateOf("") }//패스워드 확인 적용
 
-    val (userNameInputValidState, setUserNameInputValidState) = remember { mutableStateOf(SignUpValidSate.NOTHING) }//유저 이름 유효성 상태
-    val (emailInputValidState, setEmailInputValidState) = remember { mutableStateOf(SignUpValidSate.NOTHING) }//유저 이메일 유효성 상태
-    val (passWordInputValidState, setPassWordInputValidState) = remember { mutableStateOf(SignUpValidSate.NOTHING) } //유저 패스워드 유효성 상태
-    val (passWordConfirmInputValidState, setPasswordConfirmInputValidState) = remember { mutableStateOf(SignUpValidSate.NOTHING) }//유저 패스워드 확인 유효성 상태
+    val (userNameInputValidState, setUserNameInputValidState) = rememberSaveable { mutableStateOf(SignUpValidSate.NOTHING) }//유저 이름 유효성 상태
+    val (emailInputValidState, setEmailInputValidState) = rememberSaveable { mutableStateOf(SignUpValidSate.NOTHING) }//유저 이메일 유효성 상태
+    val (passWordInputValidState, setPassWordInputValidState) = rememberSaveable { mutableStateOf(SignUpValidSate.NOTHING) } //유저 패스워드 유효성 상태
+    val (passWordConfirmInputValidState, setPasswordConfirmInputValidState) = rememberSaveable { mutableStateOf(SignUpValidSate.NOTHING) }//유저 패스워드 확인 유효성 상태
 
     Scaffold(
         Modifier.background(Color.White)
