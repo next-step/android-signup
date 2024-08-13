@@ -4,16 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarDuration
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import kotlinx.coroutines.launch
-import nextstep.signup.ui.component.SignupSnackBar
 import nextstep.signup.ui.signup.SignupScreen
 import nextstep.signup.ui.theme.SignupTheme
 
@@ -22,25 +15,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SignupTheme {
-                val scope = rememberCoroutineScope()
-                val snackBarHostState = remember { SnackbarHostState() }
-
-                Scaffold(
-                    snackbarHost = { SignupSnackBar(snackBarHostState) },
-                    containerColor = MaterialTheme.colorScheme.background,
+                Surface(
                     modifier = Modifier.fillMaxSize(),
-                ) { contentPadding ->
-                    SignupScreen(
-                        onSignupClick = {
-                            scope.launch {
-                                snackBarHostState.showSnackbar(
-                                    message = getString(R.string.signup_success),
-                                    duration = SnackbarDuration.Short,
-                                )
-                            }
-                        },
-                        modifier = Modifier.padding(contentPadding),
-                    )
+                    color = MaterialTheme.colorScheme.background,
+                ) {
+                    SignupScreen()
                 }
             }
         }

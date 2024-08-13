@@ -7,10 +7,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,8 +25,10 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
 import nextstep.signup.R
 import nextstep.signup.ui.component.SignupButton
+import nextstep.signup.ui.component.SignupSnackBar
 import nextstep.signup.ui.component.SignupTextField
 import nextstep.signup.ui.signup.SignupValidationResult.Failure
 import nextstep.signup.ui.signup.SignupValidationResult.Success
@@ -35,59 +41,72 @@ import nextstep.signup.ui.theme.RobotoBold
 import nextstep.signup.ui.theme.RobotoMedium
 
 @Composable
-fun SignupScreen(
-    onSignupClick: () -> Unit,
-    modifier: Modifier,
-) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
-            .fillMaxSize()
-            .background(color = Color.White)
-            .padding(horizontal = 32.dp),
-    ) {
-        val (userName, setUserName) = remember { mutableStateOf("") }
-        val (email, setEmail) = remember { mutableStateOf("") }
-        val (password, setPassword) = remember { mutableStateOf("") }
-        val (passwordConfirm, setPasswordConfirm) = remember { mutableStateOf("") }
-        val usernameValidation = userName.isValid<Username>()
-        val emailValidation = email.isValid<Email>()
-        val passwordValidation = password.isValid<Password>()
-        val passwordConfirmValidation = passwordConfirm.isValid<PasswordConfirm>(password)
-        val isValidOfSignup = usernameValidation == Success && emailValidation == Success
-                && passwordValidation == Success && passwordConfirmValidation == Success
+fun SignupScreen() {
+    val scope = rememberCoroutineScope()
+    val snackBarHostState = remember { SnackbarHostState() }
 
-        Spacer(modifier = Modifier.height(60.dp))
-        HeaderText()
-        Spacer(modifier = Modifier.height(42.dp))
-        UsernameTextField(
-            username = userName,
-            onUsernameChanged = setUserName,
-            usernameValidation = usernameValidation,
-        )
-        Spacer(modifier = Modifier.height(36.dp))
-        EmailTextField(
-            email = email,
-            onEmailChanged = setEmail,
-            emailValidation = emailValidation,
-        )
-        Spacer(modifier = Modifier.height(36.dp))
-        PasswordTextField(
-            password = password,
-            onPasswordChanged = setPassword,
-            passwordValidation = passwordValidation,
-        )
-        Spacer(modifier = Modifier.height(36.dp))
-        PasswordConfirmTextField(
-            passwordConfirm = passwordConfirm,
-            onPasswordConfirmChanged = setPasswordConfirm,
-            passwordConfirmValidation = passwordConfirmValidation,
-        )
-        Spacer(modifier = Modifier.height(42.dp))
-        CreateAccountButton(
-            isSuccessfulCondition = isValidOfSignup,
-            onCreateAccountButtonClick = onSignupClick,
-        )
+    Scaffold(
+        snackbarHost = { SignupSnackBar(snackBarHostState) },
+    ) { contentPadding ->
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = Color.White)
+                .padding(contentPadding)
+                .padding(horizontal = 20.dp),
+        ) {
+            val (userName, setUserName) = remember { mutableStateOf("") }
+            val (email, setEmail) = remember { mutableStateOf("") }
+            val (password, setPassword) = remember { mutableStateOf("") }
+            val (passwordConfirm, setPasswordConfirm) = remember { mutableStateOf("") }
+            val usernameValidation = userName.isValid<Username>()
+            val emailValidation = email.isValid<Email>()
+            val passwordValidation = password.isValid<Password>()
+            val passwordConfirmValidation = passwordConfirm.isValid<PasswordConfirm>(password)
+            val isValidOfSignup = usernameValidation == Success && emailValidation == Success
+                    && passwordValidation == Success && passwordConfirmValidation == Success
+            val snackBarMessage = stringResource(id = R.string.signup_success)
+
+            Spacer(modifier = Modifier.height(60.dp))
+            HeaderText()
+            Spacer(modifier = Modifier.height(42.dp))
+            UsernameTextField(
+                username = userName,
+                onUsernameChanged = setUserName,
+                usernameValidation = usernameValidation,
+            )
+            Spacer(modifier = Modifier.height(36.dp))
+            EmailTextField(
+                email = email,
+                onEmailChanged = setEmail,
+                emailValidation = emailValidation,
+            )
+            Spacer(modifier = Modifier.height(36.dp))
+            PasswordTextField(
+                password = password,
+                onPasswordChanged = setPassword,
+                passwordValidation = passwordValidation,
+            )
+            Spacer(modifier = Modifier.height(36.dp))
+            PasswordConfirmTextField(
+                passwordConfirm = passwordConfirm,
+                onPasswordConfirmChanged = setPasswordConfirm,
+                passwordConfirmValidation = passwordConfirmValidation,
+            )
+            Spacer(modifier = Modifier.height(42.dp))
+            CreateAccountButton(
+                isSuccessfulCondition = isValidOfSignup,
+                onCreateAccountButtonClick = {
+                    scope.launch {
+                        snackBarHostState.showSnackbar(
+                            message = snackBarMessage,
+                            duration = SnackbarDuration.Short,
+                        )
+                    }
+                },
+            )
+        }
     }
 }
 
@@ -231,5 +250,5 @@ private fun CreateAccountButton(
 @Preview
 @Composable
 private fun SignupScreenPreview() {
-    SignupScreen(modifier = Modifier, onSignupClick = {})
+    SignupScreen()
 }
