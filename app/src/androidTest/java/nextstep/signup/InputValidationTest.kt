@@ -1,13 +1,17 @@
 package nextstep.signup
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.runtime.mutableStateOf
+import android.content.Context
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsEnabled
+import androidx.compose.ui.test.assertIsNotDisplayed
+import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import nextstep.signup.ui.component.EmailTextField
-import nextstep.signup.ui.component.PasswordConfirmTextField
-import nextstep.signup.ui.component.PasswordTextField
-import nextstep.signup.ui.component.UserNameTextField
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.test.core.app.ApplicationProvider
+import nextstep.signup.ui.screen.SignUpScreen
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -15,133 +19,103 @@ import org.junit.Test
 class InputValidationTest {
     @get:Rule
     val composeTestRule = createComposeRule()
-    private val username = mutableStateOf("")
-    private val email = mutableStateOf("")
-    private val password = mutableStateOf("")
-    private val passwordConfirm = mutableStateOf("")
+    var context: Context = ApplicationProvider.getApplicationContext()
+
+    private val viewModel = SignUpViewModel()
 
     @Before
     fun setup() {
         composeTestRule.setContent {
-            Column {
-                UserNameTextField(
-                    text = username.value,
-                    onTextValueChange = { username.value = it }
-                )
-
-                EmailTextField(
-                    text = email.value,
-                    onTextValueChange = { email.value = it }
-                )
-
-                PasswordTextField(
-                    text = password.value,
-                    onTextValueChange = { password.value = it }
-                )
-
-                PasswordConfirmTextField(
-                    text = passwordConfirm.value,
-                    onTextValueChange = { passwordConfirm.value = it },
-                    password = password.value
-                )
-            }
+            SignUpScreen(viewModel = viewModel)
         }
     }
 
     @Test
-    fun 사용자_이름은_2에서_5자여야_한다() {
-        // when
-        username.value = "김컴포즈"
+    fun 입력항목의_유효성_검사가_통과된다면_에러메시지가_노출되지_않는다() {
+        // when : 사용자 이름이 2에서 5자를 넘어 유효성 검사를 통과한 경우
+        viewModel.setUserName("김컴포즈")
 
-        // then
+        // then : 사용자 이름 에러 메시지가 노출되지 않는다
         composeTestRule
-            .onNodeWithText(userNameErrorMsg)
-            .assertDoesNotExist()
+            .onNodeWithText(context.getString(R.string.err_msg_user_name))
+            .assertIsNotDisplayed()
     }
 
     @Test
-    fun 사용자_이름이_2에서_5자가_아니면_에러메시지가_노출된다() {
-        // when
-        username.value = "김컴포즈입니다"
+    fun 입력항목의_유효성_검사가_통과되지_않으면_에러메시지가_노출된다() {
+        // when : 사용자 이름이 2에서 5자를 넘어 유효성 검사를 통과하지 못한 경우
+        viewModel.setUserName("김컴포즈입니다")
 
-        // then
+        // then : 사용자 이름 에러 메시지가 노출된다
         composeTestRule
-            .onNodeWithText(userNameErrorMsg)
-            .assertExists()
+            .onNodeWithText(context.getString(R.string.err_msg_user_name))
+            .assertIsDisplayed()
     }
 
     @Test
-    fun 이메일_형식이_올바르지_않으면_에러메시지가_노출된다() {
+    fun 모든_입력항목의_유효성_검사가_통과될_때_회원가입_버튼이_활성화된다() {
         // when
-        email.value = "oyj7677@gmail"
+        viewModel.setUserName("김컴포즈")
+        viewModel.setEmail("oyj7677@gmail.com")
+        viewModel.setPassword("12345678dd")
+        viewModel.setPasswordConfirm("12345678dd")
 
-        // then
         composeTestRule
-            .onNodeWithText(emailErrorMsg)
-            .assertExists()
+            .onNodeWithText(context.getString(R.string.sign_up))
+            .assertIsEnabled()
     }
 
     @Test
-    fun 이메일_형식이_올바르다면_에러메시지가_노출되지_않는다() {
-        // when
-        email.value = "oyj7677@gmail.com"
+    fun 입력항목중_하나라도_통과하지_못한다면_회원가입_버튼은_비활성화된다() {
+        // when : 이메일 형식이 올바르지 않은 경우
+        viewModel.setUserName("김컴포즈")
+        viewModel.setEmail("oyj7677@gmail")
+        viewModel.setPassword("12345678dd")
+        viewModel.setPasswordConfirm("12345678dd")
 
-        // then
         composeTestRule
-            .onNodeWithText(emailErrorMsg)
-            .assertDoesNotExist()
+            .onNodeWithText(context.getString(R.string.sign_up))
+            .assertIsNotEnabled()
     }
 
     @Test
-    fun 비밀번호는_8에서_16자이고_영문_숫자_조합이어야_한다() {
-        // when
-        password.value = "12345678dd"
+    fun 활성화된_회원가입_버튼을_누르면_스낵바가_노출된다() {
+        viewModel.setUserName("김컴포즈")
+        viewModel.setEmail("oyj7677@gmail.com")
+        viewModel.setPassword("12345678dd")
+        viewModel.setPasswordConfirm("12345678dd")
 
-        // then
         composeTestRule
-            .onNodeWithText(passwordErrorMsg)
-            .assertDoesNotExist()
+            .onNodeWithText(context.getString(R.string.sign_up))
+            .performClick()
+
+        composeTestRule
+            .onNodeWithText(context.getString(R.string.text_sign_up_success))
+            .assertIsDisplayed()
     }
 
     @Test
-    fun 비밀번호가_8에서_16자가_아니면_에러메시지가_노출된다() {
-        // when
-        password.value = "12345678901234567"
+    fun 비활성화된_회원가입_버튼을_누르면_스낵바가_노출되지_않는다() {
+        viewModel.setUserName("김컴포즈")
+        viewModel.setEmail("oyj7677@gmail.com")
+        viewModel.setPassword("12345678dd")
+        viewModel.setPasswordConfirm("123456")
 
-        // then
         composeTestRule
-            .onNodeWithText(passwordErrorMsg)
-            .assertExists()
-    }
+            .onNodeWithText(context.getString(R.string.sign_up))
+            .performClick()
 
-    @Test
-    fun 비밀번호는_영문과_숫자를_포함하지_않는다면_에러메시지가_노출된다() {
-        // when
-        password.value = "12345678"
-
-        // then
         composeTestRule
-            .onNodeWithText(passwordErrorMsg)
-            .assertExists()
+            .onNodeWithText(context.getString(R.string.text_sign_up_success))
+            .assertIsNotDisplayed()
     }
+}
 
-    @Test
-    fun 비밀번호가_영문과_숫자를_포함하지_않으면_에러메시지가_노출된다() {
-        // when
-        password.value = "12345678@"
-
-        // then
-        composeTestRule
-            .onNodeWithText(passwordErrorMsg)
-            .assertExists()
-    }
-
-
-    companion object {
-        private const val userNameErrorMsg = "이름은 2~5자여야 합니다.\n이름에는 숫자나 기호가 포함될 수 없습니다."
-        private const val emailErrorMsg = "이메일 형식이 올바르지 않습니다."
-        private const val passwordErrorMsg =
-            "비밀번호는 8~16자, 영문, 숫자 조합이어야 합니다.\n비밀번호는 영문과 숫자를 포함해야 합니다."
-        private const val passwordConfirmErrorMsg = "비밀번호가 일치하지 않습니다."
-    }
+@Preview(
+    showBackground = true,
+    backgroundColor = 0xFFFFFFFF
+)
+@Composable
+private fun test() {
+    SignUpScreen(viewModel = SignUpViewModel())
 }
