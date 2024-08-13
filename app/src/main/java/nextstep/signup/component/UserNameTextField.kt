@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import nextstep.signup.R
 import nextstep.signup.screen.SignUpTextFieldType
 import nextstep.signup.ui.theme.SignupTheme
+import nextstep.signup.util.validation.ValidationErrorType
 import nextstep.signup.util.validation.ValidationResult
 import nextstep.signup.util.validation.Validator
 
@@ -19,13 +20,9 @@ import nextstep.signup.util.validation.Validator
 fun UserNameTextField(
     text: String,
     onValueChange: (String) -> Unit,
+    validationResult: ValidationResult,
     modifier: Modifier = Modifier,
 ) {
-
-    val validationResult by remember(text) {
-        derivedStateOf { Validator.userNameValidate(text) }
-    }
-
     SignUpTextField(
         modifier = modifier,
         text = text,
@@ -33,45 +30,52 @@ fun UserNameTextField(
         labelText = stringResource(id = R.string.sign_up_user_name_label),
         isError = validationResult is ValidationResult.Error,
         supportingText = {
-            signUpSupportingTextStringResource(
-                validationResult = validationResult,
-                signUpTextFieldType = SignUpTextFieldType.UserName
-            )?.let { supportingText ->
-                Text(text = supportingText)
+            validationResult.getErrorType()?.let { type ->
+                when (type) {
+                    ValidationErrorType.LengthError ->
+                        Text(text = stringResource(id = R.string.sign_up_user_name_length_error))
+                    ValidationErrorType.RegexError ->
+                        Text(text = stringResource(id = R.string.sign_up_user_name_regex_error))
+                    else -> {
+                    }
+                }
             }
         }
     )
 }
 
-@Preview(name = "정상 케이스",showBackground = true)
+@Preview(name = "정상 케이스", showBackground = true)
 @Composable
 private fun Preview1() {
     SignupTheme {
         UserNameTextField(
             text = "Test",
             onValueChange = {},
+            validationResult = ValidationResult.Pending
         )
     }
 }
 
-@Preview(name = "글자수 에러 케이스",showBackground = true)
+@Preview(name = "글자수 에러 케이스", showBackground = true)
 @Composable
 private fun Preview2() {
     SignupTheme {
         UserNameTextField(
             text = "김컴포즈입니다",
             onValueChange = {},
+            validationResult = ValidationResult.Error(ValidationErrorType.LengthError)
         )
     }
 }
 
-@Preview(name = "조건 에러 케이스",showBackground = true)
+@Preview(name = "조건 에러 케이스", showBackground = true)
 @Composable
 private fun Preview3() {
     SignupTheme {
         UserNameTextField(
             text = "23",
             onValueChange = {},
+            validationResult = ValidationResult.Error(ValidationErrorType.RegexError)
         )
     }
 }

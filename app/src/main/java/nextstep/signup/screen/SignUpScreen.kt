@@ -12,6 +12,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,17 +21,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
 import nextstep.signup.component.EmailTextField
 import nextstep.signup.component.PasswordConfirmTextField
 import nextstep.signup.component.PasswordTextField
-import nextstep.signup.component.SignUpTextField
 import nextstep.signup.component.UserNameTextField
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.SignupTheme
+import nextstep.signup.util.validation.Validator
 
 enum class SignUpTextFieldType {
     UserName, Email, Password, PasswordConfirm
@@ -44,6 +44,11 @@ fun SignUpScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordConfirm by remember { mutableStateOf("") }
+
+    val userNameValidationResult by remember(userName) {
+        derivedStateOf { Validator.userNameValidate(userName) }
+    }
+
 
     Scaffold { innerPadding ->
         Column(
@@ -62,6 +67,7 @@ fun SignUpScreen(
             UserNameTextField(
                 modifier = Modifier.fillMaxWidth(),
                 text = userName,
+                validationResult =userNameValidationResult,
                 onValueChange = { value ->
                     userName = value
                 },

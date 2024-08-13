@@ -57,7 +57,6 @@ fun SignUpTextField(
     )
 }
 
-
 @Composable
 fun signUpSupportingTextStringResource(
     signUpTextFieldType: SignUpTextFieldType,
