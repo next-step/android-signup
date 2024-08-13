@@ -9,6 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -34,6 +36,7 @@ fun SignupButton(
     buttonHorizontalPadding: Dp = 0.dp,
     enabled: Boolean = true,
     modifier: Modifier,
+    componentDescription: String = stringResource(R.string.signup_default_description),
 ) {
     Button(
         enabled = enabled,
@@ -48,7 +51,7 @@ fun SignupButton(
             vertical = buttonVerticalPadding,
             horizontal = buttonHorizontalPadding,
         ),
-        modifier = modifier,
+        modifier = modifier.semantics { contentDescription = componentDescription },
     ) {
         Text(
             text = buttonText,

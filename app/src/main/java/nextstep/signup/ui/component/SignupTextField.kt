@@ -10,6 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.VisualTransformation
@@ -17,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import nextstep.signup.R
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.BlueGray20
 import nextstep.signup.ui.theme.Gray
@@ -46,6 +50,7 @@ fun SignupTextField(
         topStart = 4.dp,
         topEnd = 4.dp,
     ),
+    componentDescription: String = stringResource(R.string.signup_default_description),
 ) {
     TextField(
         value = text,
@@ -77,7 +82,8 @@ fun SignupTextField(
             .background(
                 color = textFieldBackgroundColor,
                 shape = textFieldRoundedCornerShape,
-            ),
+            )
+            .semantics { contentDescription = componentDescription },
     )
 }
 

@@ -9,4 +9,10 @@
     <string name="signup_password_confirm">Password Confirm</string>
     <string name="signup_button">Sign Up</string>
     <string name="signup_success">회원가입에 성공했습니다.</string>
+    <string name="signup_username_error">UsernameTextFieldError</string>
+    <string name="signup_email_error">EmailTextFieldError</string>
+    <string name="signup_password_error">PasswordTextFieldError</string>
+    <string name="signup_password_confirm_error">PasswordConfirmTextFieldError</string>
+    <string name="signup_create_account_button">CreateAccountButton</string>
+    <string name="signup_default_description">componentDescription</string>
 </resources>

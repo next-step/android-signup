@@ -15,6 +15,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -79,7 +81,6 @@ fun SignupScreen(
         PasswordConfirmTextField(
             passwordConfirm = passwordConfirm,
             onPasswordConfirmChanged = setPasswordConfirm,
-            password = password,
             passwordConfirmValidation = passwordConfirmValidation,
         )
         Spacer(modifier = Modifier.height(42.dp))
@@ -106,17 +107,23 @@ private fun UsernameTextField(
     onUsernameChanged: (String) -> Unit,
     usernameValidation: SignupValidationResult,
 ) {
+    val usernameLabel = stringResource(id = R.string.signup_user_name)
+    val usernameErrorDescription = stringResource(R.string.signup_username_error)
+
     SignupTextField(
         text = username,
         onTextChanged = onUsernameChanged,
-        label = stringResource(R.string.signup_user_name),
+        label = usernameLabel,
         isError = usernameValidation !is Success,
         visualTransformation = PasswordVisualTransformation(),
         supportingText = {
-            if (usernameValidation !is Success) Text(
-                text = (usernameValidation as Failure).result.message
-            )
+            if (usernameValidation !is Success)
+                Text(
+                    text = (usernameValidation as Failure).result.message,
+                    modifier = Modifier.semantics { contentDescription = usernameErrorDescription },
+                )
         },
+        componentDescription = usernameLabel,
     )
 }
 
@@ -126,17 +133,23 @@ private fun EmailTextField(
     onEmailChanged: (String) -> Unit,
     emailValidation: SignupValidationResult,
 ) {
+    val emailLabel = stringResource(R.string.signup_email)
+    val emailErrorDescription = stringResource(R.string.signup_email_error)
+
     SignupTextField(
         text = email,
         onTextChanged = onEmailChanged,
-        label = stringResource(R.string.signup_email),
+        label = emailLabel,
         isError = emailValidation !is Success,
         visualTransformation = PasswordVisualTransformation(),
         supportingText = {
-            if (emailValidation !is Success) Text(
-                text = (emailValidation as Failure).result.message
-            )
+            if (emailValidation !is Success)
+                Text(
+                    text = (emailValidation as Failure).result.message,
+                    modifier = Modifier.semantics { contentDescription = emailErrorDescription },
+                )
         },
+        componentDescription = emailLabel,
     )
 }
 
@@ -146,17 +159,23 @@ private fun PasswordTextField(
     onPasswordChanged: (String) -> Unit,
     passwordValidation: SignupValidationResult,
 ) {
+    val passwordLabel = stringResource(R.string.signup_password)
+    val passwordErrorDescription = stringResource(R.string.signup_password_error)
+
     SignupTextField(
         text = password,
         onTextChanged = onPasswordChanged,
-        label = stringResource(R.string.signup_password),
+        label = passwordLabel,
         isError = passwordValidation !is Success,
         visualTransformation = PasswordVisualTransformation(),
         supportingText = {
-            if (passwordValidation !is Success) Text(
-                text = (passwordValidation as Failure).result.message
-            )
+            if (passwordValidation !is Success)
+                Text(
+                    text = (passwordValidation as Failure).result.message,
+                    modifier = Modifier.semantics { contentDescription = passwordErrorDescription }
+                )
         },
+        componentDescription = passwordLabel,
     )
 }
 
@@ -164,20 +183,27 @@ private fun PasswordTextField(
 private fun PasswordConfirmTextField(
     passwordConfirm: String,
     onPasswordConfirmChanged: (String) -> Unit,
-    password: String,
     passwordConfirmValidation: SignupValidationResult,
 ) {
+    val passwordConfirmLabel = stringResource(R.string.signup_password)
+    val passwordConfirmErrorDescription = stringResource(R.string.signup_password_confirm_error)
+
     SignupTextField(
         text = passwordConfirm,
         onTextChanged = onPasswordConfirmChanged,
-        label = stringResource(R.string.signup_password_confirm),
+        label = passwordConfirmLabel,
         isError = passwordConfirmValidation !is Success,
         visualTransformation = PasswordVisualTransformation(),
         supportingText = {
-            if (passwordConfirmValidation !is Success) Text(
-                text = (passwordConfirmValidation as Failure).result.message
-            )
+            if (passwordConfirmValidation !is Success)
+                Text(
+                    text = (passwordConfirmValidation as Failure).result.message,
+                    modifier = Modifier.semantics {
+                        contentDescription = passwordConfirmErrorDescription
+                    },
+                )
         },
+        componentDescription = passwordConfirmLabel,
     )
 }
 
@@ -186,6 +212,8 @@ private fun CreateAccountButton(
     isSuccessfulCondition: Boolean,
     onCreateAccountButtonClick: () -> Unit,
 ) {
+    val buttonContentDescription = stringResource(R.string.signup_create_account_button)
+
     SignupButton(
         buttonText = stringResource(R.string.signup_button),
         buttonTextFontSize = 14.sp,
@@ -195,7 +223,8 @@ private fun CreateAccountButton(
         containerColor = if (isSuccessfulCondition) Blue50 else Color.Gray,
         onButtonClick = onCreateAccountButtonClick,
         enabled = isSuccessfulCondition,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        componentDescription = buttonContentDescription,
     )
 }
 
