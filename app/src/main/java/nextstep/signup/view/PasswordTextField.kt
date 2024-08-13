@@ -14,11 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
-import nextstep.signup.InputValidator.isValid
+import nextstep.signup.model.InputValidator.isValid
 import nextstep.signup.R
-import nextstep.signup.TextFieldState
-import nextstep.signup.TextFieldType
-import nextstep.signup.setMessage
+import nextstep.signup.model.TextFieldState
+import nextstep.signup.model.TextFieldType
+import nextstep.signup.model.setMessage
 import nextstep.signup.view.ui.theme.Red50
 import nextstep.signup.view.ui.theme.SignupTheme
 
@@ -33,6 +33,15 @@ fun PasswordTextField(onTextChange: (String) -> Unit = {}) {
         onTextChange(value)
     }
 
+    PasswordContent(textState, onValueChange, validationState)
+}
+
+@Composable
+fun PasswordContent(
+    textState: String,
+    onValueChange: (String) -> Unit,
+    validationState: TextFieldState
+) {
     TextField(
         modifier = Modifier.fillMaxWidth(),
         value = textState,

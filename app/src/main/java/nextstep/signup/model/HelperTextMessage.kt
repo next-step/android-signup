@@ -1,7 +1,8 @@
-package nextstep.signup
+package nextstep.signup.model
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import nextstep.signup.R
 
 @Composable
 fun setMessage(state: TextFieldState, type: TextFieldType): String {

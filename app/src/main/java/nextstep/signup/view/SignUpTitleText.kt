@@ -12,7 +12,7 @@ import nextstep.signup.view.ui.theme.Dimens.TextTitle
 import nextstep.signup.view.ui.theme.SignupTheme
 
 @Composable
-fun SignUpTitle() {
+fun SignUpTitleText() {
     Text(
         text = stringResource(id = R.string.welcome),
         textAlign = TextAlign.Center,
@@ -26,6 +26,6 @@ fun SignUpTitle() {
 @Composable
 private fun SignUpTitlePreview() {
     SignupTheme {
-        SignUpTitle()
+        SignUpTitleText()
     }
 }

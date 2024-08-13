@@ -14,7 +14,7 @@ class SignUpTitleTest {
     @Before
     fun setUp() {
         composeTestRule.setContent {
-            SignUpTitle()
+            SignUpTitleText()
         }
     }
 

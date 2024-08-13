@@ -41,7 +41,7 @@ fun SignUpScreen() {
                     ),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                SignUpTitle()
+                SignUpTitleText()
                 Spacer(modifier = Modifier.height(LargePadding))
                 UsernameTextField()
                 Spacer(modifier = Modifier.height(LargePadding))

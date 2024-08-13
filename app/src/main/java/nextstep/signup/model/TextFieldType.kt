@@ -1,4 +1,4 @@
-package nextstep.signup
+package nextstep.signup.model
 
 sealed class TextFieldType {
     data object Username : TextFieldType()

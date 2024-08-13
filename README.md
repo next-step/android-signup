@@ -7,12 +7,12 @@
 - [x] SignUpHelperText 테스트 코드 작성
 - [x] PasswordConfirmTextField 컴포넌트 고유 속성 주입
 - [x] PasswordConfirmTextField 테스트 코드 작성
-- [] 테스트 코드 리팩터링
+- [x] 테스트 코드 리팩터링
+- [x] Stateless, Stateful 컴포넌트 분리
 - [] 유효성 검사 로직 테스트 코드 추가
 - [] SignUpButton 활성화 로직 추가
 - [] SignUpButton 활성화 뷰 반영
 - [] SignUpButton 테스트 코드 작성
--
 
 ## Step4 진행 중 의식의 흐름
 
@@ -25,6 +25,11 @@
   길이 제한에 대한 헬퍼 텍스트를 노출할 필요가 없다고 생각됩니다. 일치하지 않는다는 것은 그것을 이미 어기고 있다는 것이니까요. 그래서 그부분은 제거하고 일치 여부에 대한 헬퍼
   텍스트 노출만 하는 방식으로 바꿔봤습니다.
 - UsernameTextField와 EmailTextField는 다시 합치고 싶지만 일단 분리했습니다.
+- HelperTextMessage는 Composable 함수로 만들었습니다. String을 가져올 때 Context를 별도로 주입받지 않고 가져올 수 있어서입니다. 뭔가 개선이
+  필요할 것 같은 느낌이 듭니다.
+- Parameterized Test는 JUnit4에서 하려니 테스트 단위가 다른 테스트와 통일성을 잃는 것 같아서 일반 보류했습니다.
+- PasswordConfirmTextField는 헬퍼 텍스트를 위한 상태를 상위 컴포넌트인 SignUpScreen에서 관리하고 있습니다. 그렇게 보니 다른 xxxTextField
+  컴포저블 내부 TextField도 나눌 수 있을 것 같습니다. 일단 해보겠습니다.
 
 ## Step3 구현 목록
 

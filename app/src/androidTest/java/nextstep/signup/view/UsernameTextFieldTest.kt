@@ -20,9 +20,18 @@ class UsernameTextFieldTest {
     }
 
     @Test
-    fun 사용자_이름은_2에서_5자여야_한다() {
-        // given
+    fun 사용자_이름은_2자_이상이여야_한다() {
+        // when
+        composeTestRule.onNodeWithText(USERNAME).performTextInput("컴포")
 
+        // then
+        composeTestRule
+            .onNodeWithText(USERNAME_LENGTH_ERROR)
+            .assertDoesNotExist()
+    }
+
+    @Test
+    fun 사용자_이름은_5자_이하여야_한다() {
         // when
         composeTestRule.onNodeWithText(USERNAME).performTextInput("김컴포즈다")
 
@@ -33,20 +42,7 @@ class UsernameTextFieldTest {
     }
 
     @Test
-    fun 사용자_이름이_2에서_5자가_아니면_에러메시지가_노출된다() {
-
-        // when
-        composeTestRule.onNodeWithText(USERNAME).performTextInput("김컴포즈이다")
-
-        // then
-        composeTestRule
-            .onNodeWithText(USERNAME_LENGTH_ERROR)
-            .assertExists()
-    }
-
-    @Test
-    fun 사용자_이름이_한글자면_에러메시지가_노출된다() {
-
+    fun 사용자_이름이_1자면_에러메시지가_노출된다() {
         // when
         composeTestRule.onNodeWithText(USERNAME).performTextInput("김")
 
@@ -57,8 +53,18 @@ class UsernameTextFieldTest {
     }
 
     @Test
-    fun 이름에_숫자가_포함되면_에러메시지가_노출된다() {
+    fun 사용자_이름이_6자면_에러메시지가_노출된다() {
+        // when
+        composeTestRule.onNodeWithText(USERNAME).performTextInput("김컴포즈이다")
 
+        // then
+        composeTestRule
+            .onNodeWithText(USERNAME_LENGTH_ERROR)
+            .assertExists()
+    }
+
+    @Test
+    fun 이름에_숫자가_포함되면_에러메시지가_노출된다() {
         // when
         composeTestRule.onNodeWithText(USERNAME).performTextInput("James1")
 
@@ -70,7 +76,6 @@ class UsernameTextFieldTest {
 
     @Test
     fun 이름에_기호가_포함되면_에러메시지가_노출된다() {
-
         // when
         composeTestRule.onNodeWithText(USERNAME).performTextInput("James!")
 

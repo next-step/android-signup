@@ -1,4 +1,4 @@
-package nextstep.signup
+package nextstep.signup.model
 
 object InputValidator {
     fun isValid(input: String, type: TextFieldType): TextFieldState {
