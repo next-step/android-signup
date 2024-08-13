@@ -4,7 +4,7 @@ import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextInput
-import nextstep.signup.ui.signup.SignUpScreen
+import nextstep.signup.ui.signup.SignupScreen
 import nextstep.signup.ui.signup.SignupInvalidationState.EMAIL_RULE_INVALIDATION
 import nextstep.signup.ui.signup.SignupInvalidationState.PASSWORD_CONFIRM_RULE_INVALIDATION
 import nextstep.signup.ui.signup.SignupInvalidationState.PASSWORD_LENGTH_INVALIDATION
@@ -27,7 +27,7 @@ class SignupScreenTest {
     @Before
     fun setup() {
         composeTestRule.apply {
-            setContent { SignUpScreen() }
+            setContent { SignupScreen() }
             userNameTextField = onNodeWithText("Username")
             emailTextField = onNodeWithText("Email")
             passwordTextField = onNodeWithText("Password")

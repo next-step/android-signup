@@ -20,8 +20,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.R
-import nextstep.signup.ui.component.SignUpButton
-import nextstep.signup.ui.component.SignUpTextField
+import nextstep.signup.ui.component.SignupButton
+import nextstep.signup.ui.component.SignupTextField
 import nextstep.signup.ui.signup.SignupValidationResult.Failure
 import nextstep.signup.ui.signup.SignupValidationResult.Success
 import nextstep.signup.ui.signup.SignupValidator.Email
@@ -33,10 +33,13 @@ import nextstep.signup.ui.theme.RobotoBold
 import nextstep.signup.ui.theme.RobotoMedium
 
 @Composable
-fun SignUpScreen() {
+fun SignupScreen(
+    onSignupClick: () -> Unit,
+    modifier: Modifier,
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(color = Color.White)
             .padding(horizontal = 32.dp),
@@ -82,7 +85,7 @@ fun SignUpScreen() {
         Spacer(modifier = Modifier.height(42.dp))
         CreateAccountButton(
             isSuccessfulCondition = isValidOfSignup,
-            onCreateAccountButtonClick = {},
+            onCreateAccountButtonClick = onSignupClick,
         )
     }
 }
@@ -103,7 +106,7 @@ private fun UsernameTextField(
     onUsernameChanged: (String) -> Unit,
     usernameValidation: SignupValidationResult,
 ) {
-    SignUpTextField(
+    SignupTextField(
         text = username,
         onTextChanged = onUsernameChanged,
         label = stringResource(R.string.signup_user_name),
@@ -123,7 +126,7 @@ private fun EmailTextField(
     onEmailChanged: (String) -> Unit,
     emailValidation: SignupValidationResult,
 ) {
-    SignUpTextField(
+    SignupTextField(
         text = email,
         onTextChanged = onEmailChanged,
         label = stringResource(R.string.signup_email),
@@ -143,7 +146,7 @@ private fun PasswordTextField(
     onPasswordChanged: (String) -> Unit,
     passwordValidation: SignupValidationResult,
 ) {
-    SignUpTextField(
+    SignupTextField(
         text = password,
         onTextChanged = onPasswordChanged,
         label = stringResource(R.string.signup_password),
@@ -164,7 +167,7 @@ fun PasswordConfirmTextField(
     password: String,
     passwordConfirmValidation: SignupValidationResult,
 ) {
-    SignUpTextField(
+    SignupTextField(
         text = passwordConfirm,
         onTextChanged = onPasswordConfirmChanged,
         label = stringResource(R.string.signup_password_confirm),
@@ -183,7 +186,7 @@ private fun CreateAccountButton(
     isSuccessfulCondition: Boolean,
     onCreateAccountButtonClick: () -> Unit,
 ) {
-    SignUpButton(
+    SignupButton(
         buttonText = stringResource(R.string.signup_button),
         buttonTextFontSize = 14.sp,
         buttonTextFontFamily = RobotoMedium,
@@ -191,12 +194,13 @@ private fun CreateAccountButton(
         buttonVerticalPadding = 15.dp,
         containerColor = if (isSuccessfulCondition) Blue50 else Color.Gray,
         onButtonClick = onCreateAccountButtonClick,
+        enabled = isSuccessfulCondition,
         modifier = Modifier.fillMaxWidth()
     )
 }
 
 @Preview
 @Composable
-private fun SignUpScreenPreview() {
-    SignUpScreen()
+private fun SignupScreenPreview() {
+    SignupScreen(modifier = Modifier, onSignupClick = {})
 }

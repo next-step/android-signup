@@ -23,7 +23,7 @@ import nextstep.signup.ui.theme.Gray
 import nextstep.signup.ui.theme.RobotoRegular
 
 @Composable
-fun SignUpTextField(
+fun SignupTextField(
     text: String,
     onTextChanged: (String) -> Unit,
     textFontSize: TextUnit = 16.sp,
@@ -84,7 +84,7 @@ fun SignUpTextField(
 @Preview
 @Composable
 private fun SignUpTextFieldPreview() {
-    SignUpTextField(
+    SignupTextField(
         label = "비밀번호",
         onTextChanged = {},
         text = "산군",

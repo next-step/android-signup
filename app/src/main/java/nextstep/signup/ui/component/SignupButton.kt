@@ -20,7 +20,7 @@ import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.RobotoMedium
 
 @Composable
-fun SignUpButton(
+fun SignupButton(
     buttonText: String,
     buttonTextFontSize: TextUnit,
     buttonTextFontFamily: FontFamily,
@@ -32,9 +32,11 @@ fun SignUpButton(
     disabledContentColor: Color = Color.Unspecified,
     buttonVerticalPadding: Dp = 0.dp,
     buttonHorizontalPadding: Dp = 0.dp,
+    enabled: Boolean = true,
     modifier: Modifier,
 ) {
     Button(
+        enabled = enabled,
         onClick = onButtonClick,
         colors = ButtonDefaults.buttonColors(
             containerColor = containerColor,
@@ -60,7 +62,7 @@ fun SignUpButton(
 @Preview
 @Composable
 private fun SignUpButtonPreview() {
-    SignUpButton(
+    SignupButton(
         buttonText = stringResource(R.string.signup_button),
         buttonTextFontSize = 14.sp,
         buttonTextFontFamily = RobotoMedium,
