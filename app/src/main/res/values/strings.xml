@@ -8,4 +8,5 @@
     <string name="signup_password">Password</string>
     <string name="signup_password_confirm">Password Confirm</string>
     <string name="signup_button">Sign Up</string>
+    <string name="signup_success">회원가입에 성공했습니다.</string>
 </resources>
