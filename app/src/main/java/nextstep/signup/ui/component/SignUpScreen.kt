@@ -40,10 +40,15 @@ import nextstep.signup.ui.theme.SignupTheme
 import nextstep.signup.ui.theme.textfield.NextStepTextField
 
 @Composable
-internal fun SignUpScreen() {
+internal fun SignUpScreen(
+    signUpUserInfo: SignUpUserInfo,
+    onUsernameChange: (String) -> Unit,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onPasswordConfirmChange: (String) -> Unit,
+) {
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
-    var signUpUserInfo by remember { mutableStateOf(SignUpUserInfo()) }
     val context = LocalContext.current
 
     Scaffold(
@@ -59,12 +64,10 @@ internal fun SignUpScreen() {
         content = { paddingValues ->
             Content(
                 signUpUserInfo = signUpUserInfo,
-                onUsernameChange = { signUpUserInfo = signUpUserInfo.copy(username = it) },
-                onEmailChange = { signUpUserInfo = signUpUserInfo.copy(email = it) },
-                onPasswordChange = { signUpUserInfo = signUpUserInfo.copy(password = it) },
-                onPasswordConfirmChange = {
-                    signUpUserInfo = signUpUserInfo.copy(passwordConfirm = it)
-                },
+                onUsernameChange = onUsernameChange,
+                onEmailChange = onEmailChange,
+                onPasswordChange = onPasswordChange,
+                onPasswordConfirmChange = onPasswordConfirmChange,
                 onClickSignUp = {
                     if (signUpUserInfo.isAllFieldsValid.not()) {
                         coroutineScope.launch {
@@ -229,7 +232,16 @@ private fun BottomBar() {
 @Preview
 @Composable
 private fun SignUpScreenPreview() {
+    var signUpUserInfo by remember { mutableStateOf(SignUpUserInfo()) }
     SignupTheme {
-        SignUpScreen()
+        SignUpScreen(
+            signUpUserInfo = signUpUserInfo,
+            onUsernameChange = { signUpUserInfo = signUpUserInfo.copy(username = it) },
+            onEmailChange = { signUpUserInfo = signUpUserInfo.copy(email = it) },
+            onPasswordChange = { signUpUserInfo = signUpUserInfo.copy(password = it) },
+            onPasswordConfirmChange = {
+                signUpUserInfo = signUpUserInfo.copy(passwordConfirm = it)
+            },
+        )
     }
 }
