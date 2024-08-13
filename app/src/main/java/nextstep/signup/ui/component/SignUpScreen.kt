@@ -8,11 +8,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,6 +32,8 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import nextstep.signup.R
 import nextstep.signup.model.SignUpUserInfo
+import nextstep.signup.ui.theme.SignupTheme
+import nextstep.signup.ui.theme.textfield.NextStepTextField
 
 @Composable
 internal fun SignUpScreen() {
@@ -117,31 +119,83 @@ private fun Content(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(36.dp)
     ) {
-        TextField(
+        NextStepTextField(
             modifier = Modifier.fillMaxWidth(),
             value = signUpUserInfo.username,
             onValueChange = onUsernameChange,
             label = { Text(text = stringResource(id = R.string.username_label)) },
+            isError = signUpUserInfo.isNamePass != SignUpUserInfo.NameError.None,
+            errorMessage = {
+                when (signUpUserInfo.isNamePass) {
+                    SignUpUserInfo.NameError.LengthError -> "이름은 2~5자여야 합니다."
+                    SignUpUserInfo.NameError.NumberOrSymbol -> "이름에는 숫자나 기호가 포함될 수 없습니다."
+                    else -> ""
+                }.also {
+                    if (it.isNotBlank()) {
+                        Text(
+                            text = it,
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
+                }
+            }
         )
-        TextField(
+        NextStepTextField(
             modifier = Modifier.fillMaxWidth(),
             value = signUpUserInfo.email,
             onValueChange = onEmailChange,
             label = { Text(text = stringResource(id = R.string.email_label)) },
+            isError = signUpUserInfo.isEmailPass != SignUpUserInfo.EmailError.None,
+            errorMessage = {
+                when (signUpUserInfo.isEmailPass) {
+                    SignUpUserInfo.EmailError.EmailFormat -> {
+                        Text(
+                            text = "이메일 형식이 올바르지 않습니다.",
+                            style = MaterialTheme.typography.bodySmall,
+                        )
+                    }
+
+                    else -> {}
+                }
+            }
         )
-        TextField(
+        NextStepTextField(
             modifier = Modifier.fillMaxWidth(),
             value = signUpUserInfo.password,
             onValueChange = onPasswordChange,
             label = { Text(text = stringResource(id = R.string.password_label)) },
             visualTransformation = PasswordVisualTransformation(),
+            isError = signUpUserInfo.isPasswordPass != SignUpUserInfo.PasswordError.None,
+            errorMessage = {
+                when (signUpUserInfo.isPasswordPass) {
+                    SignUpUserInfo.PasswordError.PasswordLength -> "비밀번호는 8~16자여야 합니다."
+                    SignUpUserInfo.PasswordError.PasswordFormat -> "비밀번호는 영문과 숫자를 포함해야 합니다."
+                    else -> ""
+                }.also {
+                    if (it.isNotBlank()) {
+                        Text(
+                            text = it,
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
+                }
+            }
         )
-        TextField(
+        NextStepTextField(
             modifier = Modifier.fillMaxWidth(),
             value = signUpUserInfo.passwordConfirm,
             onValueChange = onPasswordConfirmChange,
             label = { Text(text = stringResource(id = R.string.password_confirm_label)) },
             visualTransformation = PasswordVisualTransformation(),
+            isError = signUpUserInfo.isPasswordConfirmPass != SignUpUserInfo.PasswordConfirmError.None,
+            errorMessage = {
+                if (signUpUserInfo.isPasswordConfirmPass == SignUpUserInfo.PasswordConfirmError.PasswordEqual) {
+                    Text(
+                        text = "비밀번호가 일치하지 않습니다.",
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
+            }
         )
 
         Button(
@@ -171,5 +225,7 @@ private fun BottomBar() {
 @Preview
 @Composable
 private fun SignUpScreenPreview() {
-    SignUpScreen()
+    SignupTheme {
+        SignUpScreen()
+    }
 }
