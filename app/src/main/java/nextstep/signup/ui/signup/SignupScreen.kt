@@ -185,7 +185,7 @@ private fun PasswordConfirmTextField(
     onPasswordConfirmChanged: (String) -> Unit,
     passwordConfirmValidation: SignupValidationResult,
 ) {
-    val passwordConfirmLabel = stringResource(R.string.signup_password)
+    val passwordConfirmLabel = stringResource(R.string.signup_password_confirm)
     val passwordConfirmErrorDescription = stringResource(R.string.signup_password_confirm_error)
 
     SignupTextField(

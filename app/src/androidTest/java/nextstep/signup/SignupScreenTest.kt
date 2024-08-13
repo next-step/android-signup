@@ -1,16 +1,11 @@
 package nextstep.signup
 
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performTextInput
 import nextstep.signup.ui.signup.SignupScreen
-import nextstep.signup.ui.signup.SignupInvalidationState.EMAIL_RULE_INVALIDATION
-import nextstep.signup.ui.signup.SignupInvalidationState.PASSWORD_CONFIRM_RULE_INVALIDATION
-import nextstep.signup.ui.signup.SignupInvalidationState.PASSWORD_LENGTH_INVALIDATION
-import nextstep.signup.ui.signup.SignupInvalidationState.PASSWORD_RULE_INVALIDATION
-import nextstep.signup.ui.signup.SignupInvalidationState.USERNAME_LENGTH_INVALIDATION
-import nextstep.signup.ui.signup.SignupInvalidationState.USERNAME_RULE_INVALIDATION
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -27,11 +22,18 @@ class SignupScreenTest {
     @Before
     fun setup() {
         composeTestRule.apply {
-            setContent { SignupScreen() }
-            userNameTextField = onNodeWithText("Username")
-            emailTextField = onNodeWithText("Email")
-            passwordTextField = onNodeWithText("Password")
-            passwordConfirmTextField = onNodeWithText("Password Confirm")
+            setContent {
+                SignupScreen(
+                    onSignupClick = {},
+                    modifier = Modifier,
+                )
+            }
+            userNameTextField = onNodeWithContentDescription(USERNAME_CONTENT_DESCRIPTION)
+            emailTextField = onNodeWithContentDescription(EMAIL_CONTENT_DESCRIPTION)
+            passwordTextField = onNodeWithContentDescription(PASSWORD_CONTENT_DESCRIPTION)
+            passwordConfirmTextField = onNodeWithContentDescription(
+                PASSWORD_CONFIRM_CONTENT_DESCRIPTION
+            )
         }
     }
 
@@ -44,7 +46,8 @@ class SignupScreenTest {
         userNameTextField.performTextInput(username)
 
         // then:
-        composeTestRule.onNodeWithText(USERNAME_LENGTH_INVALIDATION.message).assertExists()
+        composeTestRule.onNodeWithContentDescription(USERNAME_ERROR_CONTENT_DESCRIPTION)
+            .assertExists()
     }
 
     @Test
@@ -56,7 +59,8 @@ class SignupScreenTest {
         userNameTextField.performTextInput(username)
 
         // then:
-        composeTestRule.onNodeWithText(USERNAME_LENGTH_INVALIDATION.message).assertExists()
+        composeTestRule.onNodeWithContentDescription(USERNAME_ERROR_CONTENT_DESCRIPTION)
+            .assertExists()
     }
 
     @Test
@@ -68,7 +72,8 @@ class SignupScreenTest {
         userNameTextField.performTextInput(username)
 
         // then:
-        composeTestRule.onNodeWithText(USERNAME_RULE_INVALIDATION.message).assertExists()
+        composeTestRule.onNodeWithContentDescription(USERNAME_ERROR_CONTENT_DESCRIPTION)
+            .assertExists()
     }
 
     @Test
@@ -80,7 +85,8 @@ class SignupScreenTest {
         userNameTextField.performTextInput(username)
 
         // then:
-        composeTestRule.onNodeWithText(USERNAME_RULE_INVALIDATION.message).assertExists()
+        composeTestRule.onNodeWithContentDescription(USERNAME_ERROR_CONTENT_DESCRIPTION)
+            .assertExists()
     }
 
     @Test
@@ -92,7 +98,7 @@ class SignupScreenTest {
         emailTextField.performTextInput(email)
 
         // then:
-        composeTestRule.onNodeWithText(EMAIL_RULE_INVALIDATION.message).assertExists()
+        composeTestRule.onNodeWithContentDescription(EMAIL_ERROR_CONTENT_DESCRIPTION).assertExists()
     }
 
     @Test
@@ -104,7 +110,7 @@ class SignupScreenTest {
         emailTextField.performTextInput(email)
 
         // then:
-        composeTestRule.onNodeWithText(EMAIL_RULE_INVALIDATION.message).assertExists()
+        composeTestRule.onNodeWithContentDescription(EMAIL_ERROR_CONTENT_DESCRIPTION).assertExists()
     }
 
     @Test
@@ -116,7 +122,8 @@ class SignupScreenTest {
         passwordTextField.performTextInput(password)
 
         // then:
-        composeTestRule.onNodeWithText(PASSWORD_LENGTH_INVALIDATION.message).assertExists()
+        composeTestRule.onNodeWithContentDescription(PASSWORD_ERROR_CONTENT_DESCRIPTION)
+            .assertExists()
     }
 
     @Test
@@ -128,7 +135,8 @@ class SignupScreenTest {
         passwordTextField.performTextInput(password)
 
         // then:
-        composeTestRule.onNodeWithText(PASSWORD_LENGTH_INVALIDATION.message).assertExists()
+        composeTestRule.onNodeWithContentDescription(PASSWORD_ERROR_CONTENT_DESCRIPTION)
+            .assertExists()
     }
 
     @Test
@@ -140,7 +148,8 @@ class SignupScreenTest {
         passwordTextField.performTextInput(password)
 
         // then:
-        composeTestRule.onNodeWithText(PASSWORD_RULE_INVALIDATION.message).assertExists()
+        composeTestRule.onNodeWithContentDescription(PASSWORD_ERROR_CONTENT_DESCRIPTION)
+            .assertExists()
     }
 
     @Test
@@ -152,7 +161,8 @@ class SignupScreenTest {
         passwordTextField.performTextInput(password)
 
         // then:
-        composeTestRule.onNodeWithText(PASSWORD_RULE_INVALIDATION.message).assertExists()
+        composeTestRule.onNodeWithContentDescription(PASSWORD_ERROR_CONTENT_DESCRIPTION)
+            .assertExists()
     }
 
     @Test
@@ -164,7 +174,8 @@ class SignupScreenTest {
         passwordTextField.performTextInput(password)
 
         // then:
-        composeTestRule.onNodeWithText(PASSWORD_RULE_INVALIDATION.message).assertDoesNotExist()
+        composeTestRule.onNodeWithContentDescription(PASSWORD_ERROR_CONTENT_DESCRIPTION)
+            .assertDoesNotExist()
     }
 
     @Test
@@ -178,7 +189,7 @@ class SignupScreenTest {
         passwordConfirmTextField.performTextInput(passwordConfirm)
 
         // then:
-        composeTestRule.onNodeWithText(PASSWORD_CONFIRM_RULE_INVALIDATION.message)
+        composeTestRule.onNodeWithContentDescription(PASSWORD_CONFIRM_ERROR_CONTENT_DESCRIPTION)
             .assertDoesNotExist()
     }
 
@@ -193,6 +204,20 @@ class SignupScreenTest {
         passwordConfirmTextField.performTextInput(passwordConfirm)
 
         // then:
-        composeTestRule.onNodeWithText(PASSWORD_CONFIRM_RULE_INVALIDATION.message).assertExists()
+        composeTestRule.onNodeWithContentDescription(PASSWORD_CONFIRM_ERROR_CONTENT_DESCRIPTION)
+            .assertExists()
+    }
+
+    companion object {
+        private const val USERNAME_CONTENT_DESCRIPTION = "Username"
+        private const val EMAIL_CONTENT_DESCRIPTION = "Email"
+        private const val PASSWORD_CONTENT_DESCRIPTION = "Password"
+        private const val PASSWORD_CONFIRM_CONTENT_DESCRIPTION = "Password Confirm"
+        private const val USERNAME_ERROR_CONTENT_DESCRIPTION = "UsernameTextFieldError"
+        private const val EMAIL_ERROR_CONTENT_DESCRIPTION = "EmailTextFieldError"
+        private const val PASSWORD_ERROR_CONTENT_DESCRIPTION = "PasswordTextFieldError"
+        private const val PASSWORD_CONFIRM_ERROR_CONTENT_DESCRIPTION =
+            "PasswordConfirmTextFieldError"
+        private const val CREATE_ACCOUNT_BUTTON_CONTENT_DESCRIPTION = "CreateAccountButton"
     }
 }
