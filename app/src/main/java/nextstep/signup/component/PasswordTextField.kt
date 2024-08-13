@@ -12,6 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import nextstep.signup.R
 import nextstep.signup.screen.SignUpTextFieldType
 import nextstep.signup.ui.theme.SignupTheme
+import nextstep.signup.util.validation.ValidationErrorType
 import nextstep.signup.util.validation.ValidationResult
 import nextstep.signup.util.validation.Validator
 
@@ -20,13 +21,9 @@ import nextstep.signup.util.validation.Validator
 fun PasswordTextField(
     text: String,
     onValueChange: (String) -> Unit,
+    validationResult : ValidationResult,
     modifier: Modifier = Modifier,
 ) {
-
-    val validationResult by remember(text) {
-        derivedStateOf { Validator.passwordValidate(text) }
-    }
-
     SignUpTextField(
         modifier = modifier,
         text = text,
@@ -34,11 +31,15 @@ fun PasswordTextField(
         labelText = stringResource(id = R.string.sign_up_password_label),
         isError = validationResult is ValidationResult.Error,
         supportingText = {
-            signUpSupportingTextStringResource(
-                validationResult = validationResult,
-                signUpTextFieldType = SignUpTextFieldType.Password
-            )?.let { supportingText ->
-                Text(text = supportingText)
+            validationResult.getErrorType()?.let { type ->
+                when (type) {
+                    ValidationErrorType.LengthError ->
+                        Text(text = stringResource(id = R.string.sign_up_user_password_length_error))
+                    ValidationErrorType.RegexError ->
+                        Text(text = stringResource(id = R.string.sign_up_user_password_regex_error))
+                    else -> {
+                    }
+                }
             }
         },
         visualTransformation = PasswordVisualTransformation()
@@ -53,6 +54,7 @@ private fun Preview1() {
         PasswordTextField(
             text = "abcd1234",
             onValueChange = {},
+            validationResult = ValidationResult.Success
         )
     }
 }
@@ -64,6 +66,7 @@ private fun Preview2() {
         PasswordTextField(
             text = "abc123",
             onValueChange = {},
+            validationResult = ValidationResult.Error(ValidationErrorType.LengthError)
         )
     }
 }
@@ -75,6 +78,7 @@ private fun Preview3() {
         PasswordTextField(
             text = "aaaaaaaa",
             onValueChange = {},
+            validationResult = ValidationResult.Error(ValidationErrorType.RegexError)
         )
     }
 }
@@ -86,6 +90,7 @@ private fun Preview4() {
         PasswordTextField(
             text = "123123123",
             onValueChange = {},
+            validationResult = ValidationResult.Error(ValidationErrorType.RegexError)
         )
     }
 }

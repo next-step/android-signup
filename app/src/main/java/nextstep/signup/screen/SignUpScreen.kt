@@ -53,6 +53,11 @@ fun SignUpScreen(
         derivedStateOf { Validator.emailValidate(email) }
     }
 
+    val passwordValidationResult by remember(password) {
+        derivedStateOf { Validator.passwordValidate(password) }
+    }
+
+
 
     Scaffold { innerPadding ->
         Column(
@@ -87,6 +92,7 @@ fun SignUpScreen(
             PasswordTextField(
                 modifier = Modifier.fillMaxWidth(),
                 text = password,
+                validationResult = passwordValidationResult,
                 onValueChange = { value ->
                     password = value
                 },
