@@ -127,8 +127,8 @@ private fun Content(
             isError = signUpUserInfo.isNamePass != SignUpUserInfo.NameError.None,
             errorMessage = {
                 when (signUpUserInfo.isNamePass) {
-                    SignUpUserInfo.NameError.LengthError -> "이름은 2~5자여야 합니다."
-                    SignUpUserInfo.NameError.NumberOrSymbol -> "이름에는 숫자나 기호가 포함될 수 없습니다."
+                    SignUpUserInfo.NameError.LengthError -> stringResource(R.string.name_length_error)
+                    SignUpUserInfo.NameError.NumberOrSymbol -> stringResource(R.string.name_number_or_symbol_error)
                     else -> ""
                 }.also {
                     if (it.isNotBlank()) {
@@ -150,7 +150,7 @@ private fun Content(
                 when (signUpUserInfo.isEmailPass) {
                     SignUpUserInfo.EmailError.EmailFormat -> {
                         Text(
-                            text = "이메일 형식이 올바르지 않습니다.",
+                            text = stringResource(R.string.email_format_error),
                             style = MaterialTheme.typography.bodySmall,
                         )
                     }
@@ -168,8 +168,8 @@ private fun Content(
             isError = signUpUserInfo.isPasswordPass != SignUpUserInfo.PasswordError.None,
             errorMessage = {
                 when (signUpUserInfo.isPasswordPass) {
-                    SignUpUserInfo.PasswordError.PasswordLength -> "비밀번호는 8~16자여야 합니다."
-                    SignUpUserInfo.PasswordError.PasswordFormat -> "비밀번호는 영문과 숫자를 포함해야 합니다."
+                    SignUpUserInfo.PasswordError.PasswordLength -> stringResource(R.string.password_length_error)
+                    SignUpUserInfo.PasswordError.PasswordFormat -> stringResource(R.string.password_format_error)
                     else -> ""
                 }.also {
                     if (it.isNotBlank()) {
@@ -191,7 +191,7 @@ private fun Content(
             errorMessage = {
                 if (signUpUserInfo.isPasswordConfirmPass == SignUpUserInfo.PasswordConfirmError.PasswordEqual) {
                     Text(
-                        text = "비밀번호가 일치하지 않습니다.",
+                        text = stringResource(R.string.password_confirm_error),
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
