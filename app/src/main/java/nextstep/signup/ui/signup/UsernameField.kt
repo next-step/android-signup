@@ -1,5 +1,6 @@
 package nextstep.signup.ui.signup
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -22,7 +23,7 @@ fun UsernameField(
     onUsernameChange: (String) -> Unit
 ) {
     val validation by remember(username) {
-        derivedStateOf { SignUpValidationCheck.isUsernameValid(username) }
+        derivedStateOf { SignUpValidationCheck.validateUsername(username) }
     }
 
     TextField(
@@ -47,9 +48,22 @@ fun UsernameField(
 @Preview(showBackground = true)
 @Composable
 private fun UsernameFieldPreview() {
-    var username by remember { mutableStateOf("") }
-    UsernameField(
-        username = username,
-        onUsernameChange = { username = it }
-    )
+    var emptyUsername by remember { mutableStateOf("") }
+    var validUsername by remember { mutableStateOf("park") }
+    var invalidUsername by remember { mutableStateOf("kyudong3") }
+    Column {
+        UsernameField(
+            username = emptyUsername,
+            onUsernameChange = { emptyUsername = it }
+        )
+        UsernameField(
+            username = invalidUsername,
+            onUsernameChange = { invalidUsername = it }
+        )
+        UsernameField(
+            username = validUsername,
+            onUsernameChange = { validUsername = it }
+        )
+    }
 }
+

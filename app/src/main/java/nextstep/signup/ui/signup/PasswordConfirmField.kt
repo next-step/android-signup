@@ -1,5 +1,6 @@
 package nextstep.signup.ui.signup
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
@@ -26,7 +27,7 @@ fun PasswordConfirmField(
     onPasswordConfirmChange: (String) -> Unit
 ) {
     val validation by remember(passwordConfirm) {
-        derivedStateOf { SignUpValidationCheck.isPasswordConfirmValid(password, passwordConfirm) }
+        derivedStateOf { SignUpValidationCheck.validatePasswordConfirm(password, passwordConfirm) }
     }
 
     TextField(
@@ -51,11 +52,26 @@ fun PasswordConfirmField(
 @Preview(showBackground = true)
 @Composable
 private fun PasswordConfirmFieldPreview() {
-    var password by remember { mutableStateOf("") }
-    var passwordConfirm by remember { mutableStateOf("") }
-    PasswordConfirmField(
-        password = password,
-        passwordConfirm = passwordConfirm,
-        onPasswordConfirmChange = { passwordConfirm = it }
-    )
+    val emptyPassword by remember { mutableStateOf("") }
+    var emptyPasswordConfirm by remember { mutableStateOf("") }
+    val validPassword by remember { mutableStateOf("abcd1234") }
+    var validPasswordConfirm by remember { mutableStateOf("abcd1234") }
+    var invalidPasswordConfirm by remember { mutableStateOf("1234") }
+    Column {
+        PasswordConfirmField(
+            password = emptyPassword,
+            passwordConfirm = emptyPasswordConfirm,
+            onPasswordConfirmChange = { emptyPasswordConfirm = it }
+        )
+        PasswordConfirmField(
+            password = validPassword,
+            passwordConfirm = validPasswordConfirm,
+            onPasswordConfirmChange = { validPasswordConfirm = it }
+        )
+        PasswordConfirmField(
+            password = validPassword,
+            passwordConfirm = invalidPasswordConfirm,
+            onPasswordConfirmChange = { invalidPasswordConfirm = it }
+        )
+    }
 }

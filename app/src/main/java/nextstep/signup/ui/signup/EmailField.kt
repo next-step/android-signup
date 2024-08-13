@@ -1,5 +1,6 @@
 package nextstep.signup.ui.signup
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -22,7 +23,7 @@ fun EmailField(
     onEmailChange: (String) -> Unit
 ) {
     val validation by remember(email) {
-        derivedStateOf { SignUpValidationCheck.isEmailValid(email) }
+        derivedStateOf { SignUpValidationCheck.validateEmail(email) }
     }
 
     TextField(
@@ -45,9 +46,21 @@ fun EmailField(
 @Preview(showBackground = true)
 @Composable
 private fun EmailFieldPreview() {
-    var email by remember { mutableStateOf("") }
-    EmailField(
-        email = email,
-        onEmailChange = { email = it }
-    )
+    var emptyEmail by remember { mutableStateOf("") }
+    var validEmail by remember { mutableStateOf("kyudong3@gmail.com") }
+    var invalidEmail by remember { mutableStateOf("kyudong3@gmail") }
+    Column {
+        EmailField(
+            email = emptyEmail,
+            onEmailChange = { emptyEmail = it }
+        )
+        EmailField(
+            email = validEmail,
+            onEmailChange = { validEmail = it }
+        )
+        EmailField(
+            email = invalidEmail,
+            onEmailChange = { invalidEmail = it }
+        )
+    }
 }

@@ -8,7 +8,7 @@ object SignUpValidationCheck {
     private const val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
     private const val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$"
 
-    fun isUsernameValid(username: String): SignUpValidation {
+    fun validateUsername(username: String): SignUpValidation {
         val lengthCondition = username.length in 2..5
         val regexCondition = username.matches(Regex(USERNAME_REGEX))
 
@@ -19,7 +19,7 @@ object SignUpValidationCheck {
         }
     }
 
-    fun isEmailValid(email: String): SignUpValidation {
+    fun validateEmail(email: String): SignUpValidation {
         val regexCondition = email.matches(Regex(EMAIL_REGEX))
 
         return when {
@@ -28,7 +28,7 @@ object SignUpValidationCheck {
         }
     }
 
-    fun isPasswordValid(password: String): SignUpValidation {
+    fun validatePassword(password: String): SignUpValidation {
         val lengthCondition = password.length in 8..16
         val regexCondition = password.matches(Regex(PASSWORD_REGEX))
 
@@ -39,7 +39,7 @@ object SignUpValidationCheck {
         }
     }
 
-    fun isPasswordConfirmValid(
+    fun validatePasswordConfirm(
         password: String,
         passwordConfirm: String
     ): SignUpValidation = if (password != passwordConfirm)

@@ -1,5 +1,6 @@
 package nextstep.signup.ui.signup
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
@@ -25,7 +26,7 @@ fun PasswordField(
     onPasswordChange: (String) -> Unit
 ) {
     val validation by remember(password) {
-        derivedStateOf { SignUpValidationCheck.isPasswordValid(password) }
+        derivedStateOf { SignUpValidationCheck.validatePassword(password) }
     }
 
     TextField(
@@ -52,9 +53,21 @@ fun PasswordField(
 @Preview(showBackground = true)
 @Composable
 private fun PasswordFieldPreview() {
-    var password by remember { mutableStateOf("") }
-    PasswordField(
-        password = password,
-        onPasswordChange = { password = it }
-    )
+    var emptyPassword by remember { mutableStateOf("") }
+    var validPassword by remember { mutableStateOf("abcd1234") }
+    var invalidPassword by remember { mutableStateOf("1234567890") }
+    Column {
+        PasswordField(
+            password = emptyPassword,
+            onPasswordChange = { emptyPassword = it }
+        )
+        PasswordField(
+            password = validPassword,
+            onPasswordChange = { validPassword = it }
+        )
+        PasswordField(
+            password = invalidPassword,
+            onPasswordChange = { invalidPassword = it }
+        )
+    }
 }
