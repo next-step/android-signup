@@ -13,6 +13,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,7 +38,6 @@ import nextstep.signup.model.PasswordConfirmError
 import nextstep.signup.model.PasswordError
 import nextstep.signup.model.SignUpUserInfo
 import nextstep.signup.ui.theme.SignupTheme
-import nextstep.signup.ui.theme.textfield.NextStepTextField
 
 @Composable
 internal fun SignUpScreen(
@@ -127,13 +127,15 @@ private fun Content(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(36.dp)
     ) {
-        NextStepTextField(
+        // Username TextField
+        TextField(
             modifier = Modifier.fillMaxWidth(),
             value = signUpUserInfo.username,
             onValueChange = onUsernameChange,
             label = { Text(text = stringResource(id = R.string.username_label)) },
-            isError = signUpUserInfo.nameError != NameError.None,
-            errorMessage = {
+            isError = signUpUserInfo.nameError != NameError.None &&
+                    signUpUserInfo.nameError != NameError.Blank,
+            supportingText = {
                 when (signUpUserInfo.nameError) {
                     NameError.Length -> Text(
                         text = stringResource(R.string.name_length_error),
@@ -149,13 +151,16 @@ private fun Content(
                 }
             }
         )
-        NextStepTextField(
+
+        // Email TextField
+        TextField(
             modifier = Modifier.fillMaxWidth(),
             value = signUpUserInfo.email,
             onValueChange = onEmailChange,
             label = { Text(text = stringResource(id = R.string.email_label)) },
-            isError = signUpUserInfo.emailError != EmailError.None,
-            errorMessage = {
+            isError = signUpUserInfo.emailError != EmailError.None &&
+                    signUpUserInfo.emailError != EmailError.Blank,
+            supportingText = {
                 when (signUpUserInfo.emailError) {
                     EmailError.EmailFormat -> Text(
                         text = stringResource(R.string.email_format_error),
@@ -166,14 +171,17 @@ private fun Content(
                 }
             }
         )
-        NextStepTextField(
+
+        // Password TextField
+        TextField(
             modifier = Modifier.fillMaxWidth(),
             value = signUpUserInfo.password,
             onValueChange = onPasswordChange,
             label = { Text(text = stringResource(id = R.string.password_label)) },
             visualTransformation = PasswordVisualTransformation(),
-            isError = signUpUserInfo.passwordError != PasswordError.None,
-            errorMessage = {
+            isError = signUpUserInfo.passwordError != PasswordError.None &&
+                    signUpUserInfo.passwordError != PasswordError.Blank,
+            supportingText = {
                 when (signUpUserInfo.passwordError) {
                     PasswordError.PasswordLength -> Text(
                         text = stringResource(R.string.password_length_error),
@@ -189,14 +197,17 @@ private fun Content(
                 }
             }
         )
-        NextStepTextField(
+
+        // Password Confirm TextField
+        TextField(
             modifier = Modifier.fillMaxWidth(),
             value = signUpUserInfo.passwordConfirm,
             onValueChange = onPasswordConfirmChange,
             label = { Text(text = stringResource(id = R.string.password_confirm_label)) },
             visualTransformation = PasswordVisualTransformation(),
-            isError = signUpUserInfo.passwordConfirmError != PasswordConfirmError.None,
-            errorMessage = {
+            isError = signUpUserInfo.passwordConfirmError != PasswordConfirmError.None &&
+                    signUpUserInfo.passwordConfirmError != PasswordConfirmError.Blank,
+            supportingText = {
                 when (signUpUserInfo.passwordConfirmError) {
                     PasswordConfirmError.PasswordEqual -> {
                         Text(
