@@ -29,7 +29,7 @@ fun SignUpTextField(
         )
 
         if (!validResult) {
-            InputErrorText(errMsg)
+            Text(errMsg)
         }
     }
 }
