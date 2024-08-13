@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import nextstep.signup.R
 import nextstep.signup.screen.SignUpTextFieldType
 import nextstep.signup.ui.theme.SignupTheme
+import nextstep.signup.util.validation.ValidationErrorType
 import nextstep.signup.util.validation.ValidationResult
 import nextstep.signup.util.validation.Validator
 
@@ -18,13 +19,9 @@ import nextstep.signup.util.validation.Validator
 fun EmailTextField(
     text: String,
     onValueChange: (String) -> Unit,
+    validationResult: ValidationResult,
     modifier: Modifier = Modifier,
 ) {
-
-    val validationResult by remember(text) {
-        derivedStateOf { Validator.emailValidate(text) }
-    }
-
     SignUpTextField(
         modifier = modifier,
         text = text,
@@ -32,11 +29,13 @@ fun EmailTextField(
         labelText = stringResource(id = R.string.sign_up_email_label),
         isError = validationResult is ValidationResult.Error,
         supportingText = {
-            signUpSupportingTextStringResource(
-                validationResult = validationResult,
-                signUpTextFieldType = SignUpTextFieldType.Email
-            )?.let { supportingText ->
-                Text(text = supportingText)
+            validationResult.getErrorType()?.let { type ->
+                when (type) {
+                   ValidationErrorType.RegexError ->
+                        Text(text =   stringResource(id = R.string.sign_up_email_regex_error))
+                    else -> {
+                    }
+                }
             }
         }
     )
@@ -49,6 +48,7 @@ private fun Preview1() {
         EmailTextField(
             text = "test@test.com",
             onValueChange = {},
+            validationResult = ValidationResult.Success
         )
     }
 }
@@ -60,6 +60,7 @@ private fun Preview2() {
         EmailTextField(
             text = "test!test.com",
             onValueChange = {},
+            validationResult = ValidationResult.Error(ValidationErrorType.RegexError)
         )
     }
 }
@@ -71,6 +72,7 @@ private fun Preview3() {
         EmailTextField(
             text = "test@test,com",
             onValueChange = {},
+            validationResult = ValidationResult.Error(ValidationErrorType.RegexError)
         )
     }
 }
@@ -82,6 +84,7 @@ private fun Preview4() {
         EmailTextField(
             text = "test@test.",
             onValueChange = {},
+            validationResult = ValidationResult.Error(ValidationErrorType.RegexError)
         )
     }
 }
