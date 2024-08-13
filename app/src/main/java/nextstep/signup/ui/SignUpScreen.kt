@@ -56,29 +56,25 @@ import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
 internal fun SignUpRoute(modifier: Modifier = Modifier) {
-    var username by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var passwordConfirm by remember { mutableStateOf("") }
+    var uiState by remember {
+        mutableStateOf(SignUpUiState.DEFAULT)
+    }
 
     val onUsernameChange = { value: String ->
-        username = value
+        uiState = uiState.copy(username = value)
     }
     val onEmailChange = { value: String ->
-        email = value
+        uiState = uiState.copy(email = value)
     }
     val onPasswordChange = { value: String ->
-        password = value
+        uiState = uiState.copy(password = value)
     }
     val onPasswordConfirmChange = { value: String ->
-        passwordConfirm = value
+        uiState = uiState.copy(passwordConfirm = value)
     }
 
     SignUpScreen(
-        username = username,
-        email = email,
-        password = password,
-        passwordConfirm = passwordConfirm,
+        uiState = uiState,
         onUsernameChange = onUsernameChange,
         onEmailChange = onEmailChange,
         onPasswordChange = onPasswordChange,
@@ -91,10 +87,7 @@ internal fun SignUpRoute(modifier: Modifier = Modifier) {
 
 @Composable
 internal fun SignUpScreen(
-    username: String,
-    email: String,
-    password: String,
-    passwordConfirm: String,
+    uiState: SignUpUiState,
     onUsernameChange: (String) -> Unit,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
@@ -105,35 +98,33 @@ internal fun SignUpScreen(
     passwordConfirmValidation: PasswordConfirmValidation = remember { PasswordConfirmValidation() },
     modifier: Modifier = Modifier,
 ) {
-    val usernameValidationResult by remember(username) {
+    val usernameValidationResult by remember(uiState.username) {
         derivedStateOf {
-            usernameValidation.validate(username)
+            usernameValidation.validate(uiState.username)
         }
     }
 
-    val emailValidationResult by remember(email) {
+    val emailValidationResult by remember(uiState.email) {
         derivedStateOf {
-            emailValidation.validate(email)
+            emailValidation.validate(uiState.email)
         }
     }
 
-    val passwordValidationResult by remember(password) {
+    val passwordValidationResult by remember(uiState.password) {
         derivedStateOf {
-            passwordValidation.validate(password)
+            passwordValidation.validate(uiState.password)
         }
     }
 
     val passwordConfirmValidationResult by remember(
-        PasswordConfirmValidation.PasswordConfirm(
-            password = password,
-            passwordConfirm = passwordConfirm,
-        ),
+        uiState.password,
+        uiState.passwordConfirm,
     ) {
         derivedStateOf {
             passwordConfirmValidation.validate(
                 PasswordConfirmValidation.PasswordConfirm(
-                    password = password,
-                    passwordConfirm = passwordConfirm,
+                    password = uiState.password,
+                    passwordConfirm = uiState.passwordConfirm,
                 ),
             )
         }
@@ -167,10 +158,7 @@ internal fun SignUpScreen(
         modifier = modifier,
     ) { paddingValues ->
         SignUpContent(
-            username = username,
-            email = email,
-            password = password,
-            passwordConfirm = passwordConfirm,
+            uiState = uiState,
             onUsernameChange = onUsernameChange,
             onEmailChange = onEmailChange,
             onPasswordChange = onPasswordChange,
@@ -191,10 +179,7 @@ internal fun SignUpScreen(
 
 @Composable
 private fun SignUpContent(
-    username: String,
-    email: String,
-    password: String,
-    passwordConfirm: String,
+    uiState: SignUpUiState,
     onUsernameChange: (String) -> Unit,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
@@ -221,7 +206,7 @@ private fun SignUpContent(
         )
 
         UsernameTextField(
-            value = username,
+            value = uiState.username,
             onValueChange = onUsernameChange,
             keyboardOptions =
                 KeyboardOptions(
@@ -240,7 +225,7 @@ private fun SignUpContent(
         )
 
         EmailTextField(
-            value = email,
+            value = uiState.email,
             onValueChange = onEmailChange,
             keyboardOptions =
                 KeyboardOptions(
@@ -260,7 +245,7 @@ private fun SignUpContent(
         )
 
         PasswordTextField(
-            value = password,
+            value = uiState.password,
             onValueChange = onPasswordChange,
             keyboardOptions =
                 KeyboardOptions(
@@ -280,7 +265,7 @@ private fun SignUpContent(
         )
 
         PasswordConfirmTextField(
-            value = passwordConfirm,
+            value = uiState.passwordConfirm,
             onValueChange = onPasswordConfirmChange,
             validationResult = passwordConfirmValidationResult,
             keyboardOptions =
@@ -356,10 +341,7 @@ fun SignUpScreenPreview(
 ) {
     SignupTheme {
         SignUpScreen(
-            username = uiState.username,
-            email = uiState.email,
-            password = uiState.password,
-            passwordConfirm = uiState.passwordConfirm,
+            uiState = uiState,
             onUsernameChange = {},
             onEmailChange = {},
             onPasswordChange = {},
@@ -367,14 +349,6 @@ fun SignUpScreenPreview(
         )
     }
 }
-
-// Preview 용 임시 데이터 클래스
-data class SignUpUiState(
-    val username: String,
-    val email: String,
-    val password: String,
-    val passwordConfirm: String,
-)
 
 class SignInUiStateProvider : PreviewParameterProvider<SignUpUiState> {
     override val values: Sequence<SignUpUiState>
