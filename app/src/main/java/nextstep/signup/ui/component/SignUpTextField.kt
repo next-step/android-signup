@@ -9,14 +9,14 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import nextstep.signup.ui.signup.SignupValidationResult
-import nextstep.signup.ui.signup.SignupValidationResult.Failure
-import nextstep.signup.ui.signup.SignupValidationResult.Success
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.BlueGray20
 import nextstep.signup.ui.theme.Gray
@@ -24,49 +24,59 @@ import nextstep.signup.ui.theme.RobotoRegular
 
 @Composable
 fun SignUpTextField(
-    label: String,
-    onTextChanged: (String) -> Unit,
     text: String,
-    inputValidation: SignupValidationResult = SignupValidationResult.Success,
+    onTextChanged: (String) -> Unit,
+    textFontSize: TextUnit = 16.sp,
+    textFontFamily: FontFamily = RobotoRegular,
+    label: String,
+    labelFontSize: TextUnit = TextUnit.Unspecified,
+    labelFontFamily: FontFamily = RobotoRegular,
+    focusedTextColor: Color = Color.Black,
+    unfocusedTextColor: Color = Color.Black,
+    focusedLabelColor: Color = Blue50,
+    unfocusedLabelColor: Color = Gray,
+    unfocusedContainerColor: Color = BlueGray20,
+    focusedContainerColor: Color = BlueGray20,
+    focusedIndicatorColor: Color = Blue50,
+    isError: Boolean = false,
     visualTransformation: VisualTransformation = VisualTransformation.None,
+    supportingText: @Composable (() -> Unit)? = null,
+    textFieldBackgroundColor: Color = Color.Transparent,
+    textFieldRoundedCornerShape: Shape = RoundedCornerShape(
+        topStart = 4.dp,
+        topEnd = 4.dp,
+    ),
 ) {
     TextField(
         value = text,
         onValueChange = onTextChanged,
         textStyle = TextStyle.Default.copy(
-            fontSize = 16.sp,
-            fontFamily = RobotoRegular,
+            fontSize = textFontSize,
+            fontFamily = textFontFamily,
         ),
         label = {
             Text(
                 text = label,
-                fontFamily = RobotoRegular,
+                fontFamily = labelFontFamily,
             )
         },
         colors = TextFieldDefaults.colors(
-            focusedTextColor = Color.Black,
-            unfocusedTextColor = Color.Black,
-            focusedLabelColor = Blue50,
-            unfocusedLabelColor = Gray,
-            unfocusedContainerColor = BlueGray20,
-            focusedContainerColor = BlueGray20,
-            focusedIndicatorColor = Blue50,
+            focusedTextColor = focusedTextColor,
+            unfocusedTextColor = unfocusedTextColor,
+            focusedLabelColor = focusedLabelColor,
+            unfocusedLabelColor = unfocusedLabelColor,
+            unfocusedContainerColor = unfocusedContainerColor,
+            focusedContainerColor = focusedContainerColor,
+            focusedIndicatorColor = focusedIndicatorColor,
         ),
-        isError = inputValidation !is Success,
-        supportingText = {
-            if (inputValidation !is Success) Text(
-                text = (inputValidation as Failure).result.message
-            )
-        },
+        isError = isError,
+        supportingText = supportingText,
         visualTransformation = visualTransformation,
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                color = Color.Transparent,
-                shape = RoundedCornerShape(
-                    topStart = 4.dp,
-                    topEnd = 4.dp,
-                ),
+                color = textFieldBackgroundColor,
+                shape = textFieldRoundedCornerShape,
             ),
     )
 }

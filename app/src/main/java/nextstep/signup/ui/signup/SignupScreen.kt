@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import nextstep.signup.R
 import nextstep.signup.ui.component.SignUpButton
 import nextstep.signup.ui.component.SignUpTextField
+import nextstep.signup.ui.signup.SignupValidationResult.Failure
 import nextstep.signup.ui.signup.SignupValidationResult.Success
 import nextstep.signup.ui.signup.SignupValidator.Email
 import nextstep.signup.ui.signup.SignupValidator.Password
@@ -44,48 +45,39 @@ fun SignUpScreen() {
         val (email, setEmail) = remember { mutableStateOf("") }
         val (password, setPassword) = remember { mutableStateOf("") }
         val (passwordConfirm, setPasswordConfirm) = remember { mutableStateOf("") }
-
-        val isValidOfSignup = userName.isValid<Username>() == Success &&
-                email.isValid<Email>() == Success &&
-                password.isValid<Password>() == Success &&
-                passwordConfirm.isValid<PasswordConfirm>(password) == Success
+        val usernameValidation = userName.isValid<Username>()
+        val emailValidation = email.isValid<Email>()
+        val passwordValidation = password.isValid<Password>()
+        val passwordConfirmValidation = passwordConfirm.isValid<PasswordConfirm>(password)
+        val isValidOfSignup = usernameValidation == Success && emailValidation == Success
+                && passwordValidation == Success && passwordConfirmValidation == Success
 
         Spacer(modifier = Modifier.height(60.dp))
-        Text(
-            text = stringResource(R.string.signup_header_title),
-            color = Color.Black,
-            fontSize = 26.sp,
-            fontFamily = RobotoBold,
-        )
+        HeaderText()
         Spacer(modifier = Modifier.height(42.dp))
-        SignUpTextField(
-            label = stringResource(R.string.signup_user_name),
-            onTextChanged = setUserName,
-            text = userName,
-            inputValidation = userName.isValid<Username>(),
+        UsernameTextField(
+            username = userName,
+            onUsernameChanged = setUserName,
+            usernameValidation = usernameValidation,
         )
         Spacer(modifier = Modifier.height(36.dp))
-        SignUpTextField(
-            label = stringResource(R.string.signup_email),
-            onTextChanged = setEmail,
-            text = email,
-            inputValidation = email.isValid<Email>(),
+        EmailTextField(
+            email = email,
+            onEmailChanged = setEmail,
+            emailValidation = emailValidation,
         )
         Spacer(modifier = Modifier.height(36.dp))
-        SignUpTextField(
-            label = stringResource(R.string.signup_password),
-            onTextChanged = setPassword,
-            text = password,
-            visualTransformation = PasswordVisualTransformation(),
-            inputValidation = password.isValid<Password>(),
+        PasswordTextField(
+            password = password,
+            onPasswordChanged = setPassword,
+            passwordValidation = passwordValidation,
         )
         Spacer(modifier = Modifier.height(36.dp))
-        SignUpTextField(
-            label = stringResource(R.string.signup_password_confirm),
-            onTextChanged = setPasswordConfirm,
-            text = passwordConfirm,
-            visualTransformation = PasswordVisualTransformation(),
-            inputValidation = passwordConfirm.isValid<PasswordConfirm>(password),
+        PasswordConfirmTextField(
+            passwordConfirm = passwordConfirm,
+            onPasswordConfirmChanged = setPasswordConfirm,
+            password = password,
+            passwordConfirmValidation = passwordConfirmValidation,
         )
         Spacer(modifier = Modifier.height(42.dp))
         CreateAccountButton(
@@ -93,6 +85,97 @@ fun SignUpScreen() {
             onCreateAccountButtonClick = {},
         )
     }
+}
+
+@Composable
+private fun HeaderText() {
+    Text(
+        text = stringResource(R.string.signup_header_title),
+        color = Color.Black,
+        fontSize = 26.sp,
+        fontFamily = RobotoBold,
+    )
+}
+
+@Composable
+private fun UsernameTextField(
+    username: String,
+    onUsernameChanged: (String) -> Unit,
+    usernameValidation: SignupValidationResult,
+) {
+    SignUpTextField(
+        text = username,
+        onTextChanged = onUsernameChanged,
+        label = stringResource(R.string.signup_user_name),
+        isError = usernameValidation !is Success,
+        visualTransformation = PasswordVisualTransformation(),
+        supportingText = {
+            if (usernameValidation !is Success) Text(
+                text = (usernameValidation as Failure).result.message
+            )
+        },
+    )
+}
+
+@Composable
+private fun EmailTextField(
+    email: String,
+    onEmailChanged: (String) -> Unit,
+    emailValidation: SignupValidationResult,
+) {
+    SignUpTextField(
+        text = email,
+        onTextChanged = onEmailChanged,
+        label = stringResource(R.string.signup_email),
+        isError = emailValidation !is Success,
+        visualTransformation = PasswordVisualTransformation(),
+        supportingText = {
+            if (emailValidation !is Success) Text(
+                text = (emailValidation as Failure).result.message
+            )
+        },
+    )
+}
+
+@Composable
+private fun PasswordTextField(
+    password: String,
+    onPasswordChanged: (String) -> Unit,
+    passwordValidation: SignupValidationResult,
+) {
+    SignUpTextField(
+        text = password,
+        onTextChanged = onPasswordChanged,
+        label = stringResource(R.string.signup_password),
+        isError = passwordValidation !is Success,
+        visualTransformation = PasswordVisualTransformation(),
+        supportingText = {
+            if (passwordValidation !is Success) Text(
+                text = (passwordValidation as Failure).result.message
+            )
+        },
+    )
+}
+
+@Composable
+fun PasswordConfirmTextField(
+    passwordConfirm: String,
+    onPasswordConfirmChanged: (String) -> Unit,
+    password: String,
+    passwordConfirmValidation: SignupValidationResult,
+) {
+    SignUpTextField(
+        text = passwordConfirm,
+        onTextChanged = onPasswordConfirmChanged,
+        label = stringResource(R.string.signup_password_confirm),
+        isError = passwordConfirmValidation !is Success,
+        visualTransformation = PasswordVisualTransformation(),
+        supportingText = {
+            if (passwordConfirmValidation !is Success) Text(
+                text = (passwordConfirmValidation as Failure).result.message
+            )
+        },
+    )
 }
 
 @Composable
