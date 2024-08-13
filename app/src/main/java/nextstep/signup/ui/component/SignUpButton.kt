@@ -22,17 +22,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import nextstep.signup.R
-import nextstep.signup.SignUpUiState
-import nextstep.signup.SignUpViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun SignUpButton(
     colors: ButtonColors,
-    signUpUiState: SignUpUiState,
+    enabled: Boolean,
     modifier: Modifier = Modifier
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -59,25 +56,22 @@ fun SignUpButton(
                     text = stringResource(id = R.string.signUp)
                 )
             },
-            enabled = signUpUiState.isSignUpButtonEnabled,
+            enabled = enabled,
             modifier = modifier
         )
     }
 }
 
-@SuppressLint("StateFlowValueCalledInComposition")
 @Preview
 @Composable
 private fun SignUpButtonPreview() {
-    val viewmodel: SignUpViewModel = viewModel()
-
     SignUpButton(
         colors = ButtonDefaults.buttonColors(
             contentColor = Color.White,
             disabledContainerColor = Color.LightGray,
             disabledContentColor = Color.Gray
         ),
-        signUpUiState = viewmodel.uiState.value,
+        enabled = true,
         modifier = Modifier
             .fillMaxWidth()
             .height(100.dp)

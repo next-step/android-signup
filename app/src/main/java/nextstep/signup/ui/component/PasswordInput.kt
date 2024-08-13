@@ -1,6 +1,5 @@
 package nextstep.signup.ui.component
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -9,10 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import nextstep.signup.R
-import nextstep.signup.SignUpUiState
-import nextstep.signup.SignUpViewModel
 import nextstep.signup.ui.theme.SignupTheme
 
 
@@ -20,15 +16,15 @@ import nextstep.signup.ui.theme.SignupTheme
 fun PasswordInput(
     value: String,
     onValueChange: (String) -> Unit,
-    signUpUiState: SignUpUiState,
+    isValidationError: Boolean,
     modifier: Modifier = Modifier
 ) {
     SignUpInput(
         value = value,
         onValueChange = onValueChange,
-        isError = signUpUiState.isPasswordValidationError,
+        isError = isValidationError,
         supportingText = {
-            if (signUpUiState.isPasswordValidationError) {
+            if (isValidationError) {
                 Text(text = stringResource(id = R.string.passwordValidationMessage))
             }
         },
@@ -37,19 +33,14 @@ fun PasswordInput(
     )
 }
 
-@SuppressLint("StateFlowValueCalledInComposition")
 @Preview
 @Composable
 private fun PasswordInputPreview() {
-    val viewmodel: SignUpViewModel = viewModel()
-
     SignupTheme {
         PasswordInput(
-            value = viewmodel.uiState.value.password,
-            onValueChange = {
-                viewmodel.updatePassword(it)
-            },
-            signUpUiState = viewmodel.uiState.value,
+            value = "1234",
+            onValueChange = { },
+            isValidationError = true,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(20.dp)

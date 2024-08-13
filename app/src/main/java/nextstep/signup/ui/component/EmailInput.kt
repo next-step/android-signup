@@ -9,25 +9,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import nextstep.signup.R
-import nextstep.signup.SignUpUiState
-import nextstep.signup.SignUpViewModel
 import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
 fun EmailInput(
     value: String,
     onValueChange: (String) -> Unit,
-    signUpUiState: SignUpUiState,
+    isFormatError: Boolean,
     modifier: Modifier = Modifier
 ) {
     SignUpInput(
         value = value,
         onValueChange = onValueChange,
-        isError = signUpUiState.isEmailFormatError,
+        isError = isFormatError,
         supportingText = {
-            if (signUpUiState.isEmailFormatError) {
+            if (isFormatError) {
                 Text(text = stringResource(id = R.string.emailInvalidFormatMessage))
             }
         },
@@ -40,15 +37,11 @@ fun EmailInput(
 @Preview
 @Composable
 private fun EmailInputPreview() {
-    val viewmodel: SignUpViewModel = viewModel()
-
     SignupTheme {
         EmailInput(
-            value = viewmodel.uiState.value.email,
-            onValueChange = {
-                viewmodel.updateEmail(it)
-            },
-            signUpUiState = viewmodel.uiState.value,
+            value ="123@",
+            onValueChange = {},
+            isFormatError = true,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(20.dp)

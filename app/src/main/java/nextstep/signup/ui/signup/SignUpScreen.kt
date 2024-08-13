@@ -7,12 +7,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,7 +33,6 @@ fun SignUpScreen(
     viewModel: SignUpViewModel = viewModel(),
     modifier: Modifier = Modifier
 ) {
-    val snackbarHostState = remember { SnackbarHostState() }
     val signUpUiState by viewModel.uiState.collectAsState()
 
     val inputModifier = Modifier.padding(top = 20.dp)
@@ -58,28 +55,29 @@ fun SignUpScreen(
         UserNameInput(
             value = signUpUiState.username,
             onValueChange = viewModel::updateUsername,
-            signUpUiState = signUpUiState,
+            isLengthError = signUpUiState.isUsernameLengthError,
+            isFormatError = signUpUiState.isUsernameFormatError,
             modifier = inputModifier
         )
 
         EmailInput(
             value = signUpUiState.email,
             onValueChange = viewModel::updateEmail,
-            signUpUiState = signUpUiState,
+            isFormatError = signUpUiState.isEmailFormatError,
             modifier = inputModifier
         )
 
         PasswordInput(
             value = signUpUiState.password,
             onValueChange = viewModel::updatePassword,
-            signUpUiState = signUpUiState,
+            isValidationError = signUpUiState.isPasswordValidationError,
             modifier = inputModifier
         )
 
         PasswordConfirmInput(
             value = signUpUiState.passwordConfirm,
             onValueChange = viewModel::updatePasswordConfirm,
-            signUpUiState = signUpUiState,
+            isMismatchError = signUpUiState.isPasswordMismatchError,
             modifier = inputModifier
         )
         SignUpButton(
@@ -88,7 +86,7 @@ fun SignUpScreen(
                 disabledContainerColor = Color.LightGray,
                 disabledContentColor = Color.Gray
             ),
-            signUpUiState = signUpUiState,
+            enabled = signUpUiState.isSignUpButtonEnabled,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(100.dp)

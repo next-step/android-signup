@@ -1,7 +1,6 @@
 package nextstep.signup.study
 
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
@@ -31,7 +30,7 @@ class SignUpButtonEnabledTest {
                     disabledContainerColor = Color.LightGray,
                     disabledContentColor = Color.Gray
                 ),
-                signUpUiState = signUpUiState.collectAsState().value
+                enabled = signUpUiState.value.isSignUpButtonEnabled
             )
         }
     }
