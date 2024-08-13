@@ -12,22 +12,22 @@ class SignUpViewModel : ViewModel() {
     var passwordConfirm by mutableStateOf("")
 
     fun validateUserName(): Boolean {
-        if(userName.isEmpty()) return true
+        if (userName.isEmpty()) return true
         return userName.matches(Regex(REGEX_USER_NAME))
     }
 
     fun validateEmail(): Boolean {
-        if(email.isEmpty()) return true
+        if (email.isEmpty()) return true
         return email.matches(Regex(REGEX_EMAIL))
     }
 
     fun validatePassword(): Boolean {
-        if(password.isEmpty()) return true
+        if (password.isEmpty()) return true
         return password.matches(Regex(REGEX_PASSWORD))
     }
 
     fun validatePasswordConfirm(): Boolean {
-        if(passwordConfirm.isEmpty()) return true
+        if (passwordConfirm.isEmpty()) return true
         return password == passwordConfirm
     }
 

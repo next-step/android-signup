@@ -11,7 +11,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val viewModel : SignUpViewModel by viewModels()
+        val viewModel: SignUpViewModel by viewModels()
 
         setContent {
             SignupTheme {

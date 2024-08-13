@@ -65,7 +65,6 @@ fun SignUpScreen(
                 modifier = Modifier.padding(top = 62.dp),
                 verticalArrangement = Arrangement.spacedBy(32.dp)
             ) {
-
                 SignUpTextField(
                     inputText = viewModel.userName,
                     label = stringResource(id = R.string.user_name),
