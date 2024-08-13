@@ -14,7 +14,6 @@ class PasswordConfirmTextFieldTest {
 
     private val passwordConfirmFieldValue = mutableStateOf("")
     private val passwordMatchValidationResult = mutableStateOf(PasswordMatchValidationResult.VALID)
-    private val context = InstrumentationRegistry.getInstrumentation().targetContext
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -36,7 +35,7 @@ class PasswordConfirmTextFieldTest {
         passwordMatchValidationResult.value = PasswordMatchValidationResult.VALID
 
         composeTestRule
-            .onNodeWithText(context.getString(R.string.signup_password_mismatch_error))
+            .onNodeWithText("비밀번호가 일치하지 않습니다.")
             .assertDoesNotExist()
     }
 
@@ -46,7 +45,7 @@ class PasswordConfirmTextFieldTest {
         passwordMatchValidationResult.value = PasswordMatchValidationResult.VALID
 
         composeTestRule
-            .onNodeWithText(context.getString(R.string.signup_password_mismatch_error))
+            .onNodeWithText("비밀번호가 일치하지 않습니다.")
             .assertDoesNotExist()
     }
 
@@ -56,7 +55,7 @@ class PasswordConfirmTextFieldTest {
         passwordMatchValidationResult.value = PasswordMatchValidationResult.MISMATCH
 
         composeTestRule
-            .onNodeWithText(context.getString(R.string.signup_password_mismatch_error))
+            .onNodeWithText("비밀번호가 일치하지 않습니다.")
             .assertExists()
     }
 
@@ -66,13 +65,13 @@ class PasswordConfirmTextFieldTest {
         passwordMatchValidationResult.value = PasswordMatchValidationResult.VALID
 
         composeTestRule
-            .onNodeWithText(context.getString(R.string.signup_password_mismatch_error))
+            .onNodeWithText("비밀번호가 일치하지 않습니다.")
             .assertDoesNotExist()
 
         passwordMatchValidationResult.value = PasswordMatchValidationResult.MISMATCH
 
         composeTestRule
-            .onNodeWithText(context.getString(R.string.signup_password_mismatch_error))
+            .onNodeWithText("비밀번호가 일치하지 않습니다.")
             .assertExists()
     }
 }

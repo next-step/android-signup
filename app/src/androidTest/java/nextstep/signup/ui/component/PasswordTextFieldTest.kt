@@ -14,7 +14,6 @@ class PasswordTextFieldTest {
 
     private val textFieldValue = mutableStateOf("")
     private val passwordValidationResult = mutableStateOf(PasswordValidationResult.VALID)
-    private val context = InstrumentationRegistry.getInstrumentation().targetContext
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -36,7 +35,10 @@ class PasswordTextFieldTest {
         passwordValidationResult.value = PasswordValidationResult.VALID
 
         composeTestRule
-            .onNodeWithText(context.getString(R.string.signup_password_length_error))
+            .onNodeWithText("비밀번호는 8~16자여야 합니다.")
+            .assertDoesNotExist()
+        composeTestRule
+            .onNodeWithText("비밀번호는 영문과 숫자를 포함해야 합니다.")
             .assertDoesNotExist()
     }
 
@@ -46,7 +48,10 @@ class PasswordTextFieldTest {
         passwordValidationResult.value = PasswordValidationResult.VALID
 
         composeTestRule
-            .onNodeWithText(context.getString(R.string.signup_password_complexity_error))
+            .onNodeWithText("비밀번호는 8~16자여야 합니다.")
+            .assertDoesNotExist()
+        composeTestRule
+            .onNodeWithText("비밀번호는 영문과 숫자를 포함해야 합니다.")
             .assertDoesNotExist()
     }
 
@@ -57,7 +62,7 @@ class PasswordTextFieldTest {
         passwordValidationResult.value = PasswordValidationResult.INVALID_LENGTH
 
         composeTestRule
-            .onNodeWithText(context.getString(R.string.signup_password_length_error))
+            .onNodeWithText("비밀번호는 8~16자여야 합니다.")
             .assertExists()
     }
 
@@ -67,7 +72,7 @@ class PasswordTextFieldTest {
         passwordValidationResult.value = PasswordValidationResult.INVALID_COMPLEXITY
 
         composeTestRule
-            .onNodeWithText(context.getString(R.string.signup_password_complexity_error), useUnmergedTree = true)
+            .onNodeWithText("비밀번호는 영문과 숫자를 포함해야 합니다.")
             .assertExists()
     }
 }

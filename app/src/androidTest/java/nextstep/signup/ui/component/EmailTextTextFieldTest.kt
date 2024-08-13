@@ -14,7 +14,6 @@ class EmailTextTextFieldTest {
 
     private val textFieldValue = mutableStateOf("")
     private val emailValidationResult = mutableStateOf(EmailValidationResult.VALID)
-    private val context = InstrumentationRegistry.getInstrumentation().targetContext
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -36,7 +35,7 @@ class EmailTextTextFieldTest {
         emailValidationResult.value = EmailValidationResult.VALID
 
         composeTestRule
-            .onNodeWithText(context.getString(R.string.signup_invalid_email))
+            .onNodeWithText("이메일 형식이 올바르지 않습니다.")
             .assertDoesNotExist()
     }
 
@@ -46,7 +45,7 @@ class EmailTextTextFieldTest {
         emailValidationResult.value = EmailValidationResult.VALID
 
         composeTestRule
-            .onNodeWithText(context.getString(R.string.signup_invalid_email))
+            .onNodeWithText("이메일 형식이 올바르지 않습니다.")
             .assertDoesNotExist()
     }
 
@@ -56,7 +55,7 @@ class EmailTextTextFieldTest {
         emailValidationResult.value = EmailValidationResult.INVALID_FORMAT
 
         composeTestRule
-            .onNodeWithText(context.getString(R.string.signup_invalid_email))
+            .onNodeWithText("이메일 형식이 올바르지 않습니다.")
             .assertExists()
     }
 }

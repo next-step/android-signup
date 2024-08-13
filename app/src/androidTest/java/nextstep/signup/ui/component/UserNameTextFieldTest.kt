@@ -3,8 +3,6 @@ package nextstep.signup.ui.component
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import androidx.test.platform.app.InstrumentationRegistry
-import nextstep.signup.R
 import nextstep.signup.core.validation.NameValidationResult
 import org.junit.Before
 import org.junit.Rule
@@ -13,7 +11,6 @@ import org.junit.Test
 class UserNameTextFieldTest {
     private val textFieldValue = mutableStateOf("")
     private val userNameValidationResult = mutableStateOf(NameValidationResult.VALID)
-    private val context = InstrumentationRegistry.getInstrumentation().targetContext
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -35,7 +32,11 @@ class UserNameTextFieldTest {
         userNameValidationResult.value = NameValidationResult.VALID
 
         composeTestRule
-            .onNodeWithText(context.getString(R.string.signup_name_length_error))
+            .onNodeWithText("이름은 2~5자여야 합니다.")
+            .assertDoesNotExist()
+
+        composeTestRule
+            .onNodeWithText("이름에는 숫자나 기호가 포함될 수 없습니다.")
             .assertDoesNotExist()
     }
 
@@ -45,7 +46,11 @@ class UserNameTextFieldTest {
         userNameValidationResult.value = NameValidationResult.VALID
 
         composeTestRule
-            .onNodeWithText(context.getString(R.string.signup_name_length_error))
+            .onNodeWithText("이름은 2~5자여야 합니다.")
+            .assertDoesNotExist()
+
+        composeTestRule
+            .onNodeWithText("이름에는 숫자나 기호가 포함될 수 없습니다.")
             .assertDoesNotExist()
     }
 
@@ -55,7 +60,7 @@ class UserNameTextFieldTest {
         userNameValidationResult.value = NameValidationResult.LENGTH_ERROR
 
         composeTestRule
-            .onNodeWithText(context.getString(R.string.signup_name_length_error))
+            .onNodeWithText("이름은 2~5자여야 합니다.")
             .assertExists()
     }
 
@@ -65,7 +70,7 @@ class UserNameTextFieldTest {
         userNameValidationResult.value = NameValidationResult.CHARACTER_ERROR
 
         composeTestRule
-            .onNodeWithText(context.getString(R.string.signup_name_character_error))
+            .onNodeWithText("이름에는 숫자나 기호가 포함될 수 없습니다.")
             .assertExists()
     }
 }
