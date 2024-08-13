@@ -1,7 +1,7 @@
 package nextstep.signup
 
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.SemanticsNodeInteraction
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -9,8 +9,6 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.test.runTest
 import nextstep.signup.ui.signup.SignupScreen
 import org.junit.Before
 import org.junit.Rule
@@ -25,15 +23,13 @@ class SignupScreenTest {
     private lateinit var passwordTextField: SemanticsNodeInteraction
     private lateinit var passwordConfirmTextField: SemanticsNodeInteraction
     private lateinit var createAccountButton: SemanticsNodeInteraction
+    private lateinit var signupSnackBar: SemanticsNodeInteraction
 
     @Before
     fun setup() {
         composeTestRule.apply {
             setContent {
-                SignupScreen(
-                    onSignupClick = {},
-                    modifier = Modifier,
-                )
+                SignupScreen()
             }
             userNameTextField = onNodeWithContentDescription(USERNAME_CONTENT_DESCRIPTION)
             emailTextField = onNodeWithContentDescription(EMAIL_CONTENT_DESCRIPTION)
@@ -44,6 +40,7 @@ class SignupScreenTest {
             createAccountButton = onNodeWithContentDescription(
                 CREATE_ACCOUNT_BUTTON_CONTENT_DESCRIPTION
             )
+            signupSnackBar = onNodeWithText("회원가입에 성공했습니다.")
         }
     }
 
@@ -260,6 +257,27 @@ class SignupScreenTest {
 
         // then:
         createAccountButton.assertIsEnabled()
+    }
+
+
+    @Test
+    fun 회원가입_기입_정보_모든_조건을_만족한_경우_버튼이_누르면_스낵바가_나온다() {
+        // given:
+        val username = "산군"
+        val email = "s9hn@github.com"
+        val password = "abcd1234"
+        val passwordConfirm = "abcd1234"
+
+        // when:
+        userNameTextField.performTextInput(username)
+        emailTextField.performTextInput(email)
+        passwordTextField.performTextInput(password)
+        passwordConfirmTextField.performTextInput(passwordConfirm)
+        createAccountButton.performClick()
+
+
+        // then:
+        signupSnackBar.assertIsDisplayed()
     }
 
     companion object {
