@@ -135,7 +135,7 @@ private fun Content(
             isError = signUpUserInfo.isNamePass != NameError.None,
             errorMessage = {
                 when (signUpUserInfo.isNamePass) {
-                    NameError.LengthError -> Text(
+                    NameError.Length -> Text(
                         text = stringResource(R.string.name_length_error),
                         style = MaterialTheme.typography.bodySmall
                     )

@@ -8,7 +8,7 @@ internal interface ValidatableError {
 internal enum class NameError : ValidatableError {
     None,
     Blank,
-    LengthError,
+    Length,
     NumberOrSymbol;
 
     override val isNone: Boolean

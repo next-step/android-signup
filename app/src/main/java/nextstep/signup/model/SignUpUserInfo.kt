@@ -17,7 +17,7 @@ internal data class SignUpUserInfo(
     val isNamePass: NameError
         get() = when {
             username.isBlank() -> NameError.Blank
-            (username.length in 2..5).not() -> NameError.LengthError
+            (username.length in 2..5).not() -> NameError.Length
             username.matches(Regex(USERNAME_REGEX)).not() -> NameError.NumberOrSymbol
             else -> NameError.None
         }
