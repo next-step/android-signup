@@ -6,12 +6,17 @@ internal data class SignUpUserInfo(
     val password: String = "",
     val passwordConfirm: String = "",
 ) {
-    fun isNotContainBlank(): Boolean =
-        username.isNotBlank() && email.isNotBlank() && password.isNotBlank() && passwordConfirm.isNotBlank()
+    val isNotContainBlank: Boolean
+        get() = listOf(
+            isNamePass,
+            isEmailPass,
+            isPasswordPass,
+            isPasswordConfirmPass
+        ).none { it.isBlank }
 
     val isNamePass: NameError
         get() = when {
-            username.isBlank() -> NameError.Bank
+            username.isBlank() -> NameError.Blank
             (username.length in 2..5).not() -> NameError.LengthError
             username.matches(Regex(USERNAME_REGEX)).not() -> NameError.NumberOrSymbol
             else -> NameError.None
@@ -39,31 +44,14 @@ internal data class SignUpUserInfo(
             else -> PasswordConfirmError.None
         }
 
-    enum class NameError {
-        None,
-        Bank,
-        LengthError,
-        NumberOrSymbol
-    }
+    val isAllFieldsValid: Boolean
+        get() = listOf(
+            isNamePass,
+            isEmailPass,
+            isPasswordPass,
+            isPasswordConfirmPass
+        ).all { it.isNone }
 
-    enum class EmailError {
-        None,
-        Blank,
-        EmailFormat
-    }
-
-    enum class PasswordError {
-        None,
-        Blank,
-        PasswordLength,
-        PasswordFormat
-    }
-
-    enum class PasswordConfirmError {
-        None,
-        Blank,
-        PasswordEqual,
-    }
 
     companion object {
         const val USERNAME_REGEX = "^[a-zA-Z가-힣]+$"

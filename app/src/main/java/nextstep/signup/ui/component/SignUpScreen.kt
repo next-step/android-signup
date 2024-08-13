@@ -31,6 +31,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import nextstep.signup.R
+import nextstep.signup.model.EmailError
+import nextstep.signup.model.NameError
+import nextstep.signup.model.PasswordConfirmError
+import nextstep.signup.model.PasswordError
 import nextstep.signup.model.SignUpUserInfo
 import nextstep.signup.ui.theme.SignupTheme
 import nextstep.signup.ui.theme.textfield.NextStepTextField
@@ -55,9 +59,6 @@ internal fun SignUpScreen() {
         content = { paddingValues ->
             Content(
                 signUpUserInfo = signUpUserInfo,
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .padding(top = 42.dp),
                 onUsernameChange = { signUpUserInfo = signUpUserInfo.copy(username = it) },
                 onEmailChange = { signUpUserInfo = signUpUserInfo.copy(email = it) },
                 onPasswordChange = { signUpUserInfo = signUpUserInfo.copy(password = it) },
@@ -65,7 +66,7 @@ internal fun SignUpScreen() {
                     signUpUserInfo = signUpUserInfo.copy(passwordConfirm = it)
                 },
                 onClickSignUp = {
-                    if (signUpUserInfo.isNotContainBlank()) {
+                    if (signUpUserInfo.isAllFieldsValid.not()) {
                         coroutineScope.launch {
                             snackbarHostState.showSnackbar(
                                 context.getString(
@@ -77,7 +78,11 @@ internal fun SignUpScreen() {
                             )
                         }
                     }
-                }
+                },
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .padding(top = 42.dp)
+                    .padding(horizontal = 32.dp)
             )
         },
         bottomBar = { BottomBar() }
@@ -115,7 +120,7 @@ private fun Content(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.padding(horizontal = 32.dp),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(36.dp)
     ) {
@@ -124,19 +129,20 @@ private fun Content(
             value = signUpUserInfo.username,
             onValueChange = onUsernameChange,
             label = { Text(text = stringResource(id = R.string.username_label)) },
-            isError = signUpUserInfo.isNamePass != SignUpUserInfo.NameError.None,
+            isError = signUpUserInfo.isNamePass != NameError.None,
             errorMessage = {
                 when (signUpUserInfo.isNamePass) {
-                    SignUpUserInfo.NameError.LengthError -> stringResource(R.string.name_length_error)
-                    SignUpUserInfo.NameError.NumberOrSymbol -> stringResource(R.string.name_number_or_symbol_error)
-                    else -> ""
-                }.also {
-                    if (it.isNotBlank()) {
-                        Text(
-                            text = it,
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                    }
+                    NameError.LengthError -> Text(
+                        text = stringResource(R.string.name_length_error),
+                        style = MaterialTheme.typography.bodySmall
+                    )
+
+                    NameError.NumberOrSymbol -> Text(
+                        text = stringResource(R.string.name_number_or_symbol_error),
+                        style = MaterialTheme.typography.bodySmall
+                    )
+
+                    NameError.None, NameError.Blank -> {}
                 }
             }
         )
@@ -145,17 +151,15 @@ private fun Content(
             value = signUpUserInfo.email,
             onValueChange = onEmailChange,
             label = { Text(text = stringResource(id = R.string.email_label)) },
-            isError = signUpUserInfo.isEmailPass != SignUpUserInfo.EmailError.None,
+            isError = signUpUserInfo.isEmailPass != EmailError.None,
             errorMessage = {
                 when (signUpUserInfo.isEmailPass) {
-                    SignUpUserInfo.EmailError.EmailFormat -> {
-                        Text(
-                            text = stringResource(R.string.email_format_error),
-                            style = MaterialTheme.typography.bodySmall,
-                        )
-                    }
+                    EmailError.EmailFormat -> Text(
+                        text = stringResource(R.string.email_format_error),
+                        style = MaterialTheme.typography.bodySmall
+                    )
 
-                    else -> {}
+                    EmailError.Blank, EmailError.None -> {}
                 }
             }
         )
@@ -165,19 +169,20 @@ private fun Content(
             onValueChange = onPasswordChange,
             label = { Text(text = stringResource(id = R.string.password_label)) },
             visualTransformation = PasswordVisualTransformation(),
-            isError = signUpUserInfo.isPasswordPass != SignUpUserInfo.PasswordError.None,
+            isError = signUpUserInfo.isPasswordPass != PasswordError.None,
             errorMessage = {
                 when (signUpUserInfo.isPasswordPass) {
-                    SignUpUserInfo.PasswordError.PasswordLength -> stringResource(R.string.password_length_error)
-                    SignUpUserInfo.PasswordError.PasswordFormat -> stringResource(R.string.password_format_error)
-                    else -> ""
-                }.also {
-                    if (it.isNotBlank()) {
-                        Text(
-                            text = it,
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                    }
+                    PasswordError.PasswordLength -> Text(
+                        text = stringResource(R.string.password_length_error),
+                        style = MaterialTheme.typography.bodySmall
+                    )
+
+                    PasswordError.PasswordFormat -> Text(
+                        text = stringResource(R.string.password_format_error),
+                        style = MaterialTheme.typography.bodySmall
+                    )
+
+                    PasswordError.Blank, PasswordError.None -> {}
                 }
             }
         )
@@ -187,31 +192,30 @@ private fun Content(
             onValueChange = onPasswordConfirmChange,
             label = { Text(text = stringResource(id = R.string.password_confirm_label)) },
             visualTransformation = PasswordVisualTransformation(),
-            isError = signUpUserInfo.isPasswordConfirmPass != SignUpUserInfo.PasswordConfirmError.None,
+            isError = signUpUserInfo.isPasswordConfirmPass != PasswordConfirmError.None,
             errorMessage = {
-                if (signUpUserInfo.isPasswordConfirmPass == SignUpUserInfo.PasswordConfirmError.PasswordEqual) {
-                    Text(
-                        text = stringResource(R.string.password_confirm_error),
-                        style = MaterialTheme.typography.bodySmall
-                    )
+                when (signUpUserInfo.isPasswordConfirmPass) {
+                    PasswordConfirmError.PasswordEqual -> {
+                        Text(
+                            text = stringResource(R.string.password_confirm_error),
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
+
+                    PasswordConfirmError.Blank, PasswordConfirmError.None -> {}
                 }
             }
         )
 
         Button(
             modifier = Modifier.fillMaxWidth(),
-            enabled = signUpUserInfo.isNotContainBlank(),
+            enabled = signUpUserInfo.isNotContainBlank,
             onClick = onClickSignUp,
             contentPadding = PaddingValues(vertical = 15.dp)
         ) {
             Text(
                 text = stringResource(id = R.string.sign_up_button),
-                style = TextStyle(
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium,
-                    lineHeight = 20.sp,
-                    letterSpacing = 0.1.sp
-                ),
+                style = MaterialTheme.typography.labelLarge,
             )
         }
     }
