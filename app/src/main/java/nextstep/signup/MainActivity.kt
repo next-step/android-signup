@@ -64,7 +64,7 @@ private fun TitleTextComponent() {
 
 @Composable
 private fun TextFieldComponent(
-    placeholder: Int,
+    label: Int,
     input: MutableState<String>,
     inputEntered: MutableState<Boolean>
 ) {
@@ -75,10 +75,7 @@ private fun TextFieldComponent(
                 input.value = it
             },
             label = {
-                Text(text = stringResource(id = placeholder))
-            },
-            placeholder = {
-                Text(text = stringResource(id = placeholder))
+                Text(text = stringResource(id = label))
             },
             modifier = Modifier
                 .alignByBaseline()
@@ -139,22 +136,22 @@ private fun ScreenLayoutSetting() {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             TitleTextComponent()
             TextFieldComponent(
-                placeholder = R.string.signup_username,
+                label = R.string.signup_username,
                 input = input,
                 inputEntered = inputEntered
             )
             TextFieldComponent(
-                placeholder = R.string.signup_email,
+                label = R.string.signup_email,
                 input = input,
                 inputEntered = inputEntered
             )
             TextFieldComponent(
-                placeholder = R.string.signup_password,
+                label = R.string.signup_password,
                 input = input,
                 inputEntered = inputEntered
             )
             TextFieldComponent(
-                placeholder = R.string.signup_password_confirm,
+                label = R.string.signup_password_confirm,
                 input = input,
                 inputEntered = inputEntered
             )
