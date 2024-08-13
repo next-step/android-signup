@@ -33,6 +33,15 @@ fun setMessage(state: TextFieldState, type: TextFieldType): String {
             }
         }
 
+        TextFieldType.PasswordConfirm -> {
+            return when (state) {
+                TextFieldState.Valid -> ""
+                TextFieldState.InValid -> stringResource(id = R.string.password_do_not_match)
+                TextFieldState.LengthError -> ""
+                TextFieldState.Default -> ""
+            }
+        }
+
         TextFieldType.Default -> return ""
     }
 }

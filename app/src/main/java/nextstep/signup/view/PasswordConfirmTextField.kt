@@ -1,6 +1,5 @@
 package nextstep.signup.view
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -15,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
-import nextstep.signup.InputValidator.isValid
 import nextstep.signup.R
 import nextstep.signup.TextFieldState
 import nextstep.signup.TextFieldType
@@ -24,33 +22,42 @@ import nextstep.signup.view.ui.theme.Red50
 import nextstep.signup.view.ui.theme.SignupTheme
 
 @Composable
-fun PasswordConfirmTextField(onTextChange: (String) -> Unit = {}) {
+fun PasswordConfirmTextField(
+    onTextChange: (String) -> Unit = { },
+    isMatchPassword: Boolean = true
+) {
     var textState by remember { mutableStateOf("") }
-    var validationState: TextFieldState by remember { mutableStateOf(TextFieldState.Default) }
+
+    val validationState: TextFieldState = if (isMatchPassword) {
+        TextFieldState.Valid
+    } else {
+        TextFieldState.InValid
+    }
 
     val onValueChange = { value: String ->
         textState = value
-        validationState = isValid(value, TextFieldType.Password)
         onTextChange(value)
     }
 
-    Column {
-        TextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = textState,
-            onValueChange = onValueChange,
-            label = { Text(text = stringResource(id = R.string.password_confirm)) },
-            visualTransformation = PasswordVisualTransformation(),
-            colors = TextFieldDefaults.colors(
-                focusedLabelColor = if (validationState == TextFieldState.Valid || validationState == TextFieldState.Default) {
-                    MaterialTheme.colorScheme.primary
-                } else {
-                    Red50
-                }
-            ),
-        )
-        SignUpHelperText(setMessage(validationState, TextFieldType.Password))
-    }
+    TextField(
+        modifier = Modifier.fillMaxWidth(),
+        value = textState,
+        onValueChange = onValueChange,
+        label = { Text(text = stringResource(id = R.string.password_confirm)) },
+        visualTransformation = PasswordVisualTransformation(),
+        colors = TextFieldDefaults.colors(
+            focusedLabelColor = if (validationState == TextFieldState.Valid) {
+                MaterialTheme.colorScheme.primary
+            } else {
+                Red50
+            }
+        ),
+        supportingText = {
+            SignUpHelperText(
+                setMessage(validationState, TextFieldType.PasswordConfirm)
+            )
+        },
+    )
 }
 
 @Preview(showBackground = true)

@@ -7,6 +7,7 @@ object InputValidator {
             TextFieldType.Email -> isValidEmail(input)
             TextFieldType.Password -> isValidPassword(input)
             TextFieldType.Default -> TextFieldState.Default
+            TextFieldType.PasswordConfirm -> TextFieldState.Default
         }
     }
 

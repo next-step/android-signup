@@ -1,6 +1,5 @@
 package nextstep.signup.view
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -32,26 +31,24 @@ fun UsernameTextField() {
         validationState = isValid(value, TextFieldType.Username)
     }
 
-    Column {
-        TextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = textState,
-            onValueChange = onValueChange,
-            label = { Text(text = stringResource(id = R.string.username)) },
-            colors = TextFieldDefaults.colors(
-                focusedLabelColor = if (validationState == TextFieldState.Valid || validationState == TextFieldState.Default) {
-                    MaterialTheme.colorScheme.primary
-                } else {
-                    Red50
-                }
-            ),
-            supportingText = {
-                SignUpHelperText(
-                    setMessage(validationState, TextFieldType.Username)
-                )
-            },
-        )
-    }
+    TextField(
+        modifier = Modifier.fillMaxWidth(),
+        value = textState,
+        onValueChange = onValueChange,
+        label = { Text(text = stringResource(id = R.string.username)) },
+        colors = TextFieldDefaults.colors(
+            focusedLabelColor = if (validationState == TextFieldState.Valid || validationState == TextFieldState.Default) {
+                MaterialTheme.colorScheme.primary
+            } else {
+                Red50
+            }
+        ),
+        supportingText = {
+            SignUpHelperText(
+                setMessage(validationState, TextFieldType.Username)
+            )
+        },
+    )
 }
 
 @Preview(showBackground = true)

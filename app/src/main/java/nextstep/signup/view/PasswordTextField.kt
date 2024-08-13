@@ -1,6 +1,5 @@
 package nextstep.signup.view
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -34,27 +33,25 @@ fun PasswordTextField(onTextChange: (String) -> Unit = {}) {
         onTextChange(value)
     }
 
-    Column {
-        TextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = textState,
-            onValueChange = onValueChange,
-            label = { Text(text = stringResource(id = R.string.password)) },
-            visualTransformation = PasswordVisualTransformation(),
-            colors = TextFieldDefaults.colors(
-                focusedLabelColor = if (validationState == TextFieldState.Valid || validationState == TextFieldState.Default) {
-                    MaterialTheme.colorScheme.primary
-                } else {
-                    Red50
-                }
-            ),
-            supportingText = {
-                SignUpHelperText(
-                    setMessage(validationState, TextFieldType.Password)
-                )
-            },
-        )
-    }
+    TextField(
+        modifier = Modifier.fillMaxWidth(),
+        value = textState,
+        onValueChange = onValueChange,
+        label = { Text(text = stringResource(id = R.string.password)) },
+        visualTransformation = PasswordVisualTransformation(),
+        colors = TextFieldDefaults.colors(
+            focusedLabelColor = if (validationState == TextFieldState.Valid || validationState == TextFieldState.Default) {
+                MaterialTheme.colorScheme.primary
+            } else {
+                Red50
+            }
+        ),
+        supportingText = {
+            SignUpHelperText(
+                setMessage(validationState, TextFieldType.Password)
+            )
+        },
+    )
 }
 
 @Preview(showBackground = true)
