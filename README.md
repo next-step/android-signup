@@ -9,6 +9,6 @@
 - [ ]  Email 입력 구현
 - [ ]  Password 입력 구현
 - [ ]  Password Confirm 입력 구현
-- [ ]  Sign Up 버튼 구현
-- [ ]  레이아웃 배치하기(padding)
+- [x]  Sign Up 버튼 구현
+- [x]  레이아웃 배치하기(padding)
 - [ ]  함수 분리 및 리팩토링

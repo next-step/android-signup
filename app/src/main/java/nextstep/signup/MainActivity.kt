@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -28,6 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import nextstep.signup.ui.theme.Pink80
 import nextstep.signup.ui.theme.SignupTheme
 
 class MainActivity : ComponentActivity() {
@@ -35,7 +38,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SignupTheme {
-                TextFieldSetting()
+                ScreenLayoutSetting()
             }
         }
     }
@@ -57,14 +60,6 @@ private fun TitleTextComponent() {
             .padding(bottom = 42.dp),
         textAlign = TextAlign.Center,
     )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun TitleTextComponentPreview() {
-    SignupTheme {
-        TitleTextComponent()
-    }
 }
 
 @Composable
@@ -101,7 +96,34 @@ private fun TextFieldComponent(
 }
 
 @Composable
-fun TextFieldSetting() {
+private fun SignupButtonComponent() {
+    Button(
+        onClick = { /*TODO*/ },
+        modifier = Modifier
+            .fillMaxWidth(1.0F),
+        colors = ButtonColors(
+            containerColor = Color(Pink80.value),
+            contentColor = Color.White,
+            disabledContainerColor = Color.LightGray,
+            disabledContentColor = Color.White
+        )
+    ) {
+        Text(
+            text = stringResource(id = R.string.signup_button),
+            modifier = Modifier
+                .padding(vertical = 15.dp),
+            color = Color.White,
+            style = TextStyle(
+                fontSize = 14.sp,
+                fontWeight = FontWeight(500),
+                letterSpacing = 0.1.sp
+            )
+        )
+    }
+}
+
+@Composable
+private fun ScreenLayoutSetting() {
     val input = remember {
         mutableStateOf("")
     }
@@ -136,6 +158,7 @@ fun TextFieldSetting() {
                 input = input,
                 inputEntered = inputEntered
             )
+            SignupButtonComponent()
         }
     }
 }
@@ -144,6 +167,6 @@ fun TextFieldSetting() {
 @Composable
 fun TextFieldSettingPreview() {
     SignupTheme {
-        TextFieldSetting()
+        ScreenLayoutSetting()
     }
 }
