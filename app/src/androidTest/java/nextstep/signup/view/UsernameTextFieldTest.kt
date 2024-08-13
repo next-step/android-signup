@@ -3,6 +3,7 @@ package nextstep.signup.view
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextInput
+import nextstep.signup.model.TextFieldState
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -15,7 +16,7 @@ class UsernameTextFieldTest {
     @Before
     fun setUp() {
         composeTestRule.setContent {
-            UsernameTextField()
+            SignUpScreen()
         }
     }
 

@@ -6,33 +6,15 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import nextstep.signup.model.InputValidator.isValid
 import nextstep.signup.R
 import nextstep.signup.model.TextFieldState
 import nextstep.signup.model.TextFieldType
 import nextstep.signup.model.setMessage
 import nextstep.signup.view.ui.theme.Red50
 import nextstep.signup.view.ui.theme.SignupTheme
-
-@Composable
-fun EmailTextField() {
-    var textState by remember { mutableStateOf("") }
-    var validationState: TextFieldState by remember { mutableStateOf(TextFieldState.Default) }
-
-    val onValueChange = { value: String ->
-        textState = value
-        validationState = isValid(value, TextFieldType.Email)
-    }
-
-    EmailContent(textState, onValueChange, validationState)
-}
 
 @Composable
 fun EmailContent(
@@ -64,6 +46,10 @@ fun EmailContent(
 @Composable
 private fun EmailTextFieldPreview() {
     SignupTheme {
-        EmailTextField()
+        EmailContent(
+            textState = "",
+            onValueChange = {},
+            validationState = TextFieldState.Default
+        )
     }
 }

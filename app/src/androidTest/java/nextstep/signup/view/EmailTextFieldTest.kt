@@ -15,7 +15,7 @@ class EmailTextFieldTest {
     @Before
     fun setUp() {
         composeTestRule.setContent {
-            EmailTextField()
+            SignUpScreen()
         }
     }
 

@@ -16,7 +16,7 @@ class PasswordTextFieldTest() {
     @Before
     fun setUp() {
         composeTestRule.setContent {
-            PasswordTextField()
+            SignUpScreen()
         }
     }
 

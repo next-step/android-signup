@@ -19,7 +19,7 @@ import nextstep.signup.view.ui.theme.Dimens.ButtonWidth
 import nextstep.signup.view.ui.theme.SignupTheme
 
 @Composable
-fun SignUpButton() {
+fun SignUpButton(enabled: Boolean = true) {
     Button(
         onClick = { /*TODO*/ },
         modifier = Modifier
@@ -27,6 +27,7 @@ fun SignUpButton() {
             .width(ButtonWidth)
             .clip(RoundedCornerShape(ButtonRadius)),
         colors = ButtonDefaults.buttonColors(Blue50),
+        enabled = enabled,
     ) {
         Text(text = stringResource(id = R.string.sign_up))
     }

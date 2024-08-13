@@ -9,9 +9,9 @@
 - [x] PasswordConfirmTextField 테스트 코드 작성
 - [x] 테스트 코드 리팩터링
 - [x] Stateless, Stateful 컴포넌트 분리
-- [] 유효성 검사 로직 테스트 코드 추가
-- [] SignUpButton 활성화 로직 추가
-- [] SignUpButton 활성화 뷰 반영
+- [x] 유효성 검사 로직 테스트 코드 추가
+- [x] SignUpButton 활성화 로직 추가
+- [x] SignUpButton 활성화 뷰 반영
 - [] SignUpButton 테스트 코드 작성
 
 ## Step4 진행 중 의식의 흐름
@@ -30,6 +30,11 @@
 - Parameterized Test는 JUnit4에서 하려니 테스트 단위가 다른 테스트와 통일성을 잃는 것 같아서 일반 보류했습니다.
 - PasswordConfirmTextField는 헬퍼 텍스트를 위한 상태를 상위 컴포넌트인 SignUpScreen에서 관리하고 있습니다. 그렇게 보니 다른 xxxTextField
   컴포저블 내부 TextField도 나눌 수 있을 것 같습니다. 일단 해보겠습니다.
+- 버튼 상태를 구현하다 보니 최상단 컴포저블 함수인 SignUpScreen에 상태가 많이 쌓입니다. 알 수 없는 찝찝함이 듭니다.
+- 또한 상태를 최상단에서 관리하다 보니 분리했던 컴포저블 함수들이 Stateless로 바뀌었습니다.
+- 헬퍼 텍스트를 한꺼번에 보여주지 않고 각 케이스에 맞춰서 나눠서 보여주려고 TextFieldState를 만들었더니 로직이 약간 복잡해졌네요.
+- 분리했던 컴포저블 함수들이 Stateless로 바꾸면 테스트가 다 깨져서 새로 작성해야 하는데... ㅠㅠ => 유레카..(??) SignUpScreen()를 setUp 하면
+  되는데 옳은 방법인지...
 
 ## Step3 구현 목록
 

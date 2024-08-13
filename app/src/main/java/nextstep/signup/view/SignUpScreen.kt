@@ -14,6 +14,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import nextstep.signup.model.InputValidator
+import nextstep.signup.model.InputValidator.isValid
+import nextstep.signup.model.TextFieldState
+import nextstep.signup.model.TextFieldType
 import nextstep.signup.view.ui.theme.Dimens.EndPadding
 import nextstep.signup.view.ui.theme.Dimens.LargePadding
 import nextstep.signup.view.ui.theme.Dimens.StartPadding
@@ -22,9 +27,22 @@ import nextstep.signup.view.ui.theme.SignupTheme
 
 @Composable
 fun SignUpScreen() {
+    var username by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordConfirm by remember { mutableStateOf("") }
+
+    var isUsernameValid by remember { mutableStateOf(false) }
+    var isEmailValid by remember { mutableStateOf(false) }
+    var isPasswordValid by remember { mutableStateOf(false) }
     var isMatchPassword by remember { mutableStateOf(true) }
+
+    var usernameState: TextFieldState by remember { mutableStateOf(TextFieldState.Default) }
+    var emailState: TextFieldState by remember { mutableStateOf(TextFieldState.Default) }
+    var passwordState: TextFieldState by remember { mutableStateOf(TextFieldState.Default) }
+
+    val isFormValid =
+        isUsernameValid && isEmailValid && isPasswordValid && isMatchPassword
 
     SignupTheme {
         Surface(
@@ -43,15 +61,44 @@ fun SignUpScreen() {
             ) {
                 SignUpTitleText()
                 Spacer(modifier = Modifier.height(LargePadding))
-                UsernameTextField()
+                UsernameContent(
+                    username,
+                    onValueChange = { value: String ->
+                        username = value
+                        usernameState = isValid(
+                            value,
+                            TextFieldType.Username
+                        )
+                        isUsernameValid = usernameState == TextFieldState.Valid
+                    },
+                    usernameState,
+                )
                 Spacer(modifier = Modifier.height(LargePadding))
-                EmailTextField()
+                EmailContent(
+                    email,
+                    onValueChange = { value: String ->
+                        email = value
+                        emailState = isValid(
+                            value,
+                            TextFieldType.Email
+                        )
+                        isEmailValid = emailState == TextFieldState.Valid
+                    },
+                    emailState,
+                )
                 Spacer(modifier = Modifier.height(LargePadding))
-                PasswordTextField(
-                    onTextChange = {
-                        password = it
+                PasswordContent(
+                    password,
+                    onValueChange = { value: String ->
+                        password = value
+                        passwordState = isValid(
+                            value,
+                            TextFieldType.Password
+                        )
+                        isPasswordValid = passwordState == TextFieldState.Valid
                         isMatchPassword = password == passwordConfirm
-                    }
+                    },
+                    passwordState,
                 )
                 Spacer(modifier = Modifier.height(LargePadding))
                 PasswordConfirmTextField(
@@ -62,8 +109,16 @@ fun SignUpScreen() {
                     isMatchPassword,
                 )
                 Spacer(modifier = Modifier.height(LargePadding))
-                SignUpButton()
+                SignUpButton(isFormValid)
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SignUpScreenPreview() {
+    SignupTheme {
+        SignUpScreen()
     }
 }
