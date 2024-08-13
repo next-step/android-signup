@@ -21,6 +21,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,11 +30,7 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import nextstep.signup.R
 import nextstep.signup.SignUpViewModel
-import nextstep.signup.ui.component.EmailTextField
-import nextstep.signup.ui.component.InputErrorText
-import nextstep.signup.ui.component.PasswordConfirmTextField
-import nextstep.signup.ui.component.PasswordTextField
-import nextstep.signup.ui.component.UserNameTextField
+import nextstep.signup.ui.component.SignUpTextField
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -67,66 +65,43 @@ fun SignUpScreen(
                 modifier = Modifier.padding(top = 62.dp),
                 verticalArrangement = Arrangement.spacedBy(32.dp)
             ) {
-                Column {
-                    UserNameTextField(
-                        viewModel.userName,
-                        onTextValueChange = { viewModel.userName = it }
-                    )
 
-                    if (viewModel.userName.isNotEmpty()) {
-                        InputErrorText(
-                            stringResource(id = R.string.err_msg_user_name),
-                            viewModel.validateUserName()
-                        )
-                    }
-                }
+                SignUpTextField(
+                    inputText = viewModel.userName,
+                    label = stringResource(id = R.string.user_name),
+                    onTextValueChange = { viewModel.userName = it },
+                    validResult = viewModel.validateUserName(),
+                    visualTransformation = VisualTransformation.None,
+                    errMsg = stringResource(id = R.string.err_msg_user_name)
+                )
 
-                Column {
-                    EmailTextField(
-                        text = viewModel.email,
-                        onTextValueChange = { viewModel.email = it }
-                    )
+                SignUpTextField(
+                    inputText = viewModel.email,
+                    label = stringResource(id = R.string.email),
+                    onTextValueChange = { viewModel.email = it },
+                    validResult = viewModel.validateEmail(),
+                    visualTransformation = VisualTransformation.None,
+                    errMsg = stringResource(id = R.string.err_msg_email)
+                )
 
+                SignUpTextField(
+                    inputText = viewModel.password,
+                    label = stringResource(id = R.string.password),
+                    onTextValueChange = { viewModel.password = it },
+                    validResult = viewModel.validatePassword(),
+                    visualTransformation = PasswordVisualTransformation(),
+                    errMsg = stringResource(id = R.string.err_msg_password)
+                )
 
-                    if (viewModel.email.isNotEmpty()) {
-                        InputErrorText(
-                            stringResource(id = R.string.err_msg_email),
-                            viewModel.validateEmail()
-                        )
-                    }
-                }
-
-                Column {
-                    PasswordTextField(
-                        text = viewModel.password,
-                        onTextValueChange = { viewModel.password = it }
-                    )
-
-
-                    if (viewModel.password.isNotEmpty()) {
-                        InputErrorText(
-                            stringResource(id = R.string.err_msg_password),
-                            viewModel.validatePassword()
-                        )
-                    }
-                }
-
-                Column {
-                    PasswordConfirmTextField(
-                        text = viewModel.passwordConfirm,
-                        onTextValueChange = { viewModel.passwordConfirm = it },
-                        viewModel.password
-                    )
-
-                    if (viewModel.passwordConfirm.isNotEmpty()) {
-                        InputErrorText(
-                            stringResource(id = R.string.err_msg_password_confirm),
-                            viewModel.validatePasswordConfirm()
-                        )
-                    }
-                }
+                SignUpTextField(
+                    inputText = viewModel.passwordConfirm,
+                    label = stringResource(id = R.string.password_confirm),
+                    onTextValueChange = { viewModel.passwordConfirm = it },
+                    validResult = viewModel.validatePasswordConfirm(),
+                    visualTransformation = PasswordVisualTransformation(),
+                    errMsg = stringResource(id = R.string.err_msg_password_confirm)
+                )
             }
-
 
             Button(
                 modifier = Modifier
