@@ -8,7 +8,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class PasswordTextFieldTest() {
+class PasswordTextFieldTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -98,8 +98,8 @@ class PasswordTextFieldTest() {
     }
 
     companion object {
+        private const val PASSWORD = "Password"
         private const val PASSWORD_INVALID_LENGTH_ERROR = "비밀번호는 8~16자여야 합니다."
         private const val PASSWORD_INVALID_ERROR = "비밀번호는 영문과 숫자를 포함해야 합니다."
-        private const val PASSWORD = "Password"
     }
 }

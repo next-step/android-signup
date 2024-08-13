@@ -44,7 +44,8 @@ class EmailTextFieldTest {
     }
 
     companion object {
-        private const val EMAIL_INVALID_ERROR = "이메일 형식이 올바르지 않습니다."
         private const val EMAIL = "Email"
+        private const val EMAIL_INVALID_ERROR = "이메일 형식이 올바르지 않습니다."
+
     }
 }

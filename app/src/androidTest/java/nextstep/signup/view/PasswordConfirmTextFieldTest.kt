@@ -44,8 +44,8 @@ class PasswordConfirmTextFieldTest {
     }
 
     companion object {
-        private const val PASSWORD_CONFIRM_ERROR = "비밀번호가 일치하지 않습니다."
-        private const val PASSWORD_CONFIRM = "Password Confirm"
         private const val PASSWORD = "Password"
+        private const val PASSWORD_CONFIRM = "Password Confirm"
+        private const val PASSWORD_CONFIRM_ERROR = "비밀번호가 일치하지 않습니다."
     }
 }

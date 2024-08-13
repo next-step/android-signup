@@ -12,7 +12,7 @@
 - [x] 유효성 검사 로직 테스트 코드 추가
 - [x] SignUpButton 활성화 로직 추가
 - [x] SignUpButton 활성화 뷰 반영
-- [] SignUpButton 테스트 코드 작성
+- [x] SignUpButton 테스트 코드 작성
 
 ## Step4 진행 중 의식의 흐름
 

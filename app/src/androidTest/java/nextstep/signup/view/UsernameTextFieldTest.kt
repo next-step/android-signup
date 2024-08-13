@@ -87,8 +87,9 @@ class UsernameTextFieldTest {
     }
 
     companion object {
+        private const val USERNAME = "Username"
         private const val USERNAME_LENGTH_ERROR = "이름은 2~5자여야 합니다."
         private const val USERNAME_INVALID_ERROR = "이름에는 숫자나 기호가 포함될 수 없습니다."
-        private const val USERNAME = "Username"
+
     }
 }
