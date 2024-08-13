@@ -12,7 +12,7 @@ import org.junit.Test
 class UsernameTest {
 
     @Test
-    fun `1글자 유저 닉네임은 불가능하다`() {
+    fun `1글자_유저_닉네임은_불가능하다`(){
         // given:
         val username: String = "산"
 
@@ -24,7 +24,7 @@ class UsernameTest {
     }
 
     @Test
-    fun `6글자 유저 닉네임은 불가능하다`() {
+    fun `6글자_유저_닉네임은_불가능하다`() {
         // given:
         val username: String = "산군산군산군"
 
@@ -36,7 +36,7 @@ class UsernameTest {
     }
 
     @Test
-    fun `2~5글자 수 범위 외의 닉네임은 다음 문자열을 반환한다`() {
+    fun `2_5글자_수_범위_외의_닉네임은_다음_문자열을_반환한다`() {
         // given:
         val username: String = "산군산군산군"
 
@@ -48,7 +48,7 @@ class UsernameTest {
     }
 
     @Test
-    fun `2~5글자 유저 닉네임만 가능하다`() {
+    fun `2_5글자_유저_닉네임만_가능하다`() {
         // given:
         val usernames: List<String> = List<String>(4) { "산군" + "산군산".take(it) }
 
@@ -60,7 +60,7 @@ class UsernameTest {
     }
 
     @Test
-    fun `특수문자 닉네임은 사용할 수 없다`() {
+    fun `특수문자_닉네임은_사용할_수_없다`() {
         // given:
         val USERNAME_REGEX = "^[a-zA-Z가-힣]+$"
         val username: String = "!%@$"
@@ -73,7 +73,7 @@ class UsernameTest {
     }
 
     @Test
-    fun `특수문자를 사용한 닉네임은 다음 문자열을 반환한다`() {
+    fun `특수문자를_사용한_닉네임은_다음_문자열을_반환한다`() {
         // given:
         val username: String = "!%@$"
 

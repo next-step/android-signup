@@ -11,7 +11,7 @@ import org.junit.Test
 class PasswordConfirmTest {
 
     @Test
-    fun `비밀번호와 불일치할 경우 다음 문자열을 반환한다`() {
+    fun `비밀번호와_불일치할_경우_다음_문자열을_반환한다`() {
         // given:
         val password: String = "pass0123"
         val passwordConfirm: String = "pass012"
@@ -24,7 +24,7 @@ class PasswordConfirmTest {
     }
 
     @Test
-    fun `비밀번호와 일치할 경우 Success 객체를 반환한다`() {
+    fun `비밀번호와_일치할_경우_Success_객체를_반환한다`() {
         // given:
         val password: String = "pass0123"
         val passwordConfirm: String = "pass0123"
