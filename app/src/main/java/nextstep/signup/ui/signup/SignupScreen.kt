@@ -161,7 +161,7 @@ private fun PasswordTextField(
 }
 
 @Composable
-fun PasswordConfirmTextField(
+private fun PasswordConfirmTextField(
     passwordConfirm: String,
     onPasswordConfirmChanged: (String) -> Unit,
     password: String,
