@@ -21,26 +21,27 @@ internal fun PasswordTextField(
     onPasswordChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val supportingText: @Composable (() -> Unit)? = remember(password, passwordValidationResult) {
-        if (password.isEmpty()) return@remember null
+    val hasSupportingText = remember(password, passwordValidationResult) {
+        password.isNotEmpty() && passwordValidationResult != PasswordValidationResult.VALID
+    }
+
+    val supportingText: @Composable (() -> Unit)? = if (hasSupportingText) {
         when (passwordValidationResult) {
             PasswordValidationResult.VALID -> null
             PasswordValidationResult.INVALID_LENGTH -> {
                 { Text(text = stringResource(id = R.string.signup_password_length_error)) }
             }
-
             PasswordValidationResult.INVALID_COMPLEXITY -> {
                 { Text(text = stringResource(id = R.string.signup_password_complexity_error)) }
             }
         }
-    }
+    } else null
 
     SignUpTextField(
         modifier = modifier.testTag("password"),
         value = password,
         onValueChange = onPasswordChange,
         label = { Text(text = stringResource(id = R.string.signup_password)) },
-        visualTransformation = PasswordVisualTransformation(),
         supportingText = supportingText,
     )
 }

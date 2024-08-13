@@ -20,15 +20,18 @@ internal fun EmailTextField(
     onEmailChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val supportingText: @Composable (() -> Unit)? = remember(email, emailValidationResult) {
-        if (email.isEmpty()) return@remember null
+    val hasSupportingText = remember(email, emailValidationResult) {
+        email.isNotEmpty() && emailValidationResult != EmailValidationResult.VALID
+    }
+
+    val supportingText: @Composable (() -> Unit)? = if (hasSupportingText) {
         when (emailValidationResult) {
             EmailValidationResult.VALID -> null
             EmailValidationResult.INVALID_FORMAT -> {
                 { Text(text = stringResource(id = R.string.signup_invalid_email)) }
             }
         }
-    }
+    } else null
 
     SignUpTextField(
         modifier = modifier.testTag("email"),

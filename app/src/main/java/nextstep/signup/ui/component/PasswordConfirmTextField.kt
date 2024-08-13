@@ -4,7 +4,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -18,15 +17,18 @@ internal fun PasswordConfirmTextField(
     onPasswordConfirmChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val supportingText: @Composable (() -> Unit)? = remember(passwordConfirmValue, passwordMatchValidationResult) {
-        if (passwordConfirmValue.isEmpty()) return@remember null
+    val hasSupportingText = remember(passwordConfirmValue, passwordMatchValidationResult) {
+        passwordConfirmValue.isNotEmpty() && passwordMatchValidationResult != PasswordMatchValidationResult.VALID
+    }
+
+    val supportingText: @Composable (() -> Unit)? = if (hasSupportingText) {
         when (passwordMatchValidationResult) {
             PasswordMatchValidationResult.VALID -> null
             PasswordMatchValidationResult.MISMATCH -> {
                 { Text(text = stringResource(id = R.string.signup_password_mismatch_error)) }
             }
         }
-    }
+    } else null
 
     SignUpTextField(
         modifier = modifier.testTag("password_confirm"),

@@ -21,19 +21,21 @@ internal fun NameTextField(
     onUserNameChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val supportingText: @Composable (() -> Unit)? = remember(userName, nameValidationResult) {
-        if (userName.isEmpty()) return@remember null
+    val hasSupportingText = remember(userName, nameValidationResult) {
+        userName.isNotEmpty() && nameValidationResult != NameValidationResult.VALID
+    }
+
+    val supportingText: @Composable (() -> Unit)? = if (hasSupportingText) {
         when (nameValidationResult) {
             NameValidationResult.VALID -> null
             NameValidationResult.LENGTH_ERROR -> {
                 { Text(text = stringResource(id = R.string.signup_name_length_error)) }
             }
-
             NameValidationResult.CHARACTER_ERROR -> {
                 { Text(text = stringResource(id = R.string.signup_name_character_error)) }
             }
         }
-    }
+    } else null
 
     SignUpTextField(
         modifier = modifier.testTag("name"),
