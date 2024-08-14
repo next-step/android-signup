@@ -1,4 +1,4 @@
-package nextstep.signup
+package nextstep.signup.model
 
 object ValidationRule {
     const val USERNAME_REGEX = "^[a-zA-Z가-힣]+$"
