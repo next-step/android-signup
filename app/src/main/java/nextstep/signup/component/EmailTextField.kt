@@ -24,14 +24,10 @@ fun EmailTextField(
         labelText = stringResource(id = R.string.sign_up_email_label),
         isError = validationResult is ValidationResult.Error,
         supportingText = {
-            validationResult.getErrorType()?.let { type ->
-                when (type) {
-                   ValidationErrorType.RegexError ->
-                        Text(text =   stringResource(id = R.string.sign_up_email_regex_error))
-                    else -> {
-                    }
-                }
-            }
+            ValidationErrorText(
+                validationResult = validationResult,
+                regexErrorResId = R.string.sign_up_email_regex_error
+            )
         }
     )
 }

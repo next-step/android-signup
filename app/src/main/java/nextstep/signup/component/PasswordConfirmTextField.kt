@@ -26,14 +26,10 @@ fun PasswordConfirmTextField(
         labelText = stringResource(id = R.string.sign_up_password_confirm_label),
         isError = validationResult is ValidationResult.Error,
         supportingText = {
-            validationResult.getErrorType()?.let { type ->
-                when (type) {
-                    ValidationErrorType.EqualityError ->
-                        Text(text = stringResource(id = R.string.sign_up_user_password_confirm_not_equal))
-                    else -> {
-                    }
-                }
-            }
+            ValidationErrorText(
+                validationResult = validationResult,
+                equalityErrorResId = R.string.sign_up_user_password_confirm_not_equal
+            )
         },
         visualTransformation = PasswordVisualTransformation()
     )

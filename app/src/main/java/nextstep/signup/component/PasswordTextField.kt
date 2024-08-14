@@ -26,16 +26,11 @@ fun PasswordTextField(
         labelText = stringResource(id = R.string.sign_up_password_label),
         isError = validationResult is ValidationResult.Error,
         supportingText = {
-            validationResult.getErrorType()?.let { type ->
-                when (type) {
-                    ValidationErrorType.LengthError ->
-                        Text(text = stringResource(id = R.string.sign_up_user_password_length_error))
-                    ValidationErrorType.RegexError ->
-                        Text(text = stringResource(id = R.string.sign_up_user_password_regex_error))
-                    else -> {
-                    }
-                }
-            }
+            ValidationErrorText(
+                validationResult = validationResult,
+                lengthErrorResId = R.string.sign_up_user_password_length_error,
+                regexErrorResId = R.string.sign_up_user_password_regex_error
+            )
         },
         visualTransformation = PasswordVisualTransformation()
     )

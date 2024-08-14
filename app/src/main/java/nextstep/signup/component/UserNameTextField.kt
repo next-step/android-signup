@@ -24,16 +24,11 @@ fun UserNameTextField(
         labelText = stringResource(id = R.string.sign_up_user_name_label),
         isError = validationResult is ValidationResult.Error,
         supportingText = {
-            validationResult.getErrorType()?.let { type ->
-                when (type) {
-                    ValidationErrorType.LengthError ->
-                        Text(text = stringResource(id = R.string.sign_up_user_name_length_error))
-                    ValidationErrorType.RegexError ->
-                        Text(text = stringResource(id = R.string.sign_up_user_name_regex_error))
-                    else -> {
-                    }
-                }
-            }
+            ValidationErrorText(
+                validationResult = validationResult,
+                lengthErrorResId = R.string.sign_up_user_name_length_error,
+                regexErrorResId = R.string.sign_up_user_name_regex_error
+            )
         }
     )
 }
