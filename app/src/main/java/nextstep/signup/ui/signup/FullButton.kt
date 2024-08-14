@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun FullButton(
     modifier: Modifier = Modifier,
+    isEnabled: Boolean,
     text: String,
     textColor: Color,
     containerColor: Color,
@@ -24,6 +25,7 @@ fun FullButton(
     Button(
         onClick = { onButtonClick.invoke() },
         modifier = modifier.height(50.dp),
+        enabled = isEnabled,
         colors = ButtonDefaults.buttonColors(
             containerColor = containerColor
         )
@@ -36,12 +38,4 @@ fun FullButton(
             lineHeight = 20.sp,
         )
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun SignUpButtonPreview() {
-    SignUpButton(
-        onSignUpClick = { }
-    )
 }

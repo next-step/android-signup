@@ -28,7 +28,8 @@ class PasswordConfirmFieldTest {
             PasswordConfirmField(
                 password = password,
                 passwordConfirm = passwordConfirm,
-                onPasswordConfirmChange = { passwordConfirm = it }
+                onPasswordConfirmChange = { passwordConfirm = it },
+                onPasswordConfirmValidationSuccess = { }
             )
         }
     }

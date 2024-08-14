@@ -6,6 +6,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,10 +25,14 @@ import nextstep.signup.ui.util.SignUpValidationCheck
 fun PasswordConfirmField(
     password: String,
     passwordConfirm: String,
-    onPasswordConfirmChange: (String) -> Unit
+    onPasswordConfirmChange: (String) -> Unit,
+    onPasswordConfirmValidationSuccess: (Boolean) -> Unit
 ) {
     val validation by remember(passwordConfirm) {
         derivedStateOf { SignUpValidationCheck.validatePasswordConfirm(password, passwordConfirm) }
+    }
+    LaunchedEffect(validation) {
+        onPasswordConfirmValidationSuccess(passwordConfirm.isNotBlank() && validation == SignUpValidation.NONE)
     }
 
     TextField(
@@ -61,17 +66,20 @@ private fun PasswordConfirmFieldPreview() {
         PasswordConfirmField(
             password = emptyPassword,
             passwordConfirm = emptyPasswordConfirm,
-            onPasswordConfirmChange = { emptyPasswordConfirm = it }
+            onPasswordConfirmChange = { emptyPasswordConfirm = it },
+            onPasswordConfirmValidationSuccess = { }
         )
         PasswordConfirmField(
             password = validPassword,
             passwordConfirm = validPasswordConfirm,
-            onPasswordConfirmChange = { validPasswordConfirm = it }
+            onPasswordConfirmChange = { validPasswordConfirm = it },
+            onPasswordConfirmValidationSuccess = { }
         )
         PasswordConfirmField(
             password = validPassword,
             passwordConfirm = invalidPasswordConfirm,
-            onPasswordConfirmChange = { invalidPasswordConfirm = it }
+            onPasswordConfirmChange = { invalidPasswordConfirm = it },
+            onPasswordConfirmValidationSuccess = { }
         )
     }
 }

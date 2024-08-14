@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,10 +21,14 @@ import nextstep.signup.ui.util.SignUpValidationCheck
 @Composable
 fun EmailField(
     email: String,
-    onEmailChange: (String) -> Unit
+    onEmailChange: (String) -> Unit,
+    onEmailValidationSuccess: (Boolean) -> Unit
 ) {
     val validation by remember(email) {
         derivedStateOf { SignUpValidationCheck.validateEmail(email) }
+    }
+    LaunchedEffect(validation) {
+        onEmailValidationSuccess(email.isNotBlank() && validation == SignUpValidation.NONE)
     }
 
     TextField(
@@ -52,15 +57,18 @@ private fun EmailFieldPreview() {
     Column {
         EmailField(
             email = emptyEmail,
-            onEmailChange = { emptyEmail = it }
+            onEmailChange = { emptyEmail = it },
+            onEmailValidationSuccess = { }
         )
         EmailField(
             email = validEmail,
-            onEmailChange = { validEmail = it }
+            onEmailChange = { validEmail = it },
+            onEmailValidationSuccess = { }
         )
         EmailField(
             email = invalidEmail,
-            onEmailChange = { invalidEmail = it }
+            onEmailChange = { invalidEmail = it },
+            onEmailValidationSuccess = { }
         )
     }
 }

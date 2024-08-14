@@ -42,18 +42,39 @@ fun SignUpScreen(
             var password by remember { mutableStateOf("") }
             var passwordConfirm by remember { mutableStateOf("") }
 
+            var usernameValid by remember { mutableStateOf(false) }
+            var emailValid by remember { mutableStateOf(false) }
+            var passwordValid by remember { mutableStateOf(false) }
+            var passwordConfirmValid by remember { mutableStateOf(false) }
+
             SignUpTitle()
-            SignUpInputs(
-                username = username,
-                email = email,
-                password = password,
-                passwordConfirm = passwordConfirm,
-                onUsernameChange = { username = it },
-                onEmailChange = { email = it },
-                onPasswordChange = { password = it },
-                onPasswordConfirmChange = { passwordConfirm = it }
-            )
+            Column(
+                verticalArrangement = Arrangement.spacedBy(20.dp)
+            ) {
+                UsernameField(
+                    username = username,
+                    onUsernameChange = { username = it },
+                    onUsernameValidationSuccess = { usernameValid = it }
+                )
+                EmailField(
+                    email = email,
+                    onEmailChange = { email = it },
+                    onEmailValidationSuccess = { emailValid = it }
+                )
+                PasswordField(
+                    password = password,
+                    onPasswordChange = { password = it },
+                    onPasswordValidationSuccess = { passwordValid = it }
+                )
+                PasswordConfirmField(
+                    password = password,
+                    passwordConfirm = passwordConfirm,
+                    onPasswordConfirmChange = { passwordConfirm = it },
+                    onPasswordConfirmValidationSuccess = { passwordConfirmValid = it }
+                )
+            }
             SignUpButton(
+                isEnabled = usernameValid && emailValid && passwordValid && passwordConfirmValid,
                 onSignUpClick = { }
             )
         }
@@ -74,48 +95,16 @@ fun SignUpTitle() {
 }
 
 @Composable
-fun SignUpInputs(
-    username: String,
-    email: String,
-    password: String,
-    passwordConfirm: String,
-    onUsernameChange: (String) -> Unit,
-    onEmailChange: (String) -> Unit,
-    onPasswordChange: (String) -> Unit,
-    onPasswordConfirmChange: (String) -> Unit
-) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(20.dp)
-    ) {
-        UsernameField(
-            username = username,
-            onUsernameChange = onUsernameChange
-        )
-        EmailField(
-            email = email,
-            onEmailChange = onEmailChange
-        )
-        PasswordField(
-            password = password,
-            onPasswordChange = onPasswordChange
-        )
-        PasswordConfirmField(
-            password = password,
-            passwordConfirm = passwordConfirm,
-            onPasswordConfirmChange = onPasswordConfirmChange
-        )
-    }
-}
-
-@Composable
 fun SignUpButton(
+    isEnabled: Boolean,
     onSignUpClick: () -> Unit
 ) {
     FullButton(
         modifier = Modifier.fillMaxWidth(),
+        isEnabled = isEnabled,
         text = stringResource(id = R.string.sign_up),
-        textColor = Color.White,
-        containerColor = Color(0xFF2196F3),
+        textColor = if (isEnabled) Color.White else Color(0xFF1D1B20),
+        containerColor = if (isEnabled) Color(0xFF2196F3) else Color(0x1F1D1B20),
         onButtonClick = { onSignUpClick() }
     )
 }
@@ -134,4 +123,14 @@ private fun SignUpScreenPreview() {
 @Composable
 private fun SignUpTitlePreview() {
     SignUpTitle()
+}
+
+
+@Preview(showBackground = true)
+@Composable
+private fun SignUpButtonPreview() {
+    SignUpButton(
+        isEnabled = true,
+        onSignUpClick = { }
+    )
 }

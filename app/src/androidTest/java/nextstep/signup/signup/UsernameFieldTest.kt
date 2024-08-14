@@ -26,7 +26,8 @@ class UsernameFieldTest {
         composeTestRule.setContent {
             UsernameField(
                 username = username,
-                onUsernameChange = { username = it }
+                onUsernameChange = { username = it },
+                onUsernameValidationSuccess = { }
             )
         }
     }

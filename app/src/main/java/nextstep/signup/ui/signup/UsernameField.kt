@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,15 +21,22 @@ import nextstep.signup.ui.util.SignUpValidationCheck
 @Composable
 fun UsernameField(
     username: String,
-    onUsernameChange: (String) -> Unit
+    onUsernameChange: (String) -> Unit,
+    onUsernameValidationSuccess: (Boolean) -> Unit
 ) {
     val validation by remember(username) {
         derivedStateOf { SignUpValidationCheck.validateUsername(username) }
     }
 
+    LaunchedEffect(validation) {
+        onUsernameValidationSuccess(username.isNotBlank() && validation == SignUpValidation.NONE)
+    }
+
     TextField(
         value = username,
-        onValueChange = { onUsernameChange(it) },
+        onValueChange = {
+            onUsernameChange(it)
+        },
         modifier = Modifier.fillMaxWidth(),
         label = { Text(text = stringResource(id = R.string.username)) },
         supportingText = {
@@ -54,15 +62,18 @@ private fun UsernameFieldPreview() {
     Column {
         UsernameField(
             username = emptyUsername,
-            onUsernameChange = { emptyUsername = it }
+            onUsernameChange = { emptyUsername = it },
+            onUsernameValidationSuccess = { }
         )
         UsernameField(
             username = invalidUsername,
-            onUsernameChange = { invalidUsername = it }
+            onUsernameChange = { invalidUsername = it },
+            onUsernameValidationSuccess = { }
         )
         UsernameField(
             username = validUsername,
-            onUsernameChange = { validUsername = it }
+            onUsernameChange = { validUsername = it },
+            onUsernameValidationSuccess = { }
         )
     }
 }

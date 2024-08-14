@@ -26,7 +26,8 @@ class EmailFieldTest {
         composeTestRule.setContent {
             EmailField(
                 email = email,
-                onEmailChange = { email = it }
+                onEmailChange = { email = it },
+                onEmailValidationSuccess = { }
             )
         }
     }

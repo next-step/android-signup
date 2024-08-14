@@ -6,6 +6,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,12 +24,15 @@ import nextstep.signup.ui.util.SignUpValidationCheck
 @Composable
 fun PasswordField(
     password: String,
-    onPasswordChange: (String) -> Unit
+    onPasswordChange: (String) -> Unit,
+    onPasswordValidationSuccess: (Boolean) -> Unit
 ) {
     val validation by remember(password) {
         derivedStateOf { SignUpValidationCheck.validatePassword(password) }
     }
-
+    LaunchedEffect(validation) {
+        onPasswordValidationSuccess(password.isNotBlank() && validation == SignUpValidation.NONE)
+    }
     TextField(
         value = password,
         onValueChange = { onPasswordChange(it) },
@@ -59,15 +63,18 @@ private fun PasswordFieldPreview() {
     Column {
         PasswordField(
             password = emptyPassword,
-            onPasswordChange = { emptyPassword = it }
+            onPasswordChange = { emptyPassword = it },
+            onPasswordValidationSuccess = { }
         )
         PasswordField(
             password = validPassword,
-            onPasswordChange = { validPassword = it }
+            onPasswordChange = { validPassword = it },
+            onPasswordValidationSuccess = { }
         )
         PasswordField(
             password = invalidPassword,
-            onPasswordChange = { invalidPassword = it }
+            onPasswordChange = { invalidPassword = it },
+            onPasswordValidationSuccess = { }
         )
     }
 }
