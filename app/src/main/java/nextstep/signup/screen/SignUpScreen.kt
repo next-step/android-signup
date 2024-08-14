@@ -104,6 +104,7 @@ fun SignUpScreen() {
 	}//유저 패스워드 확인 유효성 상태
 	setPasswordConfirmInputValidState(passWordConfirmValidator.getValidState(passWordConfirmValue))
 
+	//회원가입 버튼 활성화 상태
 	var signUpBtnEnable by rememberSaveable { mutableStateOf(false) }
 	signUpBtnEnable = (userNameInputValidState == SignUpValidSate.VALID
 			&& emailInputValidState == SignUpValidSate.VALID
@@ -123,49 +124,28 @@ fun SignUpScreen() {
 				modifier = Modifier
 					.fillMaxWidth()
 					.padding(
-						top = 70.dp,
-						bottom = 25.dp
+						top = 70.dp, bottom = 25.dp
 					)
 			)
 			UserNameSigneUpTextField(
 				textContent = userNameInputValue,
 				onTextValueChange = setUserNameInputValue,
 				signUpInputValidState = userNameInputValidState,
-				errorMessage = stringResource(
-					id = errorMsgWithSignUpInputValidState(
-						userNameInputValidState
-					)
-				),
 			)
 			EmailSigneUpTextField(
 				textContent = emailInputValue,
 				onTextValueChange = setEmailInputValue,
 				signUpInputValidState = emailInputValidState,
-				errorMessage = stringResource(
-					id = errorMsgWithSignUpInputValidState(
-						emailInputValidState
-					)
-				),
 			)
 			PassWordSigneUpTextField(
 				textContent = passWordInputValue,
 				onTextValueChange = setPassWordInputValue,
 				signUpInputValidState = passWordInputValidState,
-				errorMessage = stringResource(
-					id = errorMsgWithSignUpInputValidState(
-						passWordInputValidState
-					)
-				),
 			)
 			PassWordConfirmSigneUpTextField(
 				textContent = passWordConfirmValue,
 				onTextValueChange = setPassWordConfirmValue,
 				signUpInputValidState = passWordConfirmInputValidState,
-				errorMessage = stringResource(
-					id = errorMsgWithSignUpInputValidState(
-						passWordConfirmInputValidState
-					),
-				)
 			)
 			SignUpButton(
 				modifier = Modifier
@@ -183,21 +163,6 @@ fun SignUpScreen() {
 				}
 			)
 		}
-	}
-}
-
-/**
- *s signup Valid 상태별 에러 메시지 반환
- */
-private fun errorMsgWithSignUpInputValidState(signUpInputValidState: SignUpValidSate): Int {
-	return when (signUpInputValidState) {
-		SignUpValidSate.ERROR_USER_NAME_LENGTH -> R.string.error_length_username
-		SignUpValidSate.ERROR_USER_NAME_REGEX -> R.string.error_regex_username
-		SignUpValidSate.ERROR_EMAIL_REGEX -> R.string.error_regex_email
-		SignUpValidSate.ERROR_PASSWORD_LENGTH -> R.string.error_length_pwd
-		SignUpValidSate.ERROR_PASSWORD_REGEX -> R.string.error_regex_pwd
-		SignUpValidSate.ERROR_PASSWORD_CONFIRM -> R.string.error_not_matched_pwd
-		else -> R.string.empty_string
 	}
 }
 
@@ -225,9 +190,13 @@ fun SignUpTitle(
 fun UserNameSigneUpTextField(
 	textContent: String,
 	onTextValueChange: (String) -> Unit,
-	errorMessage: String,
 	signUpInputValidState: SignUpValidSate,
 ) {
+	val errorMessage = when (signUpInputValidState) {
+		SignUpValidSate.ERROR_USER_NAME_LENGTH -> stringResource(id =  R.string.error_length_username)
+		SignUpValidSate.ERROR_USER_NAME_REGEX -> stringResource(id = R.string.error_regex_username)
+		else -> stringResource(id = R.string.empty_string)
+	}
 	SigneUpTextField(
 		keyboardType = KeyboardType.Text,
 		label = { Text(text = stringResource(id = R.string.username)) },
@@ -246,8 +215,11 @@ fun EmailSigneUpTextField(
 	textContent: String,
 	onTextValueChange: (String) -> Unit,
 	signUpInputValidState: SignUpValidSate,
-	errorMessage: String,
 ) {
+	val errorMessage = when (signUpInputValidState) {
+		SignUpValidSate.ERROR_EMAIL_REGEX -> stringResource(id = R.string.error_regex_email)
+		else -> stringResource(id = R.string.empty_string)
+	}
 	SigneUpTextField(
 		keyboardType = KeyboardType.Email,
 		label = { Text(text = stringResource(id = R.string.email)) },
@@ -266,8 +238,12 @@ fun PassWordSigneUpTextField(
 	textContent: String,
 	onTextValueChange: (String) -> Unit,
 	signUpInputValidState: SignUpValidSate,
-	errorMessage: String,
 ) {
+	val errorMessage = when (signUpInputValidState) {
+		SignUpValidSate.ERROR_PASSWORD_LENGTH -> stringResource(id = R.string.error_length_pwd)
+		SignUpValidSate.ERROR_PASSWORD_REGEX -> stringResource(id = R.string.error_regex_pwd)
+		else -> stringResource(id = R.string.empty_string)
+	}
 	SigneUpTextField(
 		keyboardType = KeyboardType.Password,
 		label = { Text(text = stringResource(id = R.string.password)) },
@@ -287,8 +263,11 @@ fun PassWordConfirmSigneUpTextField(
 	textContent: String,
 	onTextValueChange: (String) -> Unit,
 	signUpInputValidState: SignUpValidSate,
-	errorMessage: String
 ) {
+	val errorMessage = when (signUpInputValidState) {
+		SignUpValidSate.ERROR_PASSWORD_CONFIRM -> stringResource(id = R.string.error_not_matched_pwd)
+		else -> stringResource(id = R.string.empty_string)
+	}
 	SigneUpTextField(
 		keyboardType = KeyboardType.Password,
 		label = { Text(text = stringResource(id = R.string.password_confirm)) },
@@ -341,9 +320,7 @@ fun SigneUpTextField(
 		modifier = modifier
 			.fillMaxWidth()
 			.padding(
-				top = 15.dp,
-				start = 30.dp,
-				end = 30.dp
+				top = 15.dp, start = 30.dp, end = 30.dp
 			),
 		value = textContent,
 		onValueChange = onTextValueChange,
@@ -403,10 +380,11 @@ fun PreviewSignUpTitle() {
 @Composable
 fun PreviewSigneUpTextField() {
 	val (inputValue, setInputValue) = remember { mutableStateOf("@j") }
-	val (userNameInputValidState, _) = remember {
-		mutableStateOf(
-			SignUpValidSate.NOTHING
-		)
+	val (userNameInputValidState, _) = remember { mutableStateOf(SignUpValidSate.NOTHING) }
+	val errorMessage = when (userNameInputValidState) {
+		SignUpValidSate.ERROR_USER_NAME_LENGTH -> stringResource(id =  R.string.error_length_username)
+		SignUpValidSate.ERROR_USER_NAME_REGEX -> stringResource(id = R.string.error_regex_username)
+		else -> stringResource(id = R.string.empty_string)
 	}
 	SigneUpTextField(
 		modifier = Modifier
@@ -422,11 +400,7 @@ fun PreviewSigneUpTextField() {
 		textContent = inputValue,
 		onTextValueChange = setInputValue,
 		signUpInputValidState = userNameInputValidState,
-		errorMessage = stringResource(
-			id = errorMsgWithSignUpInputValidState(
-				userNameInputValidState
-			)
-		),
+		errorMessage = errorMessage,
 	)
 }
 
