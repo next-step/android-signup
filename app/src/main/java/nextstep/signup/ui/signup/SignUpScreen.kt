@@ -22,14 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.R
-import nextstep.signup.domain.EmailValidType
-import nextstep.signup.domain.EmailValidator
-import nextstep.signup.domain.PasswordConfirmValidType
-import nextstep.signup.domain.PasswordConfirmValidator
-import nextstep.signup.domain.PasswordValidType
-import nextstep.signup.domain.PasswordValidator
-import nextstep.signup.domain.UsernameValidType
-import nextstep.signup.domain.UsernameValidator
+import nextstep.signup.domain.SignUpValidator
+import nextstep.signup.model.SignUpParams
 import nextstep.signup.ui.component.EmailTextField
 import nextstep.signup.ui.component.PasswordConfirmTextField
 import nextstep.signup.ui.component.PasswordTextField
@@ -47,11 +41,16 @@ fun SignUpScreen(
     var password by remember { mutableStateOf("") }
     var passwordConfirm by remember { mutableStateOf("") }
     val enabled by remember(username, email, password, passwordConfirm) {
-        val enabled = UsernameValidator.match(username) == UsernameValidType.VALID &&
-                EmailValidator.match(email) == EmailValidType.VALID &&
-                PasswordValidator.match(password) == PasswordValidType.VALID &&
-                PasswordConfirmValidator.match(password, passwordConfirm) == PasswordConfirmValidType.VALID
-        mutableStateOf(enabled)
+        mutableStateOf(
+            SignUpValidator.valid(
+                SignUpParams(
+                    username,
+                    email,
+                    password,
+                    passwordConfirm
+                )
+            )
+        )
     }
 
     Column(
