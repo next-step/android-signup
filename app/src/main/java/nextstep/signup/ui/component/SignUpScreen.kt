@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -31,13 +32,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import nextstep.signup.R
+import nextstep.signup.model.EmailError
+import nextstep.signup.model.NameError
+import nextstep.signup.model.PasswordConfirmError
+import nextstep.signup.model.PasswordError
 import nextstep.signup.model.SignUpUserInfo
+import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
-internal fun SignUpScreen() {
+internal fun SignUpScreen(
+    signUpUserInfo: SignUpUserInfo,
+    onUsernameChange: (String) -> Unit,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onPasswordConfirmChange: (String) -> Unit,
+) {
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
-    var signUpUserInfo by remember { mutableStateOf(SignUpUserInfo()) }
     val context = LocalContext.current
 
     Scaffold(
@@ -53,17 +64,12 @@ internal fun SignUpScreen() {
         content = { paddingValues ->
             Content(
                 signUpUserInfo = signUpUserInfo,
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .padding(top = 42.dp),
-                onUsernameChange = { signUpUserInfo = signUpUserInfo.copy(username = it) },
-                onEmailChange = { signUpUserInfo = signUpUserInfo.copy(email = it) },
-                onPasswordChange = { signUpUserInfo = signUpUserInfo.copy(password = it) },
-                onPasswordConfirmChange = {
-                    signUpUserInfo = signUpUserInfo.copy(passwordConfirm = it)
-                },
+                onUsernameChange = onUsernameChange,
+                onEmailChange = onEmailChange,
+                onPasswordChange = onPasswordChange,
+                onPasswordConfirmChange = onPasswordConfirmChange,
                 onClickSignUp = {
-                    if (signUpUserInfo.isNotContainBlank()) {
+                    if (signUpUserInfo.isAllFieldsValid.not()) {
                         coroutineScope.launch {
                             snackbarHostState.showSnackbar(
                                 context.getString(
@@ -75,7 +81,11 @@ internal fun SignUpScreen() {
                             )
                         }
                     }
-                }
+                },
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .padding(top = 42.dp)
+                    .padding(horizontal = 32.dp)
             )
         },
         bottomBar = { BottomBar() }
@@ -113,51 +123,113 @@ private fun Content(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.padding(horizontal = 32.dp),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(36.dp)
     ) {
+        // Username TextField
         TextField(
             modifier = Modifier.fillMaxWidth(),
             value = signUpUserInfo.username,
             onValueChange = onUsernameChange,
             label = { Text(text = stringResource(id = R.string.username_label)) },
+            isError = signUpUserInfo.nameError != NameError.None &&
+                    signUpUserInfo.nameError != NameError.Blank,
+            supportingText = {
+                when (signUpUserInfo.nameError) {
+                    NameError.Length -> Text(
+                        text = stringResource(R.string.name_length_error),
+                        style = MaterialTheme.typography.bodySmall
+                    )
+
+                    NameError.NumberOrSymbol -> Text(
+                        text = stringResource(R.string.name_number_or_symbol_error),
+                        style = MaterialTheme.typography.bodySmall
+                    )
+
+                    NameError.None, NameError.Blank -> {}
+                }
+            }
         )
+
+        // Email TextField
         TextField(
             modifier = Modifier.fillMaxWidth(),
             value = signUpUserInfo.email,
             onValueChange = onEmailChange,
             label = { Text(text = stringResource(id = R.string.email_label)) },
+            isError = signUpUserInfo.emailError != EmailError.None &&
+                    signUpUserInfo.emailError != EmailError.Blank,
+            supportingText = {
+                when (signUpUserInfo.emailError) {
+                    EmailError.EmailFormat -> Text(
+                        text = stringResource(R.string.email_format_error),
+                        style = MaterialTheme.typography.bodySmall
+                    )
+
+                    EmailError.Blank, EmailError.None -> {}
+                }
+            }
         )
+
+        // Password TextField
         TextField(
             modifier = Modifier.fillMaxWidth(),
             value = signUpUserInfo.password,
             onValueChange = onPasswordChange,
             label = { Text(text = stringResource(id = R.string.password_label)) },
             visualTransformation = PasswordVisualTransformation(),
+            isError = signUpUserInfo.passwordError != PasswordError.None &&
+                    signUpUserInfo.passwordError != PasswordError.Blank,
+            supportingText = {
+                when (signUpUserInfo.passwordError) {
+                    PasswordError.PasswordLength -> Text(
+                        text = stringResource(R.string.password_length_error),
+                        style = MaterialTheme.typography.bodySmall
+                    )
+
+                    PasswordError.PasswordFormat -> Text(
+                        text = stringResource(R.string.password_format_error),
+                        style = MaterialTheme.typography.bodySmall
+                    )
+
+                    PasswordError.Blank, PasswordError.None -> {}
+                }
+            }
         )
+
+        // Password Confirm TextField
         TextField(
             modifier = Modifier.fillMaxWidth(),
             value = signUpUserInfo.passwordConfirm,
             onValueChange = onPasswordConfirmChange,
             label = { Text(text = stringResource(id = R.string.password_confirm_label)) },
             visualTransformation = PasswordVisualTransformation(),
+            isError = signUpUserInfo.passwordConfirmError != PasswordConfirmError.None &&
+                    signUpUserInfo.passwordConfirmError != PasswordConfirmError.Blank,
+            supportingText = {
+                when (signUpUserInfo.passwordConfirmError) {
+                    PasswordConfirmError.PasswordEqual -> {
+                        Text(
+                            text = stringResource(R.string.password_confirm_error),
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
+
+                    PasswordConfirmError.Blank, PasswordConfirmError.None -> {}
+                }
+            }
         )
 
         Button(
             modifier = Modifier.fillMaxWidth(),
-            enabled = signUpUserInfo.isNotContainBlank(),
+            enabled = signUpUserInfo.isNotContainBlank,
             onClick = onClickSignUp,
             contentPadding = PaddingValues(vertical = 15.dp)
         ) {
             Text(
                 text = stringResource(id = R.string.sign_up_button),
-                style = TextStyle(
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium,
-                    lineHeight = 20.sp,
-                    letterSpacing = 0.1.sp
-                ),
+                style = MaterialTheme.typography.labelLarge,
             )
         }
     }
@@ -171,5 +243,16 @@ private fun BottomBar() {
 @Preview
 @Composable
 private fun SignUpScreenPreview() {
-    SignUpScreen()
+    var signUpUserInfo by remember { mutableStateOf(SignUpUserInfo(username = "dddddd")) }
+    SignupTheme {
+        SignUpScreen(
+            signUpUserInfo = signUpUserInfo,
+            onUsernameChange = { signUpUserInfo = signUpUserInfo.copy(username = it) },
+            onEmailChange = { signUpUserInfo = signUpUserInfo.copy(email = it) },
+            onPasswordChange = { signUpUserInfo = signUpUserInfo.copy(password = it) },
+            onPasswordConfirmChange = {
+                signUpUserInfo = signUpUserInfo.copy(passwordConfirm = it)
+            },
+        )
+    }
 }
