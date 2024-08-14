@@ -12,6 +12,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -19,10 +21,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -34,6 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
 import nextstep.signup.R
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.BlueGrey20
@@ -57,6 +62,10 @@ import nextstep.signup.util.SignUpValidSate
 @Preview
 @Composable
 fun SignUpScreen() {
+
+	val snackBarHostState = remember{ SnackbarHostState() }
+	val coroutineScope = rememberCoroutineScope()
+	val context = LocalContext.current
 
 	//state 최상위로 끌어올림 (state hoisting)
 	val (userNameInputValue, setUserNameInputValue) = rememberSaveable { mutableStateOf("") }//유저 이름
@@ -102,7 +111,8 @@ fun SignUpScreen() {
 			&& passWordConfirmInputValidState == SignUpValidSate.VALID)
 
 	Scaffold(
-		Modifier.background(Color.White)
+		modifier = Modifier.background(Color.White),
+		snackbarHost = { SnackbarHost(hostState = snackBarHostState)}
 	) { contentPadding ->
 		Column(
 			modifier = Modifier
@@ -164,7 +174,12 @@ fun SignUpScreen() {
 					.padding(30.dp),
 				isBtnEnable = signUpBtnEnable	,
 				onClick = {
-					//회원가입 버튼 클릭시 로직
+					coroutineScope.launch {
+						snackBarHostState
+							.showSnackbar(
+								message = context.getString(R.string.finish_sign_up),
+							)
+					}
 				}
 			)
 		}

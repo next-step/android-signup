@@ -13,4 +13,5 @@
     <string name="error_regex_pwd">비밀번호는 영문과 숫자를 포함해야 합니다.</string>
     <string name="error_not_matched_pwd">비밀번호가 일치하지 않습니다.</string>
     <string name="empty_string"></string>
+    <string name="finish_sign_up">회원가입 완료</string>
 </resources>
