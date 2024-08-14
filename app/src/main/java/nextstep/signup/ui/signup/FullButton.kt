@@ -23,7 +23,7 @@ fun FullButton(
     onButtonClick: () -> Unit,
 ) {
     Button(
-        onClick = { onButtonClick.invoke() },
+        onClick = { if (isEnabled) onButtonClick.invoke() },
         modifier = modifier.height(50.dp),
         enabled = isEnabled,
         colors = ButtonDefaults.buttonColors(
