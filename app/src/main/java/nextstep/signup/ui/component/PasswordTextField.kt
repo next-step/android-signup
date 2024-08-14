@@ -1,5 +1,6 @@
 package nextstep.signup.ui.component
 
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -11,29 +12,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import nextstep.signup.R
+import nextstep.signup.ui.component.PasswordValidation.PasswordValidationResult
 
 @Composable
 fun PasswordTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+    validationResult: PasswordValidationResult = PasswordValidationResult.Empty,
 ) {
-    val validation = rememberSignUpTextFieldValidation(value) { PasswordValidation(value) }
-    val isError = !validation.isValid()
     val supportText: @Composable (() -> Unit)? =
-        when {
-            isError -> {
-                when (validation.errorType) {
-                    PasswordValidation.ErrorType.LENGTH -> {
-                        { Text(text = stringResource(id = R.string.error_password_length)) }
-                    }
+        when (validationResult) {
+            is PasswordValidationResult.PasswordLengthError -> {
+                { Text(text = stringResource(id = R.string.error_password_length)) }
+            }
 
-                    PasswordValidation.ErrorType.FORMAT -> {
-                        { Text(text = stringResource(id = R.string.error_password_format)) }
-                    }
-
-                    else -> null
-                }
+            is PasswordValidationResult.PasswordFormatError -> {
+                { Text(text = stringResource(id = R.string.error_password_format)) }
             }
 
             else -> null
@@ -44,8 +41,9 @@ fun PasswordTextField(
         onValueChange = onValueChange,
         label = { Text(text = stringResource(id = R.string.sign_up_label_password)) },
         visualTransformation = PasswordVisualTransformation(),
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-        isError = isError,
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
+        isError = validationResult.isError,
         supportText = supportText,
         modifier = modifier,
     )
@@ -54,17 +52,33 @@ fun PasswordTextField(
 @Preview
 @Composable
 fun PasswordTextFieldPreview(
-    @PreviewParameter(PasswordTextFieldPreviewParameterProvider::class) value: String,
+    @PreviewParameter(PasswordTextFieldPreviewParameterProvider::class) param: PasswordTextFieldPreviewParameter,
 ) {
-    PasswordTextField(value = value, onValueChange = {})
+    PasswordTextField(
+        value = param.value,
+        onValueChange = {},
+        validationResult = param.validationResult,
+    )
 }
 
-class PasswordTextFieldPreviewParameterProvider : PreviewParameterProvider<String> {
-    override val values: Sequence<String>
-        get() = sequenceOf(
-            "",
-            "password1234",
-            "password",
-            "1234"
-        )
+class PasswordTextFieldPreviewParameterProvider : PreviewParameterProvider<PasswordTextFieldPreviewParameter> {
+    override val values: Sequence<PasswordTextFieldPreviewParameter>
+        get() =
+            sequenceOf(
+                PasswordTextFieldPreviewParameter("", PasswordValidationResult.Empty),
+                PasswordTextFieldPreviewParameter("password1234", PasswordValidationResult.Success),
+                PasswordTextFieldPreviewParameter(
+                    "password",
+                    PasswordValidationResult.PasswordFormatError,
+                ),
+                PasswordTextFieldPreviewParameter(
+                    "1234",
+                    PasswordValidationResult.PasswordLengthError,
+                ),
+            )
 }
+
+data class PasswordTextFieldPreviewParameter(
+    val value: String,
+    val validationResult: PasswordValidationResult,
+)

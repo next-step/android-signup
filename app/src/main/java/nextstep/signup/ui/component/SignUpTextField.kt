@@ -1,6 +1,7 @@
 package nextstep.signup.ui.component
 
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -11,6 +12,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -28,12 +30,14 @@ fun SignUpTextField(
     enabled: Boolean = true,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
     shape: Shape = SignUpTextFieldDefaults.shape,
     colors: TextFieldColors = SignUpTextFieldDefaults.colors(),
     singleLine: Boolean = true,
     isError: Boolean = false,
     supportText: @Composable (() -> Unit)? = null,
 ) {
+    ImeAction.Default
     TextField(
         value = value,
         onValueChange = onValueChange,
@@ -46,6 +50,7 @@ fun SignUpTextField(
         isError = isError,
         singleLine = singleLine,
         supportingText = supportText,
+        keyboardActions = keyboardActions,
         modifier = modifier,
     )
 }
@@ -73,20 +78,41 @@ object SignUpTextFieldDefaults {
 @Preview(showBackground = true)
 @Composable
 fun SignUpTextFieldPreview(
-    @PreviewParameter(SignUpTextFieldPreviewParameterProvider::class) value: Pair<String, String>,
+    @PreviewParameter(SignUpTextFieldPreviewParameterProvider::class) param: SignUpTextFieldPreviewParameter,
 ) {
     SignUpTextField(
-        value = value.first,
-        onValueChange = {},
-        label = { Text(text = value.second) },
+        value = param.value,
+        onValueChange = { },
+        label = { Text(text = param.label) },
+        isError = param.isError,
+        supportText = param.supportText?.let { { Text(text = it) } },
     )
 }
 
-class SignUpTextFieldPreviewParameterProvider : PreviewParameterProvider<Pair<String, String>> {
-    override val values: Sequence<Pair<String, String>>
+class SignUpTextFieldPreviewParameterProvider : PreviewParameterProvider<SignUpTextFieldPreviewParameter> {
+    override val values: Sequence<SignUpTextFieldPreviewParameter>
         get() =
             sequenceOf(
-                "" to "Welcome",
-                "user" to "Welcome",
+                SignUpTextFieldPreviewParameter(
+                    value = "User",
+                    label = "",
+                ),
+                SignUpTextFieldPreviewParameter(
+                    value = "User",
+                    label = "Welcome",
+                ),
+                SignUpTextFieldPreviewParameter(
+                    value = "User12345",
+                    label = "Welcome",
+                    isError = true,
+                    supportText = "Error",
+                ),
             )
 }
+
+data class SignUpTextFieldPreviewParameter(
+    val value: String,
+    val label: String,
+    val isError: Boolean = false,
+    val supportText: String? = null,
+)

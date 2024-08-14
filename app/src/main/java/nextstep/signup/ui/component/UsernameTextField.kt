@@ -1,5 +1,7 @@
 package nextstep.signup.ui.component
 
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -8,30 +10,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import nextstep.signup.R
+import nextstep.signup.ui.component.UsernameValidation.UsernameValidationResult
 
 @Composable
 fun UsernameTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+    validationResult: UsernameValidationResult = UsernameValidationResult.Empty,
 ) {
-    val usernameValidation =
-        rememberSignUpTextFieldValidation(value) { UsernameValidation(value) }
-    val isError = !usernameValidation.isValid()
     val supportText: @Composable (() -> Unit)? =
-        when {
-            isError -> {
-                when (usernameValidation.errorType) {
-                    UsernameValidation.ErrorType.LENGTH -> {
-                        { Text(text = stringResource(id = R.string.error_username_length)) }
-                    }
+        when (validationResult) {
+            is UsernameValidationResult.UsernameLengthError -> {
+                { Text(text = stringResource(id = R.string.error_username_length)) }
+            }
 
-                    UsernameValidation.ErrorType.FORMAT -> {
-                        { Text(text = stringResource(id = R.string.error_username_format)) }
-                    }
-
-                    else -> null
-                }
+            is UsernameValidationResult.UsernameFormatError -> {
+                { Text(text = stringResource(id = R.string.error_username_format)) }
             }
 
             else -> null
@@ -41,8 +38,10 @@ fun UsernameTextField(
         value = value,
         onValueChange = onValueChange,
         label = { Text(text = stringResource(id = R.string.sign_up_label_username)) },
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
         modifier = modifier,
-        isError = isError,
+        isError = validationResult.isError,
         supportText = supportText,
     )
 }

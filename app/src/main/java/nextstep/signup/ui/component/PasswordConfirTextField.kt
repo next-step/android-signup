@@ -1,5 +1,6 @@
 package nextstep.signup.ui.component
 
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -12,25 +13,19 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import nextstep.signup.R
 import nextstep.signup.R.string
+import nextstep.signup.ui.component.PasswordConfirmValidation.PasswordConfirmValidationResult
 
 @Composable
 fun PasswordConfirmTextField(
     value: String,
-    target: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    validationResult: PasswordConfirmValidationResult = PasswordConfirmValidationResult.Empty,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
 ) {
-    val validation =
-        rememberSignUpTextFieldValidation(value, target) {
-            PasswordConfirmValidation(
-                value,
-                target,
-            )
-        }
-
-    val isError = !validation.isValid()
     val supportText: @Composable (() -> Unit)? =
-        if (isError) {
+        if (validationResult is PasswordConfirmValidationResult.PasswordNotMatchError) {
             { Text(text = stringResource(id = R.string.error_password_confirm)) }
         } else {
             null
@@ -41,8 +36,9 @@ fun PasswordConfirmTextField(
         onValueChange = onValueChange,
         label = { Text(text = stringResource(id = string.sign_up_label_password_confirm)) },
         visualTransformation = PasswordVisualTransformation(),
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-        isError = isError,
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
+        isError = validationResult.isError,
         supportText = supportText,
         modifier = modifier,
     )
@@ -51,17 +47,32 @@ fun PasswordConfirmTextField(
 @Preview(showBackground = true)
 @Composable
 fun PasswordConfirmTextFieldPreview(
-    @PreviewParameter(PasswordConfirmTextFieldPreviewParameterProvider::class) value: Pair<String, String>,
+    @PreviewParameter(PasswordConfirmTextFieldPreviewParameterProvider::class) param: PasswordConfirmTextFieldPreviewParameter,
 ) {
-    PasswordConfirmTextField(value = value.first, target = value.second, onValueChange = {})
+    PasswordConfirmTextField(
+        value = param.value,
+        onValueChange = {},
+        validationResult = param.validationResult,
+    )
 }
 
-class PasswordConfirmTextFieldPreviewParameterProvider : PreviewParameterProvider<Pair<String, String>> {
-    override val values: Sequence<Pair<String, String>>
+class PasswordConfirmTextFieldPreviewParameterProvider : PreviewParameterProvider<PasswordConfirmTextFieldPreviewParameter> {
+    override val values: Sequence<PasswordConfirmTextFieldPreviewParameter>
         get() =
             sequenceOf(
-                "password1234" to "password1234",
-                "password1234" to "password123",
-                "" to "",
+                PasswordConfirmTextFieldPreviewParameter(
+                    "password1234",
+                    PasswordConfirmValidationResult.Success,
+                ),
+                PasswordConfirmTextFieldPreviewParameter(
+                    "password1234",
+                    PasswordConfirmValidationResult.PasswordNotMatchError,
+                ),
+                PasswordConfirmTextFieldPreviewParameter("", PasswordConfirmValidationResult.Empty),
             )
 }
+
+data class PasswordConfirmTextFieldPreviewParameter(
+    val value: String,
+    val validationResult: PasswordConfirmValidationResult,
+)

@@ -11,6 +11,7 @@ class PasswordTextFieldTest {
     @get:Rule
     val composeTestRule = createComposeRule()
     private val password = mutableStateOf("")
+    private val passwordValidation = PasswordValidation()
 
     @Before
     fun setup() {
@@ -18,6 +19,7 @@ class PasswordTextFieldTest {
             PasswordTextField(
                 value = password.value,
                 onValueChange = { password.value = it },
+                validationResult = passwordValidation.validate(password.value),
             )
         }
     }
@@ -35,6 +37,10 @@ class PasswordTextFieldTest {
         composeTestRule
             .onNodeWithText(PASSWORD_FORMAT_ERROR)
             .assertDoesNotExist()
+
+        composeTestRule
+            .onNodeWithText('\u2022'.toString().repeat(password.value.length))
+            .assertExists()
     }
 
     @Test

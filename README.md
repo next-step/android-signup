@@ -24,3 +24,12 @@
 - [v] SignScreen 각 컴포넌트 교체
   - [v] SignScreen 컴포넌트 교체
   - [v] SignScreen Preview Parameter 추가
+
+## :rocket: 4단계 - 회원가입(리팩토링)
+- [v] SignScreen 컴포넌트 리팩토링
+  - [v] SignScreen 컴포넌트 테스트 코드 리팩토링
+  - [v] SignScreen 컴포넌트 리팩토링
+- [v] 회원가입 버튼 비/활성화 로직 추가
+  - [v] SignScreen - 회원가입 버튼 비/활성화 테스트 코드 작성
+  - [v] SignScreen - 회원가입 버튼 비/활성화 로직 추가
+- [v] 회원가입 성공시 스낵바 보여주기
