@@ -1,5 +1,6 @@
 package nextstep.signup.screen
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,9 +16,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -34,6 +37,8 @@ import androidx.compose.ui.unit.sp
 import nextstep.signup.R
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.BlueGrey20
+import nextstep.signup.ui.theme.SignUpDisableBtnContainerColor
+import nextstep.signup.ui.theme.SignUpDisableBtnContentColor
 import nextstep.signup.ui.theme.SignUpTextFieldErrorColor
 import nextstep.signup.util.SignUpEmailValidator
 import nextstep.signup.util.SignUpPasswordConfirmValidator
@@ -90,21 +95,27 @@ fun SignUpScreen() {
 	}//유저 패스워드 확인 유효성 상태
 	setPasswordConfirmInputValidState(passWordConfirmValidator.getValidState(passWordConfirmValue))
 
+	var signUpBtnEnable by rememberSaveable { mutableStateOf(false) }
+	signUpBtnEnable = (userNameInputValidState == SignUpValidSate.VALID
+			&& emailInputValidState == SignUpValidSate.VALID
+			&& passWordInputValidState == SignUpValidSate.VALID
+			&& passWordConfirmInputValidState == SignUpValidSate.VALID)
+
 	Scaffold(
 		Modifier.background(Color.White)
 	) { contentPadding ->
 		Column(
 			modifier = Modifier
-                .padding(contentPadding)
-                .verticalScroll(rememberScrollState()),
+				.padding(contentPadding)
+				.verticalScroll(rememberScrollState()),
 		) {
 			SignUpTitle(
 				modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        top = 70.dp,
-                        bottom = 25.dp
-                    )
+					.fillMaxWidth()
+					.padding(
+						top = 70.dp,
+						bottom = 25.dp
+					)
 			)
 			UserNameSigneUpTextField(
 				textContent = userNameInputValue,
@@ -148,9 +159,10 @@ fun SignUpScreen() {
 			)
 			SignUpButton(
 				modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(min = 115.dp)
-                    .padding(30.dp),
+					.fillMaxWidth()
+					.heightIn(min = 115.dp)
+					.padding(30.dp),
+				isBtnEnable = signUpBtnEnable	,
 				onClick = {
 					//회원가입 버튼 클릭시 로직
 				}
@@ -312,12 +324,12 @@ fun SigneUpTextField(
 			}
 		},
 		modifier = modifier
-            .fillMaxWidth()
-            .padding(
-                top = 15.dp,
-                start = 30.dp,
-                end = 30.dp
-            ),
+			.fillMaxWidth()
+			.padding(
+				top = 15.dp,
+				start = 30.dp,
+				end = 30.dp
+			),
 		value = textContent,
 		onValueChange = onTextValueChange,
 		label = label,
@@ -333,12 +345,20 @@ fun SigneUpTextField(
 @Composable
 fun SignUpButton(
 	modifier: Modifier,
-	onClick: () -> Unit
+	onClick: () -> Unit,
+	isBtnEnable:Boolean
 ) {
 	Button(
-		colors = ButtonDefaults.buttonColors(Blue50),
+		colors = ButtonDefaults
+			.buttonColors(
+				containerColor = Blue50,
+				contentColor = Color.White,
+				disabledContentColor = SignUpDisableBtnContentColor,
+				disabledContainerColor = SignUpDisableBtnContainerColor
+			),
 		modifier = modifier,
-		onClick = { onClick() }
+		onClick = { onClick() },
+		enabled = isBtnEnable,
 	) {
 		Text(text = stringResource(id = R.string.sign_up))
 	}
@@ -356,8 +376,8 @@ fun SignUpButton(
 fun PreviewSignUpTitle() {
 	SignUpTitle(
 		modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 70.dp)
+			.fillMaxWidth()
+			.padding(top = 70.dp)
 	)
 }
 
@@ -373,13 +393,12 @@ fun PreviewSigneUpTextField() {
 			SignUpValidSate.NOTHING
 		)
 	}
-
 	SigneUpTextField(
 		modifier = Modifier
-            .fillMaxWidth()
-            .padding(
-                top = 17.dp, bottom = 17.dp, start = 30.dp, end = 30.dp
-            ),
+			.fillMaxWidth()
+			.padding(
+				top = 17.dp, bottom = 17.dp, start = 30.dp, end = 30.dp
+			),
 		label = {
 			Text(stringResource(id = R.string.username))
 		},
@@ -404,9 +423,10 @@ fun PreviewSigneUpTextField() {
 fun PreviewSignUpButton() {
 	SignUpButton(
 		modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 115.dp)
-            .padding(30.dp),
+			.fillMaxWidth()
+			.heightIn(min = 115.dp)
+			.padding(30.dp),
+		isBtnEnable = true,
 		onClick = {
 			// 회원가입 버튼 클릭시 로직
 		}
