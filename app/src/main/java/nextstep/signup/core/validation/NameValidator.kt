@@ -1,13 +1,18 @@
 package nextstep.signup.core.validation
 
-import nextstep.signup.R
+enum class NameValidationResult {
+    VALID,
+    LENGTH_ERROR,
+    CHARACTER_ERROR,
+}
 
-class NameValidator : Validator {
-    override fun validate(value: String): ValidationResult {
+class NameValidator : Validator<NameValidationResult> {
+
+    override fun validate(value: String): NameValidationResult {
         return when {
-            value.length !in 2..5 -> ValidationResult(false, R.string.signup_name_length_error)
-            value.any { it.isDigit() || !it.isLetter() } -> ValidationResult(false, R.string.signup_name_character_error)
-            else -> ValidationResult(true)
+            value.length !in 2..5 -> NameValidationResult.LENGTH_ERROR
+            value.any { it.isDigit() || !it.isLetter() } -> NameValidationResult.CHARACTER_ERROR
+            else -> NameValidationResult.VALID
         }
     }
 }

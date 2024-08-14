@@ -3,10 +3,7 @@ package nextstep.signup
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.ui.Modifier
-import nextstep.signup.screen.SignUpScreen
+import nextstep.signup.screen.SignUpRoute
 import nextstep.signup.ui.theme.SignupTheme
 
 class MainActivity : ComponentActivity() {
@@ -14,9 +11,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SignupTheme {
-                Scaffold {
-                    SignUpScreen(modifier = Modifier.padding(it))
-                }
+                SignUpRoute()
             }
         }
     }

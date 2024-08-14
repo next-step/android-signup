@@ -1,19 +1,22 @@
-package nextstep.signup.screen
+package nextstep.signup.ui.component
 
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithText
-import androidx.test.platform.app.InstrumentationRegistry
-import nextstep.signup.R
+import nextstep.signup.core.validation.PasswordMatchValidationResult
+import nextstep.signup.core.validation.PasswordMatchValidator
+import nextstep.signup.utils.assertDoesNotExist
+import nextstep.signup.utils.assertExists
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
 class PasswordConfirmTextFieldTest {
 
-    private val passwordFieldValue = mutableStateOf("")
     private val passwordConfirmFieldValue = mutableStateOf("")
-    private val context = InstrumentationRegistry.getInstrumentation().targetContext
+    private val passwordFieldValue = mutableStateOf("")
+    private val passwordMatchValidationResult =
+        derivedStateOf { PasswordMatchValidator(passwordFieldValue.value).validate(passwordConfirmFieldValue.value) }
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -22,9 +25,9 @@ class PasswordConfirmTextFieldTest {
     fun setup() {
         composeTestRule.setContent {
             PasswordConfirmTextField(
-                password = passwordFieldValue.value,
-                onPasswordConfirmChange = { passwordFieldValue.value = it },
                 passwordConfirmValue = passwordConfirmFieldValue.value,
+                onPasswordConfirmChange = { passwordConfirmFieldValue.value = it },
+                passwordMatchValidationResult = passwordMatchValidationResult.value
             )
         }
     }
@@ -34,9 +37,7 @@ class PasswordConfirmTextFieldTest {
         passwordConfirmFieldValue.value = ""
         passwordFieldValue.value = ""
 
-        composeTestRule
-            .onNodeWithText(context.getString(R.string.signup_password_mismatch_error))
-            .assertDoesNotExist()
+        composeTestRule.assertDoesNotExist("비밀번호가 일치하지 않습니다.")
     }
 
     @Test
@@ -44,19 +45,15 @@ class PasswordConfirmTextFieldTest {
         passwordConfirmFieldValue.value = "CorrectPassword123"
         passwordFieldValue.value = "CorrectPassword123"
 
-        composeTestRule
-            .onNodeWithText(context.getString(R.string.signup_password_mismatch_error))
-            .assertDoesNotExist()
+        composeTestRule.assertDoesNotExist("비밀번호가 일치하지 않습니다.")
     }
 
     @Test
     fun 비밀번호가_일치해야_한다() {
         passwordConfirmFieldValue.value = "CorrectPassword123"
-        passwordFieldValue.value = "WrongPassword"
+        passwordFieldValue.value = "WrongPassword123"
 
-        composeTestRule
-            .onNodeWithText(context.getString(R.string.signup_password_mismatch_error))
-            .assertExists()
+        composeTestRule.assertExists("비밀번호가 일치하지 않습니다.")
     }
 
     @Test
@@ -64,14 +61,10 @@ class PasswordConfirmTextFieldTest {
         passwordConfirmFieldValue.value = "CorrectPassword123"
         passwordFieldValue.value = "CorrectPassword123"
 
-        composeTestRule
-            .onNodeWithText(context.getString(R.string.signup_password_mismatch_error))
-            .assertDoesNotExist()
+        composeTestRule.assertDoesNotExist("비밀번호가 일치하지 않습니다.")
 
-        passwordFieldValue.value = "WrongPassword"
+        passwordFieldValue.value = "WrongPassword123"
 
-        composeTestRule
-            .onNodeWithText(context.getString(R.string.signup_password_mismatch_error))
-            .assertExists()
+        composeTestRule.assertExists("비밀번호가 일치하지 않습니다.")
     }
 }

@@ -16,13 +16,12 @@ class PasswordMatchValidatorTest {
     @Test
     fun `일치하는 비밀번호는 통과해야 한다`() {
         val result = validator.validate("securePassword123")
-        assertTrue(result.isValid)
+        assertEquals(result, PasswordMatchValidationResult.VALID)
     }
 
     @Test
     fun `일치하지 않는 비밀번호는 실패해야 한다`() {
         val result = validator.validate("differentPassword")
-        assertFalse(result.isValid)
-        assertEquals(R.string.signup_password_mismatch_error, result.message)
+        assertEquals(result, PasswordMatchValidationResult.MISMATCH)
     }
 }

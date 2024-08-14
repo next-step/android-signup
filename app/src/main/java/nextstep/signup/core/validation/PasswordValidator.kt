@@ -1,13 +1,18 @@
 package nextstep.signup.core.validation
 
-import nextstep.signup.R
+enum class PasswordValidationResult {
+    VALID,
+    INVALID_LENGTH,
+    INVALID_COMPLEXITY,
+}
 
-class PasswordValidator : Validator {
-    override fun validate(value: String): ValidationResult {
+class PasswordValidator : Validator<PasswordValidationResult> {
+
+    override fun validate(value: String): PasswordValidationResult {
         return when {
-            value.length !in 8..16 -> ValidationResult(false, R.string.signup_password_length_error)
-            !value.any { it.isDigit() } || !value.any { it.isLetter() } -> ValidationResult(false, R.string.signup_password_complexity_error)
-            else -> ValidationResult(true)
+            value.length !in 8..16 -> PasswordValidationResult.INVALID_LENGTH
+            !value.any { it.isDigit() } || !value.any { it.isLetter() } -> PasswordValidationResult.INVALID_COMPLEXITY
+            else -> PasswordValidationResult.VALID
         }
     }
 }
