@@ -1,10 +1,12 @@
 package nextstep.signup.ui.component
 
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.junit4.createComposeRule
 import nextstep.signup.core.validation.PasswordMatchValidationResult
-import nextstep.signup.utils.assertExists
+import nextstep.signup.core.validation.PasswordMatchValidator
 import nextstep.signup.utils.assertDoesNotExist
+import nextstep.signup.utils.assertExists
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -12,7 +14,9 @@ import org.junit.Test
 class PasswordConfirmTextFieldTest {
 
     private val passwordConfirmFieldValue = mutableStateOf("")
-    private val passwordMatchValidationResult = mutableStateOf(PasswordMatchValidationResult.VALID)
+    private val passwordFieldValue = mutableStateOf("")
+    private val passwordMatchValidationResult =
+        derivedStateOf { PasswordMatchValidator(passwordFieldValue.value).validate(passwordConfirmFieldValue.value) }
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -31,7 +35,7 @@ class PasswordConfirmTextFieldTest {
     @Test
     fun 입력이_없다면_아무런에러가_노출되면안된다() {
         passwordConfirmFieldValue.value = ""
-        passwordMatchValidationResult.value = PasswordMatchValidationResult.VALID
+        passwordFieldValue.value = ""
 
         composeTestRule.assertDoesNotExist("비밀번호가 일치하지 않습니다.")
     }
@@ -39,7 +43,7 @@ class PasswordConfirmTextFieldTest {
     @Test
     fun 비밀번호가_일치할_때_에러가_없다() {
         passwordConfirmFieldValue.value = "CorrectPassword123"
-        passwordMatchValidationResult.value = PasswordMatchValidationResult.VALID
+        passwordFieldValue.value = "CorrectPassword123"
 
         composeTestRule.assertDoesNotExist("비밀번호가 일치하지 않습니다.")
     }
@@ -47,7 +51,7 @@ class PasswordConfirmTextFieldTest {
     @Test
     fun 비밀번호가_일치해야_한다() {
         passwordConfirmFieldValue.value = "CorrectPassword123"
-        passwordMatchValidationResult.value = PasswordMatchValidationResult.MISMATCH
+        passwordFieldValue.value = "WrongPassword123"
 
         composeTestRule.assertExists("비밀번호가 일치하지 않습니다.")
     }
@@ -55,11 +59,11 @@ class PasswordConfirmTextFieldTest {
     @Test
     fun 비밀번호가_일치했다가_변경이되면_에러가_노출이되어야한다() {
         passwordConfirmFieldValue.value = "CorrectPassword123"
-        passwordMatchValidationResult.value = PasswordMatchValidationResult.VALID
+        passwordFieldValue.value = "CorrectPassword123"
 
         composeTestRule.assertDoesNotExist("비밀번호가 일치하지 않습니다.")
 
-        passwordMatchValidationResult.value = PasswordMatchValidationResult.MISMATCH
+        passwordFieldValue.value = "WrongPassword123"
 
         composeTestRule.assertExists("비밀번호가 일치하지 않습니다.")
     }
