@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -123,7 +124,7 @@ fun SignUpButton(
     onSignUpClick: () -> Unit
 ) {
     FullButton(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().testTag("회원가입 버튼"),
         isEnabled = isEnabled,
         text = stringResource(id = R.string.sign_up),
         textColor = if (isEnabled) Color.White else Color(0xFF1D1B20),
