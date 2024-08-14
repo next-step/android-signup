@@ -29,7 +29,9 @@ import nextstep.signup.component.PasswordConfirmTextField
 import nextstep.signup.component.PasswordTextField
 import nextstep.signup.component.UserNameTextField
 import nextstep.signup.ui.theme.Blue50
+import nextstep.signup.ui.theme.Gray10
 import nextstep.signup.ui.theme.SignupTheme
+import nextstep.signup.util.validation.ValidationResult
 import nextstep.signup.util.validation.Validator
 
 enum class SignUpTextFieldType {
@@ -57,12 +59,26 @@ fun SignUpScreen(
         derivedStateOf { Validator.passwordValidate(password) }
     }
 
-    val passwordConfirmValidationResult by remember(passwordConfirm,password) {
+    val passwordConfirmValidationResult by remember(passwordConfirm, password) {
         derivedStateOf {
             Validator.passwordConfirmValidate(
                 password = password,
                 passwordConfirm = passwordConfirm
             )
+        }
+    }
+
+    val enabledSignUpButton by remember(
+        userNameValidationResult,
+        emailValidationResult,
+        passwordValidationResult,
+        passwordConfirmValidationResult
+    ) {
+        derivedStateOf {
+            userNameValidationResult is ValidationResult.Success &&
+            emailValidationResult is ValidationResult.Success &&
+            passwordValidationResult is ValidationResult.Success &&
+            passwordConfirmValidationResult is ValidationResult.Success
         }
     }
 
@@ -119,8 +135,11 @@ fun SignUpScreen(
                     .height(50.dp),
                 colors = ButtonDefaults.textButtonColors(
                     containerColor = Blue50,
-                    contentColor = Color.White
+                    contentColor = Color.White,
+                    disabledContainerColor = Gray10.copy(alpha = 0.12f),
+                    disabledContentColor = Gray10
                 ),
+                enabled = enabledSignUpButton,
                 onClick = { /*TODO*/ }
             ) {
                 Text(
