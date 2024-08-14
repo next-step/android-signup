@@ -5,8 +5,7 @@ import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextInput
-import nextstep.signup.ui.theme.screen.EmailTextFieldScreen
-import nextstep.signup.ui.theme.screen.SignUpScreen
+import nextstep.signup.ui.theme.screen.SignUp
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -24,7 +23,7 @@ class SignUpScreenTest {
     fun 입력을_하지않은_기본상태는_회원가입버튼이_비활성화된다() {
         // when
         composeTestRule.setContent {
-            SignUpScreen()
+            SignUp()
         }
         // then
         composeTestRule
@@ -36,7 +35,7 @@ class SignUpScreenTest {
     fun 사용자_이름_이메일_비밀번호_컨펌비밀번호를_정상적으로_입력하면_회원가입버튼이_활성화된다() {
         // when
         composeTestRule.setContent {
-            SignUpScreen()
+            SignUp()
         }
 
         composeTestRule.onNodeWithText("Username").performTextInput("김컴포즈")
@@ -54,7 +53,7 @@ class SignUpScreenTest {
     fun 사용자_이름_필드_검증이_정상적이지_않으면_회원가입버튼이_비활성화된다() {
         // when
         composeTestRule.setContent {
-            SignUpScreen()
+            SignUp()
         }
 
         composeTestRule.onNodeWithText("Username").performTextInput("김")
@@ -72,7 +71,7 @@ class SignUpScreenTest {
     fun 이메일_필드_검증이_정상적이지_않으면_회원가입버튼이_비활성화된다() {
         // when
         composeTestRule.setContent {
-            SignUpScreen()
+            SignUp()
         }
 
         composeTestRule.onNodeWithText("Username").performTextInput("김컴포즈")
@@ -90,7 +89,7 @@ class SignUpScreenTest {
     fun 비밀번호_필드_검증이_정상적이지_않으면_회원가입버튼이_비활성화된다() {
         // when
         composeTestRule.setContent {
-            SignUpScreen()
+            SignUp()
         }
 
         composeTestRule.onNodeWithText("Username").performTextInput("김컴포즈")
@@ -108,7 +107,7 @@ class SignUpScreenTest {
     fun 비밀번호_확인_필드_검증이_정상적이지_않으면_회원가입버튼이_비활성화된다() {
         // when
         composeTestRule.setContent {
-            SignUpScreen()
+            SignUp()
         }
 
         composeTestRule.onNodeWithText("Username").performTextInput("김컴포즈")

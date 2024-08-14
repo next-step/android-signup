@@ -13,34 +13,41 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import nextstep.signup.ui.theme.screen.validator.NameValidator
+import nextstep.signup.ui.theme.screen.validator.TextFieldValidator
 
-private const val PASSWORD_COMPARE_ERROR = "비밀번호가 일치하지 않습니다."
-
-@Preview(showBackground = true)
+@Preview
 @Composable
-private fun PasswordConfirmTextFieldPreview() {
-    PasswordConfirmTextFieldScreen("Username", "", "")
+private fun SignUpTextFieldPreView() {
+    SignUpTextField(
+        inputText = "",
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+        visualTransformation = VisualTransformation.None,
+        validator = NameValidator()
+    )
 }
 
 @Composable
-fun PasswordConfirmTextFieldScreen(
+fun SignUpTextField(
     label: String = "",
     inputText: String,
-    anotherPassword: String,
+    keyboardOptions: KeyboardOptions,
+    visualTransformation: VisualTransformation,
+    validator: TextFieldValidator,
     onValueChange: (String) -> Unit = {},
     onValidChanged: (Boolean) -> Unit = {},
 ) {
     val isFocused = remember { mutableStateOf(false) }
-    var supportingText = getErrorMessage(inputText, anotherPassword)
+    var supportingText = validator.getErrorMessage(inputText)
     TextField(
         value = inputText,
         onValueChange = {
             onValueChange(it)
-            supportingText = getErrorMessage(it, anotherPassword)
+            supportingText = validator.getErrorMessage(it)
             onValidChanged(supportingText.isNotEmpty())
         },
         label = {
@@ -56,30 +63,17 @@ fun PasswordConfirmTextFieldScreen(
             errorLabelColor = Color(0xFFB3261E),
         ),
         isError = supportingText.isNotEmpty(),
-        keyboardOptions = KeyboardOptions(keyboardType= KeyboardType.Password),
-        visualTransformation = PasswordVisualTransformation(),
-        modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)
+        keyboardOptions = keyboardOptions,
+        visualTransformation = visualTransformation,
+        modifier = Modifier
+            .padding(start = 16.dp, end = 16.dp, top = 16.dp)
             .fillMaxWidth()
             .onFocusChanged { focusState ->
                 isFocused.value = focusState.isFocused
             },
         supportingText = {
             Text(
-                text = supportingText,
-                color = Color(0xFFB3261E),
-                fontSize = 12.sp
+                text = supportingText, color = Color(0xFFB3261E), fontSize = 12.sp
             )
-        }
-    )
-}
-
-private fun getErrorMessage(
-    input: String,
-    anotherInput: String?
-): String {
-    return if (input != anotherInput) {
-        PASSWORD_COMPARE_ERROR
-    } else {
-        ""
-    }
+        })
 }

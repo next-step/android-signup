@@ -13,14 +13,16 @@ import androidx.compose.ui.unit.sp
 @Preview(showBackground = true)
 @Composable
 private fun SingUpButtonPreView() {
-    SignUpButtonScreen(enabled = false)
+    SignUpButton(enabled = false) {
+
+    }
 }
 
 @Composable
-fun SignUpButtonScreen(
+fun SignUpButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = false,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit
 ) {
     Button(
         onClick = onClick,

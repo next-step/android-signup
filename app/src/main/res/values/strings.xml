@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Signup</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="password_confirm">Password Confirm</string>
+    <string name="username">Username</string>
+    <string name="signup_success">회원가입 성공</string>
 </resources>

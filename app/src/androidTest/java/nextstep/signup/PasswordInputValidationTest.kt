@@ -1,10 +1,14 @@
 package nextstep.signup
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import nextstep.signup.ui.theme.screen.PasswordConfirmTextFieldScreen
-import nextstep.signup.ui.theme.screen.PasswordTextFieldScreen
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import nextstep.signup.ui.theme.screen.SignUpTextField
+import nextstep.signup.ui.theme.screen.validator.PasswordConfirmValidator
+import nextstep.signup.ui.theme.screen.validator.PasswordValidator
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -22,13 +26,19 @@ class PasswordInputValidationTest {
     fun 비밀번호는_8_16_자여야_한다() {
         // when
         composeTestRule.setContent {
-            PasswordTextFieldScreen("Password", "1q2w3e4r") {
+            SignUpTextField(
+                "Password",
+                "1q2w3e4r",
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                visualTransformation = PasswordVisualTransformation(),
+                PasswordValidator()
+            ) {
             }
         }
 
         // then
         composeTestRule
-            .onNodeWithText( "비밀번호는 8~16자여야 합니다.")
+            .onNodeWithText("비밀번호는 8~16자여야 합니다.")
             .assertDoesNotExist()
     }
 
@@ -36,13 +46,19 @@ class PasswordInputValidationTest {
     fun 비밀번호가_8자보다_작으면_에러노출() {
         // when
         composeTestRule.setContent {
-            PasswordTextFieldScreen("Password", "1q2w3e4") {
+            SignUpTextField(
+                "Password",
+                "1q2w3e4",
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                visualTransformation = PasswordVisualTransformation(),
+                PasswordValidator()
+            ) {
             }
         }
 
         // then
         composeTestRule
-            .onNodeWithText( "비밀번호는 8~16자여야 합니다.")
+            .onNodeWithText("비밀번호는 8~16자여야 합니다.")
             .assertExists()
     }
 
@@ -50,13 +66,19 @@ class PasswordInputValidationTest {
     fun 비밀번호가_16자보다_크면_에러노출() {
         // when
         composeTestRule.setContent {
-            PasswordTextFieldScreen("Password", "1q2w3e4r5t6y7u8i9") {
+            SignUpTextField(
+                "Password",
+                "1q2w3e4r5t6y7u8i9",
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                visualTransformation = PasswordVisualTransformation(),
+                PasswordValidator()
+            ) {
             }
         }
 
         // then
         composeTestRule
-            .onNodeWithText( "비밀번호는 8~16자여야 합니다.")
+            .onNodeWithText("비밀번호는 8~16자여야 합니다.")
             .assertExists()
     }
 
@@ -64,7 +86,13 @@ class PasswordInputValidationTest {
     fun 비밀번호는_영문과_숫자를_포함해야한다() {
         // when
         composeTestRule.setContent {
-            PasswordTextFieldScreen("Password", "1q2w3e4r") {
+            SignUpTextField(
+                "Password",
+                "1q2w3e4r",
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                visualTransformation = PasswordVisualTransformation(),
+                PasswordValidator()
+            ) {
             }
         }
 
@@ -78,7 +106,13 @@ class PasswordInputValidationTest {
     fun 비밀번호는_영문이_없으면_에러메시지_노출() {
         // when
         composeTestRule.setContent {
-            PasswordTextFieldScreen("Password", "12345678") {
+            SignUpTextField(
+                "Password",
+                "12345678",
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                visualTransformation = PasswordVisualTransformation(),
+                PasswordValidator()
+            ) {
             }
         }
 
@@ -92,7 +126,13 @@ class PasswordInputValidationTest {
     fun 비밀번호는_숫자가_없으면_에러메시지_노출() {
         // when
         composeTestRule.setContent {
-            PasswordTextFieldScreen("Password", "abcdefghi") {
+            SignUpTextField(
+                "Password",
+                "abcdefghi",
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                visualTransformation = PasswordVisualTransformation(),
+                PasswordValidator()
+            ) {
             }
         }
 
@@ -109,9 +149,21 @@ class PasswordInputValidationTest {
         val passwordConfirm = "1q2w3e4r"
         composeTestRule.setContent {
             Column {
-                PasswordTextFieldScreen("Password", password) {
+                SignUpTextField(
+                    "Password",
+                    password,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                    visualTransformation = PasswordVisualTransformation(),
+                    PasswordValidator()
+                ) {
                 }
-                PasswordConfirmTextFieldScreen("Password Confirm", passwordConfirm, password) {
+                SignUpTextField(
+                    "Password Confirm",
+                    passwordConfirm,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                    visualTransformation = PasswordVisualTransformation(),
+                    PasswordConfirmValidator(password)
+                ) {
                 }
             }
         }
@@ -129,9 +181,21 @@ class PasswordInputValidationTest {
         val passwordConfirm = "1q2w3e4"
         composeTestRule.setContent {
             Column {
-                PasswordTextFieldScreen("Password", password) {
+                SignUpTextField(
+                    "Password",
+                    password,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                    visualTransformation = PasswordVisualTransformation(),
+                    PasswordValidator()
+                ) {
                 }
-                PasswordConfirmTextFieldScreen("Password Confirm", passwordConfirm, password) {
+                SignUpTextField(
+                    "Password Confirm",
+                    passwordConfirm,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                    visualTransformation = PasswordVisualTransformation(),
+                    PasswordConfirmValidator(password)
+                ) {
                 }
             }
         }
