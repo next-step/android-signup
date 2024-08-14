@@ -8,6 +8,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import nextstep.signup.R
 import nextstep.signup.domain.UsernameValidType
 import nextstep.signup.domain.UsernameValidator
@@ -36,8 +38,10 @@ fun UsernameTextField(
 
 @Preview
 @Composable
-private fun UsernameTextFieldPreview() {
-    var username by remember { mutableStateOf("jihoi") }
+private fun UsernameTextFieldPreview(
+    @PreviewParameter(UsernameTextFieldPreviewParameterProvider::class) param: String,
+) {
+    var username by remember { mutableStateOf(param) }
 
     UsernameTextField(
         value = username,
@@ -45,35 +49,11 @@ private fun UsernameTextFieldPreview() {
     )
 }
 
-@Preview
-@Composable
-private fun EmptyUsernameTextFieldPreview() {
-    var username by remember { mutableStateOf("") }
-
-    UsernameTextField(
-        value = username,
-        onValueChange = { username = it },
-    )
-}
-
-@Preview
-@Composable
-private fun InvalidUsernameTextFieldPreview1() {
-    var username by remember { mutableStateOf("j") }
-
-    UsernameTextField(
-        value = username,
-        onValueChange = { username = it },
-    )
-}
-
-@Preview
-@Composable
-private fun InvalidUsernameTextFieldPreview2() {
-    var username by remember { mutableStateOf("jihoik") }
-
-    UsernameTextField(
-        value = username,
-        onValueChange = { username = it },
+private class UsernameTextFieldPreviewParameterProvider : PreviewParameterProvider<String> {
+    override val values: Sequence<String> = sequenceOf(
+        "jihoi",
+        "",
+        "j",
+        "jihoik"
     )
 }

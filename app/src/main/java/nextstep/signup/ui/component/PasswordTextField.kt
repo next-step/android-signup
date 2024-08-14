@@ -9,6 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import nextstep.signup.R
 import nextstep.signup.domain.PasswordValidType
 import nextstep.signup.domain.PasswordValidator
@@ -38,35 +40,20 @@ fun PasswordTextField(
 
 @Preview
 @Composable
-private fun PasswordTextFieldPreview() {
-    var password by remember { mutableStateOf("aa120000") }
+private fun PasswordTextFieldPreview(
+    @PreviewParameter(PasswordTextFieldPreviewParameterProvider::class) param: String,
+) {
+    var password by remember { mutableStateOf(param) }
     PasswordTextField(value = password, onValueChange = { password = it })
 }
 
-@Preview
-@Composable
-private fun EmptyPasswordTextFieldPreview() {
-    var password by remember { mutableStateOf("") }
-    PasswordTextField(value = password, onValueChange = { password = it })
-}
-
-@Preview
-@Composable
-private fun InvalidPasswordTextFieldPreview1() {
-    var password by remember { mutableStateOf("aa12") }
-    PasswordTextField(value = password, onValueChange = { password = it })
-}
-
-@Preview
-@Composable
-private fun InvalidOnlyNumberPasswordTextFieldPreview() {
-    var password by remember { mutableStateOf("11111111") }
-    PasswordTextField(value = password, onValueChange = { password = it })
-}
-
-@Preview
-@Composable
-private fun InvalidOnlyCharPasswordTextFieldPreview() {
-    var password by remember { mutableStateOf("abcdefgh") }
-    PasswordTextField(value = password, onValueChange = { password = it })
+private class PasswordTextFieldPreviewParameterProvider : PreviewParameterProvider<String> {
+    override val values: Sequence<String> = sequenceOf(
+        "aa120000",
+        "",
+        "aa12000",
+        "aa120000aa120000a",
+        "11111111",
+        "abcdefgh"
+    )
 }

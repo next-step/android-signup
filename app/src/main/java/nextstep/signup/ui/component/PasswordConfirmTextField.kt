@@ -9,6 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import nextstep.signup.R
 import nextstep.signup.domain.PasswordConfirmValidType
 import nextstep.signup.domain.PasswordConfirmValidator
@@ -38,33 +40,29 @@ fun PasswordConfirmTextField(
 
 @Preview
 @Composable
-private fun PasswordConfirmTextFieldPreview() {
-    var passwordConfirm by remember { mutableStateOf("aa120000") }
+private fun PasswordConfirmTextFieldPreview(
+    @PreviewParameter(
+        PasswordConfirmTextFieldPreviewParameterProvider::class
+    ) param: PasswordConfirmTextFieldPreviewParameter
+) {
+    var passwordConfirm by remember { mutableStateOf(param.passwordConfirm) }
     PasswordConfirmTextField(
         value = passwordConfirm,
         onValueChange = { passwordConfirm = it },
-        passwordValue = "aa120000",
+        passwordValue = param.password,
     )
 }
 
-@Preview
-@Composable
-private fun EmptyPasswordConfirmTextFieldPreview() {
-    var passwordConfirm by remember { mutableStateOf("") }
-    PasswordConfirmTextField(
-        value = passwordConfirm,
-        onValueChange = { passwordConfirm = it },
-        passwordValue = "aa120000",
+private class PasswordConfirmTextFieldPreviewParameterProvider :
+    PreviewParameterProvider<PasswordConfirmTextFieldPreviewParameter> {
+    override val values: Sequence<PasswordConfirmTextFieldPreviewParameter> = sequenceOf(
+        PasswordConfirmTextFieldPreviewParameter("aa120000", "aa120000"),
+        PasswordConfirmTextFieldPreviewParameter("aa120000", ""),
+        PasswordConfirmTextFieldPreviewParameter("aa120000", "aa120001"),
     )
 }
 
-@Preview
-@Composable
-private fun NotEqualPasswordConfirmTextFieldPreview() {
-    var passwordConfirm by remember { mutableStateOf("aa120001") }
-    PasswordConfirmTextField(
-        value = passwordConfirm,
-        onValueChange = { passwordConfirm = it },
-        passwordValue = "aa120000",
-    )
-}
+private data class PasswordConfirmTextFieldPreviewParameter(
+    val password: String,
+    val passwordConfirm: String,
+)

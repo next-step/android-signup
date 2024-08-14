@@ -10,6 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import nextstep.signup.R
 import nextstep.signup.domain.EmailValidType
 import nextstep.signup.domain.EmailValidator
@@ -38,8 +40,10 @@ fun EmailTextField(
 
 @Preview
 @Composable
-private fun EmailTextFieldPreview() {
-    var email by remember { mutableStateOf("jihoi.kang@gmail.com") }
+private fun EmailTextFieldPreview(
+    @PreviewParameter(EmailTextFieldPreviewParameterProvider::class) param: String
+) {
+    var email by remember { mutableStateOf(param) }
 
     EmailTextField(
         value = email,
@@ -47,35 +51,12 @@ private fun EmailTextFieldPreview() {
     )
 }
 
-@Preview
-@Composable
-private fun EmptyEmailTextFieldPreview() {
-    var email by remember { mutableStateOf("") }
-
-    EmailTextField(
-        value = email,
-        onValueChange = { email = it },
-    )
-}
-
-@Preview
-@Composable
-private fun InvalidEmailTextFieldPreview1() {
-    var email by remember { mutableStateOf("jihoi.kang") }
-
-    EmailTextField(
-        value = email,
-        onValueChange = { email = it },
-    )
-}
-
-@Preview
-@Composable
-private fun InvalidEmailTextFieldPreview2() {
-    var email by remember { mutableStateOf("jihoi.kang@aa.a") }
-
-    EmailTextField(
-        value = email,
-        onValueChange = { email = it },
+private class EmailTextFieldPreviewParameterProvider : PreviewParameterProvider<String> {
+    override val values: Sequence<String> = sequenceOf(
+        "jihoi.kang@gmail.com",
+        "",
+        "jihoi.kang",
+        "jihoi.kang@aa",
+        "jihoi.kang@aa.a",
     )
 }
