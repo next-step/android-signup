@@ -19,6 +19,8 @@ import nextstep.signup.ui.theme.BlueGrey20
 import nextstep.signup.ui.theme.Grey10
 import nextstep.signup.ui.theme.Red10
 
+const val BASE_TEXT_FIELD_TEST_TAG = "baseTextField"
+
 @Composable
 fun BaseTextField(
     modifier: Modifier = Modifier,
@@ -52,7 +54,7 @@ fun BaseTextField(
             errorIndicatorColor = Red10,
             errorSupportingTextColor = Red10,
         ),
-        modifier = modifier.testTag("baseTextField"),
+        modifier = modifier.testTag(BASE_TEXT_FIELD_TEST_TAG),
     )
 }
 

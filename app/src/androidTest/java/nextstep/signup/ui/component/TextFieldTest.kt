@@ -25,7 +25,7 @@ class TextFieldTest {
 
         // then
         composeTestRule
-            .onNodeWithTag(TEXT_FIELD_TAG)
+            .onNodeWithTag(BASE_TEXT_FIELD_TEST_TAG)
             .assertExists()
             .assert(hasText(value))
     }
@@ -45,7 +45,7 @@ class TextFieldTest {
 
         // then
         composeTestRule
-            .onNodeWithTag(TEXT_FIELD_TAG)
+            .onNodeWithTag(BASE_TEXT_FIELD_TEST_TAG)
             .assertExists()
             .assert(hasText(value))
     }
@@ -68,13 +68,9 @@ class TextFieldTest {
 
         // then
         composeTestRule
-            .onNodeWithTag(TEXT_FIELD_TAG)
+            .onNodeWithTag(BASE_TEXT_FIELD_TEST_TAG)
             .assertExists()
             .assert(hasText(updatedValue))
-    }
-
-    companion object {
-        private const val TEXT_FIELD_TAG = "baseTextField"
     }
 
 }
