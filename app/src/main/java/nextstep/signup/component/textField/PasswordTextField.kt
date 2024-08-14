@@ -26,7 +26,6 @@ fun PasswordTextField(
                 PasswordError.Length -> stringResource(R.string.sign_up_error_password_length)
                 PasswordError.Complexity -> stringResource(R.string.sign_up_error_password_requirement)
             }
-
             PasswordState.Valid, PasswordState.Initial -> ""
         }
     )
@@ -37,8 +36,6 @@ fun PasswordTextField(
 @Composable
 fun PasswordTextFieldPreview() {
     PasswordTextField(
-        password = "Password123",
-        onPasswordChange = {},
-        passwordState = PasswordState.Valid
+        password = "Password123", onPasswordChange = {}, passwordState = PasswordState.Valid
     )
 }
