@@ -295,12 +295,17 @@ private fun SignUpContent(
         )
 
         val isSignUpEnabled =
-            isSignUpEnabled(
-                usernameValidationResult = usernameValidationResult,
-                emailValidationResult = emailValidationResult,
-                passwordValidationResult = passwordValidationResult,
-                passwordConfirmValidationResult = passwordConfirmValidationResult,
-            )
+            remember(
+                usernameValidationResult,
+                emailValidationResult,
+                passwordValidationResult,
+                passwordConfirmValidationResult,
+            ) {
+                usernameValidationResult.isValid &&
+                    emailValidationResult.isValid &&
+                    passwordValidationResult.isValid &&
+                    passwordConfirmValidationResult.isValid
+            }
 
         Button(
             onClick = {
@@ -324,24 +329,6 @@ private fun SignUpContent(
             )
         }
     }
-}
-
-@Composable
-private fun isSignUpEnabled(
-    usernameValidationResult: UsernameValidationResult,
-    emailValidationResult: EmailValidationResult,
-    passwordValidationResult: PasswordValidationResult,
-    passwordConfirmValidationResult: PasswordConfirmValidationResult,
-) = remember(
-    usernameValidationResult,
-    emailValidationResult,
-    passwordValidationResult,
-    passwordConfirmValidationResult,
-) {
-    usernameValidationResult.isValid &&
-        emailValidationResult.isValid &&
-        passwordValidationResult.isValid &&
-        passwordConfirmValidationResult.isValid
 }
 
 @Preview(showBackground = true)
