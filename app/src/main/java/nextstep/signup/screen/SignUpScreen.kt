@@ -36,7 +36,6 @@ import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.BlueGrey20
 import nextstep.signup.ui.theme.SignUpTextFieldErrorColor
 import nextstep.signup.util.SignUpEmailValidator
-import nextstep.signup.util.SignUpInputValidator
 import nextstep.signup.util.SignUpPasswordConfirmValidator
 import nextstep.signup.util.SignUpPasswordValidator
 import nextstep.signup.util.SignUpUserNameValidator
@@ -54,69 +53,125 @@ import nextstep.signup.util.SignUpValidSate
 @Composable
 fun SignUpScreen() {
 
-    //state 최상위로 끌어올림 (state hoisting)
-    val (userNameInputValue, setUserNameInputValue) = rememberSaveable { mutableStateOf("") }//유저 이름
-    val (emailInputValue, setEmailInputValue) = rememberSaveable { mutableStateOf("") }//이메일 적용
-    val (passWordInputValue, setPassWordInputValue) = rememberSaveable { mutableStateOf("") }//패스워드 적용
-    val (passWordConfirmValue, setPassWordConfirmValue) = rememberSaveable { mutableStateOf("") }//패스워드 확인 적용
+	//state 최상위로 끌어올림 (state hoisting)
+	val (userNameInputValue, setUserNameInputValue) = rememberSaveable { mutableStateOf("") }//유저 이름
+	val userNameValidator = SignUpUserNameValidator()
+	val (userNameInputValidState, setUserNameInputValidState) = rememberSaveable {
+		mutableStateOf(
+			SignUpValidSate.NOTHING
+		)
+	}//유저 이름 유효성 상태
+	setUserNameInputValidState(userNameValidator.getValidState(userNameInputValue))
 
-    val (userNameInputValidState, setUserNameInputValidState) = rememberSaveable { mutableStateOf(SignUpValidSate.NOTHING) }//유저 이름 유효성 상태
-    val (emailInputValidState, setEmailInputValidState) = rememberSaveable { mutableStateOf(SignUpValidSate.NOTHING) }//유저 이메일 유효성 상태
-    val (passWordInputValidState, setPassWordInputValidState) = rememberSaveable { mutableStateOf(SignUpValidSate.NOTHING) } //유저 패스워드 유효성 상태
-    val (passWordConfirmInputValidState, setPasswordConfirmInputValidState) = rememberSaveable { mutableStateOf(SignUpValidSate.NOTHING) }//유저 패스워드 확인 유효성 상태
+	val (emailInputValue, setEmailInputValue) = rememberSaveable { mutableStateOf("") }//이메일 적용
+	val emailValidator = SignUpEmailValidator()
+	val (emailInputValidState, setEmailInputValidState) = rememberSaveable {
+		mutableStateOf(
+			SignUpValidSate.NOTHING
+		)
+	}//유저 이메일 유효성 상태
+	setEmailInputValidState(emailValidator.getValidState(emailInputValue))
 
-    Scaffold(
-        Modifier.background(Color.White)
-    ) { contentPadding ->
-        Column(
-            modifier = Modifier
+	val (passWordInputValue, setPassWordInputValue) = rememberSaveable { mutableStateOf("") }//패스워드 적용
+	val passWordValidator = SignUpPasswordValidator()
+	val (passWordInputValidState, setPassWordInputValidState) = rememberSaveable {
+		mutableStateOf(
+			SignUpValidSate.NOTHING
+		)
+	} //유저 패스워드 유효성 상태
+	setPassWordInputValidState(passWordValidator.getValidState(passWordInputValue))
+
+	val (passWordConfirmValue, setPassWordConfirmValue) = rememberSaveable { mutableStateOf("") }//패스워드 확인 적용
+	val passWordConfirmValidator = SignUpPasswordConfirmValidator(password = passWordInputValue)
+	val (passWordConfirmInputValidState, setPasswordConfirmInputValidState) = rememberSaveable {
+		mutableStateOf(
+			SignUpValidSate.NOTHING
+		)
+	}//유저 패스워드 확인 유효성 상태
+	setPasswordConfirmInputValidState(passWordConfirmValidator.getValidState(passWordConfirmValue))
+
+	Scaffold(
+		Modifier.background(Color.White)
+	) { contentPadding ->
+		Column(
+			modifier = Modifier
                 .padding(contentPadding)
                 .verticalScroll(rememberScrollState()),
-        ) {
-            SignUpTitle(
-                modifier = Modifier
+		) {
+			SignUpTitle(
+				modifier = Modifier
                     .fillMaxWidth()
                     .padding(
                         top = 70.dp,
                         bottom = 25.dp
                     )
-            )
-            UserNameSigneUpTextField(
-                textContent = userNameInputValue,
-                onTextValueChange = setUserNameInputValue,
-                signUpInputValidState = userNameInputValidState,
-                setSignUpInputValidState = setUserNameInputValidState,
-            )
-            EmailSigneUpTextField(
-                textContent = emailInputValue,
-                onTextValueChange = setEmailInputValue,
-                signUpInputValidState = emailInputValidState,
-                setSignUpInputValidState = setEmailInputValidState,
-            )
-            PassWordSigneUpTextField(
-                textContent = passWordInputValue,
-                onTextValueChange = setPassWordInputValue,
-                signUpInputValidState = passWordInputValidState,
-                setSignUpInputValidState = setPassWordInputValidState,
-            )
-            PassWordConfirmSigneUpTextField(
-                writtenPassWord = passWordInputValue,
-                textContent = passWordConfirmValue,
-                onTextValueChange = setPassWordConfirmValue,
-                signUpInputValidState = passWordConfirmInputValidState,
-                setSignUpInputValidState = setPasswordConfirmInputValidState,
-            )
-            SignUpButton(
-                modifier = Modifier
+			)
+			UserNameSigneUpTextField(
+				textContent = userNameInputValue,
+				onTextValueChange = setUserNameInputValue,
+				signUpInputValidState = userNameInputValidState,
+				errorMessage = stringResource(
+					id = errorMsgWithSignUpInputValidState(
+						userNameInputValidState
+					)
+				),
+			)
+			EmailSigneUpTextField(
+				textContent = emailInputValue,
+				onTextValueChange = setEmailInputValue,
+				signUpInputValidState = emailInputValidState,
+				errorMessage = stringResource(
+					id = errorMsgWithSignUpInputValidState(
+						emailInputValidState
+					)
+				),
+			)
+			PassWordSigneUpTextField(
+				textContent = passWordInputValue,
+				onTextValueChange = setPassWordInputValue,
+				signUpInputValidState = passWordInputValidState,
+				errorMessage = stringResource(
+					id = errorMsgWithSignUpInputValidState(
+						passWordInputValidState
+					)
+				),
+			)
+			PassWordConfirmSigneUpTextField(
+				textContent = passWordConfirmValue,
+				onTextValueChange = setPassWordConfirmValue,
+				signUpInputValidState = passWordConfirmInputValidState,
+				errorMessage = stringResource(
+					id = errorMsgWithSignUpInputValidState(
+						passWordConfirmInputValidState
+					),
+				)
+			)
+			SignUpButton(
+				modifier = Modifier
                     .fillMaxWidth()
                     .heightIn(min = 115.dp)
                     .padding(30.dp),
-                onClick = {
-                    //회원가입 버튼 클릭시 로직
-                }
-            )
-        }
-    }
+				onClick = {
+					//회원가입 버튼 클릭시 로직
+				}
+			)
+		}
+	}
+}
+
+/**
+ *s signup Valid 상태별 에러 메시지 반환
+ */
+private fun errorMsgWithSignUpInputValidState(signUpInputValidState: SignUpValidSate): Int {
+	return when (signUpInputValidState) {
+		SignUpValidSate.ERROR_USER_NAME_LENGTH -> R.string.error_length_username
+		SignUpValidSate.ERROR_USER_NAME_REGEX -> R.string.error_regex_username
+		SignUpValidSate.ERROR_EMAIL_REGEX -> R.string.error_regex_email
+		SignUpValidSate.ERROR_PASSWORD_LENGTH -> R.string.error_length_pwd
+		SignUpValidSate.ERROR_PASSWORD_REGEX -> R.string.error_regex_pwd
+		SignUpValidSate.ERROR_PASSWORD_CONFIRM -> R.string.error_not_matched_pwd
+		else -> R.string.empty_string
+	}
 }
 
 /**
@@ -124,16 +179,16 @@ fun SignUpScreen() {
  **/
 @Composable
 fun SignUpTitle(
-    modifier: Modifier,
+	modifier: Modifier,
 ) {
-    Text(
-        text = stringResource(id = R.string.signe_up_title), modifier = modifier, style = TextStyle(
-            fontSize = 26.sp,
-            fontFamily = FontFamily.SansSerif,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center
-        )
-    )
+	Text(
+		text = stringResource(id = R.string.signe_up_title), modifier = modifier, style = TextStyle(
+			fontSize = 26.sp,
+			fontFamily = FontFamily.SansSerif,
+			fontWeight = FontWeight.Bold,
+			textAlign = TextAlign.Center
+		)
+	)
 }
 
 /**
@@ -141,20 +196,19 @@ fun SignUpTitle(
  **/
 @Composable
 fun UserNameSigneUpTextField(
-    textContent: String,
-    onTextValueChange: (String) -> Unit,
-    signUpInputValidState: SignUpValidSate,
-    setSignUpInputValidState: (SignUpValidSate) -> Unit,
+	textContent: String,
+	onTextValueChange: (String) -> Unit,
+	errorMessage: String,
+	signUpInputValidState: SignUpValidSate,
 ) {
-    SigneUpTextField(
-        keyboardType = KeyboardType.Text,
-        label = { Text(text = stringResource(id = R.string.username)) },
-        textContent = textContent,
-        onTextValueChange = onTextValueChange,
-        signUpValidator = SignUpUserNameValidator(),
-        signUpInputValidState = signUpInputValidState,
-        setSignUpInputValidState = setSignUpInputValidState,
-    )
+	SigneUpTextField(
+		keyboardType = KeyboardType.Text,
+		label = { Text(text = stringResource(id = R.string.username)) },
+		textContent = textContent,
+		onTextValueChange = onTextValueChange,
+		signUpInputValidState = signUpInputValidState,
+		errorMessage = errorMessage
+	)
 }
 
 /**
@@ -162,20 +216,19 @@ fun UserNameSigneUpTextField(
  **/
 @Composable
 fun EmailSigneUpTextField(
-    textContent: String,
-    onTextValueChange: (String) -> Unit,
-    signUpInputValidState: SignUpValidSate,
-    setSignUpInputValidState: (SignUpValidSate) -> Unit,
+	textContent: String,
+	onTextValueChange: (String) -> Unit,
+	signUpInputValidState: SignUpValidSate,
+	errorMessage: String,
 ) {
-    SigneUpTextField(
-        keyboardType = KeyboardType.Email,
-        label = { Text(text = stringResource(id = R.string.email)) },
-        textContent = textContent,
-        onTextValueChange = onTextValueChange,
-        signUpValidator = SignUpEmailValidator(),
-        signUpInputValidState = signUpInputValidState,
-        setSignUpInputValidState = setSignUpInputValidState,
-    )
+	SigneUpTextField(
+		keyboardType = KeyboardType.Email,
+		label = { Text(text = stringResource(id = R.string.email)) },
+		textContent = textContent,
+		onTextValueChange = onTextValueChange,
+		signUpInputValidState = signUpInputValidState,
+		errorMessage = errorMessage
+	)
 }
 
 /**
@@ -183,21 +236,20 @@ fun EmailSigneUpTextField(
  **/
 @Composable
 fun PassWordSigneUpTextField(
-    textContent: String,
-    onTextValueChange: (String) -> Unit,
-    signUpInputValidState: SignUpValidSate,
-    setSignUpInputValidState: (SignUpValidSate) -> Unit,
+	textContent: String,
+	onTextValueChange: (String) -> Unit,
+	signUpInputValidState: SignUpValidSate,
+	errorMessage: String,
 ) {
-    SigneUpTextField(
-        keyboardType = KeyboardType.Password,
-        label = { Text(text = stringResource(id = R.string.password)) },
-        textContent = textContent,
-        onTextValueChange = onTextValueChange,
-        visualTransformation = PasswordVisualTransformation(),
-        signUpValidator = SignUpPasswordValidator(),
-        signUpInputValidState = signUpInputValidState,
-        setSignUpInputValidState = setSignUpInputValidState,
-    )
+	SigneUpTextField(
+		keyboardType = KeyboardType.Password,
+		label = { Text(text = stringResource(id = R.string.password)) },
+		textContent = textContent,
+		onTextValueChange = onTextValueChange,
+		visualTransformation = PasswordVisualTransformation(),
+		signUpInputValidState = signUpInputValidState,
+		errorMessage = errorMessage
+	)
 }
 
 /**
@@ -205,22 +257,20 @@ fun PassWordSigneUpTextField(
  **/
 @Composable
 fun PassWordConfirmSigneUpTextField(
-    writtenPassWord: String,
-    textContent: String,
-    onTextValueChange: (String) -> Unit,
-    signUpInputValidState: SignUpValidSate,
-    setSignUpInputValidState: (SignUpValidSate) -> Unit,
+	textContent: String,
+	onTextValueChange: (String) -> Unit,
+	signUpInputValidState: SignUpValidSate,
+	errorMessage: String
 ) {
-    SigneUpTextField(
-        keyboardType = KeyboardType.Password,
-        label = { Text(text = stringResource(id = R.string.password_confirm)) },
-        textContent = textContent,
-        onTextValueChange = onTextValueChange,
-        visualTransformation = PasswordVisualTransformation(),
-        signUpValidator = SignUpPasswordConfirmValidator(password = writtenPassWord),
-        signUpInputValidState = signUpInputValidState,
-        setSignUpInputValidState = setSignUpInputValidState,
-    )
+	SigneUpTextField(
+		keyboardType = KeyboardType.Password,
+		label = { Text(text = stringResource(id = R.string.password_confirm)) },
+		textContent = textContent,
+		onTextValueChange = onTextValueChange,
+		visualTransformation = PasswordVisualTransformation(),
+		signUpInputValidState = signUpInputValidState,
+		errorMessage = errorMessage
+	)
 }
 
 
@@ -230,62 +280,51 @@ fun PassWordConfirmSigneUpTextField(
  **/
 @Composable
 fun SigneUpTextField(
-    keyboardType: KeyboardType,
-    label: @Composable (() -> Unit)?,
-    modifier: Modifier = Modifier,
-    textContent: String,
-    onTextValueChange: (String) -> Unit,
-    signUpValidator: SignUpInputValidator,
-    signUpInputValidState: SignUpValidSate,
-    setSignUpInputValidState: (SignUpValidSate) -> Unit,
-    visualTransformation: VisualTransformation = VisualTransformation.None,
+	keyboardType: KeyboardType,
+	label: @Composable (() -> Unit)?,
+	modifier: Modifier = Modifier,
+	textContent: String,
+	errorMessage: String,
+	onTextValueChange: (String) -> Unit,
+	signUpInputValidState: SignUpValidSate,
+	visualTransformation: VisualTransformation = VisualTransformation.None,
 ) {
-
-    //valid 나 nothing 상태가 아니면 not valid true 넣어줌.
-    setSignUpInputValidState(signUpValidator.getValidState(textContent))
-
-    TextField(
-        colors = TextFieldDefaults.colors(
-            focusedLabelColor = Blue50,
-            focusedIndicatorColor = Blue50,
-            cursorColor = Blue50,
-            unfocusedContainerColor = BlueGrey20,
-            focusedContainerColor = BlueGrey20,
-            errorLabelColor = SignUpTextFieldErrorColor,
-            errorCursorColor = SignUpTextFieldErrorColor,
-        ),
-        isError = signUpInputValidState != SignUpValidSate.VALID && signUpInputValidState != SignUpValidSate.NOTHING,
-        supportingText = {
-            if (signUpInputValidState != SignUpValidSate.VALID && signUpInputValidState != SignUpValidSate.NOTHING) {
-                val errorMessage = when (signUpValidator.getValidState(textContent)) {
-                    SignUpValidSate.ERROR_USER_NAME_LENGTH -> stringResource(id = R.string.error_length_username)
-                    SignUpValidSate.ERROR_USER_NAME_REGEX -> stringResource(id = R.string.error_regex_username)
-                    SignUpValidSate.ERROR_EMAIL_REGEX -> stringResource(id = R.string.error_regex_email)
-                    SignUpValidSate.ERROR_PASSWORD_LENGTH -> stringResource(id = R.string.error_length_pwd)
-                    SignUpValidSate.ERROR_PASSWORD_REGEX -> stringResource(id = R.string.error_regex_pwd)
-                    SignUpValidSate.ERROR_PASSWORD_CONFIRM -> stringResource(id = R.string.error_not_matched_pwd)
-                    else -> ""
-                }
-                Text(
-                    text = errorMessage,
-                    color = SignUpTextFieldErrorColor
-                )
-            }
-        },
-        modifier = modifier
+	TextField(
+		colors = TextFieldDefaults.colors(
+			focusedLabelColor = Blue50,
+			focusedIndicatorColor = Blue50,
+			cursorColor = Blue50,
+			unfocusedContainerColor = BlueGrey20,
+			focusedContainerColor = BlueGrey20,
+			errorLabelColor = SignUpTextFieldErrorColor,
+			errorCursorColor = SignUpTextFieldErrorColor,
+		),
+		isError = signUpInputValidState != SignUpValidSate.VALID
+				&& signUpInputValidState != SignUpValidSate.NOTHING,
+		supportingText = {
+			if (signUpInputValidState != SignUpValidSate.VALID
+				&& signUpInputValidState != SignUpValidSate.NOTHING
+			) {
+				Text(
+					text = errorMessage,
+					color = SignUpTextFieldErrorColor
+				)
+			}
+		},
+		modifier = modifier
             .fillMaxWidth()
             .padding(
                 top = 15.dp,
                 start = 30.dp,
                 end = 30.dp
             ),
-        value = textContent,
-        onValueChange = onTextValueChange,
-        label = label,
-        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-        singleLine = true,
-        visualTransformation = visualTransformation
-    )
+		value = textContent,
+		onValueChange = onTextValueChange,
+		label = label,
+		keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+		singleLine = true,
+		visualTransformation = visualTransformation
+	)
 }
 
 /**
@@ -293,16 +332,16 @@ fun SigneUpTextField(
  **/
 @Composable
 fun SignUpButton(
-    modifier: Modifier,
-    onClick: () -> Unit
+	modifier: Modifier,
+	onClick: () -> Unit
 ) {
-    Button(
-        colors = ButtonDefaults.buttonColors(Blue50),
-        modifier = modifier,
-        onClick = { onClick() }
-    ) {
-        Text(text = stringResource(id = R.string.sign_up))
-    }
+	Button(
+		colors = ButtonDefaults.buttonColors(Blue50),
+		modifier = modifier,
+		onClick = { onClick() }
+	) {
+		Text(text = stringResource(id = R.string.sign_up))
+	}
 }
 
 /**
@@ -310,16 +349,16 @@ fun SignUpButton(
  * (@preview 사용위해 parameter없는 composable 생성)
  **/
 @Preview(
-    backgroundColor = 0xFFFFFFFFL,
-    showBackground = true,
+	backgroundColor = 0xFFFFFFFFL,
+	showBackground = true,
 )
 @Composable
 fun PreviewSignUpTitle() {
-    SignUpTitle(
-        modifier = Modifier
+	SignUpTitle(
+		modifier = Modifier
             .fillMaxWidth()
             .padding(top = 70.dp)
-    )
+	)
 }
 
 /**
@@ -328,30 +367,33 @@ fun PreviewSignUpTitle() {
 @Preview
 @Composable
 fun PreviewSigneUpTextField() {
-    val (inputValue, setInputValue) = remember { mutableStateOf("@j") }
-    val (userNameInputValidState, setUserNameInputValidState) = remember {
-        mutableStateOf(
-            SignUpValidSate.NOTHING
-        )
-    }
+	val (inputValue, setInputValue) = remember { mutableStateOf("@j") }
+	val (userNameInputValidState, _) = remember {
+		mutableStateOf(
+			SignUpValidSate.NOTHING
+		)
+	}
 
-    SigneUpTextField(
-        modifier = Modifier
+	SigneUpTextField(
+		modifier = Modifier
             .fillMaxWidth()
             .padding(
                 top = 17.dp, bottom = 17.dp, start = 30.dp, end = 30.dp
             ),
-        label = {
-            Text(stringResource(id = R.string.username))
-        },
-        keyboardType = KeyboardType.Text,
-        visualTransformation = VisualTransformation.None,
-        textContent = inputValue,
-        onTextValueChange = setInputValue,
-        signUpInputValidState = userNameInputValidState,
-        setSignUpInputValidState = setUserNameInputValidState,
-        signUpValidator = SignUpUserNameValidator(),
-    )
+		label = {
+			Text(stringResource(id = R.string.username))
+		},
+		keyboardType = KeyboardType.Text,
+		visualTransformation = VisualTransformation.None,
+		textContent = inputValue,
+		onTextValueChange = setInputValue,
+		signUpInputValidState = userNameInputValidState,
+		errorMessage = stringResource(
+			id = errorMsgWithSignUpInputValidState(
+				userNameInputValidState
+			)
+		),
+	)
 }
 
 /**
@@ -360,13 +402,13 @@ fun PreviewSigneUpTextField() {
 @Preview
 @Composable
 fun PreviewSignUpButton() {
-    SignUpButton(
-        modifier = Modifier
+	SignUpButton(
+		modifier = Modifier
             .fillMaxWidth()
             .heightIn(min = 115.dp)
             .padding(30.dp),
-        onClick = {
-            // 회원가입 버튼 클릭시 로직
-        }
-    )
+		onClick = {
+			// 회원가입 버튼 클릭시 로직
+		}
+	)
 }
