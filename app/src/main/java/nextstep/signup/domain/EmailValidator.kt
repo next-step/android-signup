@@ -8,9 +8,10 @@ enum class EmailValidType(val description: String) {
 object EmailValidator {
 
     private const val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
+    private val regex by lazy { EMAIL_REGEX.toRegex() }
 
     fun match(email: String): EmailValidType = when {
-        !email.matches(Regex(EMAIL_REGEX)) -> EmailValidType.INVALID_REGEX
+        !email.matches(regex) -> EmailValidType.INVALID_REGEX
         else -> EmailValidType.VALID
     }
 

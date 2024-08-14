@@ -8,10 +8,11 @@ enum class UsernameValidType(val description: String) {
 
 object UsernameValidator {
     private const val USERNAME_REGEX = "^[a-zA-Z가-힣]+$"
+    private val regex by lazy { USERNAME_REGEX.toRegex() }
 
     fun match(username: String): UsernameValidType = when {
         username.length !in 2..5 -> UsernameValidType.INVALID_LENGTH
-        !username.matches(Regex(USERNAME_REGEX)) -> UsernameValidType.INVALID_REGEX
+        !username.matches(regex) -> UsernameValidType.INVALID_REGEX
         else -> UsernameValidType.VALID
     }
 

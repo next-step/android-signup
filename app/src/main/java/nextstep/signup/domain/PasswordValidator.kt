@@ -9,10 +9,11 @@ enum class PasswordValidType(val description: String) {
 object PasswordValidator {
 
     private const val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$"
+    private val regex by lazy { PASSWORD_REGEX.toRegex() }
 
     fun match(password: String): PasswordValidType = when {
         password.length !in 8..16 -> PasswordValidType.INVALID_LENGTH
-        !password.matches(Regex(PASSWORD_REGEX)) -> PasswordValidType.INVALID_REGEX
+        !password.matches(regex) -> PasswordValidType.INVALID_REGEX
         else -> PasswordValidType.VALID
     }
 }
