@@ -1,4 +1,4 @@
-<h1 align="center">📝 android-signup</h1>
+<h1 align="center">android-signup</h1>
 
 ## 🚀 2단계 - 회원가입(뷰)
 
@@ -12,3 +12,16 @@
 - [x]  Sign Up 버튼 구현
 - [x]  레이아웃 배치하기(padding)
 - [x]  함수 분리 및 리팩토링
+
+## 🚀 3단계 - 회원가입(유효성 검사)
+
+### ✅ 구현할 기능 목록
+
+- [ ]  Username 유효성 검사
+- [ ]  Email 유효성 검사
+- [ ]  Password 유효성 검사
+- [ ]  Password Confirm 유효성 검사
+- [ ]  Password == Password Confirm
+- [ ]  에러 메시지 추가
+- [ ]  2단계 코멘트 반영
+- [ ]  UI 테스트
