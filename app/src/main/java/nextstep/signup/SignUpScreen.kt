@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -24,6 +26,7 @@ fun SignUpScreen() {
     val (email, setEmail) = remember { mutableStateOf("") }
     val (password, setPassword) = remember { mutableStateOf("") }
     val (passwordConfirm, setPasswordConfirm) = remember { mutableStateOf("") }
+    var isFormValid by remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = Modifier.padding(top = 60.dp, start = 32.dp, end = 32.dp),
@@ -37,18 +40,21 @@ fun SignUpScreen() {
         ) {
             SignUpTitleText(text = stringResource(id = R.string.sign_up_text_title))
 
-            SignUpFormComponent(
-                userName = userName,
+            SignUpFormComponent(userName = userName,
                 email = email,
                 password = password,
                 passwordConfirm = passwordConfirm,
                 onUserNameChange = setUserName,
                 onEmailChange = setEmail,
                 onPasswordChange = setPassword,
-                onPasswordConfirmChange = setPasswordConfirm
-            )
+                onPasswordConfirmChange = setPasswordConfirm,
+                onFormValidationResult = { result ->
+                    isFormValid = result
+                })
 
-            SignUpButton(onClick = { /*TODO*/ })
+            SignUpButton(
+                onClick = { /*TODO*/ }, enabled = isFormValid
+            )
         }
     }
 }

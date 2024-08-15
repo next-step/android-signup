@@ -17,12 +17,19 @@ import androidx.compose.ui.unit.sp
 import nextstep.signup.R
 
 @Composable
-fun SignUpButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
-    Button(modifier = modifier
-        .fillMaxWidth()
-        .height(50.dp),
+fun SignUpButton(
+    onClick: () -> Unit,
+    enabled: Boolean,
+    modifier: Modifier = Modifier
+) {
+    Button(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(50.dp),
         colors = ButtonDefaults.buttonColors(colorResource(id = R.color.blue_50)),
-        onClick = { onClick() }) {
+        onClick = { onClick() },
+        enabled = enabled
+    ) {
         Text(
             text = stringResource(R.string.sign_up_button),
             color = Color.White,
@@ -36,5 +43,5 @@ fun SignUpButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun PreviewSignUpButton() {
-    SignUpButton(onClick = {})
+    SignUpButton(onClick = {},enabled = true)
 }
