@@ -10,7 +10,7 @@ import nextstep.signup.model.UserNameState
 class RegexBasedSignUpValidator : SignUpValidator {
     override fun validateUsername(username: String): UserNameState {
         return when {
-            username.isEmpty() -> UserNameState.Valid
+            username.isEmpty() -> UserNameState.Initial
             username.length !in 2..5 -> UserNameState.Invalid(UserNameError.Length)
             !username.matches(Regex(USERNAME_REGEX)) -> UserNameState.Invalid(UserNameError.InvalidCharacters)
             else -> UserNameState.Valid
