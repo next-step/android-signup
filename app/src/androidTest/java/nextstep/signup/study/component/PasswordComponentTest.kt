@@ -15,10 +15,13 @@ class PasswordComponentTest {
     fun 비밀번호가_8에서_16자이고_영문과_숫자를_포함하면_에러메시지가_노출되지_않는다() {
         // When
         composeTestRule.setContent {
-            PasswordComponent(password = "password123",
+            PasswordComponent(
+                password = "password123",
                 passwordConfirm = "",
                 onPasswordChange = {},
-                onPasswordConfirmChange = {})
+                onPasswordConfirmChange = {},
+                onValidationResult = {}
+            )
         }
         // Then
         composeTestRule.onNodeWithText("비밀번호는 8~16자여야 합니다.").assertDoesNotExist()
@@ -32,7 +35,8 @@ class PasswordComponentTest {
             PasswordComponent(password = "pass1",
                 passwordConfirm = "",
                 onPasswordChange = {},
-                onPasswordConfirmChange = {}
+                onPasswordConfirmChange = {},
+                onValidationResult = {}
             )
         }
         // Then
@@ -43,10 +47,13 @@ class PasswordComponentTest {
     fun 비밀번호가_16자_초과면_에러메시지가_노출된다() {
         // When
         composeTestRule.setContent {
-            PasswordComponent(password = "password123password123password123",
+            PasswordComponent(
+                password = "password123password123password123",
                 passwordConfirm = "",
                 onPasswordChange = {},
-                onPasswordConfirmChange = {})
+                onPasswordConfirmChange = {},
+                onValidationResult = {}
+            )
         }
 
         // Then
@@ -57,10 +64,13 @@ class PasswordComponentTest {
     fun 비밀번호에_영문과_숫자가_포함되지_않으면_에러메시지가_노출된다() {
         // When
         composeTestRule.setContent {
-            PasswordComponent(password = "password",
+            PasswordComponent(
+                password = "password",
                 passwordConfirm = "",
                 onPasswordChange = {},
-                onPasswordConfirmChange = {})
+                onPasswordConfirmChange = {},
+                onValidationResult = {}
+            )
         }
 
         // Then
@@ -76,7 +86,9 @@ class PasswordComponentTest {
                 password = "password123",
                 passwordConfirm = "password123",
                 onPasswordChange = {},
-                onPasswordConfirmChange = {})
+                onPasswordConfirmChange = {},
+                onValidationResult = {}
+            )
         }
 
         // Then
@@ -87,10 +99,13 @@ class PasswordComponentTest {
     fun 비밀번호와_비밀번호_확인이_일치하지_않으면_에러메시지가_노출된다() {
         // When
         composeTestRule.setContent {
-            PasswordComponent(password = "password123",
+            PasswordComponent(
+                password = "password123",
                 passwordConfirm = "password124",
                 onPasswordChange = {},
-                onPasswordConfirmChange = {})
+                onPasswordConfirmChange = {},
+                onValidationResult = {}
+            )
         }
         // Then
         composeTestRule.onNodeWithText("비밀번호가 일치하지 않습니다.").assertExists()

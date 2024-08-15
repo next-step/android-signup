@@ -17,7 +17,8 @@ class UserNameTextFieldTest {
     fun 사용자_이름이_2에서_5자면_에러메시지가_노출되지_않는다() {
         composeTestRule.setContent {
             UserNameTextField(
-                userName = "컴포즈", onUserNameChange = {}
+                userName = "컴포즈", onUserNameChange = {}, onValidationResult = {}
+
             )
         }
 
@@ -30,7 +31,8 @@ class UserNameTextFieldTest {
         composeTestRule.setContent {
             UserNameTextField(
                 userName = "안",
-                onUserNameChange = {}
+                onUserNameChange = {},
+                onValidationResult = {}
 
             )
         }
@@ -44,6 +46,7 @@ class UserNameTextFieldTest {
             UserNameTextField(
                 userName = "컴포즈컴포즈",
                 onUserNameChange = {},
+                onValidationResult = {}
             )
         }
 
@@ -56,6 +59,7 @@ class UserNameTextFieldTest {
             UserNameTextField(
                 userName = "컴포즈1",
                 onUserNameChange = {},
+                onValidationResult = {}
             )
         }
 
