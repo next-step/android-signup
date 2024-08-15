@@ -1,6 +1,7 @@
 package nextstep.signup.component.textField
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -15,11 +16,17 @@ import nextstep.signup.valid.SignUpValidator
 fun EmailTextField(
     email: String,
     onEmailChange: (String) -> Unit,
+    onValidationResult: (Boolean) -> Unit,
     validator: SignUpValidator = RegexBasedSignUpValidator()
 ) {
     val emailState by remember(email) {
         derivedStateOf { validator.validateEmail(email) }
     }
+
+    LaunchedEffect(emailState) {
+        onValidationResult(emailState is EmailState.Valid)
+    }
+
     BaseSignUpTextField(
         text = email,
         onValueChange = onEmailChange,
@@ -38,5 +45,6 @@ fun EmailTextFieldPreview() {
     EmailTextField(
         email = "example@email.com",
         onEmailChange = {},
+        onValidationResult = {}
     )
 }

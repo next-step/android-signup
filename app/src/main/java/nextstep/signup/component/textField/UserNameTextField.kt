@@ -2,6 +2,7 @@ package nextstep.signup.component.textField
 
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -17,10 +18,14 @@ import nextstep.signup.valid.SignUpValidator
 fun UserNameTextField(
     userName: String,
     onUserNameChange: (String) -> Unit,
+    onValidationResult: (Boolean) -> Unit,
     validator: SignUpValidator = RegexBasedSignUpValidator()
 ) {
     val userNameState by remember(userName) {
         derivedStateOf { validator.validateUsername(userName) }
+    }
+    LaunchedEffect(userNameState) {
+        onValidationResult(userNameState is UserNameState.Valid)
     }
     BaseSignUpTextField(
         text = userName,
@@ -43,5 +48,6 @@ fun UserNameTextFieldPreview() {
     UserNameTextField(
         userName = "JohnDoe",
         onUserNameChange = {},
+        onValidationResult = {}
     )
 }

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,6 +26,7 @@ fun PasswordComponent(
     passwordConfirm: String,
     onPasswordChange: (String) -> Unit,
     onPasswordConfirmChange: (String) -> Unit,
+    onValidationResult: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     validator: SignUpValidator = RegexBasedSignUpValidator()
 ) {
@@ -34,6 +36,17 @@ fun PasswordComponent(
     val passwordConfirmState by remember(password, passwordConfirm) {
         derivedStateOf { validator.validatePasswordConfirm(password, passwordConfirm) }
     }
+
+    val isValid by remember(passwordState, passwordConfirmState) {
+        derivedStateOf {
+            passwordState is PasswordState.Valid &&
+                    passwordConfirmState is PasswordConfirmState.Valid
+        }
+    }
+    LaunchedEffect(isValid) {
+        onValidationResult(isValid)
+    }
+
 
     Column(modifier = modifier) {
         PasswordTextField(
@@ -59,6 +72,7 @@ private fun PasswordComponentPreview() {
         password = "Password123",
         passwordConfirm = "Password123",
         onPasswordChange = {},
-        onPasswordConfirmChange = {}
+        onPasswordConfirmChange = {},
+        onValidationResult = {}
     )
 }
