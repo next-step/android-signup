@@ -10,19 +10,24 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun SingUpButtonPreView() {
-    SingUpButtonView(Modifier)
+    SignUpButton(enabled = false) {
+
+    }
 }
 
 @Composable
-fun SingUpButtonView(
-    modifier: Modifier = Modifier
+fun SignUpButton(
+    modifier: Modifier = Modifier,
+    enabled: Boolean = false,
+    onClick: () -> Unit
 ) {
     Button(
-        onClick = { /*TODO*/ },
+        onClick = onClick,
         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2196F3)),
+        enabled = enabled,
         modifier = modifier
             .fillMaxWidth()
     ) {

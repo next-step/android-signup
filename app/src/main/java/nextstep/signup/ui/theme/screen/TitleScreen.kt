@@ -7,14 +7,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun TitlePreView() {
-    TitleView("Welcome to Compose \uD83D\uDE80")
+    Title("Welcome to Compose \uD83D\uDE80")
 }
 
 @Composable
-fun TitleView(
+fun Title(
     title: String
 ) {
     Text(

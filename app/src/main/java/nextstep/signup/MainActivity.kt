@@ -4,14 +4,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import nextstep.signup.ui.theme.SignupTheme
-import nextstep.signup.ui.theme.screen.SingUpView
+import nextstep.signup.ui.theme.screen.SignUp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             SignupTheme {
-                SingUpView()
+                SignUp()
             }
         }
     }
