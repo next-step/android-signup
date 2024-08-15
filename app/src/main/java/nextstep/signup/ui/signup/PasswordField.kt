@@ -17,6 +17,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import nextstep.signup.R
 import nextstep.signup.ui.util.SignUpValidationCheck
 
@@ -56,25 +58,21 @@ fun PasswordField(
 
 @Preview(showBackground = true)
 @Composable
-private fun PasswordFieldPreview() {
-    var emptyPassword by remember { mutableStateOf("") }
-    var validPassword by remember { mutableStateOf("abcd1234") }
-    var invalidPassword by remember { mutableStateOf("1234567890") }
-    Column {
-        PasswordField(
-            password = emptyPassword,
-            onPasswordChange = { emptyPassword = it },
-            onPasswordValidationSuccess = { }
-        )
-        PasswordField(
-            password = validPassword,
-            onPasswordChange = { validPassword = it },
-            onPasswordValidationSuccess = { }
-        )
-        PasswordField(
-            password = invalidPassword,
-            onPasswordChange = { invalidPassword = it },
-            onPasswordValidationSuccess = { }
-        )
-    }
+private fun PasswordFieldPreview(
+    @PreviewParameter(PasswordPreviewParameterProvider::class) passwordValue: String
+) {
+    var password by remember { mutableStateOf(passwordValue) }
+    PasswordField(
+        password = password,
+        onPasswordChange = { password = it },
+        onPasswordValidationSuccess = { }
+    )
+}
+
+class PasswordPreviewParameterProvider : PreviewParameterProvider<String> {
+    override val values = sequenceOf(
+        "",
+        "abcd1234",
+        "1234567890"
+    )
 }

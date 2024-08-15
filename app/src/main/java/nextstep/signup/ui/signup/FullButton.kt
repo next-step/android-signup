@@ -8,22 +8,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 
 @Composable
 fun FullButton(
-    modifier: Modifier = Modifier,
     isEnabled: Boolean,
     text: String,
     textColor: Color,
     containerColor: Color,
     onButtonClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Button(
-        onClick = { if (isEnabled) onButtonClick.invoke() },
+        onClick = { onButtonClick.invoke() },
         modifier = modifier.height(50.dp),
         enabled = isEnabled,
         colors = ButtonDefaults.buttonColors(

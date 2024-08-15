@@ -29,6 +29,9 @@ import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import nextstep.signup.R
+import nextstep.signup.ui.theme.Blue50
+import nextstep.signup.ui.theme.DisabledButtonContainerColor
+import nextstep.signup.ui.theme.DisabledButtonTextColor
 
 @Composable
 fun SignUpScreen(
@@ -40,10 +43,11 @@ fun SignUpScreen(
     val context = LocalContext.current
 
     Scaffold(
+        modifier = modifier.fillMaxSize(),
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
     ) { contentPadding ->
         Box(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .padding(contentPadding)
         ) {
@@ -124,12 +128,12 @@ fun SignUpButton(
     onSignUpClick: () -> Unit
 ) {
     FullButton(
-        modifier = Modifier.fillMaxWidth().testTag("회원가입 버튼"),
         isEnabled = isEnabled,
         text = stringResource(id = R.string.sign_up),
-        textColor = if (isEnabled) Color.White else Color(0xFF1D1B20),
-        containerColor = if (isEnabled) Color(0xFF2196F3) else Color(0x1F1D1B20),
-        onButtonClick = { onSignUpClick() }
+        textColor = if (isEnabled) Color.White else DisabledButtonTextColor,
+        containerColor = if (isEnabled) Blue50 else DisabledButtonContainerColor,
+        onButtonClick = { onSignUpClick() },
+        modifier = Modifier.fillMaxWidth().testTag("회원가입 버튼")
     )
 }
 

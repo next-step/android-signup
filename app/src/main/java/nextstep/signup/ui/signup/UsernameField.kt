@@ -1,6 +1,5 @@
 package nextstep.signup.ui.signup
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -14,6 +13,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import nextstep.signup.R
 import nextstep.signup.ui.util.SignUpValidationCheck
 
@@ -55,26 +56,21 @@ fun UsernameField(
 
 @Preview(showBackground = true)
 @Composable
-private fun UsernameFieldPreview() {
-    var emptyUsername by remember { mutableStateOf("") }
-    var validUsername by remember { mutableStateOf("park") }
-    var invalidUsername by remember { mutableStateOf("kyudong3") }
-    Column {
-        UsernameField(
-            username = emptyUsername,
-            onUsernameChange = { emptyUsername = it },
-            onUsernameValidationSuccess = { }
-        )
-        UsernameField(
-            username = invalidUsername,
-            onUsernameChange = { invalidUsername = it },
-            onUsernameValidationSuccess = { }
-        )
-        UsernameField(
-            username = validUsername,
-            onUsernameChange = { validUsername = it },
-            onUsernameValidationSuccess = { }
-        )
-    }
+private fun UsernameFieldPreview(
+    @PreviewParameter(UsernamePreviewParameterProvider::class) usernameValue: String
+) {
+    var username by remember { mutableStateOf(usernameValue) }
+    UsernameField(
+        username = username,
+        onUsernameChange = { username = it },
+        onUsernameValidationSuccess = { }
+    )
 }
 
+class UsernamePreviewParameterProvider : PreviewParameterProvider<String> {
+    override val values = sequenceOf(
+        "",
+        "park",
+        "kyudong3"
+    )
+}
