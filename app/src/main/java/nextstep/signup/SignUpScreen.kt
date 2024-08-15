@@ -5,16 +5,21 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import nextstep.signup.component.SignUpButton
 import nextstep.signup.component.SignUpFormComponent
 import nextstep.signup.component.SignUpTitleText
@@ -28,9 +33,13 @@ fun SignUpScreen() {
     val (passwordConfirm, setPasswordConfirm) = remember { mutableStateOf("") }
     var isFormValid by remember { mutableStateOf(false) }
 
-    Scaffold(
-        modifier = Modifier.padding(top = 60.dp, start = 32.dp, end = 32.dp),
-    ) {
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+
+    Scaffold(modifier = Modifier.padding(top = 60.dp, start = 32.dp, end = 32.dp), snackbarHost = {
+        SnackbarHost(hostState = snackbarHostState)
+    }) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -53,7 +62,12 @@ fun SignUpScreen() {
                 })
 
             SignUpButton(
-                onClick = { /*TODO*/ }, enabled = isFormValid
+                onClick = {
+                    scope.launch {
+                        snackbarHostState.showSnackbar(context.getString(R.string.sign_up_complete))
+                    }
+                },
+                enabled = isFormValid
             )
         }
     }
