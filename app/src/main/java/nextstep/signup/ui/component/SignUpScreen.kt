@@ -13,7 +13,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -69,17 +68,8 @@ internal fun SignUpScreen(
                 onPasswordChange = onPasswordChange,
                 onPasswordConfirmChange = onPasswordConfirmChange,
                 onClickSignUp = {
-                    if (signUpUserInfo.isAllFieldsValid.not()) {
-                        coroutineScope.launch {
-                            snackbarHostState.showSnackbar(
-                                context.getString(
-                                    R.string.sign_up_message,
-                                    signUpUserInfo.username,
-                                    signUpUserInfo.email,
-                                    signUpUserInfo.password
-                                )
-                            )
-                        }
+                    coroutineScope.launch {
+                        snackbarHostState.showSnackbar(context.getString(R.string.complete_signup))
                     }
                 },
                 modifier = Modifier
@@ -189,7 +179,7 @@ private fun Content(
 
         Button(
             modifier = Modifier.fillMaxWidth(),
-            enabled = signUpUserInfo.isNotContainBlank,
+            enabled = signUpUserInfo.isAllFieldsValid,
             onClick = onClickSignUp,
             contentPadding = PaddingValues(vertical = 15.dp)
         ) {
@@ -209,7 +199,14 @@ private fun BottomBar() {
 @Preview
 @Composable
 private fun SignUpScreenPreview() {
-    var signUpUserInfo by remember { mutableStateOf(SignUpUserInfo(username = "dddddd")) }
+    var signUpUserInfo by remember {
+        mutableStateOf(
+            SignUpUserInfo(
+                username = "dddddd",
+                password = "short"
+            )
+        )
+    }
     SignupTheme {
         SignUpScreen(
             signUpUserInfo = signUpUserInfo,
