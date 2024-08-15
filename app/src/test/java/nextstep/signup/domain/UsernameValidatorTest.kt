@@ -26,7 +26,7 @@ class UsernameValidatorTest {
         val result = UsernameValidator.match(username)
 
         // then
-        Assert.assertEquals(result, UsernameValidType.INVALID_LENGTH)
+        Assert.assertEquals(result, UsernameValidType.INVALID_USERNAME_LENGTH)
     }
 
     @Test
@@ -38,7 +38,7 @@ class UsernameValidatorTest {
         val result = UsernameValidator.match(username)
 
         // then
-        Assert.assertEquals(result, UsernameValidType.INVALID_LENGTH)
+        Assert.assertEquals(result, UsernameValidType.INVALID_USERNAME_LENGTH)
     }
 
     @Test

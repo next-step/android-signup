@@ -25,7 +25,7 @@ fun PasswordConfirmTextField(
     val supportingTextValue = if (value.isEmpty()) null
     else when (PasswordConfirmValidator.match(passwordValue, value)) {
         PasswordConfirmValidType.VALID -> null
-        PasswordConfirmValidType.INVALID_EQUAL -> stringResource(id = R.string.password_confirm_equal_error)
+        PasswordConfirmValidType.INVALID_NOT_EQUAL -> stringResource(id = R.string.password_confirm_equal_error)
     }
 
     BaseTextField(

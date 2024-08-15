@@ -1,8 +1,8 @@
 package nextstep.signup.domain
 
-enum class EmailValidType(val description: String) {
-    VALID("유효함"),
-    INVALID_REGEX("Email format이 일치하지 않음"),
+enum class EmailValidType {
+    VALID,
+    INVALID_EMAIL_FORMAT, // Email format이 일치하지 않음
 }
 
 object EmailValidator {
@@ -11,7 +11,7 @@ object EmailValidator {
     private val regex by lazy { EMAIL_REGEX.toRegex() }
 
     fun match(email: String): EmailValidType = when {
-        !email.matches(regex) -> EmailValidType.INVALID_REGEX
+        !email.matches(regex) -> EmailValidType.INVALID_EMAIL_FORMAT
         else -> EmailValidType.VALID
     }
 

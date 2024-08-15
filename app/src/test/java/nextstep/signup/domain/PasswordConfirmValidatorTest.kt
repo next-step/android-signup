@@ -28,7 +28,7 @@ class PasswordConfirmValidatorTest {
         val result = PasswordConfirmValidator.match(password, passwordConfirm)
 
         // then
-        Assert.assertEquals(result, PasswordConfirmValidType.INVALID_EQUAL)
+        Assert.assertEquals(result, PasswordConfirmValidType.INVALID_NOT_EQUAL)
     }
 
 }

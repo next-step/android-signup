@@ -26,7 +26,7 @@ class EmailValidatorTest {
         val result = EmailValidator.match(email)
 
         // then
-        Assert.assertEquals(result, EmailValidType.INVALID_REGEX)
+        Assert.assertEquals(result, EmailValidType.INVALID_EMAIL_FORMAT)
     }
 
     @Test
@@ -38,7 +38,7 @@ class EmailValidatorTest {
         val result = EmailValidator.match(email)
 
         // then
-        Assert.assertEquals(result, EmailValidType.INVALID_REGEX)
+        Assert.assertEquals(result, EmailValidType.INVALID_EMAIL_FORMAT)
     }
 
 }

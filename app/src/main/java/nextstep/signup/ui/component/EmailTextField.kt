@@ -25,7 +25,7 @@ fun EmailTextField(
     val supportingTextValue = if (value.isEmpty()) null
     else when (EmailValidator.match(value)) {
         EmailValidType.VALID -> null
-        EmailValidType.INVALID_REGEX -> stringResource(id = R.string.email_regex_error)
+        EmailValidType.INVALID_EMAIL_FORMAT -> stringResource(id = R.string.email_regex_error)
     }
 
     BaseTextField(

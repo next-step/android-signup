@@ -26,7 +26,7 @@ class PasswordValidatorTest {
         val result = PasswordValidator.match(password)
 
         // then
-        Assert.assertEquals(result, PasswordValidType.INVALID_LENGTH)
+        Assert.assertEquals(result, PasswordValidType.INVALID_PASSWORD_LENGTH)
     }
 
     @Test
@@ -38,7 +38,7 @@ class PasswordValidatorTest {
         val result = PasswordValidator.match(password)
 
         // then
-        Assert.assertEquals(result, PasswordValidType.INVALID_LENGTH)
+        Assert.assertEquals(result, PasswordValidType.INVALID_PASSWORD_LENGTH)
     }
 
     @Test
@@ -50,7 +50,7 @@ class PasswordValidatorTest {
         val result = PasswordValidator.match(password)
 
         // then
-        Assert.assertEquals(result, PasswordValidType.INVALID_REGEX)
+        Assert.assertEquals(result, PasswordValidType.INVALID_PASSWORD_FORMAT)
     }
 
     @Test
@@ -62,7 +62,7 @@ class PasswordValidatorTest {
         val result = PasswordValidator.match(password)
 
         // then
-        Assert.assertEquals(result, PasswordValidType.INVALID_REGEX)
+        Assert.assertEquals(result, PasswordValidType.INVALID_PASSWORD_FORMAT)
     }
 
 }

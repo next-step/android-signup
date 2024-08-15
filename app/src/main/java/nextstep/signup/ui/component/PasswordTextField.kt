@@ -24,8 +24,8 @@ fun PasswordTextField(
     val supportingTextValue = if (value.isEmpty()) null
     else when (PasswordValidator.match(value)) {
         PasswordValidType.VALID -> null
-        PasswordValidType.INVALID_LENGTH -> stringResource(id = R.string.password_length_error)
-        PasswordValidType.INVALID_REGEX -> stringResource(id = R.string.password_regex_error)
+        PasswordValidType.INVALID_PASSWORD_LENGTH -> stringResource(id = R.string.password_length_error)
+        PasswordValidType.INVALID_PASSWORD_FORMAT -> stringResource(id = R.string.password_regex_error)
     }
 
     BaseTextField(

@@ -23,7 +23,7 @@ fun UsernameTextField(
     val supportingTextValue = if (value.isEmpty()) null
     else when (UsernameValidator.match(value)) {
         UsernameValidType.VALID -> null
-        UsernameValidType.INVALID_LENGTH -> stringResource(id = R.string.username_length_error)
+        UsernameValidType.INVALID_USERNAME_LENGTH -> stringResource(id = R.string.username_length_error)
         UsernameValidType.INVALID_REGEX -> stringResource(id = R.string.username_regex_error)
     }
 
