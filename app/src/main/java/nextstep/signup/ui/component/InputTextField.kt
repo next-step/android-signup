@@ -16,9 +16,9 @@ import nextstep.signup.ui.theme.BlueGrey20
 
 @Composable
 fun InputTextField(
-    modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
     label: String = "",
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default
 ) {
