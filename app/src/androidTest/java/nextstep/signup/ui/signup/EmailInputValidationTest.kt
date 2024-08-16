@@ -1,11 +1,9 @@
 package nextstep.signup.ui.signup
 
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import nextstep.signup.R
-import nextstep.signup.ui.component.NSTextField
+import nextstep.signup.ui.component.EmailTextField
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -19,11 +17,9 @@ class EmailInputValidationTest {
     @Before
     fun setup() {
         composeTestRule.setContent {
-            NSTextField(
+            EmailTextField(
                 value = email.value,
                 onValueChange = {},
-                labelValue = stringResource(id = R.string.email),
-                supportingTextValue = getEmailSupportingText(email.value),
             )
         }
     }
@@ -59,6 +55,17 @@ class EmailInputValidationTest {
         composeTestRule
             .onNodeWithText(EMAIL_REGEX_ERROR)
             .assertExists()
+    }
+
+    @Test
+    fun 이메일이_비어있으면_에러가_표시되지_않는다() {
+        // when
+        email.value = ""
+
+        // then
+        composeTestRule
+            .onNodeWithText(EMAIL_REGEX_ERROR)
+            .assertDoesNotExist()
     }
 
     companion object {

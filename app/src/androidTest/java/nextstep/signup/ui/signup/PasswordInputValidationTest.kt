@@ -2,11 +2,10 @@ package nextstep.signup.ui.signup
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import nextstep.signup.R
-import nextstep.signup.ui.component.NSTextField
+import nextstep.signup.ui.component.PasswordConfirmTextField
+import nextstep.signup.ui.component.PasswordTextField
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -22,17 +21,14 @@ class PasswordInputValidationTest {
     fun setup() {
         composeTestRule.setContent {
             Column {
-                NSTextField(
+                PasswordTextField(
                     value = password.value,
                     onValueChange = {},
-                    labelValue = stringResource(id = R.string.password),
-                    supportingTextValue = getPasswordSupportingText(password.value),
                 )
-                NSTextField(
+                PasswordConfirmTextField(
                     value = passwordConfirm.value,
+                    passwordValue = password.value,
                     onValueChange = {},
-                    labelValue = stringResource(id = R.string.password_confirm),
-                    supportingTextValue = getPasswordConfirmSupportingText(password.value, passwordConfirm.value),
                 )
             }
         }
@@ -115,6 +111,32 @@ class PasswordInputValidationTest {
         composeTestRule
             .onNodeWithText(PASSWORD_CONFIRM_EQUAL_ERROR)
             .assertExists()
+    }
+
+    @Test
+    fun 비밀번호가_비어있으면_에러메시지가_노출되지_않는다() {
+        // when
+        password.value = ""
+
+        // then
+        composeTestRule
+            .onNodeWithText(PASSWORD_LENGTH_ERROR)
+            .assertDoesNotExist()
+        composeTestRule
+            .onNodeWithText(PASSWORD_REGEX_ERROR)
+            .assertDoesNotExist()
+    }
+
+    @Test
+    fun 더블체크용_비밀번호가_비어있으면_에러메시지가_노출되지_않는다() {
+        // when
+        password.value = "aa120000"
+        passwordConfirm.value = ""
+
+        // then
+        composeTestRule
+            .onNodeWithText(PASSWORD_CONFIRM_EQUAL_ERROR)
+            .assertDoesNotExist()
     }
 
     companion object {

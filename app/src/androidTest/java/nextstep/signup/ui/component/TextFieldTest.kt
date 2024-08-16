@@ -14,28 +14,28 @@ class TextFieldTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun NSTextField의_값을_입력하면_표시되어야한다() {
+    fun TextField의_값을_입력하면_표시되어야한다() {
         // given
         val value = "ABC"
         val text = mutableStateOf(value)
 
         composeTestRule.setContent {
-            NSTextField(value = text.value, onValueChange = {}, labelValue = "")
+            BaseTextField(value = text.value, onValueChange = {}, labelValue = "")
         }
 
         // then
         composeTestRule
-            .onNodeWithTag(NS_TEXT_FIELD_TAG)
+            .onNodeWithTag(BASE_TEXT_FIELD_TEST_TAG)
             .assertExists()
             .assert(hasText(value))
     }
 
     @Test
-    fun NSTextField의_supportingTextValue값을_입력하면_표시되어야한다() {
+    fun TextField의_supportingTextValue값을_입력하면_표시되어야한다() {
         // given
         val value = "ABC"
         composeTestRule.setContent {
-            NSTextField(
+            BaseTextField(
                 value = "",
                 onValueChange = {},
                 labelValue = "",
@@ -45,13 +45,32 @@ class TextFieldTest {
 
         // then
         composeTestRule
-            .onNodeWithTag(NS_TEXT_FIELD_TAG)
+            .onNodeWithTag(BASE_TEXT_FIELD_TEST_TAG)
             .assertExists()
             .assert(hasText(value))
     }
 
-    companion object {
-        private const val NS_TEXT_FIELD_TAG = "nsTextField"
+    @Test
+    fun TextField값이_변경되면_변경된_값이_표시되어야한다() {
+        // given
+        val value = mutableStateOf("ABC")
+        val updatedValue = "DEF"
+        composeTestRule.setContent {
+            BaseTextField(
+                value = value.value,
+                onValueChange = { value.value = it },
+                labelValue = "",
+            )
+        }
+
+        // when
+        value.value = updatedValue
+
+        // then
+        composeTestRule
+            .onNodeWithTag(BASE_TEXT_FIELD_TEST_TAG)
+            .assertExists()
+            .assert(hasText(updatedValue))
     }
 
 }

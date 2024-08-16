@@ -1,11 +1,9 @@
 package nextstep.signup.ui.signup
 
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import nextstep.signup.R
-import nextstep.signup.ui.component.NSTextField
+import nextstep.signup.ui.component.UsernameTextField
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -19,11 +17,9 @@ class UsernameInputValidationTest {
     @Before
     fun setup() {
         composeTestRule.setContent {
-            NSTextField(
+            UsernameTextField(
                 value = username.value,
                 onValueChange = {},
-                labelValue = stringResource(id = R.string.username),
-                supportingTextValue = getUsernameSupportingText(username.value),
             )
         }
     }
@@ -92,6 +88,20 @@ class UsernameInputValidationTest {
         composeTestRule
             .onNodeWithText(USERNAME_REGEX_ERROR)
             .assertExists()
+    }
+
+    @Test
+    fun 사용자_이름이_비어있으면_에러가_표시되지_않는다() {
+        // when
+        username.value = ""
+
+        // then
+        composeTestRule
+            .onNodeWithText(USERNAME_LENGTH_ERROR)
+            .assertDoesNotExist()
+        composeTestRule
+            .onNodeWithText(USERNAME_REGEX_ERROR)
+            .assertDoesNotExist()
     }
 
     companion object {

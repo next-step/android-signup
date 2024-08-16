@@ -19,8 +19,10 @@ import nextstep.signup.ui.theme.BlueGrey20
 import nextstep.signup.ui.theme.Grey10
 import nextstep.signup.ui.theme.Red10
 
+const val BASE_TEXT_FIELD_TEST_TAG = "baseTextField"
+
 @Composable
-fun NSTextField(
+fun BaseTextField(
     modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
@@ -52,27 +54,27 @@ fun NSTextField(
             errorIndicatorColor = Red10,
             errorSupportingTextColor = Red10,
         ),
-        modifier = modifier.testTag("nsTextField"),
+        modifier = modifier.testTag(BASE_TEXT_FIELD_TEST_TAG),
     )
 }
 
 @Preview
 @Composable
-private fun NSTextFieldPreview() {
+private fun BaseTextFieldPreview() {
     var value by remember { mutableStateOf("") }
 
-    NSTextField(value = value, onValueChange = { value = it }, labelValue = "label")
+    BaseTextField(value = value, onValueChange = { value = it }, labelValue = "label")
 }
 
 @Preview
 @Composable
-private fun NSTextFieldErrorCasePreview() {
+private fun BaseTextFieldErrorCasePreview() {
     var value by remember { mutableStateOf("abc") }
 
-    NSTextField(
+    BaseTextField(
         value = value,
         onValueChange = { value = it },
         labelValue = "label",
-        supportingTextValue = "supporting text"
+        supportingTextValue = "supporting text",
     )
 }
