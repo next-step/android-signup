@@ -28,7 +28,6 @@ fun UsernameTextField(
         onTextChanged = onUsernameChanged,
         label = usernameLabel,
         isError = usernameValidation !is Success,
-        visualTransformation = PasswordVisualTransformation(),
         supportingText = {
             if (usernameValidation !is Success)
                 Text(

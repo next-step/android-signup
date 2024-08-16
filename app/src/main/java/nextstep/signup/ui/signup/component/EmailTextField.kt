@@ -28,7 +28,6 @@ fun EmailTextField(
         onTextChanged = onEmailChanged,
         label = emailLabel,
         isError = emailValidation !is Success,
-        visualTransformation = PasswordVisualTransformation(),
         supportingText = {
             if (emailValidation !is Success)
                 Text(
