@@ -12,7 +12,7 @@ import org.junit.Test
 class PasswordTest {
 
     @Test
-    fun `7글자 비밀번호는 불가능하다`() {
+    fun `7글자_비밀번호는_불가능하다`() {
         // given:
         val password: String = "1234567"
 
@@ -24,7 +24,7 @@ class PasswordTest {
     }
 
     @Test
-    fun `17글자 비밀번호는 불가능하다`() {
+    fun `17글자_비밀번호는_불가능하다`(){
         // given:
         val password: String = "123456789" + "12345678"
 
@@ -36,7 +36,7 @@ class PasswordTest {
     }
 
     @Test
-    fun `8~16글자 수 범위 외의 비밀번호는 다음 문자열을 반환한다`() {
+    fun `8_16글자_수_범위_외의_비밀번호는_다음_문자열을_반환한다`() {
         // given:
         val password: String = "123456789" + "12345678"
 
@@ -48,7 +48,7 @@ class PasswordTest {
     }
 
     @Test
-    fun `8~16글자 수 범위 내의 비밀번호만 사용 가능하다`() {
+    fun `8_16글자_수_범위_내의_비밀번호만_사용_가능하다`() {
         // given:
         val passwords: List<String> = List<String>(9) { "pass0123" + "12345678".take(it) }
 
@@ -60,7 +60,7 @@ class PasswordTest {
     }
 
     @Test
-    fun `영어만 들어간 비밀번호는 사용할 수 없다`() {
+    fun `영어만_들어간_비밀번호는_사용할_수_없다`() {
         // given:
         val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$"
         val password: String = "password!"
@@ -73,7 +73,7 @@ class PasswordTest {
     }
 
     @Test
-    fun `숫자만 들어간 비밀번호는 사용할 수 없다`() {
+    fun `숫자만_들어간_비밀번호는_사용할_수_없다`() {
         // given:
         val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$"
         val password: String = "12345678"
@@ -86,7 +86,7 @@ class PasswordTest {
     }
 
     @Test
-    fun `비밀번호 규약 외 비밀번호는 다음 문자열을 반환한다`() {
+    fun `비밀번호_규약_외_비밀번호는_다음_문자열을_반환한다`() {
         // given:
         val passwords: List<String> = listOf("12345678", "password")
 

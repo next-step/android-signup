@@ -1,9 +1,5 @@
 # android-signup
 
-## 기능 요구 사항
-- [x] 텍스트 스타일 가이드 구현
-- [x] Color 상수화
-
 #### 회원가입 뷰
 - [x] 회원정보 입력 컴포넌트 구현
 - [x] 회원가입 버튼 구현
@@ -25,3 +21,9 @@
   - [x] Password Confirm 유효성 검사 구현
     - [x] Password Confirm 비밀번호 일치 여부
       - [x] Password Confirm 비밀번호 일치 여부 테스트
+- [x] 유효성 통과일 경우 Button 활성화
+  - [x] Button 활성화 UI 테스트
+  - [x] 버튼 클릭 시 스낵 바 UI 구현
+    - [x] 스낵 바 UI 테스트
+- [ ] 회원가입 TextField UI 테스트
+- [ ] 회원가입 Button UI 테스트

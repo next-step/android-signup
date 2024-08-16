@@ -11,7 +11,7 @@ import org.junit.Test
 class EmailTest {
 
     @Test
-    fun `형식에 맞지 않는 이메일은 사용할 수 없다`() {
+    fun `형식에_맞지_않는_이메일은_사용할_수_없다`() {
         // given:
         val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
         val email: List<String> = listOf(
@@ -27,7 +27,7 @@ class EmailTest {
     }
 
     @Test
-    fun `형식에 맞지 않는 이메일은 다음 문자열을 반환한다`() {
+    fun `형식에_맞지_않는_이메일은_다음_문자열을_반환한다`() {
         // given:
         val email: String = "s2ehun"
 
