@@ -1,4 +1,4 @@
-package nextstep.signup
+package nextstep.signup.signup
 
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.assertIsDisplayed
