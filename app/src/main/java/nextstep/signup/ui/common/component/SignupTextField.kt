@@ -33,8 +33,8 @@ fun SignupTextField(
     label: String,
     isError: Boolean = false,
     visualTransformation: VisualTransformation = VisualTransformation.None,
-    supportingText: @Composable (() -> Unit)? = null,
     componentDescription: String = stringResource(R.string.signup_default_description),
+    supportingText: @Composable (() -> Unit)? = null,
 ) {
     TextField(
         value = text,

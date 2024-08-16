@@ -52,6 +52,6 @@ private fun SignUpButtonPreview() {
         buttonText = stringResource(R.string.signup_button),
         buttonTextColor = Color.White,
         containerColor = Blue50,
-        onButtonClick = { },
+        onButtonClick = {},
     )
 }
