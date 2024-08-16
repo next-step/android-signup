@@ -24,10 +24,8 @@ fun InputTextField(
 ) {
     TextField(
         modifier = modifier
-            .then(
-                Modifier
-                    .fillMaxWidth()
-                    .background(BlueGrey20)),
+            .fillMaxWidth()
+            .background(BlueGrey20),
         value = value,
         onValueChange = onValueChange,
         label = { Text(label) },
