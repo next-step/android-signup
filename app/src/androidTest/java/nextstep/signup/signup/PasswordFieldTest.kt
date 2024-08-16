@@ -26,7 +26,8 @@ class PasswordFieldTest {
         composeTestRule.setContent {
             PasswordField(
                 password = password,
-                onPasswordChange = { password = it }
+                onPasswordChange = { password = it },
+                onPasswordValidationSuccess = { }
             )
         }
     }

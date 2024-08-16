@@ -26,7 +26,8 @@ class EmailFieldTest {
         composeTestRule.setContent {
             EmailField(
                 email = email,
-                onEmailChange = { email = it }
+                onEmailChange = { email = it },
+                onEmailValidationSuccess = { }
             )
         }
     }
@@ -51,5 +52,16 @@ class EmailFieldTest {
         composeTestRule
             .onNodeWithText(context.getString(R.string.error_invalid_email))
             .assertExists()
+    }
+
+    @Test
+    fun 빈_값인_경우_에러가_노출되지_않는다() {
+        // when
+        email = ""
+
+        // then
+        composeTestRule
+            .onNodeWithText(context.getString(R.string.error_invalid_email))
+            .assertDoesNotExist()
     }
 }
