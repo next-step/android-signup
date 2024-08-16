@@ -72,7 +72,7 @@ fun SignUpScreen() {
 }
 
 @Composable
-fun WelcomeTitle() {
+private fun WelcomeTitle() {
     Text(
         text = stringResource(id = R.string.sign_up_title),
         fontWeight = FontWeight.Bold,
@@ -84,7 +84,7 @@ fun WelcomeTitle() {
 }
 
 @Composable
-fun SignUpButton(onClicked: () -> Unit) {
+private fun SignUpButton(onClicked: () -> Unit) {
     Button(
         modifier = Modifier
             .fillMaxWidth()
