@@ -30,49 +30,33 @@ import nextstep.signup.ui.theme.RobotoRegular
 fun SignupTextField(
     text: String,
     onTextChanged: (String) -> Unit,
-    textFontSize: TextUnit = 16.sp,
-    textFontFamily: FontFamily = RobotoRegular,
     label: String,
-    labelFontSize: TextUnit = TextUnit.Unspecified,
-    labelFontFamily: FontFamily = RobotoRegular,
-    focusedTextColor: Color = Color.Black,
-    unfocusedTextColor: Color = Color.Black,
-    focusedLabelColor: Color = Blue50,
-    unfocusedLabelColor: Color = Gray,
-    unfocusedContainerColor: Color = BlueGray20,
-    focusedContainerColor: Color = BlueGray20,
-    focusedIndicatorColor: Color = Blue50,
     isError: Boolean = false,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     supportingText: @Composable (() -> Unit)? = null,
-    textFieldBackgroundColor: Color = Color.Transparent,
-    textFieldRoundedCornerShape: Shape = RoundedCornerShape(
-        topStart = 4.dp,
-        topEnd = 4.dp,
-    ),
     componentDescription: String = stringResource(R.string.signup_default_description),
 ) {
     TextField(
         value = text,
         onValueChange = onTextChanged,
         textStyle = TextStyle.Default.copy(
-            fontSize = textFontSize,
-            fontFamily = textFontFamily,
+            fontSize = 16.sp,
+            fontFamily = RobotoRegular,
         ),
         label = {
             Text(
                 text = label,
-                fontFamily = labelFontFamily,
+                fontFamily = RobotoRegular,
             )
         },
         colors = TextFieldDefaults.colors(
-            focusedTextColor = focusedTextColor,
-            unfocusedTextColor = unfocusedTextColor,
-            focusedLabelColor = focusedLabelColor,
-            unfocusedLabelColor = unfocusedLabelColor,
-            unfocusedContainerColor = unfocusedContainerColor,
-            focusedContainerColor = focusedContainerColor,
-            focusedIndicatorColor = focusedIndicatorColor,
+            focusedTextColor = Color.Black,
+            unfocusedTextColor = Color.Black,
+            focusedLabelColor = Blue50,
+            unfocusedLabelColor = Gray,
+            unfocusedContainerColor = BlueGray20,
+            focusedContainerColor = BlueGray20,
+            focusedIndicatorColor = Blue50,
         ),
         isError = isError,
         supportingText = supportingText,
@@ -80,8 +64,11 @@ fun SignupTextField(
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                color = textFieldBackgroundColor,
-                shape = textFieldRoundedCornerShape,
+                color = Color.Transparent,
+                shape = RoundedCornerShape(
+                    topStart = 4.dp,
+                    topEnd = 4.dp,
+                ),
             )
             .semantics { contentDescription = componentDescription },
     )
