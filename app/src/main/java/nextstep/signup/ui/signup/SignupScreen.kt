@@ -4,13 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,26 +17,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import nextstep.signup.R
-import nextstep.signup.ui.component.SignupButton
-import nextstep.signup.ui.component.SignupSnackBar
-import nextstep.signup.ui.component.SignupTextField
-import nextstep.signup.ui.signup.SignupValidationResult.Failure
+import nextstep.signup.ui.common.component.SignupSnackBar
 import nextstep.signup.ui.signup.SignupValidationResult.Success
 import nextstep.signup.ui.signup.SignupValidator.Email
 import nextstep.signup.ui.signup.SignupValidator.Password
 import nextstep.signup.ui.signup.SignupValidator.PasswordConfirm
 import nextstep.signup.ui.signup.SignupValidator.Username
-import nextstep.signup.ui.theme.Blue50
-import nextstep.signup.ui.theme.RobotoBold
-import nextstep.signup.ui.theme.RobotoMedium
+import nextstep.signup.ui.signup.component.CreateAccountButton
+import nextstep.signup.ui.signup.component.EmailTextField
+import nextstep.signup.ui.signup.component.HeaderText
+import nextstep.signup.ui.signup.component.PasswordConfirmTextField
+import nextstep.signup.ui.signup.component.PasswordTextField
+import nextstep.signup.ui.signup.component.UsernameTextField
 
 @Composable
 fun SignupScreen() {
@@ -108,143 +102,6 @@ fun SignupScreen() {
             )
         }
     }
-}
-
-@Composable
-private fun HeaderText() {
-    Text(
-        text = stringResource(R.string.signup_header_title),
-        color = Color.Black,
-        fontSize = 26.sp,
-        fontFamily = RobotoBold,
-    )
-}
-
-@Composable
-private fun UsernameTextField(
-    username: String,
-    onUsernameChanged: (String) -> Unit,
-    usernameValidation: SignupValidationResult,
-) {
-    val usernameLabel = stringResource(id = R.string.signup_user_name)
-    val usernameErrorDescription = stringResource(R.string.signup_username_error)
-
-    SignupTextField(
-        text = username,
-        onTextChanged = onUsernameChanged,
-        label = usernameLabel,
-        isError = usernameValidation !is Success,
-        visualTransformation = PasswordVisualTransformation(),
-        supportingText = {
-            if (usernameValidation !is Success)
-                Text(
-                    text = (usernameValidation as Failure).result.message,
-                    modifier = Modifier.semantics { contentDescription = usernameErrorDescription },
-                )
-        },
-        componentDescription = usernameLabel,
-    )
-}
-
-@Composable
-private fun EmailTextField(
-    email: String,
-    onEmailChanged: (String) -> Unit,
-    emailValidation: SignupValidationResult,
-) {
-    val emailLabel = stringResource(R.string.signup_email)
-    val emailErrorDescription = stringResource(R.string.signup_email_error)
-
-    SignupTextField(
-        text = email,
-        onTextChanged = onEmailChanged,
-        label = emailLabel,
-        isError = emailValidation !is Success,
-        visualTransformation = PasswordVisualTransformation(),
-        supportingText = {
-            if (emailValidation !is Success)
-                Text(
-                    text = (emailValidation as Failure).result.message,
-                    modifier = Modifier.semantics { contentDescription = emailErrorDescription },
-                )
-        },
-        componentDescription = emailLabel,
-    )
-}
-
-@Composable
-private fun PasswordTextField(
-    password: String,
-    onPasswordChanged: (String) -> Unit,
-    passwordValidation: SignupValidationResult,
-) {
-    val passwordLabel = stringResource(R.string.signup_password)
-    val passwordErrorDescription = stringResource(R.string.signup_password_error)
-
-    SignupTextField(
-        text = password,
-        onTextChanged = onPasswordChanged,
-        label = passwordLabel,
-        isError = passwordValidation !is Success,
-        visualTransformation = PasswordVisualTransformation(),
-        supportingText = {
-            if (passwordValidation !is Success)
-                Text(
-                    text = (passwordValidation as Failure).result.message,
-                    modifier = Modifier.semantics { contentDescription = passwordErrorDescription }
-                )
-        },
-        componentDescription = passwordLabel,
-    )
-}
-
-@Composable
-private fun PasswordConfirmTextField(
-    passwordConfirm: String,
-    onPasswordConfirmChanged: (String) -> Unit,
-    passwordConfirmValidation: SignupValidationResult,
-) {
-    val passwordConfirmLabel = stringResource(R.string.signup_password_confirm)
-    val passwordConfirmErrorDescription = stringResource(R.string.signup_password_confirm_error)
-
-    SignupTextField(
-        text = passwordConfirm,
-        onTextChanged = onPasswordConfirmChanged,
-        label = passwordConfirmLabel,
-        isError = passwordConfirmValidation !is Success,
-        visualTransformation = PasswordVisualTransformation(),
-        supportingText = {
-            if (passwordConfirmValidation !is Success)
-                Text(
-                    text = (passwordConfirmValidation as Failure).result.message,
-                    modifier = Modifier.semantics {
-                        contentDescription = passwordConfirmErrorDescription
-                    },
-                )
-        },
-        componentDescription = passwordConfirmLabel,
-    )
-}
-
-@Composable
-private fun CreateAccountButton(
-    isSuccessfulCondition: Boolean,
-    onCreateAccountButtonClick: () -> Unit,
-) {
-    val buttonContentDescription = stringResource(R.string.signup_create_account_button)
-
-    SignupButton(
-        buttonText = stringResource(R.string.signup_button),
-        buttonTextFontSize = 14.sp,
-        buttonTextFontFamily = RobotoMedium,
-        buttonTextColor = if (isSuccessfulCondition) Color.White else Color.Black,
-        buttonVerticalPadding = 15.dp,
-        containerColor = if (isSuccessfulCondition) Blue50 else Color.Gray,
-        onButtonClick = onCreateAccountButtonClick,
-        enabled = isSuccessfulCondition,
-        modifier = Modifier.fillMaxWidth(),
-        componentDescription = buttonContentDescription,
-    )
 }
 
 @Preview

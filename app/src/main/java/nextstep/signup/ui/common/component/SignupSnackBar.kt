@@ -1,4 +1,4 @@
-package nextstep.signup.ui.component
+package nextstep.signup.ui.common.component
 
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
