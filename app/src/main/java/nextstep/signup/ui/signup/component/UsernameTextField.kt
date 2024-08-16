@@ -7,6 +7,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import nextstep.signup.R
 import nextstep.signup.ui.common.component.SignupTextField
 import nextstep.signup.ui.signup.SignupValidationResult
@@ -36,5 +37,15 @@ fun UsernameTextField(
                 )
         },
         componentDescription = usernameLabel,
+    )
+}
+
+@Preview
+@Composable
+private fun UsernameTextFieldPreview() {
+    UsernameTextField(
+        username = "s9hn",
+        onUsernameChanged = {},
+        usernameValidation = Success,
     )
 }
