@@ -20,6 +20,7 @@ class InputValidationTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
+
     private val userNameTextFieldContent = mutableStateOf("")
     private val userNameInputValidState = mutableStateOf(SignUpValidSate.NOTHING)
 
