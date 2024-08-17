@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.R
 import nextstep.signup.ui.component.InputTextField
+import nextstep.signup.ui.component.UserNameTextField
 import nextstep.signup.ui.theme.Blue50
 
 
@@ -43,11 +44,9 @@ fun SignUpScreen() {
         var passwordConfirm by remember { mutableStateOf("") }
 
         WelcomeTitle()
-        InputTextField(
-            modifier = Modifier.padding(top = 6.dp),
-            value = username,
-            onValueChange = { username = it },
-            label = stringResource(R.string.sign_up_label_username)
+        UserNameTextField(
+            username = username,
+            onNameChange = { username = it },
         )
         InputTextField(
             value = email,
