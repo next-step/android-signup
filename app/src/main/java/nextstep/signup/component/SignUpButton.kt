@@ -27,7 +27,7 @@ fun SignUpButton(
             .fillMaxWidth()
             .height(50.dp),
         colors = ButtonDefaults.buttonColors(colorResource(id = R.color.blue_50)),
-        onClick = { onClick() },
+        onClick = onClick,
         enabled = enabled
     ) {
         Text(
