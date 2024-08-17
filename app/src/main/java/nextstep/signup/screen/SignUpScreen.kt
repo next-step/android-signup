@@ -1,5 +1,6 @@
 package nextstep.signup.screen
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -37,6 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import nextstep.signup.R
 import nextstep.signup.ui.theme.Blue50
@@ -110,6 +112,45 @@ fun SignUpScreen() {
 			&& passWordInputValidState == SignUpValidSate.VALID
 			&& passWordConfirmInputValidState == SignUpValidSate.VALID)
 
+	SignUpScreen(
+		snackBarHostState = snackBarHostState,
+		coroutineScope = coroutineScope,
+		context = context,
+		userNameInputValue = userNameInputValue,
+		setUserNameInputValue = setUserNameInputValue,
+		userNameInputValidState = userNameInputValidState,
+		emailInputValue = emailInputValue,
+		setEmailInputValue = setEmailInputValue,
+		emailInputValidState = emailInputValidState,
+		passWordInputValue = passWordInputValue,
+		setPassWordInputValue = setPassWordInputValue,
+		passWordInputValidState = passWordInputValidState,
+		passWordConfirmValue = passWordConfirmValue,
+		setPassWordConfirmValue = setPassWordConfirmValue,
+		passWordConfirmInputValidState = passWordConfirmInputValidState,
+		signUpBtnEnable = signUpBtnEnable
+	)
+}
+
+@Composable
+fun SignUpScreen(
+	snackBarHostState: SnackbarHostState,
+	coroutineScope: CoroutineScope,
+	context:Context,
+	userNameInputValue:String,
+	setUserNameInputValue: (String) -> Unit,
+	userNameInputValidState: SignUpValidSate,
+	emailInputValue: String,
+	setEmailInputValue: (String) -> Unit,
+	emailInputValidState: SignUpValidSate,
+	passWordInputValue: String,
+	setPassWordInputValue: (String) -> Unit,
+	passWordInputValidState: SignUpValidSate,
+	passWordConfirmValue: String,
+	setPassWordConfirmValue: (String) -> Unit,
+	passWordConfirmInputValidState: SignUpValidSate,
+	signUpBtnEnable: Boolean
+) {
 	Scaffold(
 		modifier = Modifier.background(Color.White),
 		snackbarHost = { SnackbarHost(hostState = snackBarHostState)}
@@ -151,7 +192,7 @@ fun SignUpScreen() {
 					.fillMaxWidth()
 					.heightIn(min = 115.dp)
 					.padding(30.dp),
-				isBtnEnable = signUpBtnEnable	,
+				isBtnEnable = signUpBtnEnable,
 				onClick = {
 					coroutineScope.launch {
 						snackBarHostState
@@ -164,6 +205,7 @@ fun SignUpScreen() {
 		}
 	}
 }
+
 
 /**
  * 회원가입 제목용 composeable 함수
