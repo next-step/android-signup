@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -19,14 +18,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.R
-import nextstep.signup.ui.component.InputTextField
 import nextstep.signup.ui.component.EmailTextField
+import nextstep.signup.ui.component.PasswordConfirmTextField
 import nextstep.signup.ui.component.PasswordTextField
 import nextstep.signup.ui.component.UserNameTextField
 import nextstep.signup.ui.theme.Blue50
@@ -58,11 +56,10 @@ fun SignUpScreen() {
             password = password,
             onPasswordChange = { password = it }
         )
-        InputTextField(
-            value = passwordConfirm,
-            onValueChange = { passwordConfirm = it },
-            label = stringResource(R.string.sign_up_label_password_confirm),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+        PasswordConfirmTextField(
+            password = password,
+            confirmPassword = passwordConfirm,
+            onPasswordChange = { passwordConfirm = it }
         )
         SignUpButton {}
     }
