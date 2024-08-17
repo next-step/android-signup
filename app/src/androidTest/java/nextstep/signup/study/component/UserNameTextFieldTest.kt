@@ -7,8 +7,12 @@ import nextstep.signup.model.UserNameError
 import nextstep.signup.model.UserNameState
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
 
-class UserNameTextFieldTest {
+
+@RunWith(value = Parameterized::class)
+class UserNameTextFieldTest(private val userName: String) {
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -57,12 +61,23 @@ class UserNameTextFieldTest {
     fun 사용자_이름에_숫자나_기호가_포함되면_에러메시지가_노출된다() {
         composeTestRule.setContent {
             UserNameTextField(
-                userName = "컴포즈1",
+                userName = userName,
                 onUserNameChange = {},
                 onValidationResult = {}
             )
         }
 
         composeTestRule.onNodeWithText("이름에는 숫자나 기호가 포함될 수 없습니다.").assertExists()
+    }
+
+    companion object {
+        @JvmStatic
+        @Parameterized.Parameters(name = "Invalid input: {0}")
+        fun invalidData(): List<Array<Any>> {
+            return listOf(
+                arrayOf("컴포즈1"),
+                arrayOf("컴포즈@"),
+            )
+        }
     }
 }
