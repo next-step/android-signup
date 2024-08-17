@@ -7,6 +7,10 @@ import nextstep.signup.screen.EmailSigneUpTextField
 import nextstep.signup.screen.PassWordConfirmSigneUpTextField
 import nextstep.signup.screen.PassWordSigneUpTextField
 import nextstep.signup.screen.UserNameSigneUpTextField
+import nextstep.signup.util.SignUpEmailValidator
+import nextstep.signup.util.SignUpPasswordConfirmValidator
+import nextstep.signup.util.SignUpPasswordValidator
+import nextstep.signup.util.SignUpUserNameValidator
 import nextstep.signup.util.SignUpValidSate
 import org.junit.Before
 import org.junit.Rule
@@ -35,30 +39,36 @@ class InputValidationTest {
                textContent = userNameTextFieldContent.value,
                onTextValueChange = { userNameTextFieldContent.value = it },
                signUpInputValidState = userNameInputValidState.value,
-               setSignUpInputValidState = { userNameInputValidState.value = it }
            )
+            userNameInputValidState.value =
+                SignUpUserNameValidator().getValidState(userNameTextFieldContent.value)
 
             EmailSigneUpTextField(
                 textContent = emailTextFieldContent.value,
                 onTextValueChange ={ emailTextFieldContent.value = it} ,
                 signUpInputValidState = emailInputValidState.value,
-                setSignUpInputValidState = { emailInputValidState.value = it }
             )
+            emailInputValidState.value =
+                SignUpEmailValidator().getValidState(emailTextFieldContent.value)
+
 
             PassWordSigneUpTextField(
                 textContent = passWordTextFieldContent.value,
                 onTextValueChange =  { passWordTextFieldContent.value = it },
                 signUpInputValidState =  passWordInputValidState.value,
-                setSignUpInputValidState = { passWordInputValidState.value = it },
             )
+            passWordInputValidState.value =
+                SignUpPasswordValidator().getValidState(passWordTextFieldContent.value)
 
             PassWordConfirmSigneUpTextField(
-                writtenPassWord = passWordTextFieldContent.value,
                 textContent = passWordConfirmTextFieldContent.value,
                 onTextValueChange =  { passWordConfirmTextFieldContent.value = it },
                 signUpInputValidState =  passWordConfirmInputValidState.value,
-                setSignUpInputValidState = { passWordConfirmInputValidState.value = it },
             )
+            passWordConfirmInputValidState.value =
+                SignUpPasswordConfirmValidator(
+                    password = passWordTextFieldContent.value
+                ).getValidState(passWordConfirmTextFieldContent.value)
         }
     }
 
