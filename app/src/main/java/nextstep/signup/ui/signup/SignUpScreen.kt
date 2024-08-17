@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import nextstep.signup.R
 import nextstep.signup.ui.component.InputTextField
 import nextstep.signup.ui.component.EmailTextField
+import nextstep.signup.ui.component.PasswordTextField
 import nextstep.signup.ui.component.UserNameTextField
 import nextstep.signup.ui.theme.Blue50
 
@@ -53,11 +54,9 @@ fun SignUpScreen() {
             email = email,
             onEmailChange = { email = it },
         )
-        InputTextField(
-            value = password,
-            onValueChange = { password = it },
-            label = stringResource(R.string.sign_up_label_password),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+        PasswordTextField(
+            password = password,
+            onPasswordChange = { password = it }
         )
         InputTextField(
             value = passwordConfirm,
