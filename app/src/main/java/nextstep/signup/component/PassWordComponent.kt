@@ -30,9 +30,7 @@ fun PasswordComponent(
     modifier: Modifier = Modifier,
     validator: SignUpValidator = RegexBasedSignUpValidator()
 ) {
-    val passwordState by remember(password) {
-        derivedStateOf { validator.validatePassword(password) }
-    }
+    var passwordState by remember { mutableStateOf<PasswordState>(PasswordState.Initial) }
     val passwordConfirmState by remember(password, passwordConfirm) {
         derivedStateOf { validator.validatePasswordConfirm(password, passwordConfirm) }
     }
@@ -52,7 +50,7 @@ fun PasswordComponent(
         PasswordTextField(
             password = password,
             onPasswordChange = onPasswordChange,
-            passwordState = passwordState
+            onValidationResult = { passwordState = it }
         )
 
         Spacer(modifier = Modifier.height(42.dp))
