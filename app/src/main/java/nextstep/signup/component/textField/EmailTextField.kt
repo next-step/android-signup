@@ -31,10 +31,9 @@ fun EmailTextField(
         text = email,
         onValueChange = onEmailChange,
         label = stringResource(R.string.sign_up_text_field_email),
-        isError = emailState is EmailState.Invalid,
         errorMessage = when (emailState) {
             EmailState.Invalid -> stringResource(R.string.sig_nup_error_email_invalid)
-            EmailState.Valid, EmailState.Initial -> ""
+            EmailState.Valid, EmailState.Initial -> null
         }
     )
 }

@@ -31,13 +31,12 @@ fun UserNameTextField(
         text = userName,
         onValueChange = onUserNameChange,
         label = stringResource(R.string.sign_up_text_field_username),
-        isError = userNameState is UserNameState.Invalid,
         errorMessage = when (userNameState) {
             is UserNameState.Invalid -> when ((userNameState as UserNameState.Invalid).error) {
                 UserNameError.Length -> stringResource(R.string.sign_up_error_name_length)
                 UserNameError.InvalidCharacters -> stringResource(R.string.sign_up_error_name_invalid_chars)
             }
-            UserNameState.Valid, UserNameState.Initial -> ""
+            UserNameState.Valid, UserNameState.Initial -> null
         }
     )
 }

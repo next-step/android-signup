@@ -20,13 +20,12 @@ fun PasswordTextField(
         label = stringResource(R.string.sign_up_text_field_password),
         visualTransformation = PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-        isError = passwordState is PasswordState.Invalid,
         errorMessage = when (passwordState) {
             is PasswordState.Invalid -> when (passwordState.error) {
                 PasswordError.Length -> stringResource(R.string.sign_up_error_password_length)
                 PasswordError.Complexity -> stringResource(R.string.sign_up_error_password_requirement)
             }
-            PasswordState.Valid, PasswordState.Initial -> ""
+            PasswordState.Valid, PasswordState.Initial -> null
         }
     )
 }

@@ -21,10 +21,9 @@ fun PasswordConfirmTextField(
         label = stringResource(R.string.sign_up_text_field_password_confirm),
         visualTransformation = PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-        isError = passwordConfirmState is PasswordConfirmState.Mismatch,
         errorMessage = when (passwordConfirmState) {
             PasswordConfirmState.Mismatch -> stringResource(R.string.sign_up_error_password_mismatch)
-            PasswordConfirmState.Valid, PasswordConfirmState.Initial -> ""
+            PasswordConfirmState.Valid, PasswordConfirmState.Initial -> null
         }
     )
 }

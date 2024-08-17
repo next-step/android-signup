@@ -22,8 +22,7 @@ fun BaseSignUpTextField(
     modifier: Modifier = Modifier,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    isError: Boolean = false,
-    errorMessage: String = ""
+    errorMessage: String? = null
 ) {
     val customColors = TextFieldDefaults.colors(
         focusedIndicatorColor = colorResource(id = R.color.blue_50),
@@ -42,10 +41,10 @@ fun BaseSignUpTextField(
         keyboardOptions = keyboardOptions,
         colors = customColors,
         shape = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp),
-        isError = isError,
+        isError = errorMessage != null,
         supportingText = {
-            if (isError) {
-                Text(text = errorMessage, color = colorResource(id = R.color.warning_text_color))
+            errorMessage?.let {
+                Text(text = it, color = colorResource(id = R.color.warning_text_color))
             }
         })
 }
