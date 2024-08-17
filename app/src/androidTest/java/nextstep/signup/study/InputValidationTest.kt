@@ -36,17 +36,17 @@ class InputValidationTest {
     @Before
     fun setUp() {
         composeTestRule.setContent {
-           UserNameSigneUpTextField(
-               textContent = userNameTextFieldContent.value,
-               onTextValueChange = { userNameTextFieldContent.value = it },
-               signUpInputValidState = userNameInputValidState.value,
-           )
+            UserNameSigneUpTextField(
+                textContent = userNameTextFieldContent.value,
+                onTextValueChange = { userNameTextFieldContent.value = it },
+                signUpInputValidState = userNameInputValidState.value,
+            )
             userNameInputValidState.value =
                 SignUpUserNameValidator().getValidState(userNameTextFieldContent.value)
 
             EmailSigneUpTextField(
                 textContent = emailTextFieldContent.value,
-                onTextValueChange ={ emailTextFieldContent.value = it} ,
+                onTextValueChange = { emailTextFieldContent.value = it },
                 signUpInputValidState = emailInputValidState.value,
             )
             emailInputValidState.value =
@@ -55,16 +55,16 @@ class InputValidationTest {
 
             PassWordSigneUpTextField(
                 textContent = passWordTextFieldContent.value,
-                onTextValueChange =  { passWordTextFieldContent.value = it },
-                signUpInputValidState =  passWordInputValidState.value,
+                onTextValueChange = { passWordTextFieldContent.value = it },
+                signUpInputValidState = passWordInputValidState.value,
             )
             passWordInputValidState.value =
                 SignUpPasswordValidator().getValidState(passWordTextFieldContent.value)
 
             PassWordConfirmSigneUpTextField(
                 textContent = passWordConfirmTextFieldContent.value,
-                onTextValueChange =  { passWordConfirmTextFieldContent.value = it },
-                signUpInputValidState =  passWordConfirmInputValidState.value,
+                onTextValueChange = { passWordConfirmTextFieldContent.value = it },
+                signUpInputValidState = passWordConfirmInputValidState.value,
             )
             passWordConfirmInputValidState.value =
                 SignUpPasswordConfirmValidator(
@@ -97,7 +97,7 @@ class InputValidationTest {
 
 
     @Test
-    fun `유저_이름에_숫자나_기호가_들어가면_에러메세지_노출된다`(){
+    fun `유저_이름에_숫자나_기호가_들어가면_에러메세지_노출된다`() {
         // when
         userNameTextFieldContent.value = "이33"
 
@@ -108,7 +108,7 @@ class InputValidationTest {
     }
 
     @Test
-    fun `이메일_형식이_아니면_에러메세지_노출된다`(){
+    fun `이메일_형식이_아니면_에러메세지_노출된다`() {
         // when
         emailTextFieldContent.value = "nadadhl1@"
 
@@ -120,7 +120,7 @@ class InputValidationTest {
 
 
     @Test
-    fun `비밀번호는_8에서_16자_사이어야_한다`(){
+    fun `비밀번호는_8에서_16자_사이어야_한다`() {
         // when
         passWordTextFieldContent.value = "nada"
 
@@ -131,7 +131,7 @@ class InputValidationTest {
     }
 
     @Test
-    fun `비밀번호에_영문_숫자_조합이_들어가지_않으면_에러메세지_노출된다`(){
+    fun `비밀번호에_영문_숫자_조합이_들어가지_않으면_에러메세지_노출된다`() {
         // when
         passWordTextFieldContent.value = "nadadhl@"
 
@@ -143,7 +143,7 @@ class InputValidationTest {
 
 
     @Test
-    fun `비밀번호_확인창에_작성한_비밀번호_값이_안들어가면_에러메세지_노출된다`(){
+    fun `비밀번호_확인창에_작성한_비밀번호_값이_안들어가면_에러메세지_노출된다`() {
         // when
         passWordTextFieldContent.value = "nadadhl12"
         passWordConfirmTextFieldContent.value = "nadadhl1233"
