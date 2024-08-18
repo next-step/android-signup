@@ -32,7 +32,9 @@ fun PasswordTextField(
     }
 
     InputTextField(
-        modifier = Modifier.padding(top = 6.dp),
+        modifier = Modifier
+            .testTag("password")
+            .padding(top = 6.dp),
         value = password,
         onValueChange = onPasswordChange,
         label = stringResource(R.string.sign_up_label_password),

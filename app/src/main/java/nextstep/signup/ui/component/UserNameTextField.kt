@@ -31,7 +31,9 @@ fun UserNameTextField(
     }
 
     InputTextField(
-        modifier = Modifier.padding(top = 6.dp),
+        modifier = Modifier
+            .testTag("username")
+            .padding(top = 6.dp),
         value = username,
         onValueChange = onNameChange,
         label = stringResource(R.string.sign_up_label_username),

@@ -32,7 +32,9 @@ fun EmailTextField(
     }
 
     InputTextField(
-        modifier = Modifier.padding(top = 6.dp),
+        modifier = Modifier
+            .testTag("email")
+            .padding(top = 6.dp),
         value = email,
         onValueChange = onEmailChange,
         label = stringResource(R.string.sign_up_label_email),
