@@ -4,15 +4,17 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,47 +24,81 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
 import nextstep.signup.R
 import nextstep.signup.ui.component.EmailTextField
 import nextstep.signup.ui.component.PasswordConfirmTextField
 import nextstep.signup.ui.component.PasswordTextField
+import nextstep.signup.ui.component.SignUpButton
 import nextstep.signup.ui.component.UserNameTextField
-import nextstep.signup.ui.theme.Blue50
 
 
 @Composable
 fun SignUpScreen() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(32.dp, 60.dp),
-        verticalArrangement = Arrangement.spacedBy(36.dp)
-    ) {
-        var username by remember { mutableStateOf("") }
-        var email by remember { mutableStateOf("") }
-        var password by remember { mutableStateOf("") }
-        var passwordConfirm by remember { mutableStateOf("") }
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
 
-        WelcomeTitle()
-        UserNameTextField(
-            username = username,
-            onNameChange = { username = it },
-        )
-        EmailTextField(
-            email = email,
-            onEmailChange = { email = it },
-        )
-        PasswordTextField(
-            password = password,
-            onPasswordChange = { password = it }
-        )
-        PasswordConfirmTextField(
-            password = password,
-            confirmPassword = passwordConfirm,
-            onPasswordChange = { passwordConfirm = it }
-        )
-        SignUpButton {}
-    }
+    Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
+        content = { innerPadding ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                verticalArrangement = Arrangement.spacedBy(36.dp)
+            ) {
+                var username by remember { mutableStateOf("") }
+                var email by remember { mutableStateOf("") }
+                var password by remember { mutableStateOf("") }
+                var passwordConfirm by remember { mutableStateOf("") }
+
+                var isUsernameValid by remember { mutableStateOf(false) }
+                var isEmailValid by remember { mutableStateOf(false) }
+                var isPasswordValid by remember { mutableStateOf(false) }
+                var isPasswordConfirmValid by remember { mutableStateOf(false) }
+
+                val isButtonValid by remember {
+                    derivedStateOf {
+                        isUsernameValid && isEmailValid && isPasswordValid && isPasswordConfirmValid
+                    }
+                }
+
+                WelcomeTitle()
+                UserNameTextField(
+                    username = username,
+                    onNameChange = { username = it },
+                    onValidationStateChanged = { isUsernameValid = it }
+                )
+                EmailTextField(
+                    email = email,
+                    onEmailChange = { email = it },
+                    onValidationStateChanged = { isEmailValid = it }
+                )
+                PasswordTextField(
+                    password = password,
+                    onPasswordChange = { password = it },
+                    onValidationStateChanged = { isPasswordValid = it }
+                )
+                PasswordConfirmTextField(
+                    password = password,
+                    confirmPassword = passwordConfirm,
+                    onPasswordChange = { passwordConfirm = it },
+                    onValidationStateChanged = { isPasswordConfirmValid = it }
+                )
+                SignUpButton(
+                    onClicked = {
+                        if (isButtonValid) {
+                            scope.launch {
+                                snackbarHostState.showSnackbar("회원가입 성공!")
+                            }
+                        }
+                    },
+                    enabled = isButtonValid,
+                )
+            }
+        },
+        modifier = Modifier.padding(32.dp, 60.dp)
+    )
 }
 
 @Composable
@@ -76,26 +112,6 @@ private fun WelcomeTitle() {
         modifier = Modifier.fillMaxWidth()
     )
 }
-
-@Composable
-private fun SignUpButton(onClicked: () -> Unit) {
-    Button(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(50.dp)
-            .padding(top = 6.dp),
-        onClick = onClicked,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Blue50
-        )
-    ) {
-        Text(
-            text = stringResource(id = R.string.sign_up_button),
-            fontSize = 14.sp
-        )
-    }
-}
-
 
 @Preview(showBackground = true)
 @Composable

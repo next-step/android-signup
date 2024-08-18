@@ -20,7 +20,7 @@ class EmailTextFieldTest {
                 email = email.value,
                 onEmailChange = { input ->
                     email.value = input
-                }
+                }, {}
             )
         }
     }

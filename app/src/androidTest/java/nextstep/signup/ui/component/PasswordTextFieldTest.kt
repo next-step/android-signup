@@ -21,7 +21,7 @@ class PasswordTextFieldTest {
                 password = password.value,
                 onPasswordChange = { input ->
                     password.value = input
-                }
+                }, {}
             )
 
             PasswordConfirmTextField(
@@ -29,7 +29,7 @@ class PasswordTextFieldTest {
                 confirmPassword = passwordConfirm.value,
                 onPasswordChange = { input ->
                     passwordConfirm.value = input
-                }
+                }, {}
             )
         }
     }

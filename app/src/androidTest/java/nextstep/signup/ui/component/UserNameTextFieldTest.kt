@@ -20,7 +20,7 @@ class UserNameTextFieldTest {
                 username = username.value,
                 onNameChange = { input ->
                     username.value = input
-                }
+                }, {}
             )
         }
     }
