@@ -26,6 +26,20 @@ class EmailTextFieldTest {
     }
 
     @Test
+    fun 이메일을_입력하지_않으면_에러메시지가_노출되지_않는다() {
+        // given
+        val inputEmail = ""
+
+        // when
+        email.value = inputEmail
+
+        // then
+        composeTestRule
+            .onNodeWithText(EMAIL_TYPE_ERROR)
+            .assertDoesNotExist()
+    }
+
+    @Test
     fun 이메일_형식이_올바르지_않으면_에러메시지가_노출된다() {
         // given
         val emailList = listOf("thxallgrace", "thxallgrace@github")
