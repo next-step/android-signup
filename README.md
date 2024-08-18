@@ -17,11 +17,11 @@
 
 ### ✅ 구현할 기능 목록
 
+- [ ]  2단계 피드백 반영
+- [x]  에러 메시지 추가
 - [ ]  Username 유효성 검사
 - [ ]  Email 유효성 검사
 - [ ]  Password 유효성 검사
 - [ ]  Password Confirm 유효성 검사
 - [ ]  Password == Password Confirm
-- [ ]  에러 메시지 추가
-- [ ]  2단계 코멘트 반영
 - [ ]  UI 테스트
