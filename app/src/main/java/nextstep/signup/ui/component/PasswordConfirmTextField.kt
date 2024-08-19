@@ -9,6 +9,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
 
@@ -43,7 +45,10 @@ fun PasswordConfirmTextField(
     )
 }
 
-private fun validatePasswordConfirm(password: String, confirm: String): PasswordConfirmValidationResult {
+private fun validatePasswordConfirm(
+    password: String,
+    confirm: String
+): PasswordConfirmValidationResult {
     return when {
         confirm.isEmpty() -> PasswordConfirmValidationResult.Empty
         (password != confirm) -> PasswordConfirmValidationResult.Mismatch
@@ -57,22 +62,21 @@ sealed class PasswordConfirmValidationResult {
     data object Mismatch : PasswordConfirmValidationResult()
 }
 
-@Preview(showBackground = true)
-@Composable
-private fun PasswordConfirmTextFieldPreview() {
-    PasswordConfirmTextField(
-        password = "12345678ab",
-        confirmPassword = "12345678ab",
-        {}, {}
+class PasswordConfirmPreviewParameterProvider : PreviewParameterProvider<Pair<String, String>> {
+    override val values = sequenceOf(
+        "12345678ab" to "12345678ab",
+        "12345678ab" to "12345678ba"
     )
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun PasswordConfirmTextFieldErrorPreview() {
+private fun PasswordConfirmTextFieldPreview(
+    @PreviewParameter(PasswordConfirmPreviewParameterProvider::class) passwordPair: Pair<String, String>
+) {
     PasswordConfirmTextField(
-        password = "12345678ab",
-        confirmPassword = "12345678ba",
+        password = passwordPair.first,
+        confirmPassword = passwordPair.second,
         {}, {}
     )
 }

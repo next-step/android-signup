@@ -9,6 +9,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
 import nextstep.signup.util.ValidationPatterns.EMAIL_REGEX
@@ -57,16 +59,20 @@ sealed class ValidationResult {
     data object InvalidFormat : ValidationResult()
 }
 
-@Preview(showBackground = true)
-@Composable
-private fun EmailTextFieldPreview() {
-    EmailTextField(email = "thxallgrace@gmail.com", {}, {})
+class EmailPreviewParameterProvider : PreviewParameterProvider<String> {
+    override val values = sequenceOf(
+        "thxallgrace@gmail.com",
+        "thxallgrace@gmail",
+        "thxallgrace"
+    )
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun EmailTextFieldErrorPreview() {
-    EmailTextField(email = "thxallgrace@gmail", {}, {})
+private fun EmailTextFieldPreview(
+    @PreviewParameter(EmailPreviewParameterProvider::class) email: String
+) {
+    EmailTextField(email = email, {}, {})
 }
 
 

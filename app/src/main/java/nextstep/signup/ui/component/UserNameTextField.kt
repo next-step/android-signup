@@ -7,6 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
 import nextstep.signup.util.ValidationPatterns.USERNAME_REGEX
@@ -57,14 +59,18 @@ sealed class UserNameValidationResult {
     data object InvalidFormat : UserNameValidationResult()
 }
 
-@Preview(showBackground = true)
-@Composable
-private fun UserNameTextFieldPreview() {
-    UserNameTextField(username = "김은혜", {}, {})
+class UserNamePreviewParameterProvider : PreviewParameterProvider<String> {
+    override val values = sequenceOf(
+        "김은혜",
+        "김은혜!",
+        "김"
+    )
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun UserNameTextFieldErrorPreview() {
-    UserNameTextField(username = "김은혜!", {}, {})
+private fun UserNameTextFieldPreview(
+    @PreviewParameter(UserNamePreviewParameterProvider::class) userName: String
+) {
+    UserNameTextField(username = userName, {}, {})
 }

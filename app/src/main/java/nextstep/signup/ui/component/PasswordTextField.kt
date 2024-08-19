@@ -9,6 +9,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
 import nextstep.signup.util.ValidationPatterns.PASSWORD_REGEX
@@ -59,15 +61,18 @@ sealed class PasswordValidationResult {
     data object InvalidFormat : PasswordValidationResult()
 }
 
-@Preview(showBackground = true)
-@Composable
-private fun PasswordTextFieldPreview() {
-    PasswordTextField(password = "12345678ab", {}, {})
+class PasswordPreviewParameterProvider : PreviewParameterProvider<String> {
+    override val values = sequenceOf(
+        "123",
+        "12345678ab",
+        "12345678"
+    )
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun PasswordTextFieldErrorPreview() {
-    PasswordTextField(password = "12345678", {}, {})
+private fun EmailTextFieldPreview(
+    @PreviewParameter(PasswordPreviewParameterProvider::class) password: String
+) {
+    PasswordTextField(password = password, {}, {})
 }
-
