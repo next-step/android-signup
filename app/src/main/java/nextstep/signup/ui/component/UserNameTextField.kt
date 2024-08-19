@@ -11,6 +11,10 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
+import nextstep.signup.ui.component.PasswordConfirmValidationResult.Empty
+import nextstep.signup.ui.component.PasswordConfirmValidationResult.Mismatch
+import nextstep.signup.ui.component.PasswordConfirmValidationResult.Valid
+import nextstep.signup.ui.component.UserNameValidationResult.Companion.validateUserName
 import nextstep.signup.util.ValidationPatterns.USERNAME_REGEX
 
 @Composable
@@ -43,22 +47,23 @@ fun UserNameTextField(
     )
 }
 
-private fun validateUserName(username: String): UserNameValidationResult {
-    return when {
-        username.isEmpty() -> UserNameValidationResult.Empty
-        username.length !in 2..5 -> UserNameValidationResult.InvalidSize
-        !username.matches(Regex(USERNAME_REGEX)) -> UserNameValidationResult.InvalidFormat
-        else -> UserNameValidationResult.Valid
+enum class UserNameValidationResult {
+    Valid,
+    Empty,
+    InvalidSize,
+    InvalidFormat;
+
+    companion object {
+        fun validateUserName(username: String): UserNameValidationResult {
+            return when {
+                username.isEmpty() -> Empty
+                username.length !in 2..5 -> InvalidSize
+                !username.matches(Regex(USERNAME_REGEX)) -> InvalidFormat
+                else -> Valid
+            }
+        }
     }
 }
-
-sealed class UserNameValidationResult {
-    data object Valid : UserNameValidationResult()
-    data object Empty : UserNameValidationResult()
-    data object InvalidSize : UserNameValidationResult()
-    data object InvalidFormat : UserNameValidationResult()
-}
-
 class UserNamePreviewParameterProvider : PreviewParameterProvider<String> {
     override val values = sequenceOf(
         "김은혜",

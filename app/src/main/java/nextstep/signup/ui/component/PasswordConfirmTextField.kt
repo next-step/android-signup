@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
+import nextstep.signup.ui.component.PasswordConfirmValidationResult.Companion.validatePasswordConfirm
 
 @Composable
 fun PasswordConfirmTextField(
@@ -45,21 +46,20 @@ fun PasswordConfirmTextField(
     )
 }
 
-private fun validatePasswordConfirm(
-    password: String,
-    confirm: String
-): PasswordConfirmValidationResult {
-    return when {
-        confirm.isEmpty() -> PasswordConfirmValidationResult.Empty
-        (password != confirm) -> PasswordConfirmValidationResult.Mismatch
-        else -> PasswordConfirmValidationResult.Valid
-    }
-}
+enum class PasswordConfirmValidationResult {
+    Valid,
+    Empty,
+    Mismatch;
 
-sealed class PasswordConfirmValidationResult {
-    data object Valid : PasswordConfirmValidationResult()
-    data object Empty : PasswordConfirmValidationResult()
-    data object Mismatch : PasswordConfirmValidationResult()
+    companion object {
+        fun validatePasswordConfirm(password: String?, confirmPassword: String?): PasswordConfirmValidationResult {
+            return when {
+                password.isNullOrEmpty() || confirmPassword.isNullOrEmpty() -> Empty
+                password != confirmPassword -> Mismatch
+                else -> Valid
+            }
+        }
+    }
 }
 
 class PasswordConfirmPreviewParameterProvider : PreviewParameterProvider<Pair<String, String>> {

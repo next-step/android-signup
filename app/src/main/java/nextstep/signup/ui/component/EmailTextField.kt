@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
+import nextstep.signup.ui.component.ValidationResult.Companion.validateEmail
 import nextstep.signup.util.ValidationPatterns.EMAIL_REGEX
 
 @Composable
@@ -45,18 +46,20 @@ fun EmailTextField(
     )
 }
 
-private fun validateEmail(email: String): ValidationResult {
-    return when {
-        email.isEmpty() -> ValidationResult.Empty
-        !email.matches(Regex(EMAIL_REGEX)) -> ValidationResult.InvalidFormat
-        else -> ValidationResult.Valid
-    }
-}
+enum class ValidationResult {
+    Valid,
+    Empty,
+    InvalidFormat;
 
-sealed class ValidationResult {
-    data object Valid : ValidationResult()
-    data object Empty : ValidationResult()
-    data object InvalidFormat : ValidationResult()
+    companion object {
+        fun validateEmail(email: String): ValidationResult {
+            return when {
+                email.isEmpty() -> Empty
+                !email.matches(Regex(EMAIL_REGEX)) -> InvalidFormat
+                else -> Valid
+            }
+        }
+    }
 }
 
 class EmailPreviewParameterProvider : PreviewParameterProvider<String> {

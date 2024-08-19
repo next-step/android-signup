@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
+import nextstep.signup.ui.component.PasswordValidationResult.Companion.validatePassword
 import nextstep.signup.util.ValidationPatterns.PASSWORD_REGEX
 
 @Composable
@@ -45,20 +46,22 @@ fun PasswordTextField(
     )
 }
 
-private fun validatePassword(password: String): PasswordValidationResult {
-    return when {
-        password.isEmpty() -> PasswordValidationResult.Empty
-        password.length !in 8..16 ->  PasswordValidationResult.InvalidSize
-        !password.matches(Regex(PASSWORD_REGEX))  -> PasswordValidationResult.InvalidFormat
-        else -> PasswordValidationResult.Valid
-    }
-}
+enum class PasswordValidationResult {
+    Valid,
+    Empty,
+    InvalidSize,
+    InvalidFormat;
 
-sealed class PasswordValidationResult {
-    data object Valid : PasswordValidationResult()
-    data object Empty : PasswordValidationResult()
-    data object InvalidSize : PasswordValidationResult()
-    data object InvalidFormat : PasswordValidationResult()
+    companion object {
+        fun validatePassword(password: String): PasswordValidationResult {
+            return when {
+                password.isEmpty() -> Empty
+                password.length !in 8..16 ->  InvalidSize
+                !password.matches(Regex(PASSWORD_REGEX))  -> InvalidFormat
+                else -> Valid
+            }
+        }
+    }
 }
 
 class PasswordPreviewParameterProvider : PreviewParameterProvider<String> {
