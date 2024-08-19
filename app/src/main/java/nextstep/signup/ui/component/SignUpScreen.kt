@@ -13,7 +13,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -69,17 +68,8 @@ internal fun SignUpScreen(
                 onPasswordChange = onPasswordChange,
                 onPasswordConfirmChange = onPasswordConfirmChange,
                 onClickSignUp = {
-                    if (signUpUserInfo.isAllFieldsValid.not()) {
-                        coroutineScope.launch {
-                            snackbarHostState.showSnackbar(
-                                context.getString(
-                                    R.string.sign_up_message,
-                                    signUpUserInfo.username,
-                                    signUpUserInfo.email,
-                                    signUpUserInfo.password
-                                )
-                            )
-                        }
+                    coroutineScope.launch {
+                        snackbarHostState.showSnackbar(context.getString(R.string.complete_signup))
                     }
                 },
                 modifier = Modifier
@@ -128,102 +118,68 @@ private fun Content(
         verticalArrangement = Arrangement.spacedBy(36.dp)
     ) {
         // Username TextField
-        TextField(
+        NextStepTextField(
             modifier = Modifier.fillMaxWidth(),
             value = signUpUserInfo.username,
             onValueChange = onUsernameChange,
-            label = { Text(text = stringResource(id = R.string.username_label)) },
+            label = stringResource(id = R.string.username_label),
             isError = signUpUserInfo.nameError != NameError.None &&
                     signUpUserInfo.nameError != NameError.Blank,
-            supportingText = {
-                when (signUpUserInfo.nameError) {
-                    NameError.Length -> Text(
-                        text = stringResource(R.string.name_length_error),
-                        style = MaterialTheme.typography.bodySmall
-                    )
-
-                    NameError.NumberOrSymbol -> Text(
-                        text = stringResource(R.string.name_number_or_symbol_error),
-                        style = MaterialTheme.typography.bodySmall
-                    )
-
-                    NameError.None, NameError.Blank -> {}
-                }
+            supportingText = when (signUpUserInfo.nameError) {
+                NameError.Length -> stringResource(R.string.name_length_error)
+                NameError.NumberOrSymbol -> stringResource(R.string.name_number_or_symbol_error)
+                NameError.None, NameError.Blank -> null
             }
         )
 
         // Email TextField
-        TextField(
+        NextStepTextField(
             modifier = Modifier.fillMaxWidth(),
             value = signUpUserInfo.email,
             onValueChange = onEmailChange,
-            label = { Text(text = stringResource(id = R.string.email_label)) },
+            label = stringResource(id = R.string.email_label),
             isError = signUpUserInfo.emailError != EmailError.None &&
                     signUpUserInfo.emailError != EmailError.Blank,
-            supportingText = {
-                when (signUpUserInfo.emailError) {
-                    EmailError.EmailFormat -> Text(
-                        text = stringResource(R.string.email_format_error),
-                        style = MaterialTheme.typography.bodySmall
-                    )
-
-                    EmailError.Blank, EmailError.None -> {}
-                }
+            supportingText = when (signUpUserInfo.emailError) {
+                EmailError.EmailFormat -> stringResource(R.string.email_format_error)
+                EmailError.Blank, EmailError.None -> null
             }
         )
 
         // Password TextField
-        TextField(
+        NextStepTextField(
             modifier = Modifier.fillMaxWidth(),
             value = signUpUserInfo.password,
             onValueChange = onPasswordChange,
-            label = { Text(text = stringResource(id = R.string.password_label)) },
-            visualTransformation = PasswordVisualTransformation(),
+            label = stringResource(id = R.string.password_label),
             isError = signUpUserInfo.passwordError != PasswordError.None &&
                     signUpUserInfo.passwordError != PasswordError.Blank,
-            supportingText = {
-                when (signUpUserInfo.passwordError) {
-                    PasswordError.PasswordLength -> Text(
-                        text = stringResource(R.string.password_length_error),
-                        style = MaterialTheme.typography.bodySmall
-                    )
-
-                    PasswordError.PasswordFormat -> Text(
-                        text = stringResource(R.string.password_format_error),
-                        style = MaterialTheme.typography.bodySmall
-                    )
-
-                    PasswordError.Blank, PasswordError.None -> {}
-                }
-            }
+            supportingText = when (signUpUserInfo.passwordError) {
+                PasswordError.PasswordLength -> stringResource(R.string.password_length_error)
+                PasswordError.PasswordFormat -> stringResource(R.string.password_format_error)
+                PasswordError.Blank, PasswordError.None -> null
+            },
+            visualTransformation = PasswordVisualTransformation()
         )
 
         // Password Confirm TextField
-        TextField(
+        NextStepTextField(
             modifier = Modifier.fillMaxWidth(),
             value = signUpUserInfo.passwordConfirm,
             onValueChange = onPasswordConfirmChange,
-            label = { Text(text = stringResource(id = R.string.password_confirm_label)) },
-            visualTransformation = PasswordVisualTransformation(),
+            label = stringResource(id = R.string.password_confirm_label),
             isError = signUpUserInfo.passwordConfirmError != PasswordConfirmError.None &&
                     signUpUserInfo.passwordConfirmError != PasswordConfirmError.Blank,
-            supportingText = {
-                when (signUpUserInfo.passwordConfirmError) {
-                    PasswordConfirmError.PasswordEqual -> {
-                        Text(
-                            text = stringResource(R.string.password_confirm_error),
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                    }
-
-                    PasswordConfirmError.Blank, PasswordConfirmError.None -> {}
-                }
-            }
+            supportingText = when (signUpUserInfo.passwordConfirmError) {
+                PasswordConfirmError.PasswordEqual -> stringResource(R.string.password_confirm_error)
+                PasswordConfirmError.Blank, PasswordConfirmError.None -> null
+            },
+            visualTransformation = PasswordVisualTransformation()
         )
 
         Button(
             modifier = Modifier.fillMaxWidth(),
-            enabled = signUpUserInfo.isNotContainBlank,
+            enabled = signUpUserInfo.isAllFieldsValid,
             onClick = onClickSignUp,
             contentPadding = PaddingValues(vertical = 15.dp)
         ) {
@@ -243,7 +199,14 @@ private fun BottomBar() {
 @Preview
 @Composable
 private fun SignUpScreenPreview() {
-    var signUpUserInfo by remember { mutableStateOf(SignUpUserInfo(username = "dddddd")) }
+    var signUpUserInfo by remember {
+        mutableStateOf(
+            SignUpUserInfo(
+                username = "dddddd",
+                password = "short"
+            )
+        )
+    }
     SignupTheme {
         SignUpScreen(
             signUpUserInfo = signUpUserInfo,
