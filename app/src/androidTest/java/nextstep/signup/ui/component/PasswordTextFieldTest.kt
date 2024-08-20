@@ -12,24 +12,24 @@ class PasswordTextFieldTest {
     @get:Rule
     val composeTestRule = createComposeRule()
     private val password = mutableStateOf("")
+    private val passwordValidationResult = mutableStateOf(PasswordValidationResult.Valid)
+
     private val passwordConfirm = mutableStateOf("")
+    private val confirmPasswordValidationResult = mutableStateOf(ConfirmPasswordValidationResult.Valid)
 
     @Before
     fun setup() {
         composeTestRule.setContent {
             PasswordTextField(
                 password = password.value,
-                onPasswordChange = { input ->
-                    password.value = input
-                }, {}
+                onPasswordChange = { password.value = it },
+                validationResult = passwordValidationResult.value
             )
 
             PasswordConfirmTextField(
-                password = password.value,
                 confirmPassword = passwordConfirm.value,
-                onPasswordChange = { input ->
-                    passwordConfirm.value = input
-                }, {}
+                onPasswordChange = { passwordConfirm.value = it },
+                validationResult = confirmPasswordValidationResult.value
             )
         }
     }
@@ -42,6 +42,7 @@ class PasswordTextFieldTest {
         passwordList.forEach {
             // when
             password.value = it
+            passwordValidationResult.value = PasswordValidationResult.Valid
 
             // then
             composeTestRule
@@ -57,6 +58,7 @@ class PasswordTextFieldTest {
 
         // when
         password.value = inputPassword
+        passwordValidationResult.value = PasswordValidationResult.InvalidSize
 
         // then
         composeTestRule
@@ -73,6 +75,7 @@ class PasswordTextFieldTest {
 
             // when
             password.value = it
+            passwordValidationResult.value = PasswordValidationResult.InvalidFormat
 
             // then
             composeTestRule
@@ -90,6 +93,7 @@ class PasswordTextFieldTest {
         // when
         password.value = inputPassword
         passwordConfirm.value = inputPasswordConfirm
+        confirmPasswordValidationResult.value = ConfirmPasswordValidationResult.Mismatch
 
         // then
         composeTestRule

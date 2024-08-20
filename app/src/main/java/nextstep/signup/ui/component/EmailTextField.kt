@@ -3,7 +3,6 @@ package nextstep.signup.ui.component
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -13,25 +12,18 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
-import nextstep.signup.ui.component.ValidationResult.Companion.validateEmail
 import nextstep.signup.util.ValidationPatterns.EMAIL_REGEX
 
 @Composable
 fun EmailTextField(
     email: String,
     onEmailChange: (String) -> Unit,
-    onValidationStateChanged: (Boolean) -> Unit
+    validationResult: EmailValidationResult
 ) {
-
-    val validationResult = validateEmail(email)
     val errorMessage = when (validationResult) {
-        ValidationResult.Empty -> ""
-        ValidationResult.InvalidFormat -> stringResource(id = R.string.sign_up_email_error)
+        EmailValidationResult.Empty -> ""
+        EmailValidationResult.InvalidFormat -> stringResource(id = R.string.sign_up_email_error)
         else -> ""
-    }
-
-    LaunchedEffect(key1 = email, key2 = errorMessage) {
-        onValidationStateChanged(email.isNotBlank() && errorMessage.isBlank())
     }
 
     InputTextField(
@@ -46,13 +38,13 @@ fun EmailTextField(
     )
 }
 
-enum class ValidationResult {
+enum class EmailValidationResult {
     Valid,
     Empty,
     InvalidFormat;
 
     companion object {
-        fun validateEmail(email: String): ValidationResult {
+        fun validateEmail(email: String): EmailValidationResult {
             return when {
                 email.isEmpty() -> Empty
                 !email.matches(Regex(EMAIL_REGEX)) -> InvalidFormat
@@ -62,20 +54,26 @@ enum class ValidationResult {
     }
 }
 
-class EmailPreviewParameterProvider : PreviewParameterProvider<String> {
-    override val values = sequenceOf(
-        "thxallgrace@gmail.com",
-        "thxallgrace@gmail",
-        "thxallgrace"
+class EmailPreviewParameterProvider :
+    PreviewParameterProvider<Pair<String, EmailValidationResult>> {
+    override val values: Sequence<Pair<String, EmailValidationResult>> = sequenceOf(
+        "thxallgrace@gmail.com" to EmailValidationResult.Valid,
+        "thxallgrace@gmail" to EmailValidationResult.InvalidFormat,
+        "thxallgrace" to EmailValidationResult.InvalidFormat
     )
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun EmailTextFieldPreview(
-    @PreviewParameter(EmailPreviewParameterProvider::class) email: String
+    @PreviewParameter(EmailPreviewParameterProvider::class)
+    parameter: Pair<String, EmailValidationResult>,
 ) {
-    EmailTextField(email = email, {}, {})
+    EmailTextField(
+        email = parameter.first,
+        onEmailChange = {},
+        validationResult = parameter.second
+    )
 }
 
 

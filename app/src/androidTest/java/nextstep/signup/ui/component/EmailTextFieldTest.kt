@@ -12,15 +12,15 @@ class EmailTextFieldTest {
     @get:Rule
     val composeTestRule = createComposeRule()
     private val email = mutableStateOf("")
+    private val validationResult = mutableStateOf(EmailValidationResult.Valid)
 
     @Before
     fun setup() {
         composeTestRule.setContent {
             EmailTextField(
                 email = email.value,
-                onEmailChange = { input ->
-                    email.value = input
-                }, {}
+                onEmailChange = { email.value = it },
+                validationResult = validationResult.value
             )
         }
     }
@@ -32,6 +32,7 @@ class EmailTextFieldTest {
 
         // when
         email.value = inputEmail
+        validationResult.value = EmailValidationResult.Valid
 
         // then
         composeTestRule
@@ -47,6 +48,7 @@ class EmailTextFieldTest {
         emailList.forEach {
             // when
             email.value = it
+            validationResult.value = EmailValidationResult.InvalidFormat
 
             // then
             composeTestRule

@@ -26,11 +26,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import nextstep.signup.R
+import nextstep.signup.ui.component.ConfirmPasswordValidationResult
+import nextstep.signup.ui.component.ConfirmPasswordValidationResult.Companion.validateConfirmPassword
 import nextstep.signup.ui.component.EmailTextField
+import nextstep.signup.ui.component.EmailValidationResult
+import nextstep.signup.ui.component.EmailValidationResult.Companion.validateEmail
 import nextstep.signup.ui.component.PasswordConfirmTextField
 import nextstep.signup.ui.component.PasswordTextField
+import nextstep.signup.ui.component.PasswordValidationResult
+import nextstep.signup.ui.component.PasswordValidationResult.Companion.validatePassword
 import nextstep.signup.ui.component.SignUpButton
 import nextstep.signup.ui.component.UserNameTextField
+import nextstep.signup.ui.component.UserNameValidationResult
+import nextstep.signup.ui.component.UserNameValidationResult.Companion.validateUserName
 
 
 @Composable
@@ -52,38 +60,47 @@ fun SignUpScreen() {
                 var password by remember { mutableStateOf("") }
                 var passwordConfirm by remember { mutableStateOf("") }
 
-                var isUsernameValid by remember { mutableStateOf(false) }
-                var isEmailValid by remember { mutableStateOf(false) }
-                var isPasswordValid by remember { mutableStateOf(false) }
-                var isPasswordConfirmValid by remember { mutableStateOf(false) }
+                val userNameValidationResult = validateUserName(username)
+                val isUsernameValid  = remember(username) {
+                    userNameValidationResult == UserNameValidationResult.Valid
+                }
+                val emailValidationResult = validateEmail(email)
+                val isEmailValid  = remember(email) {
+                    emailValidationResult == EmailValidationResult.Valid
+                }
+                val passwordValidationResult = validatePassword(password)
+                val isPasswordValid = remember(password) {
+                    passwordValidationResult == PasswordValidationResult.Valid
+                }
+                val confirmPasswordValidationResult = validateConfirmPassword(password, passwordConfirm)
+                val isPasswordConfirmValid = remember(password, passwordConfirm) {
+                    confirmPasswordValidationResult == ConfirmPasswordValidationResult.Valid
+                }
 
-                val isButtonValid by remember {
-                    derivedStateOf {
-                        isUsernameValid && isEmailValid && isPasswordValid && isPasswordConfirmValid
-                    }
+                val isButtonValid = remember(isUsernameValid, isEmailValid, isPasswordValid, isPasswordConfirmValid) {
+                    isUsernameValid && isEmailValid && isPasswordValid && isPasswordConfirmValid
                 }
 
                 WelcomeTitle()
                 UserNameTextField(
                     username = username,
                     onNameChange = { username = it },
-                    onValidationStateChanged = { isUsernameValid = it }
+                    validationResult = userNameValidationResult
                 )
                 EmailTextField(
                     email = email,
                     onEmailChange = { email = it },
-                    onValidationStateChanged = { isEmailValid = it }
+                    validationResult = emailValidationResult
                 )
                 PasswordTextField(
                     password = password,
                     onPasswordChange = { password = it },
-                    onValidationStateChanged = { isPasswordValid = it }
+                    validationResult = passwordValidationResult
                 )
                 PasswordConfirmTextField(
-                    password = password,
                     confirmPassword = passwordConfirm,
                     onPasswordChange = { passwordConfirm = it },
-                    onValidationStateChanged = { isPasswordConfirmValid = it }
+                    validationResult = confirmPasswordValidationResult
                 )
                 SignUpButton(
                     onClicked = {

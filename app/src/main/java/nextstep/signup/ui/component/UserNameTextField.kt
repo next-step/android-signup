@@ -11,29 +11,20 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
-import nextstep.signup.ui.component.PasswordConfirmValidationResult.Empty
-import nextstep.signup.ui.component.PasswordConfirmValidationResult.Mismatch
-import nextstep.signup.ui.component.PasswordConfirmValidationResult.Valid
-import nextstep.signup.ui.component.UserNameValidationResult.Companion.validateUserName
 import nextstep.signup.util.ValidationPatterns.USERNAME_REGEX
 
 @Composable
 fun UserNameTextField(
     username: String,
     onNameChange: (String) -> Unit,
-    onValidationStateChanged: (Boolean) -> Unit
+    validationResult: UserNameValidationResult
 ) {
 
-    val validationResult = validateUserName(username)
     val errorMessage = when (validationResult) {
         UserNameValidationResult.Empty -> ""
         UserNameValidationResult.InvalidSize -> stringResource(id = R.string.sign_up_username_size_error)
         UserNameValidationResult.InvalidFormat -> stringResource(id = R.string.sign_up_username_format_error)
         else -> ""
-    }
-
-    LaunchedEffect(key1 = username, key2 = errorMessage) {
-        onValidationStateChanged(username.isNotBlank() && errorMessage.isBlank())
     }
 
     InputTextField(
@@ -64,18 +55,25 @@ enum class UserNameValidationResult {
         }
     }
 }
-class UserNamePreviewParameterProvider : PreviewParameterProvider<String> {
-    override val values = sequenceOf(
-        "김은혜",
-        "김은혜!",
-        "김"
+
+class UserNamePreviewParameterProvider :
+    PreviewParameterProvider<Pair<String, UserNameValidationResult>> {
+    override val values: Sequence<Pair<String, UserNameValidationResult>> = sequenceOf(
+        "김은혜" to UserNameValidationResult.Valid,
+        "김은혜!" to UserNameValidationResult.InvalidFormat,
+        "김" to UserNameValidationResult.InvalidSize
     )
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun UserNameTextFieldPreview(
-    @PreviewParameter(UserNamePreviewParameterProvider::class) userName: String
+    @PreviewParameter(UserNamePreviewParameterProvider::class)
+    parameter: Pair<String, UserNameValidationResult>,
 ) {
-    UserNameTextField(username = userName, {}, {})
+    UserNameTextField(
+        username = parameter.first,
+        onNameChange = {},
+        validationResult = parameter.second
+    )
 }

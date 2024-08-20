@@ -3,7 +3,6 @@ package nextstep.signup.ui.component
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -13,25 +12,19 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
-import nextstep.signup.ui.component.PasswordValidationResult.Companion.validatePassword
 import nextstep.signup.util.ValidationPatterns.PASSWORD_REGEX
 
 @Composable
 fun PasswordTextField(
     password: String,
     onPasswordChange: (String) -> Unit,
-    onValidationStateChanged: (Boolean) -> Unit
+    validationResult: PasswordValidationResult
 ) {
-    val validationResult = validatePassword(password)
     val errorMessage = when (validationResult) {
         PasswordValidationResult.Empty -> ""
         PasswordValidationResult.InvalidSize -> stringResource(id = R.string.sign_up_password_size_error)
         PasswordValidationResult.InvalidFormat -> stringResource(id = R.string.sign_up_password_format_error)
         else -> ""
-    }
-
-    LaunchedEffect(key1 = password, key2 = errorMessage) {
-        onValidationStateChanged(password.isNotBlank() && errorMessage.isBlank())
     }
 
     InputTextField(
@@ -56,26 +49,32 @@ enum class PasswordValidationResult {
         fun validatePassword(password: String): PasswordValidationResult {
             return when {
                 password.isEmpty() -> Empty
-                password.length !in 8..16 ->  InvalidSize
-                !password.matches(Regex(PASSWORD_REGEX))  -> InvalidFormat
+                password.length !in 8..16 -> InvalidSize
+                !password.matches(Regex(PASSWORD_REGEX)) -> InvalidFormat
                 else -> Valid
             }
         }
     }
 }
 
-class PasswordPreviewParameterProvider : PreviewParameterProvider<String> {
-    override val values = sequenceOf(
-        "123",
-        "12345678ab",
-        "12345678"
+class PasswordPreviewParameterProvider :
+    PreviewParameterProvider<Pair<String, PasswordValidationResult>> {
+    override val values: Sequence<Pair<String, PasswordValidationResult>> = sequenceOf(
+        "123" to PasswordValidationResult.InvalidSize,
+        "12345678ab" to PasswordValidationResult.Valid,
+        "12345678" to PasswordValidationResult.InvalidFormat,
     )
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun EmailTextFieldPreview(
-    @PreviewParameter(PasswordPreviewParameterProvider::class) password: String
+    @PreviewParameter(PasswordPreviewParameterProvider::class)
+    parameter: Pair<String, PasswordValidationResult>,
 ) {
-    PasswordTextField(password = password, {}, {})
+    PasswordTextField(
+        password = parameter.first,
+        onPasswordChange = {},
+        validationResult = parameter.second
+    )
 }

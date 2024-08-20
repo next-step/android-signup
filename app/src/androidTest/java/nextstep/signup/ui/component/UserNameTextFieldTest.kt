@@ -12,15 +12,15 @@ class UserNameTextFieldTest {
     @get:Rule
     val composeTestRule = createComposeRule()
     private val username = mutableStateOf("")
+    private val validationResult = mutableStateOf(UserNameValidationResult.Valid)
 
     @Before
     fun setup() {
         composeTestRule.setContent {
             UserNameTextField(
                 username = username.value,
-                onNameChange = { input ->
-                    username.value = input
-                }, {}
+                onNameChange = { username.value = it },
+                validationResult = validationResult.value
             )
         }
     }
@@ -33,6 +33,7 @@ class UserNameTextFieldTest {
         userNameList.forEach {
             // when
             username.value = it
+            validationResult.value = UserNameValidationResult.Valid
 
             // then
             composeTestRule
@@ -49,6 +50,7 @@ class UserNameTextFieldTest {
         userNameList.forEach {
             // when
             username.value = it
+            validationResult.value = UserNameValidationResult.InvalidSize
 
             // then
             composeTestRule
@@ -64,6 +66,7 @@ class UserNameTextFieldTest {
 
         // when
         username.value = inputUserName
+        validationResult.value = UserNameValidationResult.InvalidFormat
 
         // then
         composeTestRule

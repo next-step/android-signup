@@ -3,7 +3,6 @@ package nextstep.signup.ui.component
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -13,25 +12,18 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
-import nextstep.signup.ui.component.PasswordConfirmValidationResult.Companion.validatePasswordConfirm
 
 @Composable
 fun PasswordConfirmTextField(
-    password: String,
     confirmPassword: String,
     onPasswordChange: (String) -> Unit,
-    onValidationStateChanged: (Boolean) -> Unit
+    validationResult: ConfirmPasswordValidationResult
 ) {
 
-    val validationResult = validatePasswordConfirm(password, confirmPassword)
     val errorMessage = when (validationResult) {
-        PasswordConfirmValidationResult.Empty -> ""
-        PasswordConfirmValidationResult.Mismatch -> stringResource(id = R.string.sign_up_password_mismatch_error)
+        ConfirmPasswordValidationResult.Empty -> ""
+        ConfirmPasswordValidationResult.Mismatch -> stringResource(id = R.string.sign_up_password_mismatch_error)
         else -> ""
-    }
-
-    LaunchedEffect(key1 = confirmPassword, key2 = errorMessage) {
-        onValidationStateChanged(confirmPassword.isNotBlank() && errorMessage.isBlank())
     }
 
     InputTextField(
@@ -46,13 +38,16 @@ fun PasswordConfirmTextField(
     )
 }
 
-enum class PasswordConfirmValidationResult {
+enum class ConfirmPasswordValidationResult {
     Valid,
     Empty,
     Mismatch;
 
     companion object {
-        fun validatePasswordConfirm(password: String?, confirmPassword: String?): PasswordConfirmValidationResult {
+        fun validateConfirmPassword(
+            password: String?,
+            confirmPassword: String?
+        ): ConfirmPasswordValidationResult {
             return when {
                 password.isNullOrEmpty() || confirmPassword.isNullOrEmpty() -> Empty
                 password != confirmPassword -> Mismatch
@@ -62,21 +57,23 @@ enum class PasswordConfirmValidationResult {
     }
 }
 
-class PasswordConfirmPreviewParameterProvider : PreviewParameterProvider<Pair<String, String>> {
+class PasswordConfirmPreviewParameterProvider :
+    PreviewParameterProvider<Pair<String, ConfirmPasswordValidationResult>> {
     override val values = sequenceOf(
-        "12345678ab" to "12345678ab",
-        "12345678ab" to "12345678ba"
+        "12345678ab" to ConfirmPasswordValidationResult.Valid,
+        "12345678ab" to ConfirmPasswordValidationResult.Mismatch
     )
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun PasswordConfirmTextFieldPreview(
-    @PreviewParameter(PasswordConfirmPreviewParameterProvider::class) passwordPair: Pair<String, String>
+    @PreviewParameter(PasswordConfirmPreviewParameterProvider::class)
+    parameter: Pair<String, ConfirmPasswordValidationResult>,
 ) {
     PasswordConfirmTextField(
-        password = passwordPair.first,
-        confirmPassword = passwordPair.second,
-        {}, {}
+        confirmPassword = parameter.first,
+        onPasswordChange = {},
+        validationResult = parameter.second
     )
 }
