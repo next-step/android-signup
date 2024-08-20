@@ -12,15 +12,15 @@ class UserNameTextFieldTest {
     @get:Rule
     val composeTestRule = createComposeRule()
     private val username = mutableStateOf("")
+    private val validationResult = mutableStateOf(UserNameValidationResult.Valid)
 
     @Before
     fun setup() {
         composeTestRule.setContent {
             UserNameTextField(
                 username = username.value,
-                onNameChange = { input ->
-                    username.value = input
-                }
+                onNameChange = { username.value = it },
+                validationResult = validationResult.value
             )
         }
     }
@@ -33,6 +33,7 @@ class UserNameTextFieldTest {
         userNameList.forEach {
             // when
             username.value = it
+            validationResult.value = UserNameValidationResult.Valid
 
             // then
             composeTestRule
@@ -49,6 +50,7 @@ class UserNameTextFieldTest {
         userNameList.forEach {
             // when
             username.value = it
+            validationResult.value = UserNameValidationResult.InvalidSize
 
             // then
             composeTestRule
@@ -64,20 +66,7 @@ class UserNameTextFieldTest {
 
         // when
         username.value = inputUserName
-
-        // then
-        composeTestRule
-            .onNodeWithText(USERNAME_INVALID_CHARACTER_ERROR)
-            .assertExists()
-    }
-
-    @Test
-    fun 이메일_형식이_올바르지_않으면_에러메시지가_노출된다() {
-        // given
-        val inputEmail = "김은혜!"
-
-        // when
-        username.value = inputEmail
+        validationResult.value = UserNameValidationResult.InvalidFormat
 
         // then
         composeTestRule
@@ -88,9 +77,5 @@ class UserNameTextFieldTest {
     companion object {
         private const val USERNAME_LENGTH_ERROR = "이름은 2~5자여야 합니다."
         private const val USERNAME_INVALID_CHARACTER_ERROR = "이름에는 숫자나 기호가 포함될 수 없습니다."
-        private const val EMAIL_TYPE_ERROR = "이메일 형식이 올바르지 않습니다."
-        private const val PASSWORD_LENGTH_ERROR = "비밀번호는 8~16자여야 합니다."
-        private const val PASSWORD_FORMAT_ERROR = "비밀번호는 영문과 숫자를 포함해야 합니다."
-        private const val PASSWORD_MISMATCH_ERROR = "비밀번호가 일치하지 않습니다."
     }
 }

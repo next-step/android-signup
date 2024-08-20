@@ -12,17 +12,32 @@ class EmailTextFieldTest {
     @get:Rule
     val composeTestRule = createComposeRule()
     private val email = mutableStateOf("")
+    private val validationResult = mutableStateOf(EmailValidationResult.Valid)
 
     @Before
     fun setup() {
         composeTestRule.setContent {
             EmailTextField(
                 email = email.value,
-                onEmailChange = { input ->
-                    email.value = input
-                }
+                onEmailChange = { email.value = it },
+                validationResult = validationResult.value
             )
         }
+    }
+
+    @Test
+    fun 이메일을_입력하지_않으면_에러메시지가_노출되지_않는다() {
+        // given
+        val inputEmail = ""
+
+        // when
+        email.value = inputEmail
+        validationResult.value = EmailValidationResult.Valid
+
+        // then
+        composeTestRule
+            .onNodeWithText(EMAIL_TYPE_ERROR)
+            .assertDoesNotExist()
     }
 
     @Test
@@ -33,6 +48,7 @@ class EmailTextFieldTest {
         emailList.forEach {
             // when
             email.value = it
+            validationResult.value = EmailValidationResult.InvalidFormat
 
             // then
             composeTestRule

@@ -14,3 +14,6 @@ val Blue50 = Color(0xFF2196F3)
 val BlueGrey20 = Color(0xFFE3E8F1)
 
 val ErrorRed = Color(0xFFB3261E)
+
+val DisableButton = Color(0x1F1D1B20)
+val DisableButtonText = Color(0x611D1B20)
