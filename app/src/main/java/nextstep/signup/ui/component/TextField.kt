@@ -43,17 +43,10 @@ fun TextField(
                 .alignByBaseline()
                 .weight(1.0F),
             singleLine = true,
-            visualTransformation = if (label == R.string.signup_password || label == R.string.signup_password_confirm) PasswordVisualTransformation() else VisualTransformation.None,
+            visualTransformation = setPasswordVisualTransformation(label),
             keyboardOptions = KeyboardOptions(
                 autoCorrect = false,
-                keyboardType = when (label) {
-                    R.string.signup_username -> KeyboardType.Text
-                    R.string.signup_email -> KeyboardType.Email
-                    R.string.signup_password,
-                    R.string.signup_password_confirm -> KeyboardType.Password
-
-                    else -> KeyboardType.Text
-                }
+                keyboardType = setKeyboardType(label)
             ),
             keyboardActions = KeyboardActions(
                 onDone = {
@@ -63,6 +56,21 @@ fun TextField(
                 }
             )
         )
+    }
+}
+
+private fun setPasswordVisualTransformation(label: Int): VisualTransformation {
+    return if (label == R.string.signup_password || label == R.string.signup_password_confirm) PasswordVisualTransformation() else VisualTransformation.None
+}
+
+private fun setKeyboardType(label: Int): KeyboardType {
+    return when (label) {
+        R.string.signup_username -> KeyboardType.Text
+        R.string.signup_email -> KeyboardType.Email
+        R.string.signup_password,
+        R.string.signup_password_confirm -> KeyboardType.Password
+
+        else -> KeyboardType.Text
     }
 }
 
