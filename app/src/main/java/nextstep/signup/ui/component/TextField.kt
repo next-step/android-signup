@@ -1,6 +1,6 @@
 package nextstep.signup.ui.component
 
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -28,35 +28,34 @@ fun TextField(
     input: MutableState<String>,
     inputEntered: MutableState<Boolean>
 ) {
-    Row(modifier = Modifier.padding(bottom = 32.dp)) {
-        val focusManager = LocalFocusManager.current
+    val focusManager = LocalFocusManager.current
 
-        TextField(
-            value = input.value,
-            onValueChange = {
-                input.value = it
-            },
-            label = {
-                Text(text = stringResource(id = label))
-            },
-            modifier = Modifier
-                .alignByBaseline()
-                .weight(1.0F),
-            singleLine = true,
-            visualTransformation = setPasswordVisualTransformation(label),
-            keyboardOptions = KeyboardOptions(
-                autoCorrect = false,
-                keyboardType = setKeyboardType(label)
-            ),
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    inputEntered.value = true
-                    if (label == R.string.signup_password_confirm) focusManager.clearFocus()
-                    else focusManager.moveFocus(FocusDirection.Next)
-                }
-            )
+    TextField(
+        value = input.value,
+        onValueChange = {
+            input.value = it
+        },
+        label = {
+            Text(text = stringResource(id = label))
+        },
+        modifier = Modifier
+            .fillMaxWidth(1.0F)
+            .padding(bottom = 32.dp),
+        singleLine = true,
+        visualTransformation = setPasswordVisualTransformation(label),
+        keyboardOptions = KeyboardOptions(
+            autoCorrect = false,
+            keyboardType = setKeyboardType(label)
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                inputEntered.value = true
+                if (label == R.string.signup_password_confirm) focusManager.clearFocus()
+                else focusManager.moveFocus(FocusDirection.Next)
+            }
         )
-    }
+    )
+
 }
 
 private fun setPasswordVisualTransformation(label: Int): VisualTransformation {
