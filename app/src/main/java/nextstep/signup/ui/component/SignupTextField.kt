@@ -7,7 +7,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -23,17 +22,19 @@ import nextstep.signup.R
 import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
-fun TextField(
+fun SignupTextField(
     label: Int,
-    input: MutableState<String>,
-    inputEntered: MutableState<Boolean>
+    input: String,
+    onInputChanged: (String) -> Unit,
+    inputEntered: (Boolean) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
 
     TextField(
-        value = input.value,
+        value = input,
         onValueChange = {
-            input.value = it
+            onInputChanged(it)
+            inputEntered(it.isNotEmpty())
         },
         label = {
             Text(text = stringResource(id = label))
@@ -49,7 +50,7 @@ fun TextField(
         ),
         keyboardActions = KeyboardActions(
             onDone = {
-                inputEntered.value = true
+                inputEntered(true)
                 if (label == R.string.signup_password_confirm) focusManager.clearFocus()
                 else focusManager.moveFocus(FocusDirection.Next)
             }
@@ -80,10 +81,15 @@ fun TextFieldPreview() {
     val inputEntered = remember { mutableStateOf(false) }
 
     SignupTheme {
-        TextField(
+        SignupTextField(
             label = R.string.signup_username,
-            input = input,
-            inputEntered = inputEntered
+            input = input.value,
+            onInputChanged = {
+                input.value = it
+            },
+            inputEntered = {
+                inputEntered.value = it
+            }
         )
     }
 }

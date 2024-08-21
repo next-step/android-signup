@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
 import nextstep.signup.ui.component.SignupButton
-import nextstep.signup.ui.component.TextField
+import nextstep.signup.ui.component.SignupTextField
 import nextstep.signup.ui.component.TitleText
 
 @Composable
@@ -50,25 +50,45 @@ fun SignupScreen() {
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             TitleText()
-            TextField(
+            SignupTextField(
                 label = R.string.signup_username,
-                input = name,
-                inputEntered = nameEntered
+                input = name.value,
+                onInputChanged = {
+                    name.value = it
+                },
+                inputEntered = {
+                    nameEntered.value = it
+                }
             )
-            TextField(
+            SignupTextField(
                 label = R.string.signup_email,
-                input = email,
-                inputEntered = emailEntered
+                input = email.value,
+                onInputChanged = {
+                    email.value = it
+                },
+                inputEntered = {
+                    emailEntered.value = it
+                }
             )
-            TextField(
+            SignupTextField(
                 label = R.string.signup_password,
-                input = password,
-                inputEntered = passwordEntered
+                input = password.value,
+                onInputChanged = {
+                    password.value = it
+                },
+                inputEntered = {
+                    passwordEntered.value = it
+                }
             )
-            TextField(
+            SignupTextField(
                 label = R.string.signup_password_confirm,
-                input = passwordConfirm,
-                inputEntered = passwordConfirmEntered
+                input = passwordConfirm.value,
+                onInputChanged = {
+                    passwordConfirm.value = it
+                },
+                inputEntered = {
+                    passwordConfirmEntered.value = it
+                }
             )
             SignupButton()
         }
