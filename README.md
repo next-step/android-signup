@@ -30,3 +30,11 @@
 2. Sign Up Button 활/비활성화 구현
 3. 회원가입 완료 스낵바 구현
 4. 리팩터링
+
+## STEP-4-2
+1. Validator 단위 테스트 추가
+2. 화면 회전과 LaunchedEffect를 이용한 스낵바 노출 고민
+3. passwordConfirmValidationResult 와 derivedStateOf, remember 키 고민
+4. SignUpScreen Preview
+5. ValidationErrorText 재고
+6. TextButton enabled UI 테스트
