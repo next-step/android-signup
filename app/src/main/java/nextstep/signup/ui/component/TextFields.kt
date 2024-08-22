@@ -21,13 +21,6 @@ import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.ErrorTextColor
 import nextstep.signup.ui.theme.keyboardTextNextType
 
-const val USERNAME_REGEX = "^[a-zA-Z가-힣]+$"
-const val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
-const val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$"
-
-// usage
-//text.matches(Regex(USERNAME_REGEX))
-
 data class SignUpTextFieldState(
     val label: String = "",
     val text: String = "",
