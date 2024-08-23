@@ -31,6 +31,7 @@ import nextstep.signup.R
 import nextstep.signup.component.EmailTextField
 import nextstep.signup.component.PasswordConfirmTextField
 import nextstep.signup.component.PasswordTextField
+import nextstep.signup.component.SignUpButton
 import nextstep.signup.component.UserNameTextField
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.Gray10
@@ -182,24 +183,14 @@ fun SignUpScreen(
             validationResult = passwordConfirmValidationResult,
             onValueChange = setPasswordConfirm,
         )
-        TextButton(
+        SignUpButton(
             modifier = Modifier
                 .padding(top = 6.dp)
                 .fillMaxWidth()
                 .height(50.dp),
-            colors = ButtonDefaults.textButtonColors(
-                containerColor = Blue50,
-                contentColor = Color.White,
-                disabledContainerColor = Gray10.copy(alpha = 0.12f),
-                disabledContentColor = Gray10
-            ),
-            enabled = enabledSignUpButton,
-            onClick = onClickButton
-        ) {
-            Text(
-                text = stringResource(id = R.string.sign_up_button)
-            )
-        }
+            enabledSignUpButton = enabledSignUpButton,
+            onClickButton = onClickButton
+        )
     }
 
 }
