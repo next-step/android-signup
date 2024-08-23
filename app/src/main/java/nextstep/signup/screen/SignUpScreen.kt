@@ -19,7 +19,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,7 +27,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.launch
 import nextstep.signup.R
 import nextstep.signup.component.EmailTextField
 import nextstep.signup.component.PasswordConfirmTextField
@@ -57,19 +55,19 @@ fun SignUpScreen(
     var passwordConfirm by remember { mutableStateOf("") }
     var signUpstate by remember { mutableStateOf(SignUpState.Pending) }
 
-    val userNameValidationResult by remember(userName) {
+    val userNameValidationResult by remember {
         derivedStateOf { Validator.userNameValidate(userName) }
     }
 
-    val emailValidationResult by remember(email) {
+    val emailValidationResult by remember {
         derivedStateOf { Validator.emailValidate(email) }
     }
 
-    val passwordValidationResult by remember(password) {
+    val passwordValidationResult by remember {
         derivedStateOf { Validator.passwordValidate(password) }
     }
 
-    val passwordConfirmValidationResult by remember(passwordConfirm, password) {
+    val passwordConfirmValidationResult by remember {
         derivedStateOf {
             Validator.passwordConfirmValidate(
                 password = password,
@@ -86,14 +84,14 @@ fun SignUpScreen(
     ) {
         derivedStateOf {
             userNameValidationResult is ValidationResult.Success &&
-            emailValidationResult is ValidationResult.Success &&
-            passwordValidationResult is ValidationResult.Success &&
-            passwordConfirmValidationResult is ValidationResult.Success
+                    emailValidationResult is ValidationResult.Success &&
+                    passwordValidationResult is ValidationResult.Success &&
+                    passwordConfirmValidationResult is ValidationResult.Success
         }
     }
 
     LaunchedEffect(signUpstate) {
-        if(signUpstate == SignUpState.Success){
+        if (signUpstate == SignUpState.Success) {
             snackBarHostState.showSnackbar(
                 context.getString(R.string.sign_up_success)
             )
