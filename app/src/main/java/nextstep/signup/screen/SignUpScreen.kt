@@ -49,11 +49,20 @@ fun SignUpScreen(
     val context = LocalContext.current
     val snackBarHostState = remember { SnackbarHostState() }
 
+    var signUpstate by remember { mutableStateOf(SignUpState.Pending) }
+
+    LaunchedEffect(signUpstate) {
+        if (signUpstate == SignUpState.Success) {
+            snackBarHostState.showSnackbar(
+                context.getString(R.string.sign_up_success)
+            )
+        }
+    }
+
     var userName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordConfirm by remember { mutableStateOf("") }
-    var signUpstate by remember { mutableStateOf(SignUpState.Pending) }
 
     val userNameValidationResult by remember {
         derivedStateOf { Validator.userNameValidate(userName) }
@@ -90,92 +99,133 @@ fun SignUpScreen(
         }
     }
 
-    LaunchedEffect(signUpstate) {
-        if (signUpstate == SignUpState.Success) {
-            snackBarHostState.showSnackbar(
-                context.getString(R.string.sign_up_success)
-            )
-        }
-    }
-
     Scaffold(
         snackbarHost = {
             SnackbarHost(snackBarHostState)
         }
     ) { innerPadding ->
-        Column(
+        SignUpScreen(
             modifier = modifier
                 .fillMaxSize()
                 .padding(innerPadding)
                 .padding(horizontal = 32.dp),
-            verticalArrangement = Arrangement.spacedBy(20.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            userName = userName,
+            email = email,
+            password = password,
+            passwordConfirm = passwordConfirm,
+            userNameValidationResult = userNameValidationResult,
+            emailValidationResult = emailValidationResult,
+            passwordValidationResult = passwordValidationResult,
+            passwordConfirmValidationResult = passwordConfirmValidationResult,
+            enabledSignUpButton = enabledSignUpButton,
+            setUserName = { userName = it },
+            setEmail = { email = it },
+            setPassword = { password = it },
+            setPasswordConfirm = { passwordConfirm = it },
+            onClickButton = {
+                signUpstate = SignUpState.Success
+            }
+        )
+    }
+}
+
+
+@Composable
+fun SignUpScreen(
+    userName: String,
+    email: String,
+    password: String,
+    passwordConfirm: String,
+    userNameValidationResult: ValidationResult,
+    emailValidationResult: ValidationResult,
+    passwordValidationResult: ValidationResult,
+    passwordConfirmValidationResult: ValidationResult,
+    enabledSignUpButton: Boolean,
+    setUserName: (String) -> Unit,
+    setEmail: (String) -> Unit,
+    setPassword: (String) -> Unit,
+    setPasswordConfirm: (String) -> Unit,
+    onClickButton: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            modifier = Modifier.padding(top = 60.dp, bottom = 6.dp),
+            text = stringResource(id = R.string.sign_up_title),
+            style = MaterialTheme.typography.headlineMedium
+        )
+        UserNameTextField(
+            modifier = Modifier.fillMaxWidth(),
+            text = userName,
+            validationResult = userNameValidationResult,
+            onValueChange = setUserName,
+        )
+        EmailTextField(
+            modifier = Modifier.fillMaxWidth(),
+            text = email,
+            validationResult = emailValidationResult,
+            onValueChange = setEmail
+        )
+        PasswordTextField(
+            modifier = Modifier.fillMaxWidth(),
+            text = password,
+            validationResult = passwordValidationResult,
+            onValueChange = setPassword,
+        )
+        PasswordConfirmTextField(
+            modifier = Modifier.fillMaxWidth(),
+            text = passwordConfirm,
+            validationResult = passwordConfirmValidationResult,
+            onValueChange = setPasswordConfirm,
+        )
+        TextButton(
+            modifier = Modifier
+                .padding(top = 6.dp)
+                .fillMaxWidth()
+                .height(50.dp),
+            colors = ButtonDefaults.textButtonColors(
+                containerColor = Blue50,
+                contentColor = Color.White,
+                disabledContainerColor = Gray10.copy(alpha = 0.12f),
+                disabledContentColor = Gray10
+            ),
+            enabled = enabledSignUpButton,
+            onClick = onClickButton
         ) {
             Text(
-                modifier = Modifier.padding(top = 60.dp, bottom = 6.dp),
-                text = stringResource(id = R.string.sign_up_title),
-                style = MaterialTheme.typography.headlineMedium
+                text = stringResource(id = R.string.sign_up_button)
             )
-            UserNameTextField(
-                modifier = Modifier.fillMaxWidth(),
-                text = userName,
-                validationResult = userNameValidationResult,
-                onValueChange = { value ->
-                    userName = value
-                },
-            )
-            EmailTextField(
-                modifier = Modifier.fillMaxWidth(),
-                text = email,
-                validationResult = emailValidationResult,
-                onValueChange = { value ->
-                    email = value
-                }
-            )
-            PasswordTextField(
-                modifier = Modifier.fillMaxWidth(),
-                text = password,
-                validationResult = passwordValidationResult,
-                onValueChange = { value ->
-                    password = value
-                },
-            )
-            PasswordConfirmTextField(
-                modifier = Modifier.fillMaxWidth(),
-                text = passwordConfirm,
-                validationResult = passwordConfirmValidationResult,
-                onValueChange = { value ->
-                    passwordConfirm = value
-                },
-            )
-            TextButton(
-                modifier = Modifier
-                    .padding(top = 6.dp)
-                    .fillMaxWidth()
-                    .height(50.dp),
-                colors = ButtonDefaults.textButtonColors(
-                    containerColor = Blue50,
-                    contentColor = Color.White,
-                    disabledContainerColor = Gray10.copy(alpha = 0.12f),
-                    disabledContentColor = Gray10
-                ),
-                enabled = enabledSignUpButton,
-                onClick = {
-                    signUpstate = SignUpState.Success
-                }
-            ) {
-                Text(
-                    text = stringResource(id = R.string.sign_up_button)
-                )
-            }
         }
     }
+
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun SignUpScreenPreview() {
     SignupTheme {
-        SignUpScreen()
+        SignUpScreen(
+            userName = "김컴포즈",
+            email = "kim@compose.com",
+            password = "1234asdf",
+            passwordConfirm = "1234asdf",
+            userNameValidationResult = Validator.userNameValidate("김컴포즈"),
+            emailValidationResult = Validator.emailValidate("kim@compose.com"),
+            passwordValidationResult = Validator.passwordValidate("1234asdf"),
+            passwordConfirmValidationResult = Validator.passwordConfirmValidate(
+                password = "1234asdf",
+                passwordConfirm = "1234asdf"
+            ),
+            enabledSignUpButton = true,
+            setUserName = {},
+            setEmail = {},
+            setPassword = {},
+            setPasswordConfirm = {},
+            onClickButton = {}
+        )
     }
 }
