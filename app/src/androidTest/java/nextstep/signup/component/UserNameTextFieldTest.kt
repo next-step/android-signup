@@ -1,10 +1,12 @@
 package nextstep.signup.component
 
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.test.platform.app.InstrumentationRegistry
 import nextstep.signup.R
+import nextstep.signup.util.validation.Validator
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -13,6 +15,8 @@ class UserNameTextFieldTest {
     @get:Rule
     val composeTestRule = createComposeRule()
     private val username = mutableStateOf("")
+    private val userNameValidationResult =
+        derivedStateOf { Validator.userNameValidate(username.value) }
 
     private val context = InstrumentationRegistry.getInstrumentation().targetContext
 
@@ -21,6 +25,7 @@ class UserNameTextFieldTest {
         composeTestRule.setContent {
             UserNameTextField(
                 text = username.value,
+                validationResult = userNameValidationResult.value,
                 onValueChange = {
                     username.value = it
                 }

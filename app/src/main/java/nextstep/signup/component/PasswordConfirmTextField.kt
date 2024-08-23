@@ -2,74 +2,58 @@ package nextstep.signup.component
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import nextstep.signup.R
-import nextstep.signup.screen.SignUpTextFieldType
 import nextstep.signup.ui.theme.SignupTheme
+import nextstep.signup.util.validation.ValidationErrorType
 import nextstep.signup.util.validation.ValidationResult
-import nextstep.signup.util.validation.ValidationUtil
 
 
 @Composable
 fun PasswordConfirmTextField(
     text: String,
-    target: String,
+    validationResult: ValidationResult,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-
-    val validationResult by remember(text) {
-        derivedStateOf {
-            ValidationUtil.passwordConfirmValidate(
-                password = target,
-                passwordConfirm = text
-            )
-        }
-    }
-
     SignUpTextField(
         modifier = modifier,
         text = text,
         onValueChange = onValueChange,
         labelText = stringResource(id = R.string.sign_up_password_confirm_label),
-        isError = validationResult is ValidationResult.ValidationError,
+        isError = validationResult is ValidationResult.Error,
         supportingText = {
-            signUpSupportingTextStringResource(
+            ValidationErrorText(
                 validationResult = validationResult,
-                signUpTextFieldType = SignUpTextFieldType.PasswordConfirm
-            )?.let { supportingText ->
-                Text(text = supportingText)
-            }
+                equalityErrorResId = R.string.sign_up_user_password_confirm_not_equal
+            )
         },
         visualTransformation = PasswordVisualTransformation()
     )
 }
 
-@Preview(showBackground = true)
+@Preview(name = "정상 케이스", showBackground = true)
 @Composable
-private fun PasswordConfirmTextFieldPreview() {
+private fun Preview1() {
     SignupTheme {
         PasswordConfirmTextField(
-            text = "abc123",
-            target = "abc123",
+            text = "abcd1234",
+            validationResult = ValidationResult.Success,
             onValueChange = {},
         )
     }
 }
 
-@Preview(showBackground = true)
+@Preview(name = "에러 케이스", showBackground = true)
 @Composable
-private fun PasswordConfirmTextFieldPreviewAsEqualityError() {
+private fun Preview2() {
     SignupTheme {
         PasswordConfirmTextField(
-            text = "abc123",
-            target = "abc12",
+            text = "abcd1234",
+            validationResult = ValidationResult.Error(ValidationErrorType.EqualityError),
             onValueChange = {},
         )
     }

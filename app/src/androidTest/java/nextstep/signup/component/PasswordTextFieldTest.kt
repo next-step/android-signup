@@ -1,10 +1,12 @@
 package nextstep.signup.component
 
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.test.platform.app.InstrumentationRegistry
 import nextstep.signup.R
+import nextstep.signup.util.validation.Validator
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -13,6 +15,8 @@ class PasswordTextFieldTest {
     @get:Rule
     val composeTestRule = createComposeRule()
     private val password = mutableStateOf("")
+    private val passwordValidationResult =
+        derivedStateOf { Validator.passwordValidate(password.value) }
 
     private val context = InstrumentationRegistry.getInstrumentation().targetContext
 
@@ -21,6 +25,7 @@ class PasswordTextFieldTest {
         composeTestRule.setContent {
             PasswordTextField(
                 text = password.value,
+                validationResult = passwordValidationResult.value,
                 onValueChange = {
                     password.value = it
                 }
