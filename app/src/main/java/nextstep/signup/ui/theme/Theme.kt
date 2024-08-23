@@ -62,4 +62,4 @@ fun SignupTheme(
     )
 }
 
-val Blue50 = Color(33, 150, 243)
+
