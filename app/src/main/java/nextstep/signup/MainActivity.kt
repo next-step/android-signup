@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import nextstep.signup.ui.SignUpTextFieldComponent
 import nextstep.signup.ui.theme.SignupTheme
 
 class MainActivity : ComponentActivity() {
@@ -71,10 +72,29 @@ fun SignUpScreen() {
                 verticalArrangement = Arrangement.Top,
                 modifier = Modifier.padding(16.dp)
             ) {
-                TextFieldComponent("Username")
-                TextFieldComponent("Email", keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email))
-                TextFieldComponent("Password", PasswordVisualTransformation())
-                TextFieldComponent("Password Confirm", PasswordVisualTransformation())
+                SignUpTextFieldComponent(
+                    "Username",
+                    "이름은 2~5자여아야 합니다.",
+                    { true }
+                )
+                SignUpTextFieldComponent(
+                    "Email",
+                    "이메일 형식이 올바르지 않습니다.",
+                    { true },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+                )
+                SignUpTextFieldComponent(
+                    "Password",
+                    "비밀번호는 8~16자여야 합니다.\n비밀번호는 영문과 숫자를 포함해야 합니다.",
+                    { true },
+                    PasswordVisualTransformation()
+                )
+                SignUpTextFieldComponent(
+                    "Password Confirm",
+                    "비밀번호는 8~16자여야 합니다.\n비밀번호는 영문과 숫자를 포함해야 합니다.",
+                    { true },
+                    PasswordVisualTransformation()
+                )
                 ButtonSignUpComponent { /* Handle Sign Up */ }
             }
         }
