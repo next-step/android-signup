@@ -61,7 +61,6 @@ import nextstep.signup.util.SignUpValidSate
  *
  *
  **/
-@Preview
 @Composable
 fun SignUpScreen() {
 
@@ -207,6 +206,34 @@ fun SignUpScreen(
     }
 }
 
+/**
+ * 회원가입 화면 composeable 함수 미리보기
+**/
+@Preview
+@Composable
+private fun PreviewSignUpScreen() {
+    val snackBarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
+    SignUpScreen(
+        snackBarHostState = snackBarHostState,
+        coroutineScope = coroutineScope,
+        context = context,
+        userNameInputValue = "sss",
+        setUserNameInputValue = {},
+        userNameInputValidState = SignUpValidSate.ERROR_USER_NAME_LENGTH,
+        emailInputValue = "nadadhhl12@",
+        setEmailInputValue = {},
+        emailInputValidState = SignUpValidSate.ERROR_EMAIL_REGEX,
+        passWordInputValue = "sdsdsd",
+        setPassWordInputValue = {},
+        passWordInputValidState = SignUpValidSate.ERROR_PASSWORD_REGEX,
+        passWordConfirmValue = "sdsdsd",
+        setPassWordConfirmValue = {},
+        passWordConfirmInputValidState = SignUpValidSate.VALID,
+        signUpBtnEnable = true
+    )
+}
 
 /**
  * 회원가입 제목용 composeable 함수
