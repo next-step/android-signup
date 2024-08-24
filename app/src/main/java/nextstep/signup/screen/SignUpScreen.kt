@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -157,15 +158,15 @@ fun SignUpScreen(
     ) { contentPadding ->
         Column(
             modifier = Modifier
-				.padding(contentPadding)
-				.verticalScroll(rememberScrollState()),
+                .padding(contentPadding)
+                .verticalScroll(rememberScrollState()),
         ) {
             SignUpTitle(
                 modifier = Modifier
-					.fillMaxWidth()
-					.padding(
-						top = 70.dp, bottom = 25.dp
-					)
+                    .fillMaxWidth()
+                    .padding(
+                        top = 70.dp, bottom = 25.dp
+                    )
             )
             UserNameSigneUpTextField(
                 textContent = userNameInputValue,
@@ -189,9 +190,9 @@ fun SignUpScreen(
             )
             SignUpButton(
                 modifier = Modifier
-					.fillMaxWidth()
-					.heightIn(min = 115.dp)
-					.padding(30.dp),
+                    .fillMaxWidth()
+                    .heightIn(min = 115.dp)
+                    .padding(30.dp),
                 isBtnEnable = signUpBtnEnable,
                 onClick = {
                     coroutineScope.launch {
@@ -359,10 +360,10 @@ fun SigneUpTextField(
             }
         },
         modifier = modifier
-			.fillMaxWidth()
-			.padding(
-				top = 15.dp, start = 30.dp, end = 30.dp
-			),
+            .fillMaxWidth()
+            .padding(
+                top = 15.dp, start = 30.dp, end = 30.dp
+            ),
         value = textContent,
         onValueChange = onTextValueChange,
         label = label,
@@ -409,8 +410,8 @@ fun SignUpButton(
 fun PreviewSignUpTitle() {
     SignUpTitle(
         modifier = Modifier
-			.fillMaxWidth()
-			.padding(top = 70.dp)
+            .fillMaxWidth()
+            .padding(top = 70.dp)
     )
 }
 
@@ -429,10 +430,10 @@ fun PreviewSigneUpTextField() {
     }
     SigneUpTextField(
         modifier = Modifier
-			.fillMaxWidth()
-			.padding(
-				top = 17.dp, bottom = 17.dp, start = 30.dp, end = 30.dp
-			),
+            .fillMaxWidth()
+            .padding(
+                top = 17.dp, bottom = 17.dp, start = 30.dp, end = 30.dp
+            ),
         label = {
             Text(stringResource(id = R.string.username))
         },
@@ -453,9 +454,9 @@ fun PreviewSigneUpTextField() {
 fun PreviewSignUpButton() {
     SignUpButton(
         modifier = Modifier
-			.fillMaxWidth()
-			.heightIn(min = 115.dp)
-			.padding(30.dp),
+            .fillMaxWidth()
+            .heightIn(min = 115.dp)
+            .padding(30.dp),
         isBtnEnable = true,
         onClick = {
             // 회원가입 버튼 클릭시 로직
