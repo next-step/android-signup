@@ -106,8 +106,7 @@ fun SignUpScreen() {
     setPasswordConfirmInputValidState(passWordConfirmValidator.getValidState(passWordConfirmValue))
 
     //회원가입 버튼 활성화 상태
-    var signUpBtnEnable by rememberSaveable { mutableStateOf(false) }
-    signUpBtnEnable = (userNameInputValidState == SignUpValidSate.VALID
+    val signUpBtnEnable = (userNameInputValidState == SignUpValidSate.VALID
             && emailInputValidState == SignUpValidSate.VALID
             && passWordInputValidState == SignUpValidSate.VALID
             && passWordConfirmInputValidState == SignUpValidSate.VALID)
