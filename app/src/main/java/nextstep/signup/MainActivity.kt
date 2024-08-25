@@ -74,25 +74,21 @@ fun SignUpScreen() {
             ) {
                 SignUpTextFieldComponent(
                     "Username",
-                    "이름은 2~5자여아야 합니다.",
-                    { true }
+                    { "이름은 2~5자여아야 합니다." }
                 )
                 SignUpTextFieldComponent(
                     "Email",
-                    "이메일 형식이 올바르지 않습니다.",
-                    { true },
+                    { "이메일 형식이 올바르지 않습니다." },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
                 )
                 SignUpTextFieldComponent(
                     "Password",
-                    "비밀번호는 8~16자여야 합니다.\n비밀번호는 영문과 숫자를 포함해야 합니다.",
-                    { true },
+                    { "비밀번호는 8~16자여야 합니다.\n비밀번호는 영문과 숫자를 포함해야 합니다." },
                     PasswordVisualTransformation()
                 )
                 SignUpTextFieldComponent(
                     "Password Confirm",
-                    "비밀번호는 8~16자여야 합니다.\n비밀번호는 영문과 숫자를 포함해야 합니다.",
-                    { true },
+                    { "비밀번호는 8~16자여야 합니다.\n비밀번호는 영문과 숫자를 포함해야 합니다." },
                     PasswordVisualTransformation()
                 )
                 ButtonSignUpComponent { /* Handle Sign Up */ }

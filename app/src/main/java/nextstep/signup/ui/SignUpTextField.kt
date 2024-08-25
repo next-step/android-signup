@@ -24,8 +24,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun SignUpTextFieldComponent(
     labelText: String,
-    validText: String,
-    validCheck: (String) -> Boolean,
+    validCheck: (String) -> String,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
 ) {
@@ -47,16 +46,14 @@ fun SignUpTextFieldComponent(
             keyboardOptions = keyboardOptions
         )
 
-        if (validCheck.invoke(inputText)) {
-            Text(
-                text = validText,
-                fontSize = 12.sp,
-                color = Color.Red,
-                textAlign = TextAlign.Left,
-                modifier = Modifier
-                    .padding(start = 8.dp)
-            )
-        }
+        Text(
+            text = validCheck.invoke(inputText),
+            fontSize = 12.sp,
+            color = Color.Red,
+            textAlign = TextAlign.Left,
+            modifier = Modifier
+                .padding(start = 8.dp)
+        )
     }
 }
 
@@ -65,7 +62,6 @@ fun SignUpTextFieldComponent(
 fun SignUpTextFieldComponentPreview() {
     SignUpTextFieldComponent(
         "UserName",
-        "이름은 2~5자여아야 합니다.",
-        { true }
+        { "이름은 2~5자여아야 합니다." }
     )
 }
