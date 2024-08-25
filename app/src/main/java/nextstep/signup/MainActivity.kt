@@ -48,13 +48,13 @@ fun SignUpScreen() {
     Scaffold(
         topBar = {
             Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 40.dp, bottom = 40.dp),
                 text = stringResource(R.string.title),
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 40.dp, bottom = 40.dp)
             )
         }
     ) { innerPadding ->
@@ -65,9 +65,9 @@ fun SignUpScreen() {
             color = MaterialTheme.colorScheme.background
         ) {
             Column(
+                modifier = Modifier.padding(horizontal = 32.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.padding(horizontal = 32.dp)
             ) {
                 val userNameValidation = InputValidation.UserNameValidation(
                     stringResource(R.string.user_name_invalid_msg),

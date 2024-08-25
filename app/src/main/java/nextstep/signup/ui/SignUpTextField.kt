@@ -33,27 +33,27 @@ fun SignUpTextFieldComponent(
     var inputText by remember { mutableStateOf("") }
 
     Column(
+        modifier = Modifier,
         verticalArrangement = Arrangement.Top,
-        modifier = Modifier
     ) {
         TextField(
+            modifier = Modifier
+                .fillMaxWidth(),
             value = inputText,
             onValueChange = { inputText = it },
             label = { Text(labelText) },
-            modifier = Modifier
-                .fillMaxWidth(),
             shape = RoundedCornerShape(8.dp),
             visualTransformation = visualTransformation,
             keyboardOptions = keyboardOptions
         )
 
         Text(
+            modifier = Modifier
+                .padding(start = 12.dp),
             text = validCheck.invoke(inputText),
             fontSize = 12.sp,
             color = Color.Red,
             textAlign = TextAlign.Left,
-            modifier = Modifier
-                .padding(start = 12.dp)
         )
     }
 }
