@@ -54,7 +54,7 @@ fun SignUpScreen() {
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 32.dp)
+                    .padding(top = 40.dp, bottom = 40.dp)
             )
         }
     ) { innerPadding ->
@@ -66,8 +66,8 @@ fun SignUpScreen() {
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Top,
-                modifier = Modifier.padding(16.dp)
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = Modifier.padding(horizontal = 32.dp)
             ) {
                 val userNameValidation = InputValidation.UserNameValidation(
                     stringResource(R.string.user_name_invalid_msg),

@@ -41,8 +41,7 @@ fun SignUpTextFieldComponent(
             onValueChange = { inputText = it },
             label = { Text(labelText) },
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
+                .fillMaxWidth(),
             shape = RoundedCornerShape(8.dp),
             visualTransformation = visualTransformation,
             keyboardOptions = keyboardOptions
@@ -54,7 +53,7 @@ fun SignUpTextFieldComponent(
             color = Color.Red,
             textAlign = TextAlign.Left,
             modifier = Modifier
-                .padding(start = 8.dp)
+                .padding(start = 12.dp)
         )
     }
 }

@@ -21,7 +21,7 @@ fun SignUpButtonComponent(
         onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 16.dp),
+            .padding(vertical = 6.dp),
         shape = RoundedCornerShape(50)
     ) {
         Text(btnText)
