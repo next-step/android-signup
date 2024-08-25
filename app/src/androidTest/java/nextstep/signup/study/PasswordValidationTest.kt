@@ -1,8 +1,10 @@
 package nextstep.signup.study
 
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import nextstep.signup.R
 import nextstep.signup.ui.SignUpTextFieldComponent
 import nextstep.signup.validation.InputValidation
 import org.junit.Before
@@ -14,17 +16,24 @@ class PasswordValidationTest {
     @get:Rule
     val composeTestRule = createComposeRule()
     private val password = mutableStateOf("")
-    private val inputValidation = InputValidation.PasswordValidation(
-        PASSWORD_VALID_ERROR,
-        PASSWORD_LENGTH_ERROR
-    )
+
+    private lateinit var passwordValidation: InputValidation.PasswordValidation
+    private lateinit var invalidMsg: String
+    private lateinit var invalidLengthMsg: String
 
     @Before
     fun setup() {
         composeTestRule.setContent {
+            invalidMsg = stringResource(R.string.password_invalid_msg)
+            invalidLengthMsg = stringResource(R.string.password_invalid_length_msg)
+            passwordValidation = InputValidation.PasswordValidation(
+                invalidMsg,
+                invalidLengthMsg
+            )
+
             SignUpTextFieldComponent(
                 labelText = "password",
-                {  inputValidation.checkValidation(password.value) }
+                {  passwordValidation.checkValidation(password.value) }
             )
         }
     }
@@ -36,7 +45,7 @@ class PasswordValidationTest {
 
         // then
         composeTestRule
-            .onNodeWithText(PASSWORD_LENGTH_ERROR)
+            .onNodeWithText(invalidLengthMsg)
             .assertDoesNotExist()
     }
 
@@ -47,7 +56,7 @@ class PasswordValidationTest {
 
         // then
         composeTestRule
-            .onNodeWithText(PASSWORD_LENGTH_ERROR)
+            .onNodeWithText(invalidLengthMsg)
             .assertExists()
 
     }
@@ -59,7 +68,7 @@ class PasswordValidationTest {
 
         // then
         composeTestRule
-            .onNodeWithText(PASSWORD_VALID_ERROR)
+            .onNodeWithText(invalidMsg)
             .assertExists()
 
     }
@@ -71,13 +80,8 @@ class PasswordValidationTest {
 
         // then
         composeTestRule
-            .onNodeWithText(PASSWORD_VALID_ERROR)
+            .onNodeWithText(invalidMsg)
             .assertExists()
 
-    }
-
-    companion object {
-        private const val PASSWORD_LENGTH_ERROR = "비밀번호는 8~16자여야 합니다."
-        private const val PASSWORD_VALID_ERROR = "비밀번호는 영문과 숫자를 포함해야 합니다."
     }
 }

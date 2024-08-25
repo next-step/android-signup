@@ -1,8 +1,10 @@
 package nextstep.signup.study
 
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import nextstep.signup.R
 import nextstep.signup.ui.SignUpTextFieldComponent
 import nextstep.signup.validation.InputValidation
 import org.junit.Before
@@ -14,16 +16,20 @@ class EmailValidationTest {
     @get:Rule
     val composeTestRule = createComposeRule()
     private val email = mutableStateOf("")
-    private val inputValidation = InputValidation.EmailValidation(
-        EMAIL_VALID_ERROR
-    )
+    private lateinit var inputValidation: InputValidation.EmailValidation
+    private lateinit var invalidMsg: String
 
     @Before
     fun setup() {
         composeTestRule.setContent {
+            invalidMsg = stringResource(R.string.email_invalid_msg)
+            inputValidation = InputValidation.EmailValidation(
+                invalidMsg
+            )
+
             SignUpTextFieldComponent(
-                labelText = "password",
-                {  inputValidation.checkValidation(email.value) }
+                labelText = stringResource(R.string.input_email),
+                { inputValidation.checkValidation(email.value) }
             )
         }
     }
@@ -35,7 +41,7 @@ class EmailValidationTest {
 
         // then
         composeTestRule
-            .onNodeWithText(EMAIL_VALID_ERROR)
+            .onNodeWithText(invalidMsg)
             .assertDoesNotExist()
     }
 
@@ -46,7 +52,7 @@ class EmailValidationTest {
 
         // then
         composeTestRule
-            .onNodeWithText(EMAIL_VALID_ERROR)
+            .onNodeWithText(invalidMsg)
             .assertExists()
 
     }
@@ -58,7 +64,7 @@ class EmailValidationTest {
 
         // then
         composeTestRule
-            .onNodeWithText(EMAIL_VALID_ERROR)
+            .onNodeWithText(invalidMsg)
             .assertExists()
 
     }
@@ -70,12 +76,8 @@ class EmailValidationTest {
 
         // then
         composeTestRule
-            .onNodeWithText(EMAIL_VALID_ERROR)
+            .onNodeWithText(invalidMsg)
             .assertExists()
 
-    }
-
-    companion object {
-        private const val EMAIL_VALID_ERROR = "이메일 형식이 올바르지 않습니다."
     }
 }

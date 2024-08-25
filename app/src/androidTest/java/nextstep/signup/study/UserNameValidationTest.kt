@@ -1,8 +1,10 @@
 package nextstep.signup.study
 
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import nextstep.signup.R
 import nextstep.signup.ui.SignUpTextFieldComponent
 import nextstep.signup.validation.InputValidation
 import org.junit.Before
@@ -14,17 +16,24 @@ class UserNameValidationTest {
     @get:Rule
     val composeTestRule = createComposeRule()
     private val username = mutableStateOf("")
-    private val inputValidation = InputValidation.UserNameValidation(
-        USERNAME_VALID_ERROR,
-        USERNAME_LENGTH_ERROR
-    )
+
+    private lateinit var userNameValidation: InputValidation.UserNameValidation
+    private lateinit var invalidMsg: String
+    private lateinit var invalidLengthMsg: String
 
     @Before
     fun setup() {
         composeTestRule.setContent {
+            invalidMsg = stringResource(R.string.user_name_invalid_msg)
+            invalidLengthMsg = stringResource(R.string.user_name_invalid_length_msg)
+            userNameValidation = InputValidation.UserNameValidation(
+                invalidMsg,
+                invalidLengthMsg
+            )
+
             SignUpTextFieldComponent(
                 labelText = "userName",
-                {  inputValidation.checkValidation(username.value) }
+                {  userNameValidation.checkValidation(username.value) }
             )
         }
     }
@@ -36,7 +45,7 @@ class UserNameValidationTest {
 
         // then
         composeTestRule
-            .onNodeWithText(USERNAME_LENGTH_ERROR)
+            .onNodeWithText(invalidLengthMsg)
             .assertDoesNotExist()
     }
 
@@ -47,7 +56,7 @@ class UserNameValidationTest {
 
         // then
         composeTestRule
-            .onNodeWithText(USERNAME_LENGTH_ERROR)
+            .onNodeWithText(invalidLengthMsg)
             .assertExists()
 
     }
@@ -59,7 +68,7 @@ class UserNameValidationTest {
 
         // then
         composeTestRule
-            .onNodeWithText(USERNAME_VALID_ERROR)
+            .onNodeWithText(invalidMsg)
             .assertExists()
 
     }
@@ -71,13 +80,8 @@ class UserNameValidationTest {
 
         // then
         composeTestRule
-            .onNodeWithText(USERNAME_VALID_ERROR)
+            .onNodeWithText(invalidMsg)
             .assertExists()
 
-    }
-
-    companion object {
-        private const val USERNAME_LENGTH_ERROR = "이름은 2~5자여야 합니다."
-        private const val USERNAME_VALID_ERROR = "이름에는 숫자나 기호가 포함될 수 없습니다."
     }
 }

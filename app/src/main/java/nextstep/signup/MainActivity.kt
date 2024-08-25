@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -47,7 +48,7 @@ fun SignUpScreen() {
     Scaffold(
         topBar = {
             Text(
-                text = "Welcome to Compose 🚀",
+                text = stringResource(R.string.title),
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
@@ -68,46 +69,51 @@ fun SignUpScreen() {
                 verticalArrangement = Arrangement.Top,
                 modifier = Modifier.padding(16.dp)
             ) {
-                SignUpTextFieldComponent(
-                    "Username",
-                    {
-                        InputValidation.UserNameValidation(
-                            "이름에는 숫자나 기호가 포함될 수 없습니다.",
-                            "이름은 2~5자여야 합니다."
-                        ).checkValidation(it)
-                    }
+                val userNameValidation = InputValidation.UserNameValidation(
+                    stringResource(R.string.user_name_invalid_msg),
+                    stringResource(R.string.user_name_invalid_length_msg),
                 )
+
                 SignUpTextFieldComponent(
-                    "Email",
-                    {
-                        InputValidation.EmailValidation(
-                            "이메일 형식이 올바르지 않습니다."
-                        ).checkValidation(it)
-                    },
+                    stringResource(R.string.input_user_name),
+                    { userNameValidation.checkValidation(it) }
+                )
+
+                val emailValidation = InputValidation.EmailValidation(
+                    stringResource(R.string.email_invalid_msg)
+                )
+
+                SignUpTextFieldComponent(
+                    stringResource(R.string.input_email),
+                    { emailValidation.checkValidation(it) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
                 )
+
+                val passwordValidation = InputValidation.PasswordValidation(
+                    stringResource(R.string.password_invalid_msg),
+                    stringResource(R.string.password_invalid_length_msg)
+                )
+
                 SignUpTextFieldComponent(
-                    "Password",
+                    stringResource(R.string.input_password),
                     {
                         inputPassword = it
-                        InputValidation.PasswordValidation(
-                            "비밀번호는 영문과 숫자를 포함해야 합니다.",
-                            "비밀번호는 8~16자여야 합니다."
-                        ).checkValidation(it)
+                        passwordValidation.checkValidation(it)
                     },
                     PasswordVisualTransformation()
                 )
+
+                val passwordConfirmValidation = InputValidation.PasswordConfirmValidation(
+                    inputPassword,
+                    stringResource(R.string.password_confirm_invalid_msg)
+                )
+
                 SignUpTextFieldComponent(
-                    "Password Confirm",
-                    {
-                        InputValidation.PasswordConfirmValidation(
-                            inputPassword,
-                            "비밀번호가 일치하지 않습니다."
-                        ).checkValidation(it)
-                    },
+                    stringResource(R.string.input_password_confirm),
+                    { passwordConfirmValidation.checkValidation(it) },
                     PasswordVisualTransformation()
                 )
-                SignUpButtonComponent(btnText = "Sign Up") { /* Handle Sign Up */ }
+                SignUpButtonComponent(btnText = stringResource(R.string.btn_sign_up)) { /* Handle Sign Up */ }
             }
         }
     }

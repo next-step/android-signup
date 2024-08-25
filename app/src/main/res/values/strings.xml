@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Signup</string>
+    <string name="title">Welcome to Compose 🚀</string>
+    <string name="input_user_name">Username</string>
+    <string name="input_email">Email</string>
+    <string name="input_password">Password</string>
+    <string name="input_password_confirm">PasswordConfirm</string>
+    <string name="btn_sign_up">Sign Up</string>
+
+    <string name="user_name_invalid_msg">이름에는 숫자나 기호가 포함될 수 없습니다.</string>
+    <string name="user_name_invalid_length_msg">이름은 2~5자여야 합니다.</string>
+    <string name="email_invalid_msg">이메일 형식이 올바르지 않습니다.</string>
+    <string name="password_invalid_msg">비밀번호는 영문과 숫자를 포함해야 합니다.</string>
+    <string name="password_invalid_length_msg">비밀번호는 8~16자여야 합니다.</string>
+    <string name="password_confirm_invalid_msg">비밀번호가 일치하지 않습니다.</string>
+
 </resources>
