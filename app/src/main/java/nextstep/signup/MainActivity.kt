@@ -33,6 +33,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import nextstep.signup.ui.SignUpTextFieldComponent
 import nextstep.signup.ui.theme.SignupTheme
+import nextstep.signup.validation.InputValidation
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +49,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun SignUpScreen() {
+    var inputPassword = ""
+
     Scaffold(
         topBar = {
             Text(
@@ -74,21 +77,41 @@ fun SignUpScreen() {
             ) {
                 SignUpTextFieldComponent(
                     "Username",
-                    { "이름은 2~5자여아야 합니다." }
+                    {
+                        InputValidation.UserNameValidation(
+                            "이름에는 숫자나 기호가 포함될 수 없습니다.",
+                            "이름은 2~5자여야 합니다."
+                        ).checkValidation(it)
+                    }
                 )
                 SignUpTextFieldComponent(
                     "Email",
-                    { "이메일 형식이 올바르지 않습니다." },
+                    {
+                        InputValidation.EmailValidation(
+                            "이메일 형식이 올바르지 않습니다."
+                        ).checkValidation(it)
+                    },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
                 )
                 SignUpTextFieldComponent(
                     "Password",
-                    { "비밀번호는 8~16자여야 합니다.\n비밀번호는 영문과 숫자를 포함해야 합니다." },
+                    {
+                        inputPassword = it
+                        InputValidation.PasswordValidation(
+                            "비밀번호는 영문과 숫자를 포함해야 합니다.",
+                            "비밀번호는 8~16자여야 합니다."
+                        ).checkValidation(it)
+                    },
                     PasswordVisualTransformation()
                 )
                 SignUpTextFieldComponent(
                     "Password Confirm",
-                    { "비밀번호는 8~16자여야 합니다.\n비밀번호는 영문과 숫자를 포함해야 합니다." },
+                    {
+                        InputValidation.PasswordConfirmValidation(
+                            inputPassword,
+                            "비밀번호가 일치하지 않습니다."
+                        ).checkValidation(it)
+                    },
                     PasswordVisualTransformation()
                 )
                 ButtonSignUpComponent { /* Handle Sign Up */ }
