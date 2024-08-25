@@ -74,4 +74,28 @@ sealed interface InputValidation {
             return inputText.length !in 8..16
         }
     }
+
+    data class PasswordConfirmValidation(
+        val passwordText: String,
+        val validationErrorText: String,
+    ): InputValidation {
+        override val regex: String
+            get() = ""
+
+        override fun checkValidation(inputText: String): String {
+            return if (inputText.isEmpty()) {
+                ""
+            } else {
+                if (passwordText == inputText) {
+                    ""
+                } else {
+                    validationErrorText
+                }
+            }
+        }
+
+        override fun checkLength(inputText: String): Boolean {
+            return false
+        }
+    }
 }
