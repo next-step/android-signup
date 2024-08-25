@@ -14,7 +14,9 @@ sealed interface InputValidation {
             get() = "^[a-zA-Z가-힣]+$"
 
         override fun checkValidation(inputText: String): String {
-            return if (!inputText.matches(Regex(regex))) {
+            return if (inputText.isEmpty()) {
+                ""
+            } else if (!inputText.matches(Regex(regex))) {
                 validationErrorText
             } else if (checkLength(inputText)) {
                 lengthErrorText
@@ -35,7 +37,9 @@ sealed interface InputValidation {
             get() = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}\$"
 
         override fun checkValidation(inputText: String): String {
-            return if (!inputText.matches(Regex(regex))) {
+            return if (inputText.isEmpty()) {
+                ""
+            } else if (!inputText.matches(Regex(regex))) {
                 validationErrorText
             } else {
                 ""
@@ -55,7 +59,9 @@ sealed interface InputValidation {
             get() = "^(?=.*[a-zA-Z])(?=.*[0-9]).*\$"
 
         override fun checkValidation(inputText: String): String {
-            return if (!inputText.matches(Regex(regex))) {
+            return if (inputText.isEmpty()) {
+                ""
+            } else if (!inputText.matches(Regex(regex))) {
                 validationErrorText
             } else if (checkLength(inputText)) {
                 lengthErrorText
