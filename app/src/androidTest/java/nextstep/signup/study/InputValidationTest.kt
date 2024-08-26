@@ -7,6 +7,10 @@ import nextstep.signup.screen.EmailSigneUpTextField
 import nextstep.signup.screen.PassWordConfirmSigneUpTextField
 import nextstep.signup.screen.PassWordSigneUpTextField
 import nextstep.signup.screen.UserNameSigneUpTextField
+import nextstep.signup.util.SignUpEmailValidator
+import nextstep.signup.util.SignUpPasswordConfirmValidator
+import nextstep.signup.util.SignUpPasswordValidator
+import nextstep.signup.util.SignUpUserNameValidator
 import nextstep.signup.util.SignUpValidSate
 import org.junit.Before
 import org.junit.Rule
@@ -16,6 +20,7 @@ class InputValidationTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
+
     private val userNameTextFieldContent = mutableStateOf("")
     private val userNameInputValidState = mutableStateOf(SignUpValidSate.NOTHING)
 
@@ -31,41 +36,33 @@ class InputValidationTest {
     @Before
     fun setUp() {
         composeTestRule.setContent {
-           UserNameSigneUpTextField(
-               textContent = userNameTextFieldContent.value,
-               onTextValueChange = { userNameTextFieldContent.value = it },
-               signUpInputValidState = userNameInputValidState.value,
-               setSignUpInputValidState = { userNameInputValidState.value = it }
-           )
-
+            UserNameSigneUpTextField(
+                textContent = userNameTextFieldContent.value,
+                onTextValueChange = { userNameTextFieldContent.value = it },
+                signUpInputValidState = userNameInputValidState.value,
+            )
             EmailSigneUpTextField(
                 textContent = emailTextFieldContent.value,
-                onTextValueChange ={ emailTextFieldContent.value = it} ,
+                onTextValueChange = { emailTextFieldContent.value = it },
                 signUpInputValidState = emailInputValidState.value,
-                setSignUpInputValidState = { emailInputValidState.value = it }
             )
-
             PassWordSigneUpTextField(
                 textContent = passWordTextFieldContent.value,
-                onTextValueChange =  { passWordTextFieldContent.value = it },
-                signUpInputValidState =  passWordInputValidState.value,
-                setSignUpInputValidState = { passWordInputValidState.value = it },
+                onTextValueChange = { passWordTextFieldContent.value = it },
+                signUpInputValidState = passWordInputValidState.value,
             )
-
             PassWordConfirmSigneUpTextField(
-                writtenPassWord = passWordTextFieldContent.value,
                 textContent = passWordConfirmTextFieldContent.value,
-                onTextValueChange =  { passWordConfirmTextFieldContent.value = it },
-                signUpInputValidState =  passWordConfirmInputValidState.value,
-                setSignUpInputValidState = { passWordConfirmInputValidState.value = it },
+                onTextValueChange = { passWordConfirmTextFieldContent.value = it },
+                signUpInputValidState = passWordConfirmInputValidState.value,
             )
         }
     }
 
     @Test
-    fun `유저_이름이_2에서_5자여야_한다`() {
-        // when
-        userNameTextFieldContent.value = "이이이"
+    fun `유저_이름이_2에서_5자이면_성공이다`() {
+        // when & when
+        userNameInputValidState.value = SignUpValidSate.VALID
 
         // then
         composeTestRule
@@ -76,7 +73,7 @@ class InputValidationTest {
     @Test
     fun `유저_이름이_2글자_미만일_5초과_일때_에러메시지가_노출된다`() {
         // when
-        userNameTextFieldContent.value = "이"
+        userNameInputValidState.value = SignUpValidSate.ERROR_USER_NAME_LENGTH
 
         // then
         composeTestRule
@@ -86,9 +83,9 @@ class InputValidationTest {
 
 
     @Test
-    fun `유저_이름에_숫자나_기호가_들어가면_에러메세지_노출된다`(){
+    fun `유저_이름에_숫자나_기호가_들어가면_에러메세지_노출된다`() {
         // when
-        userNameTextFieldContent.value = "이33"
+        userNameInputValidState.value = SignUpValidSate.ERROR_USER_NAME_REGEX
 
         // then
         composeTestRule
@@ -97,9 +94,9 @@ class InputValidationTest {
     }
 
     @Test
-    fun `이메일_형식이_아니면_에러메세지_노출된다`(){
+    fun `이메일_형식이_아니면_에러메세지_노출된다`() {
         // when
-        emailTextFieldContent.value = "nadadhl1@"
+        emailInputValidState.value = SignUpValidSate.ERROR_EMAIL_REGEX
 
         // then
         composeTestRule
@@ -109,9 +106,9 @@ class InputValidationTest {
 
 
     @Test
-    fun `비밀번호는_8에서_16자_사이어야_한다`(){
+    fun `비밀번호는_8에서_16자_사이어야_한다`() {
         // when
-        passWordTextFieldContent.value = "nada"
+       passWordInputValidState.value = SignUpValidSate.ERROR_PASSWORD_LENGTH
 
         // then
         composeTestRule
@@ -120,9 +117,9 @@ class InputValidationTest {
     }
 
     @Test
-    fun `비밀번호에_영문_숫자_조합이_들어가지_않으면_에러메세지_노출된다`(){
+    fun `비밀번호에_영문_숫자_조합이_들어가지_않으면_에러메세지_노출된다`() {
         // when
-        passWordTextFieldContent.value = "nadadhl@"
+        passWordInputValidState.value = SignUpValidSate.ERROR_PASSWORD_REGEX
 
         // then
         composeTestRule
@@ -132,10 +129,9 @@ class InputValidationTest {
 
 
     @Test
-    fun `비밀번호_확인창에_작성한_비밀번호_값이_안들어가면_에러메세지_노출된다`(){
+    fun `비밀번호_확인창에_작성한_비밀번호_값이_안들어가면_에러메세지_노출된다`() {
         // when
-        passWordTextFieldContent.value = "nadadhl12"
-        passWordConfirmTextFieldContent.value = "nadadhl1233"
+       passWordConfirmInputValidState.value = SignUpValidSate.ERROR_PASSWORD_CONFIRM
 
         // then
         composeTestRule

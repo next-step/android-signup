@@ -50,7 +50,9 @@ android {
 }
 
 dependencies {
-
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
+    implementation("androidx.compose.runtime:runtime-livedata:1.5.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
