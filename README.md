@@ -19,9 +19,9 @@
 
 - [x]  2단계 피드백 반영
 - [x]  에러 메시지 추가
+- [ ]  `SignupTextField` 분리 
 - [ ]  Username 유효성 검사
 - [ ]  Email 유효성 검사
 - [ ]  Password 유효성 검사
 - [ ]  Password Confirm 유효성 검사
-- [ ]  Password == Password Confirm
 - [ ]  UI 테스트
