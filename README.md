@@ -19,9 +19,15 @@
 
 - [x]  2단계 피드백 반영
 - [x]  에러 메시지 추가
-- [ ]  `SignupTextField` 분리 
+- [ ]  `SignupTextField` 분리
+  - [ ]  `UsernameTextField`
+  - [ ]  `EmailTextField`
+  - [ ]  `PasswordTextField`
 - [ ]  Username 유효성 검사
 - [ ]  Email 유효성 검사
 - [ ]  Password 유효성 검사
 - [ ]  Password Confirm 유효성 검사
-- [ ]  UI 테스트
+- [ ]  UI 테스트 작성
+  - [ ]  `UsernameTextField`
+  - [ ]  `EmailTextField`
+  - [ ]  `PasswordTextField`
