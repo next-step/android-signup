@@ -21,6 +21,8 @@ import androidx.compose.ui.unit.dp
 import nextstep.signup.R
 import nextstep.signup.ui.theme.SignupTheme
 
+const val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$"
+
 @Composable
 fun SignupTextField(
     label: Int,
@@ -56,7 +58,6 @@ fun SignupTextField(
             }
         )
     )
-
 }
 
 private fun setPasswordVisualTransformation(label: Int): VisualTransformation {
