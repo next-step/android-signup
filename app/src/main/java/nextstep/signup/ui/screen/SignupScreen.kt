@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
+import nextstep.signup.ui.component.EmailTextField
 import nextstep.signup.ui.component.SignupButton
 import nextstep.signup.ui.component.SignupTextField
 import nextstep.signup.ui.component.TitleText
@@ -60,15 +61,8 @@ fun SignupScreen() {
                     nameEntered.value = it
                 }
             )
-            SignupTextField(
-                label = R.string.signup_email,
-                input = email.value,
-                onInputChanged = {
-                    email.value = it
-                },
-                inputEntered = {
-                    emailEntered.value = it
-                }
+            EmailTextField(
+                email = email
             )
             SignupTextField(
                 label = R.string.signup_password,

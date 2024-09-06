@@ -18,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,14 +42,15 @@ fun EmailTextField(email: MutableState<String>) {
             value = email.value,
             onValueChange = {
                 email.value = it
-                isError = !it.matches(Regex(EMAIL_REGEX))
+                isError = it.isNotEmpty() && !it.matches(Regex(EMAIL_REGEX))
             },
             isError = isError,
             label = {
                 Text(text = stringResource(id = R.string.signup_email))
             },
             modifier = Modifier
-                .fillMaxWidth(1.0F),
+                .fillMaxWidth(1.0F)
+                .testTag("emailTextField"),
             singleLine = true,
             keyboardOptions = KeyboardOptions(
                 autoCorrect = false,
