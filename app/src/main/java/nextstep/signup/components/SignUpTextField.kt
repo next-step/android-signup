@@ -34,6 +34,7 @@ internal fun SignUpTextField(
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
         visualTransformation = if (needHide) PasswordVisualTransformation() else VisualTransformation.None,
         modifier = modifier,
+        singleLine = true,
         colors = TextFieldDefaults.colors(
             focusedContainerColor = BlueGrey20,
             unfocusedContainerColor = BlueGrey20,
