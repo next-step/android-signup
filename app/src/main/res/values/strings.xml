@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Signup</string>
     <string name="sign_up_title">Welcome to Compose 🚀</string>
+    <string name="sign_up_button">Sign Up</string>
 
     <string name="sign_up_hint_username">Username</string>
     <string name="sign_up_hint_email">Email</string>
