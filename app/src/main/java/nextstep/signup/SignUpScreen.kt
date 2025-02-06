@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -36,7 +38,8 @@ fun SignUpScreen(
     Column(
         Modifier
             .fillMaxSize()
-            .padding(paddingValues),
+            .padding(paddingValues)
+            .padding(horizontal = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Spacer(modifier = Modifier.height(60.dp))
@@ -52,12 +55,22 @@ fun SignUpScreen(
 
         Column(
             verticalArrangement = Arrangement.spacedBy(36.dp),
-            modifier = Modifier.padding(horizontal = 32.dp)
         ) {
             SignUpInputForm("Username")
             SignUpInputForm("Email")
             SignUpInputForm("Password", PasswordVisualTransformation())
             SignUpInputForm("Password Confirm", PasswordVisualTransformation())
+            Button(
+                onClick = { /*TODO*/ },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Blue50,
+                )
+            ) {
+                Text("Sign Up")
+            }
         }
     }
 }
