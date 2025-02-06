@@ -3,18 +3,21 @@ package nextstep.signup
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Text
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import nextstep.signup.component.TitleText
 import nextstep.signup.ui.theme.SignupTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,36 +25,35 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SignupTheme {
-
+                Scaffold(
+                    modifier = Modifier.fillMaxSize()
+                ) { padding ->
+                    SignupScreen(Modifier.padding(padding))
+                }
             }
         }
     }
 }
 
 @Composable
-fun HelloView(
-    name: String,
-    modifier: Modifier = Modifier
+internal fun SignupScreen(
+    modifier: Modifier = Modifier,
 ) {
-    Text(
-        text = "$name 안녕하세요!",
-        fontSize = 20.sp,
-        color = Color.White,
+    Column(
         modifier = modifier
-            .background(
-                brush = Brush.linearGradient(
-                    colors = listOf(Color.Red, Color.Green),
-                    start = Offset.Zero,
-                    end = Offset.Infinite,
-                ),
-                shape = RoundedCornerShape(16.dp)
-            )
-            .padding(16.dp)
-    )
+            .fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(36.dp),
+    ) {
+        Spacer(modifier = Modifier.height(40.dp))
+        TitleText(
+            text = stringResource(R.string.signup_title),
+        )
+    }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-private fun HelloViewPreview() {
-    HelloView("컴포즈")
+private fun SignupScreenPreview() {
+    SignupScreen()
 }
