@@ -18,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nextstep.signup.component.SignupTextField
-import nextstep.signup.component.TitleText
+import nextstep.signup.component.SignupTitle
 import nextstep.signup.ui.theme.SignupTheme
 
 class MainActivity : ComponentActivity() {
@@ -53,7 +53,7 @@ internal fun SignupScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(36.dp),
     ) {
-        TitleText(
+        SignupTitle(
             modifier = Modifier.padding(top = 6.dp),
             text = stringResource(R.string.signup_title)
         )

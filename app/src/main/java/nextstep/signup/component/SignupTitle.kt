@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.sp
 import nextstep.signup.R
 
 @Composable
-internal fun TitleText(
+internal fun SignupTitle(
     text: String,
     modifier: Modifier = Modifier
 ) {
@@ -35,6 +35,6 @@ internal fun TitleText(
 
 @Preview(showBackground = true)
 @Composable
-private fun TitleTextPreview() {
-    TitleText(stringResource(R.string.signup_title))
+private fun SignupTitlePreview() {
+    SignupTitle(stringResource(R.string.signup_title))
 }

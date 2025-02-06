@@ -6,7 +6,7 @@ import androidx.compose.ui.test.onNodeWithText
 import org.junit.Rule
 import org.junit.Test
 
-class TitleTextTest {
+class SignupTitleTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -16,7 +16,7 @@ class TitleTextTest {
         // given
         val text = "Welcome to Compose \uD83D\uDE80"
         composeTestRule.setContent {
-            TitleText(text)
+            SignupTitle(text)
         }
 
         // then
