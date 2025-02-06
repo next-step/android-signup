@@ -22,7 +22,7 @@ object SignUpTextFiled {
     @Composable
     fun UserName(
         modifier: Modifier = Modifier,
-        userName: String
+        userName: String = EMPTY_STRING
     ) {
         var inputUserName by remember { mutableStateOf(userName) }
 
@@ -40,7 +40,7 @@ object SignUpTextFiled {
     @Composable
     fun Email(
         modifier: Modifier = Modifier,
-        email: String
+        email: String = EMPTY_STRING
     ) {
         var inputEmail by remember { mutableStateOf(email) }
         TextField(
@@ -57,7 +57,7 @@ object SignUpTextFiled {
     @Composable
     fun Password(
         modifier: Modifier = Modifier,
-        password: String
+        password: String = EMPTY_STRING
     ) {
         var inputPassword by remember { mutableStateOf(password) }
 
@@ -77,7 +77,7 @@ object SignUpTextFiled {
     @Composable
     fun PasswordConfirm(
         modifier: Modifier = Modifier,
-        passwordConfirm: String
+        passwordConfirm: String = EMPTY_STRING
     ) {
         var inputPasswordConfirm by remember { mutableStateOf(passwordConfirm) }
 
@@ -92,6 +92,8 @@ object SignUpTextFiled {
             label = { Text(text = stringResource(R.string.sign_up_hint_password_confirm)) }
         )
     }
+
+    private const val EMPTY_STRING = ""
 }
 
 @Preview
