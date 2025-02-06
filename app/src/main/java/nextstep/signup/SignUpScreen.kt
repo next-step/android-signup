@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -53,86 +54,33 @@ fun SignUpScreen(
             verticalArrangement = Arrangement.spacedBy(36.dp),
             modifier = Modifier.padding(horizontal = 32.dp)
         ) {
-            UserNameInputForm()
-            EmailInputForm()
-            PasswordInputForm()
-            PasswordConfirmInputForm()
+            SignUpInputForm("Username")
+            SignUpInputForm("Email")
+            SignUpInputForm("Password", PasswordVisualTransformation())
+            SignUpInputForm("Password Confirm", PasswordVisualTransformation())
         }
     }
 }
 
-
 @Composable
-private fun UserNameInputForm(modifier: Modifier = Modifier) {
-    var userName by remember { mutableStateOf("") }
+private fun SignUpInputForm(
+    label: String,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    modifier: Modifier = Modifier
+) {
+    var input by remember { mutableStateOf("") }
 
     TextField(
-        value = userName,
-        onValueChange = { userName = it },
-        label = { Text("Username") },
+        value = input,
+        onValueChange = { input = it },
+        label = { Text(label) },
         colors = TextFieldDefaults.colors(
             unfocusedContainerColor = BlueGrey20,
             focusedContainerColor = BlueGrey20,
             focusedIndicatorColor = Blue50,
             focusedLabelColor = Blue50
         ),
-        modifier = modifier.fillMaxWidth()
-    )
-}
-
-@Composable
-private fun EmailInputForm(modifier: Modifier = Modifier) {
-    var email by remember { mutableStateOf("") }
-
-    TextField(
-        value = email,
-        onValueChange = { email = it },
-        label = { Text("Email") },
-        colors = TextFieldDefaults.colors(
-            unfocusedContainerColor = BlueGrey20,
-            focusedContainerColor = BlueGrey20,
-            focusedIndicatorColor = Blue50,
-            focusedLabelColor = Blue50
-        ),
-        modifier = modifier.fillMaxWidth()
-    )
-}
-
-@Composable
-private fun PasswordInputForm(modifier: Modifier = Modifier) {
-    var password by remember { mutableStateOf("") }
-
-    TextField(
-        value = password,
-        onValueChange = { password = it },
-        label = { Text("Password") },
-        visualTransformation = PasswordVisualTransformation(),
-        colors = TextFieldDefaults.colors(
-            unfocusedContainerColor = BlueGrey20,
-            focusedContainerColor = BlueGrey20,
-            focusedIndicatorColor = Blue50,
-            focusedLabelColor = Blue50
-        ),
-        modifier = modifier.fillMaxWidth()
-    )
-}
-
-
-@Composable
-private fun PasswordConfirmInputForm(modifier: Modifier = Modifier) {
-    var passwordConfirm by remember { mutableStateOf("") }
-
-    TextField(
-        value = passwordConfirm,
-        onValueChange = { passwordConfirm = it },
-        label = { Text("Password Confirm") },
-        colors = TextFieldDefaults.colors(
-            unfocusedContainerColor = BlueGrey20,
-            focusedContainerColor = BlueGrey20,
-            focusedIndicatorColor = Blue50,
-            focusedLabelColor = Blue50
-        ),
-        visualTransformation = PasswordVisualTransformation(),
+        visualTransformation = visualTransformation,
         modifier = modifier.fillMaxWidth()
     )
 }
