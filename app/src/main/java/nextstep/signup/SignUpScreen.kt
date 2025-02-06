@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -19,9 +20,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import nextstep.signup.ui.theme.Blue50
+import nextstep.signup.ui.theme.BlueGrey20
 import nextstep.signup.ui.theme.roboto
 
 @Composable
@@ -66,6 +70,12 @@ private fun UserNameInputForm(modifier: Modifier = Modifier) {
         value = userName,
         onValueChange = { userName = it },
         label = { Text("Username") },
+        colors = TextFieldDefaults.colors(
+            unfocusedContainerColor = BlueGrey20,
+            focusedContainerColor = BlueGrey20,
+            focusedIndicatorColor = Blue50,
+            focusedLabelColor = Blue50
+        ),
         modifier = modifier.fillMaxWidth()
     )
 }
@@ -78,6 +88,12 @@ private fun EmailInputForm(modifier: Modifier = Modifier) {
         value = email,
         onValueChange = { email = it },
         label = { Text("Email") },
+        colors = TextFieldDefaults.colors(
+            unfocusedContainerColor = BlueGrey20,
+            focusedContainerColor = BlueGrey20,
+            focusedIndicatorColor = Blue50,
+            focusedLabelColor = Blue50
+        ),
         modifier = modifier.fillMaxWidth()
     )
 }
@@ -90,6 +106,13 @@ private fun PasswordInputForm(modifier: Modifier = Modifier) {
         value = password,
         onValueChange = { password = it },
         label = { Text("Password") },
+        visualTransformation = PasswordVisualTransformation(),
+        colors = TextFieldDefaults.colors(
+            unfocusedContainerColor = BlueGrey20,
+            focusedContainerColor = BlueGrey20,
+            focusedIndicatorColor = Blue50,
+            focusedLabelColor = Blue50
+        ),
         modifier = modifier.fillMaxWidth()
     )
 }
@@ -103,6 +126,13 @@ private fun PasswordConfirmInputForm(modifier: Modifier = Modifier) {
         value = passwordConfirm,
         onValueChange = { passwordConfirm = it },
         label = { Text("Password Confirm") },
+        colors = TextFieldDefaults.colors(
+            unfocusedContainerColor = BlueGrey20,
+            focusedContainerColor = BlueGrey20,
+            focusedIndicatorColor = Blue50,
+            focusedLabelColor = Blue50
+        ),
+        visualTransformation = PasswordVisualTransformation(),
         modifier = modifier.fillMaxWidth()
     )
 }
