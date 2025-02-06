@@ -1,5 +1,6 @@
 package nextstep.signup.component
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -30,7 +31,9 @@ internal fun SignupTextField(
     modifier: Modifier = Modifier,
 ) {
     TextField(
-        modifier = modifier.testTag(label),
+        modifier = modifier
+            .fillMaxWidth()
+            .testTag(label),
         value = text,
         onValueChange = onValueChange,
         colors = TextFieldDefaults.colors(

@@ -48,6 +48,7 @@ internal fun SignupScreen(
     Column(
         modifier = modifier
             .fillMaxWidth()
+            .padding(horizontal = 32.dp)
             .padding(top = 40.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(36.dp),
