@@ -21,7 +21,7 @@ internal fun SignUpTitle(
     )
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun SignUpTitlePreview() {
     SignupTheme {
