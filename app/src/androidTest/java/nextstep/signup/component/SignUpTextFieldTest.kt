@@ -18,6 +18,7 @@ class SignUpTextFieldTest {
     @get:Rule
     val composeTestRule = createComposeRule()
     private val text: MutableState<String> = mutableStateOf("")
+    private val label = "username"
 
     @Before
     fun setup() {
@@ -25,7 +26,7 @@ class SignUpTextFieldTest {
             SignUpTextField(
                 value = text.value,
                 onValueChange = { text.value = it },
-                label = "username",
+                label = label,
                 modifier = Modifier.testTag(TAG_SIGN_UP_TEXT_FIELD)
             )
         }
@@ -40,18 +41,21 @@ class SignUpTextFieldTest {
         // then
         composeTestRule
             .onNodeWithTag(TAG_SIGN_UP_TEXT_FIELD)
-            .assert(hasText("username"))
+            .assert(hasText(label))
     }
 
     @Test
     fun 입력_되었을_때도_입력된_값과_라벨이_표시된다() {
+        // given
+        val inputtedValue = "김컴포즈"
+
         // when
-        text.value = "김컴포즈"
+        text.value = inputtedValue
 
         // then
         composeTestRule
             .onNodeWithTag(TAG_SIGN_UP_TEXT_FIELD)
-            .assert(hasText("김컴포즈") and hasText("username"))
+            .assert(hasText(inputtedValue) and hasText(label))
     }
 
     companion object {
