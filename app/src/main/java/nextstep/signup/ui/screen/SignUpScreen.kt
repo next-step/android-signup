@@ -2,11 +2,14 @@ package nextstep.signup.ui.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -75,6 +78,8 @@ fun SignUpScreen(modifier: Modifier) {
                 inputType = KeyboardType.Password,
                 onValueChange = { confirmPassword = it },
             )
+            Spacer(modifier = Modifier.padding(top = 42.dp))
+            SignUpButton("Sign Up")
         }
     }
 }
@@ -118,6 +123,24 @@ fun InputField(
     )
 }
 
+@Composable
+fun SignUpButton(buttonText: String) {
+    Button(
+        modifier = Modifier.fillMaxWidth(),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Blue50,
+        ),
+        onClick = {},
+        contentPadding = PaddingValues(vertical = 15.dp),
+    ) {
+        Text(
+            buttonText,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.W500,
+        )
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun TitlePreView() {
@@ -133,3 +156,10 @@ private fun InputFieldPreView() {
         onValueChange = { }
     )
 }
+
+@Preview(showBackground = true)
+@Composable
+private fun SignUpButtonPreView() {
+    SignUpButton("Sign Up")
+}
+
