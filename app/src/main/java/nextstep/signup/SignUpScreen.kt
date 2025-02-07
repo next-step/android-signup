@@ -112,3 +112,11 @@ private fun SignUpScreenPreview() {
         SignUpScreen(PaddingValues())
     }
 }
+
+@Preview
+@Composable
+private fun SignUpInputFormPreview() {
+    MaterialTheme {
+        SignUpInputForm(label = "Username")
+    }
+}
