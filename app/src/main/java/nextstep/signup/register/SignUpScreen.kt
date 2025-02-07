@@ -3,7 +3,6 @@ package nextstep.signup.register
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -23,8 +22,7 @@ fun SignUpScreen() {
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp, vertical = 32.dp)
-            .verticalScroll(rememberScrollState())
-            .imePadding(),
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(32.dp)
     ) {
