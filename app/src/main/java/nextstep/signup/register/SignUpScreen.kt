@@ -27,9 +27,7 @@ fun SignUpScreen() {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         SignUpTitle()
-        Spacer(Modifier.height(40.dp))
         SignUpTextFiled()
-        Spacer(Modifier.height(40.dp))
         SignUpButton(onSignUp = {})
     }
 }
