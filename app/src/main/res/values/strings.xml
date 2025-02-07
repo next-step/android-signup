@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Signup</string>
+    <string name="sign_up_title">Welcome to Compose 🚀</string>
+    <string name="user_name">Username</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="password_confirm">Password Confirm</string>
+    <string name="sign_up_button">Sign Up</string>
+
+    <string name="test_input">InputField</string>
+    <string name="test_input_password">PasswordField</string>
 </resources>
