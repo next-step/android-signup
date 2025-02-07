@@ -145,7 +145,7 @@ fun SignUpButton(modifier: Modifier = Modifier) {
         ),
         content = {
             Text(
-                text = stringResource(R.string.signup),
+                text = stringResource(R.string.sign_up),
                 fontSize = 14.sp,
                 fontWeight = FontWeight.W500,
                 lineHeight = 20.sp,
