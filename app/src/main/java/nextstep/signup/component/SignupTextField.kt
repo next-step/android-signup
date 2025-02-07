@@ -63,7 +63,7 @@ internal fun SignupTextField(
 
 @Preview(showBackground = true)
 @Composable
-private fun SignupFieldPreview_1() {
+private fun SignupFieldPreview_userName() {
     var text by remember { mutableStateOf("") }
 
     SignupTextField(
@@ -76,7 +76,7 @@ private fun SignupFieldPreview_1() {
 
 @Preview(showBackground = true)
 @Composable
-private fun SignupFieldPreview_2() {
+private fun SignupFieldPreview_password() {
     var text by remember { mutableStateOf("아무도 안알랴줌") }
 
     SignupTextField(
