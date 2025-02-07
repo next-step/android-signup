@@ -3,18 +3,23 @@ package nextstep.signup
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Text
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import nextstep.signup.component.SignupButton
+import nextstep.signup.component.SignupTextField
+import nextstep.signup.component.SignupTitle
 import nextstep.signup.ui.theme.SignupTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,36 +27,71 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SignupTheme {
-
+                Scaffold(
+                    modifier = Modifier.fillMaxSize()
+                ) { padding ->
+                    SignupScreen(Modifier.padding(padding))
+                }
             }
         }
     }
 }
 
 @Composable
-fun HelloView(
-    name: String,
-    modifier: Modifier = Modifier
+internal fun SignupScreen(
+    modifier: Modifier = Modifier,
 ) {
-    Text(
-        text = "$name 안녕하세요!",
-        fontSize = 20.sp,
-        color = Color.White,
+    val (userName, setUserName) = remember { mutableStateOf("") }
+    val (email, setEmail) = remember { mutableStateOf("") }
+    val (password, setPassword) = remember { mutableStateOf("") }
+    val (passwordConfirm, setPasswordConfirm) = remember { mutableStateOf("") }
+
+    Column(
         modifier = modifier
-            .background(
-                brush = Brush.linearGradient(
-                    colors = listOf(Color.Red, Color.Green),
-                    start = Offset.Zero,
-                    end = Offset.Infinite,
-                ),
-                shape = RoundedCornerShape(16.dp)
-            )
-            .padding(16.dp)
-    )
+            .fillMaxWidth()
+            .padding(horizontal = 32.dp)
+            .padding(top = 40.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(36.dp),
+    ) {
+        SignupTitle(
+            modifier = Modifier.padding(top = 6.dp),
+            text = stringResource(R.string.signup_title)
+        )
+        SignupTextField(
+            label = stringResource(R.string.signup_label_user_name),
+            text = userName,
+            onValueChange = setUserName,
+            isPassword = false
+        )
+        SignupTextField(
+            label = stringResource(R.string.signup_label_email),
+            text = email,
+            onValueChange = setEmail,
+            isPassword = false
+        )
+        SignupTextField(
+            label = stringResource(R.string.signup_label_password),
+            text = password,
+            onValueChange = setPassword,
+            isPassword = true
+        )
+        SignupTextField(
+            label = stringResource(R.string.signup_label_password_confirm),
+            text = passwordConfirm,
+            onValueChange = setPasswordConfirm,
+            isPassword = true
+        )
+        SignupButton(
+            modifier = Modifier.padding(top = 6.dp),
+            text = stringResource(R.string.signup_button),
+            onClick = {}
+        )
+    }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-private fun HelloViewPreview() {
-    HelloView("컴포즈")
+private fun SignupScreenPreview() {
+    SignupScreen()
 }
