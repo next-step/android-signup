@@ -10,6 +10,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import nextstep.signup.validator.Validator
 import org.junit.Rule
 import org.junit.Test
 
@@ -27,7 +28,8 @@ class SignupTextFieldTest {
                 label = label,
                 text = text,
                 onValueChange = setText,
-                visualTransformation = VisualTransformation.None
+                visualTransformation = VisualTransformation.None,
+                validator = Validator.Username
             )
         }
 
@@ -47,7 +49,8 @@ class SignupTextFieldTest {
                 label = label,
                 text = text,
                 onValueChange = setText,
-                visualTransformation = VisualTransformation.None
+                visualTransformation = VisualTransformation.None,
+                validator = Validator.Username
             )
         }
 
@@ -72,7 +75,8 @@ class SignupTextFieldTest {
                 label = label,
                 text = password,
                 onValueChange = setPassword,
-                visualTransformation = PasswordVisualTransformation()
+                visualTransformation = PasswordVisualTransformation(),
+                validator = Validator.Password
             )
         }
 
@@ -85,5 +89,154 @@ class SignupTextFieldTest {
         composeTestRule
             .onNodeWithText("아무도 알알랴줌")
             .assertIsNotDisplayed()
+    }
+
+    @Test
+    fun `이름이_2자에서_5자가_아니면_에러문구가_보인다`() {
+        // given
+        val label = "UserName"
+        val userName = "이용우"
+        composeTestRule.setContent {
+            val (text, setText) = remember { mutableStateOf(userName) }
+            SignupTextField(
+                label = label,
+                text = text,
+                onValueChange = setText,
+                visualTransformation = VisualTransformation.None,
+                validator = Validator.Username
+            )
+        }
+
+        // then
+        composeTestRule
+            .onNodeWithText("이름은 2~5자여야 합니다.")
+            .assertIsDisplayed()
+
+        "이름에는 숫자나 기호가 포함될 수 없습니다."
+    }
+
+    @Test
+    fun `이름에_숫자나_기호를_포함하면_에러문구가_보인다`() {
+        // given
+        val label = "UserName"
+        val userName = "이용우2"
+        composeTestRule.setContent {
+            val (text, setText) = remember { mutableStateOf(userName) }
+            SignupTextField(
+                label = label,
+                text = text,
+                onValueChange = setText,
+                visualTransformation = VisualTransformation.None,
+                validator = Validator.Username
+            )
+        }
+
+        // then
+        composeTestRule
+            .onNodeWithText("이름에는 숫자나 기호가 포함될 수 없습니다.")
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun `이메일_형식이_맞지않으면_에러문구가_보인다`() {
+        // given
+        val label = "email"
+        val email = "raindragonn!gmail.com"
+
+        composeTestRule.setContent {
+            val (text, setText) = remember { mutableStateOf(email) }
+            SignupTextField(
+                label = label,
+                text = text,
+                onValueChange = setText,
+                visualTransformation = VisualTransformation.None,
+                validator = Validator.Email
+            )
+        }
+
+        // then
+        composeTestRule
+            .onNodeWithText("이메일 형식이 올바르지 않습니다.")
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun `비밀번호가_8에서_16자가_아니면_에러문구가_보인다`() {
+        // given
+        val label = "password"
+        val password = "123"
+
+        composeTestRule.setContent {
+            val (text, setText) = remember { mutableStateOf(password) }
+            SignupTextField(
+                label = label,
+                text = text,
+                onValueChange = setText,
+                visualTransformation = VisualTransformation.None,
+                validator = Validator.Password
+            )
+        }
+
+        // then
+        composeTestRule
+            .onNodeWithText("비밀번호는 8~16자여야 합니다.")
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun `비밀번호에_영문과_숫자를_포함하지_않으면_에러문구가_보인다`() {
+        // given
+        val label = "password"
+        val password = "가나다라마바사아"
+
+        composeTestRule.setContent {
+            val (text, setText) = remember { mutableStateOf(password) }
+            SignupTextField(
+                label = label,
+                text = text,
+                onValueChange = setText,
+                visualTransformation = VisualTransformation.None,
+                validator = Validator.Password
+            )
+        }
+
+        // then
+        composeTestRule
+            .onNodeWithText("비밀번호는 영문과 숫자를 포함해야 합니다.")
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun `비밀번호가_일치하지않으면_에러문구가_보인다`() {
+        // given
+        val label = "password"
+        val originPassword = "1q2w3e4r5t"
+        val confirmPassword = "1q2w3e4r5"
+
+        composeTestRule.setContent {
+            val (password, setPassword) = remember { mutableStateOf(originPassword) }
+            val (passwordConfirm, setPasswordConfirm) = remember { mutableStateOf(confirmPassword) }
+
+            SignupTextField(
+                label = label,
+                text = password,
+                onValueChange = setPassword,
+                visualTransformation = VisualTransformation.None,
+                validator = Validator.Password
+            )
+
+            SignupTextField(
+                label = label,
+                text = passwordConfirm,
+                onValueChange = setPasswordConfirm,
+                visualTransformation = VisualTransformation.None,
+                validator = Validator.PasswordConfirm { password }
+            )
+        }
+
+        // then
+        composeTestRule
+            .onNodeWithText("비밀번호가 일치하지 않습니다.")
+            .assertIsDisplayed()
     }
 }
