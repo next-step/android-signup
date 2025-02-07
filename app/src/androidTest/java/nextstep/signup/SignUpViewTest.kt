@@ -1,14 +1,6 @@
 package nextstep.signup
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,76 +18,12 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextClearance
 import androidx.compose.ui.test.performTextInput
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import nextstep.signup.ui.theme.Blue50
-import nextstep.signup.ui.theme.BlueGrey50
+import nextstep.signup.ui.screen.InputField
+import nextstep.signup.ui.screen.SignUpButton
+import nextstep.signup.ui.screen.TitleText
 import org.junit.Rule
 import org.junit.Test
-
-@Composable
-fun TitleComponent(title: String) {
-    Text(
-        text = title,
-        fontSize = 26.sp,
-        fontWeight = FontWeight.W700,
-    )
-}
-
-@Composable
-fun InputField(
-    label: String,
-    value: String,
-    inputType: KeyboardType = KeyboardType.Text,
-    onValueChange: (String) -> Unit,
-) {
-    TextField(
-        value = value,
-        onValueChange = onValueChange,
-        keyboardOptions = KeyboardOptions.Default.copy(
-            imeAction = ImeAction.Done,
-            keyboardType = KeyboardType.Password
-        ),
-        visualTransformation = if (inputType == KeyboardType.Password)
-            PasswordVisualTransformation()
-        else
-            VisualTransformation.None,
-        label = { Text(label) },
-        maxLines = 1,
-        colors = TextFieldDefaults.colors(
-            focusedIndicatorColor = Blue50,
-            unfocusedContainerColor = BlueGrey50,
-            focusedContainerColor = BlueGrey50,
-            focusedLabelColor = Blue50,
-        ),
-        modifier = Modifier.fillMaxWidth()
-            .testTag(label)
-    )
-}
-
-@Composable
-fun SignUpButton(buttonText: String, onClick: () -> Unit) {
-    Button(
-        modifier = Modifier.fillMaxWidth()
-            .testTag(buttonText),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Blue50,
-        ),
-        onClick = onClick,
-        contentPadding = PaddingValues(vertical = 15.dp),
-    ) {
-        Text(
-            buttonText,
-            fontSize = 14.sp,
-            fontWeight = FontWeight.W500,
-        )
-    }
-}
 
 
 class SignUpViewTest {
@@ -106,8 +34,12 @@ class SignUpViewTest {
     fun title() {
         /** given **/
         val text = "Welcome to Compose \uD83D\uDE80"
+
         composeTestRule.setContent {
-            TitleComponent(text)
+            TitleText(
+                titleResId = R.string.sign_up_title,
+                modifier = Modifier.fillMaxWidth()
+            )
         }
 
         /** then **/
@@ -127,16 +59,18 @@ class SignUpViewTest {
             var input by remember { mutableStateOf("") }
 
             InputField(
-                label = "inputField",
+                labelResId = R.string.test_input,
                 value = input,
                 onValueChange = { input = it },
+                modifier = Modifier.testTag("inputField")
             )
 
             InputField(
-                label = "passwordField",
+                labelResId = R.string.test_input_password,
                 value = input,
                 onValueChange = { input = it },
-                inputType = KeyboardType.Password
+                inputType = KeyboardType.Password,
+                modifier = Modifier.testTag("passwordField")
             )
         }
 
@@ -177,7 +111,10 @@ class SignUpViewTest {
         val buttonTag = "Sign Up"
         var clicked = false
         composeTestRule.setContent {
-            SignUpButton( buttonTag) {
+            SignUpButton(
+                buttonTextResId = R.string.sign_up_button,
+                modifier = Modifier.testTag(buttonTag),
+            ) {
                 clicked = true
             }
         }
