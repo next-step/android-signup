@@ -49,7 +49,7 @@ fun SignUpScreen(modifier: Modifier) {
                 .padding(horizontal = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            TitleComponent(
+            TitleText(
                 title = "Welcome to Compose \uD83D\uDE80",
                 modifier = Modifier.padding(top = 60.dp)
             )
@@ -88,7 +88,7 @@ fun SignUpScreen(modifier: Modifier) {
 }
 
 @Composable
-fun TitleComponent(
+fun TitleText(
     title: String,
     modifier: Modifier = Modifier,
 ) {
@@ -157,7 +157,7 @@ fun SignUpButton(
 @Preview(showBackground = true)
 @Composable
 private fun TitlePreView() {
-    TitleComponent("Welcome to Compose \uD83D\uDE80")
+    TitleText("Welcome to Compose \uD83D\uDE80")
 }
 
 @Preview(showBackground = true)
