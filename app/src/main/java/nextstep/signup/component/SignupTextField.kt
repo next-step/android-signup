@@ -23,6 +23,8 @@ import nextstep.signup.ui.theme.Black20
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.BlueGray20
 import nextstep.signup.ui.theme.Gray20
+import nextstep.signup.ui.theme.Red
+import nextstep.signup.validator.Validator
 
 @Composable
 internal fun SignupTextField(
@@ -30,8 +32,11 @@ internal fun SignupTextField(
     text: String,
     onValueChange: (String) -> Unit,
     visualTransformation: VisualTransformation,
+    validator: Validator,
     modifier: Modifier = Modifier,
 ) {
+    val validateResult = validator.checkCondition(text)
+
     TextField(
         modifier = modifier
             .fillMaxWidth()
@@ -47,7 +52,20 @@ internal fun SignupTextField(
             cursorColor = Blue50,
             focusedContainerColor = BlueGray20,
             unfocusedContainerColor = BlueGray20,
+            errorLabelColor = Red,
+            errorIndicatorColor = Red
         ),
+        supportingText = {
+            Text(
+                text = validateResult.getErrorMessage(),
+                style = TextStyle(
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Normal,
+                    lineHeight = 16.sp
+                )
+            )
+        },
+        isError = !validateResult.isSuccess(),
         label = {
             Text(
                 text = label,
@@ -72,7 +90,8 @@ private fun SignupFieldPreview_userName() {
         label = stringResource(R.string.signup_label_user_name),
         text = text,
         onValueChange = { text = it },
-        visualTransformation = VisualTransformation.None
+        visualTransformation = VisualTransformation.None,
+        validator = Validator.Username
     )
 }
 
@@ -85,6 +104,7 @@ private fun SignupFieldPreview_password() {
         label = stringResource(R.string.signup_label_password),
         text = text,
         onValueChange = { text = it },
-        visualTransformation = PasswordVisualTransformation()
+        visualTransformation = PasswordVisualTransformation(),
+        validator = Validator.Password
     )
 }

@@ -23,6 +23,7 @@ import nextstep.signup.component.SignupButton
 import nextstep.signup.component.SignupTextField
 import nextstep.signup.component.SignupTitle
 import nextstep.signup.ui.theme.SignupTheme
+import nextstep.signup.validator.Validator
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,35 +55,40 @@ internal fun SignupScreen(
             .padding(horizontal = 32.dp)
             .padding(top = 40.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(36.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         SignupTitle(
             modifier = Modifier.padding(top = 6.dp),
             text = stringResource(R.string.signup_title)
         )
         SignupTextField(
+            modifier = Modifier.padding(top = 20.dp),
             label = stringResource(R.string.signup_label_user_name),
             text = userName,
             onValueChange = setUserName,
-            visualTransformation = VisualTransformation.None
+            visualTransformation = VisualTransformation.None,
+            validator = Validator.Username
         )
         SignupTextField(
             label = stringResource(R.string.signup_label_email),
             text = email,
             onValueChange = setEmail,
-            visualTransformation = VisualTransformation.None
+            visualTransformation = VisualTransformation.None,
+            validator = Validator.Email,
         )
         SignupTextField(
             label = stringResource(R.string.signup_label_password),
             text = password,
             onValueChange = setPassword,
-            visualTransformation = PasswordVisualTransformation()
+            visualTransformation = PasswordVisualTransformation(),
+            validator = Validator.Password,
         )
         SignupTextField(
             label = stringResource(R.string.signup_label_password_confirm),
             text = passwordConfirm,
             onValueChange = setPasswordConfirm,
-            visualTransformation = PasswordVisualTransformation()
+            visualTransformation = PasswordVisualTransformation(),
+            validator = Validator.PasswordConfirm { password },
         )
         SignupButton(
             modifier = Modifier.padding(top = 6.dp),
