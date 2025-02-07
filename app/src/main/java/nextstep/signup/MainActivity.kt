@@ -89,7 +89,15 @@ fun SignUpTextField(
         onValueChange = {
             input = it
         },
-        label = { Text(type.hint) },
+        label = {
+            Text(
+                text = type.hint,
+                fontSize = 16.sp,
+                lineHeight = 24.sp,
+                fontWeight = FontWeight.W400,
+                letterSpacing = 0.5.sp
+            )
+        },
         singleLine = true,
         colors = TextFieldDefaults.colors(
             focusedTextColor = Color(0xFF1D1B20),
@@ -115,7 +123,7 @@ fun SignUpTextField(
         ),
         modifier = modifier
             .width(296.dp)
-            .height(53.dp)
+            .height(56.dp)
             .clip(shape = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp))
     )
 }
@@ -139,6 +147,9 @@ fun SignUpButton(modifier: Modifier = Modifier) {
             Text(
                 text = stringResource(R.string.signup),
                 fontSize = 14.sp,
+                fontWeight = FontWeight.W500,
+                lineHeight = 20.sp,
+                letterSpacing = 0.1.sp
             )
         }
     )
