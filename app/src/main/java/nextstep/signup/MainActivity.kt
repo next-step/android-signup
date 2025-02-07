@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import nextstep.signup.component.MyButton
 import nextstep.signup.component.MyTextField
 import nextstep.signup.component.Title
 import nextstep.signup.ui.theme.SignupTheme
@@ -53,6 +54,9 @@ fun UserRegisterScreen(modifier: Modifier = Modifier) {
         EmailInputField(email, { email = it })
         PasswordInputField(password, { password = it })
         PasswordConfirmInputField(passwordConfirm, { passwordConfirm = it })
+        RegisterButton(
+            onButtonClick = {}
+        )
     }
 }
 
@@ -116,6 +120,18 @@ private fun PasswordConfirmInputField(
         labelText = stringResource(R.string.user_register_input_password_confirm_label),
         visualTransformation = PasswordVisualTransformation(),
         modifier = modifier,
+    )
+}
+
+@Composable
+private fun RegisterButton(
+    onButtonClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    MyButton(
+        text = "Sign Up",
+        onClickButton = onButtonClick,
+        modifier = modifier
     )
 }
 
