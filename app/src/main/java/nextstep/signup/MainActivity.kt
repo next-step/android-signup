@@ -3,10 +3,13 @@ package nextstep.signup
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -96,6 +99,30 @@ fun SignUpTextField(
     )
 }
 
+@Composable
+fun SignUpButton(text: String, modifier: Modifier = Modifier) {
+    Button(
+        onClick = { },
+        modifier = modifier
+            .width(296.dp)
+            .height(50.dp),
+        shape = RoundedCornerShape(100.dp),
+        contentPadding = PaddingValues(0.dp),
+        colors = ButtonColors(
+            containerColor = Color(0xFF2196F3),
+            contentColor = Color.White,
+            disabledContainerColor = Color(0x1D1B201F),
+            disabledContentColor = Color(0x1D1B201F),
+        ),
+        content = {
+            Text(
+                text = text,
+                fontSize = 14.sp,
+            )
+        }
+    )
+}
+
 
 @Preview(showBackground = true)
 @Composable
@@ -107,6 +134,12 @@ private fun SignUpTitlePreview() {
 @Composable
 private fun SignUpTextFieldPreview() {
     SignUpTextField(SignUpTextFieldType.USERNAME)
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SignUpButtonPreview() {
+    SignUpButton("Sign Up")
 }
 
 enum class SignUpTextFieldType(val hint: String) {
