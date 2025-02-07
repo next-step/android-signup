@@ -12,8 +12,8 @@ import nextstep.signup.ui.theme.Typography
 
 @Composable
 fun SignUpTitle(
-    text: String,
     modifier: Modifier = Modifier,
+    text: String = stringResource(R.string.sign_up_title),
 ) {
     Text(
         text = text,

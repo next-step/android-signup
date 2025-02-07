@@ -21,7 +21,7 @@ class SignUpTitleTest {
         // given
         val text = "만나서 반가워"
         composeTestRule.setContent {
-            SignUpTitle(text)
+            SignUpTitle(text = text)
         }
 
         // then
@@ -35,7 +35,7 @@ class SignUpTitleTest {
         // given
         val text = ""
         composeTestRule.setContent {
-            SignUpTitle(text)
+            SignUpTitle(text = text)
         }
 
         // then

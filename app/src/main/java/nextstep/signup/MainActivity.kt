@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import nextstep.signup.ui.theme.SignupTheme
@@ -18,7 +20,12 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainScreen(title = "제목 입니다")
+                    Scaffold { innerPadding ->
+                        MainScreen(
+                            modifier = Modifier
+                                .padding(innerPadding)
+                        )
+                    }
                 }
             }
         }
