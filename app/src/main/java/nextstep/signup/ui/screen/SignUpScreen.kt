@@ -142,6 +142,7 @@ fun InputField(
 fun SignUpButton(
     @StringRes buttonTextResId: Int,
     modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
 ) {
     Button(
         modifier = modifier
@@ -149,7 +150,7 @@ fun SignUpButton(
         colors = ButtonDefaults.buttonColors(
             containerColor = Blue50,
         ),
-        onClick = {},
+        onClick = onClick,
         contentPadding = PaddingValues(vertical = 15.dp),
     ) {
         Text(
