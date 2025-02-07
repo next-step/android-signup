@@ -1,5 +1,7 @@
 package nextstep.signup.register.component
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
@@ -20,6 +22,20 @@ import nextstep.signup.R
 import nextstep.signup.ui.theme.UserTextFiledColor
 
 object SignUpTextFiled {
+
+    @Composable
+    operator fun invoke(modifier: Modifier = Modifier) {
+        Column(
+            modifier = modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(36.dp)
+        ) {
+            UserName()
+            Email()
+            Password()
+            PasswordConfirm()
+        }
+    }
+
 
     @Composable
     fun UserName(
@@ -105,6 +121,13 @@ object SignUpTextFiled {
 
     private const val EMPTY_STRING = ""
 }
+
+@Preview
+@Composable
+private fun PreviewSignUpTextFiled() {
+    SignUpTextFiled()
+}
+
 
 @Preview
 @Composable
