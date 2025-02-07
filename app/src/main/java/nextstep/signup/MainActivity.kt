@@ -34,16 +34,14 @@ class MainActivity : ComponentActivity() {
 
 @Preview(showBackground = true)
 @Composable
-fun DefaultPreview() {
+fun SignUpScreenPreview() {
     SignupTheme {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
-        ) {
-            Surface(
-                modifier = Modifier.padding(it)
-            ) {
-                Text(text = "Hello, World!")
-            }
+        ) { innerPadding ->
+            SignUpScreen(
+                modifier = Modifier.padding(innerPadding),
+            )
         }
     }
 }
