@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -33,6 +34,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.SignupTheme
 
 class MainActivity : ComponentActivity() {
@@ -54,19 +56,19 @@ fun SignUpScreen() {
             .fillMaxHeight(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        SignUpTitle("Welcome to Compose \uD83D\uDE80", Modifier.padding(top = 60.dp))
+        SignUpTitle(Modifier.padding(top = 60.dp))
         SignUpTextField(SignUpTextFieldType.USERNAME, Modifier.padding(top = 42.dp))
         SignUpTextField(SignUpTextFieldType.EMAIL, Modifier.padding(top = 33.dp))
         SignUpTextField(SignUpTextFieldType.PASSWORD, Modifier.padding(top = 33.dp))
         SignUpTextField(SignUpTextFieldType.PASSWORD_CONFIRM, Modifier.padding(top = 33.dp))
-        SignUpButton("Sign Up", Modifier.padding(top = 39.dp))
+        SignUpButton(Modifier.padding(top = 39.dp))
     }
 }
 
 @Composable
-fun SignUpTitle(text: String, modifier: Modifier = Modifier) {
+fun SignUpTitle(modifier: Modifier = Modifier) {
     Text(
-        text = text,
+        text = stringResource(R.string.welcome_to_compose),
         fontSize = 26.sp,
         fontWeight = FontWeight.W700,
         color = Color.Black,
@@ -92,25 +94,23 @@ fun SignUpTextField(
         colors = TextFieldDefaults.colors(
             focusedTextColor = Color(0xFF1D1B20),
             unfocusedTextColor = Color(0xFF1D1B20),
-            focusedLabelColor = Color(0xFF2196F3),
+            focusedLabelColor = Blue50,
             unfocusedLabelColor = Color(0xFF49454F),
-            focusedIndicatorColor = Color(0xFF2196F3),
-            cursorColor = Color(0xFF2196F3),
+            focusedIndicatorColor = Blue50,
+            unfocusedIndicatorColor = Color(0xFF49454F),
+            cursorColor = Blue50,
             focusedContainerColor = Color(0xFFE3E8F1),
             unfocusedContainerColor = Color(0xFFE3E8F1),
         ),
         visualTransformation = when (type) {
-            SignUpTextFieldType.USERNAME -> VisualTransformation.None
-            SignUpTextFieldType.EMAIL -> VisualTransformation.None
-            SignUpTextFieldType.PASSWORD -> PasswordVisualTransformation()
-            SignUpTextFieldType.PASSWORD_CONFIRM -> PasswordVisualTransformation()
+            SignUpTextFieldType.USERNAME, SignUpTextFieldType.EMAIL -> VisualTransformation.None
+            SignUpTextFieldType.PASSWORD, SignUpTextFieldType.PASSWORD_CONFIRM -> PasswordVisualTransformation()
         },
         keyboardOptions = KeyboardOptions(
             keyboardType = when (type) {
                 SignUpTextFieldType.USERNAME -> KeyboardType.Text
                 SignUpTextFieldType.EMAIL -> KeyboardType.Email
-                SignUpTextFieldType.PASSWORD -> KeyboardType.Password
-                SignUpTextFieldType.PASSWORD_CONFIRM -> KeyboardType.Password
+                SignUpTextFieldType.PASSWORD, SignUpTextFieldType.PASSWORD_CONFIRM -> KeyboardType.Password
             }
         ),
         modifier = modifier
@@ -121,7 +121,7 @@ fun SignUpTextField(
 }
 
 @Composable
-fun SignUpButton(text: String, modifier: Modifier = Modifier) {
+fun SignUpButton(modifier: Modifier = Modifier) {
     Button(
         onClick = { },
         modifier = modifier
@@ -137,7 +137,7 @@ fun SignUpButton(text: String, modifier: Modifier = Modifier) {
         ),
         content = {
             Text(
-                text = text,
+                text = stringResource(R.string.signup),
                 fontSize = 14.sp,
             )
         }
@@ -148,7 +148,7 @@ fun SignUpButton(text: String, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 private fun SignUpTitlePreview() {
-    SignUpTitle("Welcome to Compose \uD83D\uDE80")
+    SignUpTitle()
 }
 
 @Preview(showBackground = true)
@@ -160,7 +160,7 @@ private fun SignUpTextFieldPreview() {
 @Preview(showBackground = true)
 @Composable
 private fun SignUpButtonPreview() {
-    SignUpButton("Sign Up")
+    SignUpButton()
 }
 
 @Preview(showBackground = true)
