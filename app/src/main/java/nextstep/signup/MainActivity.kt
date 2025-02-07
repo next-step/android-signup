@@ -3,8 +3,12 @@ package nextstep.signup
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -18,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -35,10 +40,26 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SignupTheme {
-                // A surface container using the 'background' color from the theme
-
+                SignUpScreen()
             }
         }
+    }
+}
+
+@Composable
+fun SignUpScreen() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        SignUpTitle("Welcome to Compose \uD83D\uDE80", Modifier.padding(top = 60.dp))
+        SignUpTextField(SignUpTextFieldType.USERNAME, Modifier.padding(top = 42.dp))
+        SignUpTextField(SignUpTextFieldType.EMAIL, Modifier.padding(top = 33.dp))
+        SignUpTextField(SignUpTextFieldType.PASSWORD, Modifier.padding(top = 33.dp))
+        SignUpTextField(SignUpTextFieldType.PASSWORD_CONFIRM, Modifier.padding(top = 33.dp))
+        SignUpButton("Sign Up", Modifier.padding(top = 39.dp))
     }
 }
 
@@ -140,6 +161,12 @@ private fun SignUpTextFieldPreview() {
 @Composable
 private fun SignUpButtonPreview() {
     SignUpButton("Sign Up")
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SignUpScreenPreview() {
+    SignUpScreen()
 }
 
 enum class SignUpTextFieldType(val hint: String) {
