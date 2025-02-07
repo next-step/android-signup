@@ -95,7 +95,7 @@ fun SignUpScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                modifier = Modifier.padding(top = 48.dp),
+                modifier = Modifier.padding(top = 48.dp, bottom = 6.dp),
                 text = stringResource(R.string.sign_up_welcome),
                 fontWeight = FontWeight.Bold,
                 fontSize = 26.sp,
@@ -107,6 +107,7 @@ fun SignUpScreen(
             Button(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(top = 6.dp)
                     .focusable(enabled = true),
                 onClick = {
                     onAction(SignUpAction.OnSignUpClick)
@@ -139,7 +140,7 @@ fun InputFields(
             },
             visualTransformation = inputState.visualTransformation,
             onValueChange = {
-                onAction(inputState.onValueChange( it))
+                onAction(inputState.onValueChange(it))
             },
             keyboardActions = KeyboardActions(
                 onNext = {
