@@ -8,6 +8,8 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextInput
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import org.junit.Rule
 import org.junit.Test
 
@@ -25,7 +27,7 @@ class SignupTextFieldTest {
                 label = label,
                 text = text,
                 onValueChange = setText,
-                isPassword = false,
+                visualTransformation = VisualTransformation.None
             )
         }
 
@@ -45,7 +47,7 @@ class SignupTextFieldTest {
                 label = label,
                 text = text,
                 onValueChange = setText,
-                isPassword = false,
+                visualTransformation = VisualTransformation.None
             )
         }
 
@@ -70,7 +72,7 @@ class SignupTextFieldTest {
                 label = label,
                 text = password,
                 onValueChange = setPassword,
-                isPassword = true,
+                visualTransformation = PasswordVisualTransformation()
             )
         }
 
