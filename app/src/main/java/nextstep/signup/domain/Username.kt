@@ -4,8 +4,8 @@ package nextstep.signup.domain
 value class Username(val value: String) {
     fun validate(): UsernameValidationResult {
         return when {
-            !value.matches(usernameRegex) -> UsernameValidationResult.InvalidCharacter
             value.length !in MINIMUM_LENGTH..MAXIMUM_LENGTH -> UsernameValidationResult.InvalidLength
+            !value.matches(usernameRegex) -> UsernameValidationResult.InvalidCharacter
             else -> UsernameValidationResult.Valid
         }
     }
