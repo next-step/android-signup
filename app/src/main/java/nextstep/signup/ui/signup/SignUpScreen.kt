@@ -85,8 +85,6 @@ fun SignUpScreen(
     onAction: (SignUpAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val focusManager = LocalFocusManager.current
-
     Scaffold { paddingValues ->
         Column(
             modifier = modifier
@@ -102,29 +100,10 @@ fun SignUpScreen(
                 fontWeight = FontWeight.Bold,
                 fontSize = 26.sp,
             )
-            for (inputState in state.getInputStateList()) {
-                TextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = inputState.value,
-                    label = {
-                        if (inputState.label != null) {
-                            Text(stringResource(inputState.label))
-                        }
-                    },
-                    visualTransformation = inputState.visualTransformation,
-                    onValueChange = {
-                        onAction(inputState.onValueChange( it))
-                    },
-                    keyboardActions = KeyboardActions(
-                        onNext = {
-                            focusManager.moveFocus(FocusDirection.Next)
-                        }
-                    ),
-                    keyboardOptions = KeyboardOptions(
-                        imeAction = ImeAction.Next
-                    )
-                )
-            }
+            InputFields(
+                inputStates = state.getInputStateList(),
+                onAction = onAction,
+            )
             Button(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -139,6 +118,38 @@ fun SignUpScreen(
                 )
             }
         }
+    }
+}
+
+@Composable
+fun InputFields(
+    inputStates: List<InputState>,
+    onAction: (SignUpAction) -> Unit,
+) {
+    val focusManager = LocalFocusManager.current
+
+    for (inputState in inputStates) {
+        TextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = inputState.value,
+            label = {
+                if (inputState.label != null) {
+                    Text(stringResource(inputState.label))
+                }
+            },
+            visualTransformation = inputState.visualTransformation,
+            onValueChange = {
+                onAction(inputState.onValueChange( it))
+            },
+            keyboardActions = KeyboardActions(
+                onNext = {
+                    focusManager.moveFocus(FocusDirection.Next)
+                }
+            ),
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next
+            )
+        )
     }
 }
 
