@@ -1,5 +1,6 @@
 package nextstep.signup.register.component
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -19,7 +20,7 @@ fun SignUpTitle(
 ) {
 
     Text(
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth(),
         text = title,
         fontSize = 26.sp,
         fontWeight = FontWeight.Bold,

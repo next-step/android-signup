@@ -1,6 +1,7 @@
 package nextstep.signup.register.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -14,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import nextstep.signup.R
 import nextstep.signup.ui.theme.UserTextFiledColor
 
@@ -27,7 +29,9 @@ object SignUpTextFiled {
         var inputUserName by remember { mutableStateOf(userName) }
 
         TextField(
-            modifier = modifier,
+            modifier = modifier
+                .fillMaxWidth()
+                .height(56.dp),
             value = inputUserName,
             onValueChange = { inputUserName = it },
             singleLine = true,
@@ -44,7 +48,9 @@ object SignUpTextFiled {
     ) {
         var inputEmail by remember { mutableStateOf(email) }
         TextField(
-            modifier = modifier,
+            modifier = modifier
+                .fillMaxWidth()
+                .height(56.dp),
             value = inputEmail,
             onValueChange = { inputEmail = it },
             singleLine = true,
@@ -62,7 +68,9 @@ object SignUpTextFiled {
         var inputPassword by remember { mutableStateOf(password) }
 
         TextField(
-            modifier = modifier,
+            modifier = modifier
+                .fillMaxWidth()
+                .height(56.dp),
             value = inputPassword,
             onValueChange = { inputPassword = it },
             singleLine = true,
@@ -82,7 +90,9 @@ object SignUpTextFiled {
         var inputPasswordConfirm by remember { mutableStateOf(passwordConfirm) }
 
         TextField(
-            modifier = modifier,
+            modifier = modifier
+                .fillMaxWidth()
+                .height(56.dp),
             value = inputPasswordConfirm,
             onValueChange = { inputPasswordConfirm = it },
             singleLine = true,
