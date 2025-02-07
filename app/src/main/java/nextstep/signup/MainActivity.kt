@@ -6,7 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -50,12 +52,39 @@ fun UserRegisterScreen(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
         UserRegisterTitle()
-        UsernameInputField(userName, { userName = it })
-        EmailInputField(email, { email = it })
-        PasswordInputField(password, { password = it })
-        PasswordConfirmInputField(passwordConfirm, { passwordConfirm = it })
+        UsernameInputField(
+            value = userName,
+            onValueChange = { userName = it },
+            modifier = Modifier
+                .width(296.dp)
+                .height(53.dp)
+        )
+        EmailInputField(
+            value = email,
+            onValueChange = { email = it },
+            modifier = Modifier
+                .width(296.dp)
+                .height(53.dp)
+        )
+        PasswordInputField(
+            value = password,
+            onValueChange = { password = it },
+            modifier = Modifier
+                .width(296.dp)
+                .height(53.dp)
+        )
+        PasswordConfirmInputField(
+            value = passwordConfirm,
+            onValueChange = { passwordConfirm = it },
+            modifier = Modifier
+                .width(296.dp)
+                .height(53.dp)
+        )
         RegisterButton(
-            onButtonClick = {}
+            onButtonClick = {},
+            modifier = Modifier
+                .width(296.dp)
+                .height(50.dp),
         )
     }
 }
