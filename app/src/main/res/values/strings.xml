@@ -4,4 +4,5 @@
     <string name="email_label">Email</string>
     <string name="password_label">Password</string>
     <string name="password_confirm_label">Password Confirm</string>
+    <string name="sign_up_welcome">Welcome to Compose 🚀</string>
 </resources>
