@@ -7,4 +7,4 @@
 - [ ] 컴포저블 함수가 너무 많은 일을 하지 않도록 분리
 - [ ] Material3 Button, TextField를 활용
 - [ ] 반복 사용되는 TextField를 Composable로 정의하기(UI 요구 사항에 맞는 TextField)
-- [ ] Material Theme 정의하기
+- [x] Material Theme 정의하기
