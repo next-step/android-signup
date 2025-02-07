@@ -132,36 +132,24 @@ private fun PreviewSignUpTextFiled() {
 @Preview
 @Composable
 private fun PreviewUserNameTextFiled() {
-    SignUpTextFiled.UserName(
-        modifier = Modifier.fillMaxWidth(),
-        userName = "김컴포즈"
-    )
+    SignUpTextFiled.UserName(userName = "김컴포즈")
 }
 
 @Preview
 @Composable
 private fun PreviewEmailTextFiled() {
-    SignUpTextFiled.Email(
-        modifier = Modifier.fillMaxWidth(),
-        email = "test@test.com"
-    )
+    SignUpTextFiled.Email(email = "test@test.com")
 }
 
 @Preview
 @Composable
 private fun PreviewPasswordTextFiled() {
-    SignUpTextFiled.Password(
-        modifier = Modifier.fillMaxWidth(),
-        password = "김컴포즈1234"
-    )
+    SignUpTextFiled.Password(password = "김컴포즈1234")
 }
 
 
 @Preview
 @Composable
 private fun PreviewPasswordConfirmTextFiled() {
-    SignUpTextFiled.PasswordConfirm(
-        modifier = Modifier.fillMaxWidth(),
-        passwordConfirm = "김컴포즈1234"
-    )
+    SignUpTextFiled.PasswordConfirm(passwordConfirm = "김컴포즈1234")
 }
