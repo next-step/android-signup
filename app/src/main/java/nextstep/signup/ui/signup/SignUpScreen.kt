@@ -1,5 +1,6 @@
 package nextstep.signup.ui.signup
 
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -121,6 +123,19 @@ fun SignUpScreen(
                     keyboardOptions = KeyboardOptions(
                         imeAction = ImeAction.Next
                     )
+                )
+            }
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .focusable(enabled = true),
+                onClick = {
+                    onAction(SignUpAction.OnSignUpClick)
+                }
+            ) {
+                Text(
+                    text = stringResource(R.string.sign_up_sign),
+                    modifier = Modifier.padding(vertical = 8.dp),
                 )
             }
         }
