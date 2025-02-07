@@ -21,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import nextstep.signup.ui.component.SubmitButton
 import nextstep.signup.ui.component.SignupForm
 import nextstep.signup.ui.component.SignupTitle
 import nextstep.signup.ui.theme.SignupTheme
@@ -79,6 +80,8 @@ fun SignupLayout() {
                 onInputChange = { passwordConfirm = it },
                 inputType = KeyboardType.Password,
             )
+            EmptySpace()
+            SubmitButton()
         }
     }
 }

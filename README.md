@@ -7,5 +7,5 @@
 
 ## step2
 [v] SignupTitle을 구현한다.
-[] SignupForm을 구현한다. (username, email, password)
-[] SubmitButton을 구현한다.
+[v] SignupForm을 구현한다. (username, email, password)
+[v] SubmitButton을 구현한다.
