@@ -16,14 +16,15 @@ import nextstep.signup.ui.theme.SignupBlue
 
 @Composable
 fun SubmitButton(
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
+    modifier: Modifier = Modifier
 ) {
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
             containerColor = SignupBlue,
         ),
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(56.dp)
             .padding(horizontal = 32.dp)

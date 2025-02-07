@@ -14,6 +14,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import nextstep.signup.ui.theme.SignupBlue
 
@@ -23,6 +25,7 @@ fun SignupForm(
     inputValue: String = "",
     onInputChange: (String) -> Unit = {},
     inputType: KeyboardType = KeyboardType.Text,
+    modifier: Modifier = Modifier,
 ) {
     TextField(
         value = inputValue,
@@ -39,15 +42,25 @@ fun SignupForm(
             keyboardType = inputType
         ),
         visualTransformation = if (inputType == KeyboardType.Password) PasswordVisualTransformation() else VisualTransformation.None,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(56.dp)
-            .padding(horizontal = 32.dp)
+    )
+}
+
+class FormPreviewParameterProvider : PreviewParameterProvider<String> {
+    override val values = sequenceOf(
+        "Username",
+        "Email",
+        "Password",
+        "Password Confirm",
     )
 }
 
 @Preview
 @Composable
-fun SignupFormPreview(modifier: Modifier = Modifier) {
-    SignupForm(label = "Username")
+fun SignupFormPreview(
+    @PreviewParameter(FormPreviewParameterProvider::class, limit = 4) type: String
+) {
+    SignupForm(label = type)
 }

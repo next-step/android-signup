@@ -11,13 +11,16 @@ import androidx.compose.ui.unit.sp
 import nextstep.signup.R
 
 @Composable
-fun SignupTitle() {
+fun SignupTitle(
+    modifier: Modifier = Modifier,
+) {
     Text(
         text = stringResource(R.string.signup_title),
         fontSize = 26.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.01.em,
         fontWeight = FontWeight.Bold,
+        modifier = modifier,
     )
 }
 
