@@ -21,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -45,7 +46,7 @@ fun SignUpScreen(
         Spacer(modifier = Modifier.height(60.dp))
 
         Text(
-            text = "Welcome to Compose \uD83D\uDE80",
+            text = stringResource(R.string.sign_up_title),
             fontSize = 26.sp,
             fontFamily = roboto,
             fontWeight = FontWeight.Bold
@@ -56,10 +57,16 @@ fun SignUpScreen(
         Column(
             verticalArrangement = Arrangement.spacedBy(36.dp),
         ) {
-            SignUpInputForm("Username")
-            SignUpInputForm("Email")
-            SignUpInputForm("Password", PasswordVisualTransformation())
-            SignUpInputForm("Password Confirm", PasswordVisualTransformation())
+            SignUpInputForm(label = stringResource(R.string.sign_up_user_name_label))
+            SignUpInputForm(label = stringResource(R.string.sign_up_email_label))
+            SignUpInputForm(
+                label = stringResource(R.string.sign_up_password_label),
+                visualTransformation = PasswordVisualTransformation()
+            )
+            SignUpInputForm(
+                label = stringResource(R.string.sign_up_password_confirm_label),
+                visualTransformation = PasswordVisualTransformation()
+            )
             Button(
                 onClick = { /*TODO*/ },
                 modifier = Modifier
@@ -69,7 +76,7 @@ fun SignUpScreen(
                     containerColor = Blue50,
                 )
             ) {
-                Text("Sign Up")
+                Text(stringResource(R.string.btn_sign_up))
             }
         }
     }
