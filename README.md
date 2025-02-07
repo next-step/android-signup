@@ -6,6 +6,6 @@
 [v]  Preview의 interactive 모드를 활용하여 버튼을 클릭해본다
 
 ## step2
-[] SignupTitle을 구현한다.
+[v] SignupTitle을 구현한다.
 [] SignupForm을 구현한다. (username, email, password)
 [] SubmitButton을 구현한다.
