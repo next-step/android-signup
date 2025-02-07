@@ -51,4 +51,68 @@ class ValidatorTest {
         //then
         assert(result == ValidateResult.SUCCESS)
     }
+
+    @Test
+    fun `비밀번호는 8자보다 적으면 안된다`() {
+        // given
+        val password = "1q2w3e4"
+
+        // when
+        val result = Validator.Password.checkCondition(password)
+
+        //then
+        assert(result == ValidateResult.INVALID_LENGTH_PASSWORD)
+    }
+
+    @Test
+    fun `비밀번호는 16자보다 많으면 안된다`() {
+        // given
+        val password = "1q2w3e4r5t6y7u8i9"
+
+        // when
+        val result = Validator.Password.checkCondition(password)
+
+        //then
+        assert(result == ValidateResult.INVALID_LENGTH_PASSWORD)
+    }
+
+    @Test
+    fun `비밀번호는 영문을 포함하지 않으면 안된다`() {
+        // given
+        val password = "123456789"
+
+        // when
+        val result = Validator.Password.checkCondition(password)
+
+        //then
+        assert(result == ValidateResult.INVALID_FORMAT_PASSWORD)
+    }
+
+    @Test
+    fun `비밀번호는 숫자를 포함하지 않으면 안된다`() {
+        // given
+        val password = "qwertyui"
+
+        // when
+        val result = Validator.Password.checkCondition(password)
+
+        //then
+        assert(result == ValidateResult.INVALID_FORMAT_PASSWORD)
+    }
+
+    @Test
+    fun `비밀번호가 일치해야한다`() {
+        // given
+        val password = "1q2w3e4r"
+        val passwordConfirm = "1q2w3e4r"
+
+        // when
+        val result = Validator.PasswordConfirm {
+            password
+        }.checkCondition(passwordConfirm)
+
+        //then
+        assert(result == ValidateResult.SUCCESS)
+    }
+
 }

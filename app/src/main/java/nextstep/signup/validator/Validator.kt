@@ -32,4 +32,30 @@ sealed interface Validator {
         }
     }
 
+    data object Password : Validator {
+
+        private const val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$"
+        private val regex by lazy { Regex(PASSWORD_REGEX) }
+
+        override fun checkCondition(value: String): ValidateResult {
+            if (value.length !in 8..16) return ValidateResult.INVALID_LENGTH_PASSWORD
+
+            return when (value.matches(regex)) {
+                true -> ValidateResult.SUCCESS
+                false -> ValidateResult.INVALID_FORMAT_PASSWORD
+            }
+        }
+    }
+
+    class PasswordConfirm(
+        private val passwordProvider: () -> String
+    ) : Validator {
+        override fun checkCondition(value: String): ValidateResult {
+            if (value.isEmpty()) return ValidateResult.SUCCESS
+            return when (passwordProvider() == value) {
+                true -> ValidateResult.SUCCESS
+                false -> ValidateResult.NOT_MATCH_PASSWORD
+            }
+        }
+    }
 }
