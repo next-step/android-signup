@@ -39,4 +39,16 @@ class ValidatorTest {
         //then
         assert(result == ValidateResult.INVALID_FORMAT_USERNAME)
     }
+
+    @Test
+    fun `이메일은 형식이 맞아야한다`() {
+        // given
+        val email = "raindragonn@gmail.com"
+
+        // when
+        val result = Validator.Email.checkCondition(email)
+
+        //then
+        assert(result == ValidateResult.SUCCESS)
+    }
 }
