@@ -37,6 +37,7 @@ fun SignUpScreenRoot(modifier: Modifier = Modifier) {
     }
 
     SignUpScreen(
+        modifier = modifier,
         state = state,
         onAction = { action ->
             when (action) {
