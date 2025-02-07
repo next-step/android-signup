@@ -63,7 +63,7 @@ class SignupTextFieldTest {
     }
 
     @Test
-    fun password() {
+    fun passwordIsNotDisplay() {
         // given
         val label = "Password"
         composeTestRule.setContent {
