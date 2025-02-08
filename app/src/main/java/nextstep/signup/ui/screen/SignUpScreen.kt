@@ -33,13 +33,17 @@ import androidx.compose.ui.unit.sp
 import nextstep.signup.R
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.BlueGrey50
+import nextstep.signup.ui.theme.RedError
 
 @Composable
 fun SignUpScreen(modifier: Modifier) {
     Surface(
         modifier = modifier.background(Color.White),
     ) {
+
         var userName by remember { mutableStateOf("") }
+        var userErrMsg by remember { mutableStateOf<String?>(null) }
+
         var email by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
         var confirmPassword by remember { mutableStateOf("") }
@@ -57,7 +61,15 @@ fun SignUpScreen(modifier: Modifier) {
             InputField(
                 label = stringResource(R.string.user_name),
                 value = userName,
-                onValueChange = { userName = it },
+                onValueChange = {
+                    userName = it
+                    userErrMsg = when {
+                        it.length !in 2..5 -> "이름은 2~5자 사이어야 합니다."
+                        !it.matches(Regex(RegexPattern.USERNAME_REGEX)) -> "이름은 한글 또는 영문만 입력 가능합니다."
+                        else -> null
+                    }
+                },
+                isError = userErrMsg,
                 modifier = Modifier.padding(top = 42.dp)
             )
             InputField(
@@ -105,6 +117,7 @@ fun TitleText(
 fun InputField(
     label: String,
     value: String,
+    isError: String? = null,
     inputType: KeyboardType = KeyboardType.Text,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -112,6 +125,16 @@ fun InputField(
     TextField(
         value = value,
         onValueChange = onValueChange,
+        isError = isError != null,
+        supportingText = {
+            isError?.let {
+                Text(
+                    text = it,
+                    color = RedError,
+                    fontSize = 12.sp,
+                )
+            }
+        },
         keyboardOptions = KeyboardOptions.Default.copy(
             imeAction = ImeAction.Done,
             keyboardType = KeyboardType.Password
@@ -131,6 +154,8 @@ fun InputField(
             unfocusedContainerColor = BlueGrey50,
             focusedContainerColor = BlueGrey50,
             focusedLabelColor = Blue50,
+            errorCursorColor = RedError,
+            errorLabelColor = RedError,
         ),
         modifier = modifier
             .fillMaxWidth()
@@ -184,5 +209,11 @@ private fun SignUpButtonPreView() {
     SignUpButton(
         buttonText = "SingUp"
     )
+}
+
+object RegexPattern {
+    const val USERNAME_REGEX = "^[a-zA-Z가-힣]+$"
+    const val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
+    const val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$"
 }
 
