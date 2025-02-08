@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
@@ -24,6 +23,7 @@ import nextstep.signup.component.MyButton
 import nextstep.signup.component.MyTextField
 import nextstep.signup.component.Title
 import nextstep.signup.ui.theme.SignupTheme
+import nextstep.signup.util.ValidationUtil.setUsernameErrorMessage
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +39,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun UserRegisterScreen(modifier: Modifier = Modifier) {
     var userName by rememberSaveable { mutableStateOf("") }
+    var userNameErrorMessage by rememberSaveable { mutableStateOf("") }
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var passwordConfirm by rememberSaveable { mutableStateOf("") }
@@ -49,59 +50,55 @@ fun UserRegisterScreen(modifier: Modifier = Modifier) {
             .padding(horizontal = 16.dp)
             .padding(top = 100.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(20.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         UserRegisterTitle()
         UsernameInputField(
             value = userName,
-            onValueChange = { userName = it },
-            modifier = Modifier
-                .width(296.dp)
-                .height(53.dp)
+            errorMessage = userNameErrorMessage,
+            onValueChange = {
+                userName = it
+                userNameErrorMessage = setUsernameErrorMessage(it)
+            },
+            modifier = Modifier.width(296.dp),
         )
         EmailInputField(
             value = email,
             onValueChange = { email = it },
-            modifier = Modifier
-                .width(296.dp)
-                .height(53.dp)
+            modifier = Modifier.width(296.dp),
         )
         PasswordInputField(
             value = password,
             onValueChange = { password = it },
-            modifier = Modifier
-                .width(296.dp)
-                .height(53.dp)
+            modifier = Modifier.width(296.dp),
         )
         PasswordConfirmInputField(
             value = passwordConfirm,
             onValueChange = { passwordConfirm = it },
-            modifier = Modifier
-                .width(296.dp)
-                .height(53.dp)
+            modifier = Modifier.width(296.dp),
         )
         RegisterButton(
             onButtonClick = {},
-            modifier = Modifier
-                .width(296.dp)
-                .height(50.dp),
+            modifier = Modifier.width(296.dp),
         )
     }
 }
 
 @Composable
-private fun UserRegisterTitle(modifier: Modifier = Modifier) {
+fun UserRegisterTitle(modifier: Modifier = Modifier) {
     Title(stringResource(R.string.user_register_screen_title), modifier)
 }
 
 @Composable
-private fun UsernameInputField(
+fun UsernameInputField(
     value: String,
+    errorMessage: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     MyTextField(
         value = value,
+        errorMessage = errorMessage,
         onValueChange = onValueChange,
         labelText = stringResource(R.string.user_register_input_username_label),
         modifier = modifier,
@@ -109,7 +106,7 @@ private fun UsernameInputField(
 }
 
 @Composable
-private fun EmailInputField(
+fun EmailInputField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -123,7 +120,7 @@ private fun EmailInputField(
 }
 
 @Composable
-private fun PasswordInputField(
+fun PasswordInputField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -138,7 +135,7 @@ private fun PasswordInputField(
 }
 
 @Composable
-private fun PasswordConfirmInputField(
+fun PasswordConfirmInputField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -153,7 +150,7 @@ private fun PasswordConfirmInputField(
 }
 
 @Composable
-private fun RegisterButton(
+fun RegisterButton(
     onButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
