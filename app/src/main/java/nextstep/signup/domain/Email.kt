@@ -4,8 +4,8 @@ package nextstep.signup.domain
 value class Email(val value: String) {
     fun validate(): EmailValidationResult {
         return when {
-            !value.matches(emailRegex) -> EmailValidationResult.InvalidForm
-            else -> EmailValidationResult.Valid
+            !value.matches(emailRegex) -> EmailValidationResult.INVALID_FORM
+            else -> EmailValidationResult.VALID
         }
     }
 
@@ -16,6 +16,6 @@ value class Email(val value: String) {
 }
 
 enum class EmailValidationResult {
-    Valid,
-    InvalidForm,
+    VALID,
+    INVALID_FORM,
 }
