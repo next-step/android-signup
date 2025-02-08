@@ -36,7 +36,7 @@ class EmailSignUpTextFieldInvalidFormTest(
                 onValueChange = { emailState.value = Email(it).toUiState() },
                 isError = emailState.value.isError,
                 supportingText = emailState.value.supportingText,
-                label = "username",
+                label = "email",
                 modifier = Modifier.testTag(TAG_SIGN_UP_TEXT_FIELD)
             )
         }
