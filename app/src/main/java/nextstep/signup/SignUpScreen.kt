@@ -67,17 +67,20 @@ fun SignUpScreen(
                 label = stringResource(R.string.sign_up_password_confirm_label),
                 visualTransformation = PasswordVisualTransformation()
             )
-            Button(
-                onClick = { /*TODO*/ },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Blue50,
-                )
-            ) {
-                Text(stringResource(R.string.btn_sign_up))
-            }
+        }
+
+        Spacer(modifier = Modifier.height(42.dp))
+
+        Button(
+            onClick = { /*TODO*/ },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Blue50,
+            )
+        ) {
+            Text(stringResource(R.string.btn_sign_up))
         }
     }
 }
