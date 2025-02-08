@@ -24,10 +24,12 @@ class SignUpScreenTest {
             }
         }
 
+        // when
         composeTestRule
             .onNodeWithText("Username")
             .performTextInput(userName)
 
+        // then
         composeTestRule
             .onNodeWithText(userName)
             .assertExists()
@@ -43,10 +45,12 @@ class SignUpScreenTest {
             }
         }
 
+        // when
         composeTestRule
             .onNodeWithText("Email")
             .performTextInput(emailInput)
 
+        // then
         composeTestRule
             .onNodeWithText(emailInput)
             .assertExists()
@@ -62,10 +66,12 @@ class SignUpScreenTest {
             }
         }
 
+        // when
         composeTestRule
             .onNodeWithText("Password")
             .performTextInput(passwordInput)
 
+        // then
         composeTestRule
             .onNodeWithText(passwordInput)
             .assertDoesNotExist()
@@ -81,10 +87,12 @@ class SignUpScreenTest {
             }
         }
 
+        // when
         composeTestRule
             .onNodeWithText("Password")
             .performTextInput(passwordInput)
 
+        // then
         composeTestRule
             .onNodeWithText(passwordInput)
             .assertDoesNotExist()
@@ -103,10 +111,12 @@ class SignUpScreenTest {
             }
         }
 
+        // when
         composeTestRule
             .onNodeWithText("Username")
             .performTextInput(username)
 
+        // then
         composeTestRule
             .onNodeWithText(invalidSupportingText)
             .assertExists()
@@ -125,10 +135,12 @@ class SignUpScreenTest {
             }
         }
 
+        // when
         composeTestRule
             .onNodeWithText("Username")
             .performTextInput(username)
 
+        // then
         composeTestRule
             .onNodeWithText(invalidSupportingText)
             .assertExists()
@@ -147,10 +159,12 @@ class SignUpScreenTest {
             }
         }
 
+        // when
         composeTestRule
             .onNodeWithText("Username")
             .performTextInput(username)
 
+        // then
         composeTestRule
             .onNodeWithText(invalidSupportingText)
             .assertDoesNotExist()
@@ -169,10 +183,12 @@ class SignUpScreenTest {
             }
         }
 
+        // when
         composeTestRule
             .onNodeWithText("Username")
             .performTextInput(username)
 
+        // then
         composeTestRule
             .onNodeWithText(invalidSupportingText)
             .assertExists()
@@ -191,12 +207,62 @@ class SignUpScreenTest {
             }
         }
 
+        // when
         composeTestRule
             .onNodeWithText("Username")
             .performTextInput(username)
 
+        // then
         composeTestRule
             .onNodeWithText(invalidSupportingText)
             .assertExists()
+    }
+
+    @Test
+    fun 잘못된_이메일_입력시_유효성_검사_실패_메세지가_보인다() {
+        // given
+        val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
+        val emailInput = "invalidEmail" // 잘못된 이메일 형식
+        val invalidEmailMessage = context.getString(R.string.sign_up_invalid_email_format)
+
+        composeTestRule.setContent {
+            MaterialTheme {
+                SignUpScreen()
+            }
+        }
+
+        // when
+        composeTestRule
+            .onNodeWithText("Email")
+            .performTextInput(emailInput)
+
+        // then
+        composeTestRule
+            .onNodeWithText(invalidEmailMessage)
+            .assertExists()
+    }
+
+    @Test
+    fun 올바른_이메일_입력시_유효성_검사_실패_메세지가_보이지_않는다() {
+        // given
+        val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
+        val emailInput = "valid@test.com" // 올바른 이메일 형식
+        val invalidEmailMessage = context.getString(R.string.sign_up_invalid_email_format)
+
+        composeTestRule.setContent {
+            MaterialTheme {
+                SignUpScreen()
+            }
+        }
+
+        // when
+        composeTestRule
+            .onNodeWithText("Email")
+            .performTextInput(emailInput)
+
+        // then
+        composeTestRule
+            .onNodeWithText(invalidEmailMessage)
+            .assertDoesNotExist()
     }
 }

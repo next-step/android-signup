@@ -32,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.signupvalidation.SignUpInvalidType
+import nextstep.signup.signupvalidation.SignUpValidEmail
 import nextstep.signup.signupvalidation.SignUpValidNone
 import nextstep.signup.signupvalidation.SignUpValidUsername
 import nextstep.signup.ui.theme.Blue50
@@ -69,7 +70,7 @@ fun SignUpScreen(
             )
             SignUpInputForm(
                 label = stringResource(R.string.sign_up_email_label),
-                validInput = SignUpValidNone(),
+                validInput = SignUpValidEmail(),
             )
             SignUpInputForm(
                 label = stringResource(R.string.sign_up_password_label),
@@ -114,11 +115,16 @@ private fun SignUpInputForm(
         value = input,
         onValueChange = { value ->
             val signUpValidType = validInput(value)
-            errorText = if (signUpValidType == null) "" else context.getString(signUpValidType.resId)
+            errorText =
+                if (signUpValidType == null) "" else context.getString(signUpValidType.resId)
             input = value
         },
         label = { Text(label) },
-        supportingText = { Text(errorText, modifier = Modifier.semantics { contentDescription = "SignUpInputFormErrorText" }) },
+        supportingText = {
+            Text(
+                errorText,
+                modifier = Modifier.semantics { contentDescription = "SignUpInputFormErrorText" })
+        },
         colors = TextFieldDefaults.colors(
             unfocusedContainerColor = BlueGrey20,
             focusedContainerColor = BlueGrey20,
