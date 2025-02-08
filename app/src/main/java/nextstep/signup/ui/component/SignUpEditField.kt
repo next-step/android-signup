@@ -1,6 +1,6 @@
 package nextstep.signup.ui.component
 
-import androidx.annotation.VisibleForTesting
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,42 +29,6 @@ import nextstep.signup.ui.model.SignUpInputType
 import nextstep.signup.ui.theme.SignupTheme
 import nextstep.signup.ui.theme.Typography
 
-@VisibleForTesting
-@Composable
-private fun SignUpEditField(
-    modifier: Modifier = Modifier,
-    value: String,
-    type: SignUpInputType,
-    onValueChanged: (String) -> Unit,
-) {
-    val isValid = if (value.isNotEmpty()) type.isValid(value) else true
-    val errorMessage = type.errorMessageResId(value).let { if (it > 0) stringResource(it) else "" }
-
-    TextField(
-        modifier = modifier.fillMaxWidth(),
-        value = value,
-        textStyle = Typography.bodyLarge,
-        singleLine = true,
-        onValueChange = onValueChanged,
-        isError = !isValid,
-        supportingText = {
-            if (!isValid) {
-                Text(
-                    text = errorMessage,
-                    style = Typography.bodySmall,
-                    color = MaterialTheme.colorScheme.error,
-                )
-            }
-        },
-        label = { Text(text = stringResource(type.labelResId)) },
-        visualTransformation = if (type.keyboardType == KeyboardType.Password) PasswordVisualTransformation() else VisualTransformation.None,
-        keyboardOptions = KeyboardOptions(
-            keyboardType = type.keyboardType,
-            imeAction = if (type.hasNextField()) ImeAction.Next else ImeAction.Done
-        )
-    )
-}
-
 @Composable
 fun SignUpEditFields(
     modifier: Modifier = Modifier,
@@ -76,26 +40,67 @@ fun SignUpEditFields(
         verticalArrangement = Arrangement.spacedBy(36.dp),
     ) {
         SignUpEditField(
-            value = inputModel.username,
+            inputModel = inputModel,
             type = SignUpInputType.USERNAME,
             onValueChanged = { onUpdateModel(inputModel.copy(username = it)) },
         )
         SignUpEditField(
-            value = inputModel.email,
+            inputModel = inputModel,
             type = SignUpInputType.EMAIL,
             onValueChanged = { onUpdateModel(inputModel.copy(email = it)) },
         )
         SignUpEditField(
-            value = inputModel.password,
+            inputModel = inputModel,
             type = SignUpInputType.PASSWORD,
             onValueChanged = { onUpdateModel(inputModel.copy(password = it)) },
         )
         SignUpEditField(
-            value = inputModel.passwordConfirm,
+            inputModel = inputModel,
             type = SignUpInputType.PASSWORD_CONFIRM,
             onValueChanged = { onUpdateModel(inputModel.copy(passwordConfirm = it)) },
         )
     }
+}
+
+@Composable
+private fun SignUpEditField(
+    modifier: Modifier = Modifier,
+    inputModel: SignUpInputModel,
+    type: SignUpInputType,
+    onValueChanged: (String) -> Unit,
+) {
+
+    val isError = type.isError(inputModel)
+    val errorMessageResId = type.errorMessageResiId(inputModel)
+
+    TextField(
+        modifier = modifier.fillMaxWidth(),
+        value = inputModel.getValueBySignUpInputType(type),
+        textStyle = Typography.bodyLarge,
+        singleLine = true,
+        onValueChange = onValueChanged,
+        isError = isError,
+        supportingText = {
+            if (isError) ErrorMessageText(resId = errorMessageResId)
+        },
+        label = { Text(text = stringResource(type.labelResId)) },
+        visualTransformation = if (type.keyboardType == KeyboardType.Password) PasswordVisualTransformation() else VisualTransformation.None,
+        keyboardOptions = KeyboardOptions(
+            keyboardType = type.keyboardType,
+            imeAction = if (type.hasNextField()) ImeAction.Next else ImeAction.Done
+        )
+    )
+}
+
+
+@Composable
+private fun ErrorMessageText(@StringRes resId: Int) {
+    if (resId == 0) return
+    Text(
+        text = stringResource(resId),
+        style = Typography.bodySmall,
+        color = MaterialTheme.colorScheme.error,
+    )
 }
 
 @Preview(showSystemUi = true)

@@ -25,7 +25,7 @@ class SignUpInputUsernameValidationTest {
         composeTestRule.setContent {
             SignUpEditFields(
                 inputModel = model,
-                onUpdateModel = { model = model.copy(it.username) }
+                onUpdateModel = { model = it }
             )
 
             lengthErrorMessage = stringResource(R.string.username_length_error_message)
@@ -35,7 +35,7 @@ class SignUpInputUsernameValidationTest {
     }
 
     @Test
-    fun 사용자_이름은_최소2자_최대5자() {
+    fun 사용자_이름은_최소2자_최대5자_영문_또는_한글만_포함() {
         // when
         val username = "상아당"
         model = model.copy(username = username)
@@ -71,7 +71,7 @@ class SignUpInputUsernameValidationTest {
     }
 
     @Test
-    fun 사용자_이름엔_숫자_기호는_제외() {
+    fun 사용자_이름은_최소2자_최대5자_이지만_숫자_기호가_있으면_에러메시지_노출() {
         // when
         val username = "숫자4"
         model = model.copy(username = username)

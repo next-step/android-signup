@@ -12,4 +12,11 @@ data class SignUpInputModel(
         password = "",
         passwordConfirm = "",
     )
+
+    fun getValueBySignUpInputType(type: SignUpInputType) = when (type) {
+        SignUpInputType.USERNAME -> username
+        SignUpInputType.EMAIL -> email
+        SignUpInputType.PASSWORD -> password
+        SignUpInputType.PASSWORD_CONFIRM -> passwordConfirm
+    }
 }

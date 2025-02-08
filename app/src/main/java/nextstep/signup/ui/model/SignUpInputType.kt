@@ -50,27 +50,35 @@ enum class SignUpInputType(
     PASSWORD_CONFIRM(
         labelResId = R.string.password_confirm,
         keyboardType = KeyboardType.Password,
-        validationRules = listOf(
-            ValidationRule(
-                regex = PASSWORD_LENGTH_REGEX,
-                errorMessageResId = R.string.password_length_error_message,
-            ),
-            ValidationRule(
-                regex = PASSWORD_CHARACTER_TYPE_REGEX,
-                errorMessageResId = R.string.password_character_type_error_message,
-            ),
-        ),
+        validationRules = emptyList(),
     );
 
     fun hasNextField() = entries.last() != this
 
-    private fun validate(value: String) = validationRules.firstOrNull { !it.regex.matches(value) }
+    fun isError(inputModel: SignUpInputModel): Boolean {
+        val value = inputModel.getValueBySignUpInputType(this)
 
-    fun isValid(value: String) = validate(value) == null
-    fun errorMessageResId(value: String) = validate(value)?.errorMessageResId ?: 0
+        if (value.isEmpty()) return false
+
+        return if (this == PASSWORD_CONFIRM) {
+            inputModel.run { passwordConfirm != password }
+        } else {
+            validate(value) != null
+        }
+    }
+
+    fun errorMessageResiId(inputModel: SignUpInputModel): Int {
+        return if (this == PASSWORD_CONFIRM) {
+            if (inputModel.run { passwordConfirm != password }) R.string.password_is_equal_confirm_error_message else 0
+        } else {
+            validate(inputModel.getValueBySignUpInputType(this))?.errorMessageResId ?: 0
+        }
+    }
+
+    private fun validate(value: String) = validationRules.firstOrNull { !it.regex.matches(value) }
 }
 
-data class ValidationRule(
+private data class ValidationRule(
     val regex: Regex,
     val errorMessageResId: Int,
 )

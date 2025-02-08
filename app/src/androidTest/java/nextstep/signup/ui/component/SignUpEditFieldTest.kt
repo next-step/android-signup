@@ -23,7 +23,7 @@ class SignUpEditFieldTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun showSignUpEditField() {
+    fun 사용자_입력창에_사용자명_이메일_비밀번호_비밀번호확인_노출() {
 
         // given
         val tag = "tag"
@@ -44,7 +44,7 @@ class SignUpEditFieldTest {
 
 
     @Test
-    fun userInputChanged() {
+    fun 사용자_입력창_값_입력_시_업데이트() {
         // given
         val tag = "tag"
         val input = "input"

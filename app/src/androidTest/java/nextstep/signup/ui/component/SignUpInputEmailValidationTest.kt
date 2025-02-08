@@ -24,9 +24,8 @@ class SignUpInputEmailValidationTest {
         composeTestRule.setContent {
             SignUpEditFields(
                 inputModel = model,
-                onUpdateModel = { model = model.copy(it.email) }
+                onUpdateModel = { model = it }
             )
-
             errorMessage = stringResource(R.string.email_error_message)
         }
     }
