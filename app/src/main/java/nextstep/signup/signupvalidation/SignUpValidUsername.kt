@@ -1,6 +1,6 @@
 package nextstep.signup.signupvalidation
 
-class ValidUsername : (String) -> SignUpInvalidType? {
+class SignUpValidUsername : (String) -> SignUpInvalidType? {
     override fun invoke(input: String): SignUpInvalidType? {
         return when {
             input.length !in MIN_NAME_LENGTH..MAX_NAME_LENGTH -> SignUpInvalidType.INVALID_USER_NAME_LENGTH

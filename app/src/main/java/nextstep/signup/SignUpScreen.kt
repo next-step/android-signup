@@ -32,8 +32,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.signupvalidation.SignUpInvalidType
-import nextstep.signup.signupvalidation.ValidNone
-import nextstep.signup.signupvalidation.ValidUsername
+import nextstep.signup.signupvalidation.SignUpValidNone
+import nextstep.signup.signupvalidation.SignUpValidUsername
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.BlueGrey20
 import nextstep.signup.ui.theme.roboto
@@ -65,20 +65,20 @@ fun SignUpScreen(
         ) {
             SignUpInputForm(
                 label = stringResource(R.string.sign_up_user_name_label),
-                validInput = ValidUsername(),
+                validInput = SignUpValidUsername(),
             )
             SignUpInputForm(
                 label = stringResource(R.string.sign_up_email_label),
-                validInput = ValidNone(),
+                validInput = SignUpValidNone(),
             )
             SignUpInputForm(
                 label = stringResource(R.string.sign_up_password_label),
-                validInput = ValidNone(),
+                validInput = SignUpValidNone(),
                 visualTransformation = PasswordVisualTransformation()
             )
             SignUpInputForm(
                 label = stringResource(R.string.sign_up_password_confirm_label),
-                validInput = ValidNone(),
+                validInput = SignUpValidNone(),
                 visualTransformation = PasswordVisualTransformation()
             )
         }
@@ -102,7 +102,7 @@ fun SignUpScreen(
 @Composable
 private fun SignUpInputForm(
     label: String,
-    validInput: (String) -> SignUpInvalidType? = ValidNone(),
+    validInput: (String) -> SignUpInvalidType? = SignUpValidNone(),
     visualTransformation: VisualTransformation = VisualTransformation.None,
     modifier: Modifier = Modifier
 ) {
