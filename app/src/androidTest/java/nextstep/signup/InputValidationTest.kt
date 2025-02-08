@@ -12,6 +12,7 @@ import androidx.compose.ui.test.performTextClearance
 import androidx.compose.ui.test.performTextInput
 import nextstep.signup.ui.screen.InputField
 import nextstep.signup.ui.screen.RegexPattern.EMAIL_REGEX
+import nextstep.signup.ui.screen.RegexPattern.PASSWORD_REGEX
 import nextstep.signup.ui.screen.RegexPattern.USERNAME_REGEX
 import org.junit.Before
 import org.junit.Rule
@@ -26,6 +27,9 @@ class InputValidationTest {
 
     private val email = mutableStateOf("")
     private val emailErrorMsg = mutableStateOf<String?>(null)
+
+    private val passwrod = mutableStateOf("")
+    private val passwordErrorMsg = mutableStateOf<String?>(null)
 
     @Before
     fun setUp() {
@@ -57,6 +61,20 @@ class InputValidationTest {
                         }
                     },
                     modifier = Modifier.testTag("Email")
+                )
+                InputField(
+                    label = "Password",
+                    value = passwrod.value,
+                    errorMsg = passwordErrorMsg.value,
+                    onValueChange = {
+                        passwrod.value = it
+                        passwordErrorMsg.value = when {
+                            it.length !in 8..16 -> PASSWORD_LENGTH_ERROR
+                            !it.matches(Regex(PASSWORD_REGEX)) -> PASSWORD_REGEX_ERROR
+                            else -> null
+                        }
+                    },
+                    modifier = Modifier.testTag("Password")
                 )
             }
         }
@@ -141,10 +159,65 @@ class InputValidationTest {
             .assert(hasText(EMAIL_REGEX_ERROR))
     }
 
+    @Test
+    fun 비밀번호는_8에서_16자여야_한다() {
+        // when
+        val password = "12345678"
+        val passwordLengthOver = "12345678901234567"
+
+        // then
+        /** 비밀번호가 8~16자 이내인 경우 테스트 **/
+        composeTestRule.onNodeWithTag("Password")
+            .performTextInput(password)
+
+        composeTestRule.onNodeWithTag("Password")
+            .assert(!hasText(PASSWORD_LENGTH_ERROR))
+
+        // 텍스트 필드 초기화
+        composeTestRule.onNodeWithTag("Password")
+            .performTextClearance()
+
+        /** 비밀번호가 8~16자 외인 경우 테스트 **/
+        composeTestRule.onNodeWithTag("Password")
+            .performTextInput(passwordLengthOver)
+
+        composeTestRule.onNodeWithTag("Password")
+            .assert(hasText(PASSWORD_LENGTH_ERROR))
+    }
+
+    @Test
+    fun 비밀번호는_영문과_숫자를_포함해야_한다() {
+        // when
+        val password = "1234abcd"
+        val passwordInvalid = "fdsfdabcd"
+
+        // then
+        /** 비밀번호에 영문과 숫자가 포함된 경우 테스트 **/
+        composeTestRule.onNodeWithTag("Password")
+            .performTextInput(password)
+
+        composeTestRule.onNodeWithTag("Password")
+            .assert(!hasText(PASSWORD_REGEX_ERROR))
+
+        // 텍스트 필드 초기화
+        composeTestRule.onNodeWithTag("Password")
+            .performTextClearance()
+
+        /** 비밀번호에 영문과 숫자가 포함되지 않은 경우 테스트 **/
+        composeTestRule.onNodeWithTag("Password")
+            .performTextInput(passwordInvalid)
+
+        composeTestRule.onNodeWithTag("Password")
+            .assert(hasText(PASSWORD_REGEX_ERROR))
+    }
+
     companion object {
         const val USERNAME_LENGTH_ERROR = "이름은 2~5자여야 합니다."
         const val USERNAME_REGEX_ERROR = "이름에는 숫자나 기호가 포함될 수 없습니다."
 
         const val EMAIL_REGEX_ERROR = "이메일 형식이 올바르지 않습니다."
+
+        const val PASSWORD_LENGTH_ERROR = "비밀번호는 8~16자여야 합니다."
+        const val PASSWORD_REGEX_ERROR = "비밀번호는 영문과 숫자를 포함해야 합니다."
     }
 }
