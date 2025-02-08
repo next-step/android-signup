@@ -12,13 +12,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import nextstep.signup.domain.Username
+import nextstep.signup.mapper.toUiState
+import nextstep.signup.state.UsernameState
 import nextstep.signup.ui.theme.SignupTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            var username by remember { mutableStateOf("") }
+            var usernameState: UsernameState by remember { mutableStateOf(UsernameState()) }
             var email by remember { mutableStateOf("") }
             var password by remember { mutableStateOf("") }
             var passwordConfirm by remember { mutableStateOf("") }
@@ -29,8 +32,10 @@ class MainActivity : ComponentActivity() {
                     containerColor = MaterialTheme.colorScheme.background,
                 ) { paddingValues ->
                     SignUpScreen(
-                        username = username,
-                        onUserNameChange = { username = it },
+                        username = usernameState.username,
+                        isUsernameError = usernameState.isError,
+                        usernameSupportingText = usernameState.supportingText,
+                        onUserNameChange = { usernameState = Username(it).toUiState() },
                         email = email,
                         onEmailChange = { email = it },
                         password = password,

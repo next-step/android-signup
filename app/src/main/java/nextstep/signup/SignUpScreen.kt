@@ -20,11 +20,15 @@ import androidx.compose.ui.unit.dp
 import nextstep.signup.components.SignUpButton
 import nextstep.signup.components.SignUpTextField
 import nextstep.signup.components.SignUpTitle
+import nextstep.signup.domain.Username
+import nextstep.signup.mapper.toUiState
 import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
 internal fun SignUpScreen(
     username: String,
+    isUsernameError: Boolean,
+    usernameSupportingText: String,
     onUserNameChange: (String) -> Unit,
     email: String,
     onEmailChange: (String) -> Unit,
@@ -46,9 +50,11 @@ internal fun SignUpScreen(
             value = username,
             onValueChange = onUserNameChange,
             label = stringResource(R.string.sign_up_username_label),
+            isError = isUsernameError,
+            supportingText = usernameSupportingText,
             modifier = Modifier.fillMaxWidth(),
         )
-        Spacer(Modifier.height(36.dp))
+        Spacer(Modifier.height(16.dp))
         SignUpTextField(
             value = email,
             onValueChange = onEmailChange,
@@ -56,7 +62,7 @@ internal fun SignUpScreen(
             keyboardType = KeyboardType.Email,
             modifier = Modifier.fillMaxWidth(),
         )
-        Spacer(Modifier.height(36.dp))
+        Spacer(Modifier.height(16.dp))
         SignUpTextField(
             value = password,
             onValueChange = onPasswordChange,
@@ -65,7 +71,7 @@ internal fun SignUpScreen(
             needHide = true,
             modifier = Modifier.fillMaxWidth(),
         )
-        Spacer(Modifier.height(36.dp))
+        Spacer(Modifier.height(16.dp))
         SignUpTextField(
             value = passwordConfirm,
             onValueChange = onPasswordConfirmChange,
@@ -74,7 +80,7 @@ internal fun SignUpScreen(
             needHide = true,
             modifier = Modifier.fillMaxWidth(),
         )
-        Spacer(Modifier.height(42.dp))
+        Spacer(Modifier.height(22.dp))
         SignUpButton(
             text = stringResource(R.string.sign_up_sign_up_button_text),
             onClick = onSignUpButtonClick,
@@ -89,14 +95,16 @@ internal fun SignUpScreen(
 @Composable
 private fun SignUpScreenPreview() {
     SignupTheme {
-        var username by remember { mutableStateOf("김컴포즈") }
+        var username by remember { mutableStateOf(Username("김").toUiState()) }
         var email by remember { mutableStateOf("kimcompose@gmail.com") }
         var password by remember { mutableStateOf("12345678") }
         var passwordConfirm by remember { mutableStateOf("12345678") }
 
         SignUpScreen(
-            username = username,
-            onUserNameChange = { username = it },
+            username = username.username,
+            isUsernameError = username.isError,
+            usernameSupportingText = username.supportingText,
+            onUserNameChange = { username = Username(it).toUiState() },
             email = email,
             onEmailChange = { email = it },
             password = password,
