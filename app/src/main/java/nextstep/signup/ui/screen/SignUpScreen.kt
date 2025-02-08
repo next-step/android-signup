@@ -45,6 +45,8 @@ fun SignUpScreen(modifier: Modifier) {
         var userErrMsg by remember { mutableStateOf<String?>(null) }
 
         var email by remember { mutableStateOf("") }
+        var emailErrorMsg by remember { mutableStateOf<String?>(null) }
+
         var password by remember { mutableStateOf("") }
         var confirmPassword by remember { mutableStateOf("") }
 
@@ -75,7 +77,14 @@ fun SignUpScreen(modifier: Modifier) {
             InputField(
                 label = stringResource(R.string.email),
                 value = email,
-                onValueChange = { email = it },
+                isError = emailErrorMsg,
+                onValueChange = {
+                    email = it
+                    emailErrorMsg = when {
+                        !it.matches(Regex(RegexPattern.EMAIL_REGEX)) -> "이메일 형식이 올바르지 않습니다."
+                        else -> null
+                    }
+                },
                 modifier = Modifier.padding(top = 32.dp)
             )
             InputField(
