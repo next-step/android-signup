@@ -1,5 +1,6 @@
 package nextstep.signup.ui.component
 
+import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,6 +29,7 @@ import nextstep.signup.ui.model.SignUpInputType
 import nextstep.signup.ui.theme.SignupTheme
 import nextstep.signup.ui.theme.Typography
 
+@VisibleForTesting
 @Composable
 private fun SignUpEditField(
     modifier: Modifier = Modifier,
@@ -35,12 +37,25 @@ private fun SignUpEditField(
     type: SignUpInputType,
     onValueChanged: (String) -> Unit,
 ) {
+    val isValid = if (value.isNotEmpty()) type.isValid(value) else true
+    val errorMessage = type.errorMessageResId(value).let { if (it > 0) stringResource(it) else "" }
+
     TextField(
         modifier = modifier.fillMaxWidth(),
         value = value,
         textStyle = Typography.bodyLarge,
         singleLine = true,
         onValueChange = onValueChanged,
+        isError = !isValid,
+        supportingText = {
+            if (!isValid) {
+                Text(
+                    text = errorMessage,
+                    style = Typography.bodySmall,
+                    color = MaterialTheme.colorScheme.error,
+                )
+            }
+        },
         label = { Text(text = stringResource(type.labelResId)) },
         visualTransformation = if (type.keyboardType == KeyboardType.Password) PasswordVisualTransformation() else VisualTransformation.None,
         keyboardOptions = KeyboardOptions(

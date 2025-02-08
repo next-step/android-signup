@@ -24,6 +24,7 @@ class SignUpEditFieldTest {
 
     @Test
     fun showSignUpEditField() {
+
         // given
         val tag = "tag"
         composeTestRule.setContent {
