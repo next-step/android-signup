@@ -80,7 +80,7 @@ fun SignUpScreen(
 }
 
 @Composable
-private fun InputFormContent() {
+private fun InputFormContent(modifier: Modifier = Modifier) {
     var username by remember { mutableStateOf("") }
     var userNameErrorMessage by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -94,9 +94,11 @@ private fun InputFormContent() {
 
     Column(
         verticalArrangement = Arrangement.spacedBy(36.dp),
+        modifier = modifier,
     ) {
         SignUpInputForm(
             input = username,
+            label = stringResource(R.string.sign_up_user_name_label),
             onInputChange = { value ->
                 username = value
                 val signUpValidType = SignUpValidUsername().invoke(value)
@@ -104,10 +106,10 @@ private fun InputFormContent() {
                 else context.getString(signUpValidType.resId)
             },
             errorMessage = userNameErrorMessage,
-            label = stringResource(R.string.sign_up_user_name_label),
         )
         SignUpInputForm(
             input = email,
+            label = stringResource(R.string.sign_up_email_label),
             onInputChange = { value ->
                 email = value
                 val signUpValidType = SignUpValidEmail().invoke(value)
@@ -115,11 +117,11 @@ private fun InputFormContent() {
                 else context.getString(signUpValidType.resId)
             },
             errorMessage = emailErrorMessage,
-            label = stringResource(R.string.sign_up_email_label),
         )
 
         SignUpInputForm(
             input = password,
+            label = stringResource(R.string.sign_up_password_label),
             onInputChange = { value ->
                 password = value
                 val signUpValidType = SignUpValidPassword().invoke(value)
@@ -128,10 +130,10 @@ private fun InputFormContent() {
             },
             errorMessage = passwordErrorMessage,
             visualTransformation = PasswordVisualTransformation(),
-            label = stringResource(R.string.sign_up_password_label),
         )
         SignUpInputForm(
             input = passwordConfirm,
+            label = stringResource(R.string.sign_up_password_confirm_label),
             onInputChange = { value ->
                 passwordConfirm = value
                 val signUpValidType = SignUpValidPasswordConfirm(password).invoke(value)
@@ -140,7 +142,6 @@ private fun InputFormContent() {
             },
             errorMessage = passwordConfirmErrorMessage,
             visualTransformation = PasswordVisualTransformation(),
-            label = stringResource(R.string.sign_up_password_confirm_label),
         )
     }
 }
@@ -148,8 +149,8 @@ private fun InputFormContent() {
 @Composable
 private fun SignUpInputForm(
     input: String,
-    onInputChange: (String) -> Unit,
     label: String,
+    onInputChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     errorMessage: String = "",
     visualTransformation: VisualTransformation = VisualTransformation.None
