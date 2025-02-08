@@ -1,4 +1,4 @@
-package nextstep.signup.component
+package nextstep.signup.component.textfield
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
