@@ -21,13 +21,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import nextstep.signup.signupvalidation.SignUpInvalidType
+import nextstep.signup.signupvalidation.ValidNone
+import nextstep.signup.signupvalidation.ValidUsername
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.BlueGrey20
 import nextstep.signup.ui.theme.roboto
@@ -57,14 +63,22 @@ fun SignUpScreen(
         Column(
             verticalArrangement = Arrangement.spacedBy(36.dp),
         ) {
-            SignUpInputForm(label = stringResource(R.string.sign_up_user_name_label))
-            SignUpInputForm(label = stringResource(R.string.sign_up_email_label))
+            SignUpInputForm(
+                label = stringResource(R.string.sign_up_user_name_label),
+                validInput = ValidUsername(),
+            )
+            SignUpInputForm(
+                label = stringResource(R.string.sign_up_email_label),
+                validInput = ValidNone(),
+            )
             SignUpInputForm(
                 label = stringResource(R.string.sign_up_password_label),
+                validInput = ValidNone(),
                 visualTransformation = PasswordVisualTransformation()
             )
             SignUpInputForm(
                 label = stringResource(R.string.sign_up_password_confirm_label),
+                validInput = ValidNone(),
                 visualTransformation = PasswordVisualTransformation()
             )
         }
@@ -88,21 +102,30 @@ fun SignUpScreen(
 @Composable
 private fun SignUpInputForm(
     label: String,
+    validInput: (String) -> SignUpInvalidType? = ValidNone(),
     visualTransformation: VisualTransformation = VisualTransformation.None,
     modifier: Modifier = Modifier
 ) {
     var input by remember { mutableStateOf("") }
+    var errorText by remember { mutableStateOf("") }
+    val context = LocalContext.current
 
     TextField(
         value = input,
-        onValueChange = { input = it },
+        onValueChange = { value ->
+            val signUpValidType = validInput(value)
+            errorText = if (signUpValidType == null) "" else context.getString(signUpValidType.resId)
+            input = value
+        },
         label = { Text(label) },
+        supportingText = { Text(errorText, modifier = Modifier.semantics { contentDescription = "SignUpInputFormErrorText" }) },
         colors = TextFieldDefaults.colors(
             unfocusedContainerColor = BlueGrey20,
             focusedContainerColor = BlueGrey20,
             focusedIndicatorColor = Blue50,
             focusedLabelColor = Blue50
         ),
+        isError = errorText.isNotBlank(),
         visualTransformation = visualTransformation,
         modifier = modifier.fillMaxWidth()
     )
