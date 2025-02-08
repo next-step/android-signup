@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import nextstep.signup.signupvalidation.SignUpInvalidType
 import nextstep.signup.signupvalidation.SignUpValidEmail
 import nextstep.signup.signupvalidation.SignUpValidNone
+import nextstep.signup.signupvalidation.SignUpValidPassword
 import nextstep.signup.signupvalidation.SignUpValidUsername
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.BlueGrey20
@@ -74,7 +75,7 @@ fun SignUpScreen(
             )
             SignUpInputForm(
                 label = stringResource(R.string.sign_up_password_label),
-                validInput = SignUpValidNone(),
+                validInput = SignUpValidPassword(),
                 visualTransformation = PasswordVisualTransformation()
             )
             SignUpInputForm(

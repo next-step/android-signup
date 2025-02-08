@@ -265,4 +265,134 @@ class SignUpScreenTest {
             .onNodeWithText(invalidEmailMessage)
             .assertDoesNotExist()
     }
+
+    @Test
+    fun 비밀번호_길이가_8미만이면_비밀번호_유효성_검사_실패_메세지가_보인다() {
+        // given
+        val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
+        val passwordInput = "Abc12!" // 길이 6 (< 8)
+        val invalidPasswordLengthMessage =
+            context.getString(R.string.sign_up_invalid_password_length)
+
+        composeTestRule.setContent {
+            MaterialTheme {
+                SignUpScreen()
+            }
+        }
+
+        // when
+        composeTestRule
+            .onNodeWithText("Password")
+            .performTextInput(passwordInput)
+
+        // then
+        composeTestRule
+            .onNodeWithText(invalidPasswordLengthMessage)
+            .assertExists()
+    }
+
+    @Test
+    fun 비밀번호_길이가_16초과이면_비밀번호_유효성_검사_실패_메세지가_보인다() {
+        // given
+        val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
+        val passwordInput = "Abc12345Abc12345X" // 길이 17 (> 16)
+        val invalidPasswordLengthMessage =
+            context.getString(R.string.sign_up_invalid_password_length)
+
+        composeTestRule.setContent {
+            MaterialTheme {
+                SignUpScreen()
+            }
+        }
+
+        // when
+        composeTestRule
+            .onNodeWithText("Password")
+            .performTextInput(passwordInput)
+
+        // then
+        composeTestRule
+            .onNodeWithText(invalidPasswordLengthMessage)
+            .assertExists()
+    }
+
+    @Test
+    fun 비밀번호에_숫자가_없으면_비밀번호_유효성_검사_실패_메세지가_보인다() {
+        // given
+        val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
+        val passwordInput = "Abcdefgh" // 숫자 없음
+        val invalidPasswordLetterMessage =
+            context.getString(R.string.sign_up_invalid_password_letter)
+
+        composeTestRule.setContent {
+            MaterialTheme {
+                SignUpScreen()
+            }
+        }
+
+        // when
+        composeTestRule
+            .onNodeWithText("Password")
+            .performTextInput(passwordInput)
+
+        // then
+        composeTestRule
+            .onNodeWithText(invalidPasswordLetterMessage)
+            .assertExists()
+    }
+
+    @Test
+    fun 비밀번호에_영문이_없으면_비밀번호_유효성_검사_실패_메세지가_보인다() {
+        // given
+        val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
+        val passwordInput = "12345678" // 영문 없음
+        val invalidPasswordLetterMessage =
+            context.getString(R.string.sign_up_invalid_password_letter)
+
+        composeTestRule.setContent {
+            MaterialTheme {
+                SignUpScreen()
+            }
+        }
+
+        // when
+        composeTestRule
+            .onNodeWithText("Password")
+            .performTextInput(passwordInput)
+
+        // then
+        composeTestRule
+            .onNodeWithText(invalidPasswordLetterMessage)
+            .assertExists()
+    }
+
+    @Test
+    fun 올바른_비밀번호_입력시_유효성_검사_실패_메세지가_보이지_않는다() {
+        // given
+        val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
+        val passwordInput = "Abcd1234"
+        val invalidPasswordLengthMessage =
+            context.getString(R.string.sign_up_invalid_password_length)
+        val invalidPasswordLetterMessage =
+            context.getString(R.string.sign_up_invalid_password_letter)
+
+        composeTestRule.setContent {
+            MaterialTheme {
+                SignUpScreen()
+            }
+        }
+
+        // when
+        composeTestRule
+            .onNodeWithText("Password")
+            .performTextInput(passwordInput)
+
+        // then
+        composeTestRule
+            .onNodeWithText(invalidPasswordLengthMessage)
+            .assertDoesNotExist()
+        composeTestRule
+            .onNodeWithText(invalidPasswordLetterMessage)
+            .assertDoesNotExist()
+    }
 }
