@@ -62,6 +62,7 @@ class SignUpViewTest {
             InputField(
                 label = stringResource(R.string.test_input),
                 value = input,
+                errorMsg = null,
                 onValueChange = { input = it },
                 modifier = Modifier.testTag("inputField")
             )
@@ -69,6 +70,7 @@ class SignUpViewTest {
             InputField(
                 label = stringResource(R.string.test_input_password),
                 value = input,
+                errorMsg = null,
                 onValueChange = { input = it },
                 inputType = KeyboardType.Password,
                 modifier = Modifier.testTag("passwordField")
