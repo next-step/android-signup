@@ -48,6 +48,8 @@ fun SignUpScreen(modifier: Modifier) {
         var emailErrorMsg by remember { mutableStateOf<String?>(null) }
 
         var password by remember { mutableStateOf("") }
+        var passwordErrorMsg by remember { mutableStateOf<String?>(null) }
+
         var confirmPassword by remember { mutableStateOf("") }
 
         Column(
@@ -90,8 +92,16 @@ fun SignUpScreen(modifier: Modifier) {
             InputField(
                 label = stringResource(R.string.password),
                 value = password,
+                isError = passwordErrorMsg,
                 inputType = KeyboardType.Password,
-                onValueChange = { password = it },
+                onValueChange = {
+                    password = it
+                    passwordErrorMsg = when {
+                        it.length !in 8..16 -> "비밀번호는 8~16자 사이어야 합니다."
+                        !it.matches(Regex(RegexPattern.PASSWORD_REGEX)) -> "비밀번호는 영문과 숫자를 포함해야 합니다."
+                        else -> null
+                    }
+                },
                 modifier = Modifier.padding(top = 32.dp)
             )
             InputField(
