@@ -55,7 +55,7 @@ fun SignUpScreen(modifier: Modifier) {
         val emailErrorMsg by rememberUpdatedState(
             when {
                 email == null -> null
-                !email!!.matches(Regex(RegexPattern.EMAIL_REGEX)) -> stringResource(R.string.user_name_error_invalid)
+                !email!!.matches(Regex(RegexPattern.EMAIL_REGEX)) -> stringResource(R.string.email_error_invalid)
                 else -> null
             }
         )
