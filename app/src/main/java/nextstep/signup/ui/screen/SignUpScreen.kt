@@ -42,7 +42,7 @@ fun SignUpScreen(modifier: Modifier) {
     ) {
 
         var userName by remember { mutableStateOf("") }
-        var userErrMsg by remember { mutableStateOf<String?>(null) }
+        var userErrorMsg by remember { mutableStateOf<String?>(null) }
 
         var email by remember { mutableStateOf("") }
         var emailErrorMsg by remember { mutableStateOf<String?>(null) }
@@ -68,19 +68,19 @@ fun SignUpScreen(modifier: Modifier) {
                 value = userName,
                 onValueChange = {
                     userName = it
-                    userErrMsg = when {
+                    userErrorMsg = when {
                         it.length !in 2..5 -> "이름은 2~5자 사이어야 합니다."
                         !it.matches(Regex(RegexPattern.USERNAME_REGEX)) -> "이름은 한글 또는 영문만 입력 가능합니다."
                         else -> null
                     }
                 },
-                isError = userErrMsg,
+                errorMsg = userErrorMsg,
                 modifier = Modifier.padding(top = 42.dp)
             )
             InputField(
                 label = stringResource(R.string.email),
                 value = email,
-                isError = emailErrorMsg,
+                errorMsg = emailErrorMsg,
                 onValueChange = {
                     email = it
                     emailErrorMsg = when {
@@ -93,7 +93,7 @@ fun SignUpScreen(modifier: Modifier) {
             InputField(
                 label = stringResource(R.string.password),
                 value = password,
-                isError = passwordErrorMsg,
+                errorMsg = passwordErrorMsg,
                 inputType = KeyboardType.Password,
                 onValueChange = {
                     password = it
@@ -108,7 +108,7 @@ fun SignUpScreen(modifier: Modifier) {
             InputField(
                 label = stringResource(R.string.password_confirm),
                 value = confirmPassword,
-                isError = confirmPasswordErrorMsg,
+                errorMsg = confirmPasswordErrorMsg,
                 inputType = KeyboardType.Password,
                 onValueChange = {
                     confirmPassword = it
@@ -144,7 +144,7 @@ fun TitleText(
 fun InputField(
     label: String,
     value: String,
-    isError: String? = null,
+    errorMsg: String? = null,
     inputType: KeyboardType = KeyboardType.Text,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -152,9 +152,9 @@ fun InputField(
     TextField(
         value = value,
         onValueChange = onValueChange,
-        isError = isError != null,
+        isError = errorMsg != null,
         supportingText = {
-            isError?.let {
+            errorMsg?.let {
                 Text(
                     text = it,
                     color = RedError,
