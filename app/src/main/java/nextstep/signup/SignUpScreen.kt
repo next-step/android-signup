@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import nextstep.signup.components.SignUpButton
 import nextstep.signup.components.SignUpTextField
 import nextstep.signup.components.SignUpTitle
+import nextstep.signup.domain.Email
 import nextstep.signup.domain.Username
 import nextstep.signup.mapper.toUiState
 import nextstep.signup.ui.theme.SignupTheme
@@ -31,6 +32,8 @@ internal fun SignUpScreen(
     usernameSupportingText: String,
     onUserNameChange: (String) -> Unit,
     email: String,
+    isEmailError: Boolean,
+    emailSupportingText: String,
     onEmailChange: (String) -> Unit,
     password: String,
     onPasswordChange: (String) -> Unit,
@@ -60,6 +63,8 @@ internal fun SignUpScreen(
             onValueChange = onEmailChange,
             label = stringResource(R.string.sign_up_email_label),
             keyboardType = KeyboardType.Email,
+            isError = isEmailError,
+            supportingText = emailSupportingText,
             modifier = Modifier.fillMaxWidth(),
         )
         Spacer(Modifier.height(16.dp))
@@ -96,7 +101,7 @@ internal fun SignUpScreen(
 private fun SignUpScreenPreview() {
     SignupTheme {
         var username by remember { mutableStateOf(Username("김").toUiState()) }
-        var email by remember { mutableStateOf("kimcompose@gmail.com") }
+        var email by remember { mutableStateOf(Email("kimcompose@gmail.com").toUiState()) }
         var password by remember { mutableStateOf("12345678") }
         var passwordConfirm by remember { mutableStateOf("12345678") }
 
@@ -105,8 +110,10 @@ private fun SignUpScreenPreview() {
             isUsernameError = username.isError,
             usernameSupportingText = username.supportingText,
             onUserNameChange = { username = Username(it).toUiState() },
-            email = email,
-            onEmailChange = { email = it },
+            email = email.email,
+            isEmailError = email.isError,
+            emailSupportingText = email.supportingText,
+            onEmailChange = { email = Email(it).toUiState() },
             password = password,
             onPasswordChange = { password = it },
             passwordConfirm = passwordConfirm,
