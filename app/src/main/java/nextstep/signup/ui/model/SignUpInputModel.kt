@@ -1,6 +1,6 @@
 package nextstep.signup.ui.model
 
-data class SignUpInputsModel(
+data class SignUpInputModel(
     val username: String,
     val email: String,
     val password: String,

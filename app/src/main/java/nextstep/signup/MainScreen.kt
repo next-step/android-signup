@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import nextstep.signup.ui.component.SignUpButton
 import nextstep.signup.ui.component.SignUpEditFields
 import nextstep.signup.ui.component.SignUpTitle
-import nextstep.signup.ui.model.SignUpInputsModel
+import nextstep.signup.ui.model.SignUpInputModel
 import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
@@ -25,7 +25,7 @@ fun MainScreen(
 ) {
     val isValid by remember { mutableStateOf(true) }
 
-    var inputsModel by remember { mutableStateOf(SignUpInputsModel()) }
+    var inputsModel by remember { mutableStateOf(SignUpInputModel()) }
 
     Column(
         modifier = modifier
@@ -37,6 +37,7 @@ fun MainScreen(
     ) {
         SignUpTitle()
         SignUpEditFields(
+            inputModel = inputsModel,
             onUpdateModel = { inputsModel = it }
         )
         SignUpButton(enabled = isValid, onClick = {})

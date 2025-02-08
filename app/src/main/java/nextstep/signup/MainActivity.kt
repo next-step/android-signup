@@ -3,11 +3,11 @@ package nextstep.signup
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import nextstep.signup.ui.theme.SignupTheme
 
@@ -16,16 +16,15 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SignupTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Scaffold { innerPadding ->
-                        MainScreen(
-                            modifier = Modifier
-                                .padding(innerPadding)
-                        )
-                    }
+                Scaffold(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(color = MaterialTheme.colorScheme.background)
+                ) { innerPadding ->
+                    MainScreen(
+                        modifier = Modifier
+                            .padding(innerPadding)
+                    )
                 }
             }
         }

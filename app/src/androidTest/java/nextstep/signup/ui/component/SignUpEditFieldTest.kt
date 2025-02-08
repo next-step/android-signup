@@ -14,7 +14,7 @@ import androidx.compose.ui.test.onChildAt
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performTextInput
-import nextstep.signup.ui.model.SignUpInputsModel
+import nextstep.signup.ui.model.SignUpInputModel
 import org.junit.Rule
 import org.junit.Test
 
@@ -27,7 +27,9 @@ class SignUpEditFieldTest {
         // given
         val tag = "tag"
         composeTestRule.setContent {
+            val model by remember { mutableStateOf(SignUpInputModel()) }
             SignUpEditFields(
+                inputModel = model,
                 modifier = Modifier.testTag(tag),
                 onUpdateModel = {}
             )
@@ -46,8 +48,9 @@ class SignUpEditFieldTest {
         val tag = "tag"
         val input = "input"
         composeTestRule.setContent {
-            var model by remember { mutableStateOf(SignUpInputsModel()) }
+            var model by remember { mutableStateOf(SignUpInputModel()) }
             SignUpEditFields(
+                inputModel = model,
                 modifier = Modifier.testTag(tag),
                 onUpdateModel = { model = it }
             )
