@@ -51,6 +51,7 @@ fun SignUpScreen(modifier: Modifier) {
         var passwordErrorMsg by remember { mutableStateOf<String?>(null) }
 
         var confirmPassword by remember { mutableStateOf("") }
+        var confirmPasswordErrorMsg by remember { mutableStateOf<String?>(null) }
 
         Column(
             modifier = Modifier
@@ -107,8 +108,15 @@ fun SignUpScreen(modifier: Modifier) {
             InputField(
                 label = stringResource(R.string.password_confirm),
                 value = confirmPassword,
+                isError = confirmPasswordErrorMsg,
                 inputType = KeyboardType.Password,
-                onValueChange = { confirmPassword = it },
+                onValueChange = {
+                    confirmPassword = it
+                    confirmPasswordErrorMsg = when {
+                        it != password -> "비밀번호가 일치하지 않습니다."
+                        else -> null
+                    }
+                },
                 modifier = Modifier.padding(top = 32.dp)
             )
             SignUpButton(
