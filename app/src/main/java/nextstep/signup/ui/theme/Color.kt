@@ -16,7 +16,7 @@ val Pink40 = Color(0xFF7D5260)
 val Blue50 = Color(0xFF2196F3)
 val BlueGrey20 = Color(0xFFE3E8F1)
 
-
+val Error = Color(0xFFB3261E)
 
 val UserTextFiledColor
     @Composable get() = TextFieldDefaults.colors(
@@ -24,5 +24,8 @@ val UserTextFiledColor
         focusedContainerColor = BlueGrey20,
         cursorColor = Blue50,
         focusedLabelColor = Blue50,
-        focusedIndicatorColor = Blue50
+        focusedIndicatorColor = Blue50,
+        errorContainerColor = BlueGrey20,
+        errorCursorColor = Error,
+        errorIndicatorColor = Error,
     )
