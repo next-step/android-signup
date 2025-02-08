@@ -59,7 +59,7 @@ class SignUpScreenTest {
     @Test
     fun 비밀번호를_입력해도_입력된_비밀번호가_보이지_않는다() {
         // given
-        val passwordInput = "12345678!"
+        val passwordInput = "a12345678!"
         composeTestRule.setContent {
             MaterialTheme {
                 SignUpScreen()
@@ -80,7 +80,7 @@ class SignUpScreenTest {
     @Test
     fun 비밀번호_확인을_입력해도_입력된_비밀번호_확인이_보이지_않는다() {
         // given
-        val passwordInput = "12345678!"
+        val passwordInput = "a12345678!"
         composeTestRule.setContent {
             MaterialTheme {
                 SignUpScreen()
@@ -102,7 +102,7 @@ class SignUpScreenTest {
     fun 회원_이름_길이가_1이면_이름_유효성_검사_실패_메세지가_보인다() {
         // given
         val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
-        val username = "일"
+        val username = "일" // 이름 길이 1
         val invalidSupportingText = context.getString(R.string.sign_up_invalid_user_name_length)
 
         composeTestRule.setContent {
@@ -126,7 +126,7 @@ class SignUpScreenTest {
     fun 회원_이름_길이가_6이면_이름_유효성_검사_실패_메세지가_보인다() {
         // given
         val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
-        val username = "일이삼사오육"
+        val username = "일이삼사오육" // 이름 길이 6
         val invalidSupportingText = context.getString(R.string.sign_up_invalid_user_name_length)
 
         composeTestRule.setContent {
@@ -150,7 +150,7 @@ class SignUpScreenTest {
     fun 회원_이름_길이가_3이면_이름_유효성_검사_실패_메세지가_보이지_않는다() {
         // given
         val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
-        val username = "최성훈"
+        val username = "최성훈" // 이름 길이 3
         val invalidSupportingText = context.getString(R.string.sign_up_invalid_user_name_length)
 
         composeTestRule.setContent {
@@ -174,7 +174,7 @@ class SignUpScreenTest {
     fun 이름에는_숫자가_포함될_수_없다() {
         // given
         val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
-        val username = "최성2"
+        val username = "최성2" // 이름에 숫자 포함
         val invalidSupportingText = context.getString(R.string.sign_up_invalid_user_name_letter)
 
         composeTestRule.setContent {
@@ -198,7 +198,7 @@ class SignUpScreenTest {
     fun 이름에는_문자가_포함될_수_없다() {
         // given
         val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
-        val username = "최성^"
+        val username = "최성^" // 이름에 문자 포함
         val invalidSupportingText = context.getString(R.string.sign_up_invalid_user_name_letter)
 
         composeTestRule.setContent {
@@ -393,6 +393,64 @@ class SignUpScreenTest {
             .assertDoesNotExist()
         composeTestRule
             .onNodeWithText(invalidPasswordLetterMessage)
+            .assertDoesNotExist()
+    }
+
+    @Test
+    fun 비밀번호와_비밀번호_확인이_다르면_유효성_검사_실패_메세지가_보인다() {
+        // given
+        val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
+        val invalidPasswordConfirmMessage =
+            context.getString(R.string.sign_up_invalid_password_confirm)
+
+        composeTestRule.setContent {
+            MaterialTheme {
+                SignUpScreen()
+            }
+        }
+
+        // when
+        composeTestRule
+            .onNodeWithText("Password")
+            .performTextInput("ABCD1234")
+
+        composeTestRule
+            .onNodeWithText("Password Confirm")
+            .performTextInput("abcd1234!")
+
+        // then
+        composeTestRule
+            .onNodeWithText(invalidPasswordConfirmMessage)
+            .assertExists()
+    }
+
+    @Test
+    fun 비밀번호와_비밀번호_확인이_같으면_유효성_검사_실패_메세지가_보이지_않는다() {
+        // given
+        val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
+        val invalidPasswordConfirmMessage =
+            context.getString(R.string.sign_up_invalid_password_confirm)
+
+        val passwordConfirm = "abcd1234"
+
+        composeTestRule.setContent {
+            MaterialTheme {
+                SignUpScreen()
+            }
+        }
+
+        // when
+        composeTestRule
+            .onNodeWithText("Password")
+            .performTextInput(passwordConfirm)
+
+        composeTestRule
+            .onNodeWithText("Password Confirm")
+            .performTextInput(passwordConfirm)
+
+        // then
+        composeTestRule
+            .onNodeWithText(invalidPasswordConfirmMessage)
             .assertDoesNotExist()
     }
 }
