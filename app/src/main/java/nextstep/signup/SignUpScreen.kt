@@ -21,6 +21,7 @@ import nextstep.signup.components.SignUpButton
 import nextstep.signup.components.SignUpTextField
 import nextstep.signup.components.SignUpTitle
 import nextstep.signup.domain.Email
+import nextstep.signup.domain.Password
 import nextstep.signup.domain.Username
 import nextstep.signup.mapper.toUiState
 import nextstep.signup.ui.theme.SignupTheme
@@ -36,6 +37,8 @@ internal fun SignUpScreen(
     emailSupportingText: String,
     onEmailChange: (String) -> Unit,
     password: String,
+    isPasswordError: Boolean,
+    passwordSupportingText: String,
     onPasswordChange: (String) -> Unit,
     passwordConfirm: String,
     onPasswordConfirmChange: (String) -> Unit,
@@ -73,6 +76,8 @@ internal fun SignUpScreen(
             onValueChange = onPasswordChange,
             label = stringResource(R.string.sign_up_password_label),
             keyboardType = KeyboardType.Password,
+            isError = isPasswordError,
+            supportingText = passwordSupportingText,
             needHide = true,
             modifier = Modifier.fillMaxWidth(),
         )
@@ -102,7 +107,7 @@ private fun SignUpScreenPreview() {
     SignupTheme {
         var username by remember { mutableStateOf(Username("김").toUiState()) }
         var email by remember { mutableStateOf(Email("kimcompose@gmail.com").toUiState()) }
-        var password by remember { mutableStateOf("12345678") }
+        var password by remember { mutableStateOf(Password("12345678").toUiState()) }
         var passwordConfirm by remember { mutableStateOf("12345678") }
 
         SignUpScreen(
@@ -114,8 +119,10 @@ private fun SignUpScreenPreview() {
             isEmailError = email.isError,
             emailSupportingText = email.supportingText,
             onEmailChange = { email = Email(it).toUiState() },
-            password = password,
-            onPasswordChange = { password = it },
+            password = password.password,
+            isPasswordError = password.isError,
+            passwordSupportingText = password.supportingText,
+            onPasswordChange = { password = Password(it).toUiState() },
             passwordConfirm = passwordConfirm,
             onPasswordConfirmChange = { passwordConfirm = it },
             onSignUpButtonClick = {},

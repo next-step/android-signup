@@ -13,9 +13,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import nextstep.signup.domain.Email
+import nextstep.signup.domain.Password
 import nextstep.signup.domain.Username
 import nextstep.signup.mapper.toUiState
 import nextstep.signup.state.EmailState
+import nextstep.signup.state.PasswordState
 import nextstep.signup.state.UsernameState
 import nextstep.signup.ui.theme.SignupTheme
 
@@ -25,7 +27,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             var usernameState: UsernameState by remember { mutableStateOf(UsernameState()) }
             var email by remember { mutableStateOf(EmailState()) }
-            var password by remember { mutableStateOf("") }
+            var password by remember { mutableStateOf(PasswordState()) }
             var passwordConfirm by remember { mutableStateOf("") }
 
             SignupTheme {
@@ -42,8 +44,10 @@ class MainActivity : ComponentActivity() {
                         isEmailError = email.isError,
                         emailSupportingText = email.supportingText,
                         onEmailChange = { email = Email(it).toUiState() },
-                        password = password,
-                        onPasswordChange = { password = it },
+                        password = password.password,
+                        isPasswordError = password.isError,
+                        passwordSupportingText = password.supportingText,
+                        onPasswordChange = { password = Password(it).toUiState() },
                         passwordConfirm = passwordConfirm,
                         onPasswordConfirmChange = { passwordConfirm = it },
                         onSignUpButtonClick = {},
