@@ -14,9 +14,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import nextstep.signup.domain.Email
 import nextstep.signup.domain.Password
+import nextstep.signup.domain.PasswordConfirm
 import nextstep.signup.domain.Username
 import nextstep.signup.mapper.toUiState
 import nextstep.signup.state.EmailState
+import nextstep.signup.state.PasswordConfirmState
 import nextstep.signup.state.PasswordState
 import nextstep.signup.state.UsernameState
 import nextstep.signup.ui.theme.SignupTheme
@@ -28,7 +30,7 @@ class MainActivity : ComponentActivity() {
             var usernameState: UsernameState by remember { mutableStateOf(UsernameState()) }
             var email by remember { mutableStateOf(EmailState()) }
             var password by remember { mutableStateOf(PasswordState()) }
-            var passwordConfirm by remember { mutableStateOf("") }
+            var passwordConfirm by remember { mutableStateOf(PasswordConfirmState()) }
 
             SignupTheme {
                 Scaffold(
@@ -48,8 +50,12 @@ class MainActivity : ComponentActivity() {
                         isPasswordError = password.isError,
                         passwordSupportingText = password.supportingText,
                         onPasswordChange = { password = Password(it).toUiState() },
-                        passwordConfirm = passwordConfirm,
-                        onPasswordConfirmChange = { passwordConfirm = it },
+                        passwordConfirm = passwordConfirm.passwordConfirm,
+                        isPasswordConfirmError = passwordConfirm.isError,
+                        passwordConfirmSupportingText = passwordConfirm.supportingText,
+                        onPasswordConfirmChange = {
+                            passwordConfirm = PasswordConfirm(it).toUiState(password.password)
+                        },
                         onSignUpButtonClick = {},
                         modifier = Modifier
                             .fillMaxSize()

@@ -22,6 +22,7 @@ import nextstep.signup.components.SignUpTextField
 import nextstep.signup.components.SignUpTitle
 import nextstep.signup.domain.Email
 import nextstep.signup.domain.Password
+import nextstep.signup.domain.PasswordConfirm
 import nextstep.signup.domain.Username
 import nextstep.signup.mapper.toUiState
 import nextstep.signup.ui.theme.SignupTheme
@@ -41,6 +42,8 @@ internal fun SignUpScreen(
     passwordSupportingText: String,
     onPasswordChange: (String) -> Unit,
     passwordConfirm: String,
+    isPasswordConfirmError: Boolean,
+    passwordConfirmSupportingText: String,
     onPasswordConfirmChange: (String) -> Unit,
     onSignUpButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -87,6 +90,8 @@ internal fun SignUpScreen(
             onValueChange = onPasswordConfirmChange,
             label = stringResource(R.string.sign_up_password_confirm_label),
             keyboardType = KeyboardType.Password,
+            isError = isPasswordConfirmError,
+            supportingText = passwordConfirmSupportingText,
             needHide = true,
             modifier = Modifier.fillMaxWidth(),
         )
@@ -108,7 +113,11 @@ private fun SignUpScreenPreview() {
         var username by remember { mutableStateOf(Username("김").toUiState()) }
         var email by remember { mutableStateOf(Email("kimcompose@gmail.com").toUiState()) }
         var password by remember { mutableStateOf(Password("12345678").toUiState()) }
-        var passwordConfirm by remember { mutableStateOf("12345678") }
+        var passwordConfirm by remember {
+            mutableStateOf(
+                PasswordConfirm("12345678").toUiState(password.password)
+            )
+        }
 
         SignUpScreen(
             username = username.username,
@@ -123,8 +132,10 @@ private fun SignUpScreenPreview() {
             isPasswordError = password.isError,
             passwordSupportingText = password.supportingText,
             onPasswordChange = { password = Password(it).toUiState() },
-            passwordConfirm = passwordConfirm,
-            onPasswordConfirmChange = { passwordConfirm = it },
+            passwordConfirm = passwordConfirm.passwordConfirm,
+            isPasswordConfirmError = passwordConfirm.isError,
+            passwordConfirmSupportingText = passwordConfirm.supportingText,
+            onPasswordConfirmChange = { passwordConfirm = PasswordConfirm(it).toUiState(password.password) },
             onSignUpButtonClick = {},
             modifier = Modifier.fillMaxSize(),
         )
