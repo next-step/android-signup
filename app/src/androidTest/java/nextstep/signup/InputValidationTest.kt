@@ -22,6 +22,7 @@ class InputValidationTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
+
     private val username = mutableStateOf("")
     private val userErrorMsg = mutableStateOf<String?>(null)
 
@@ -30,6 +31,9 @@ class InputValidationTest {
 
     private val passwrod = mutableStateOf("")
     private val passwordErrorMsg = mutableStateOf<String?>(null)
+
+    private val confirmPassword = mutableStateOf("")
+    private val confirmPasswordErrorMsg = mutableStateOf<String?>(null)
 
     @Before
     fun setUp() {
@@ -75,6 +79,19 @@ class InputValidationTest {
                         }
                     },
                     modifier = Modifier.testTag("Password")
+                )
+                InputField(
+                    label = "ConfirmPassword",
+                    value = confirmPassword.value,
+                    errorMsg = confirmPasswordErrorMsg.value,
+                    onValueChange = {
+                        confirmPassword.value = it
+                        confirmPasswordErrorMsg.value = when {
+                            it != passwrod.value -> PASSWORD_CONFIRM_ERROR
+                            else -> null
+                        }
+                    },
+                    modifier = Modifier.testTag("ConfirmPassword")
                 )
             }
         }
@@ -211,6 +228,39 @@ class InputValidationTest {
             .assert(hasText(PASSWORD_REGEX_ERROR))
     }
 
+    @Test
+    fun 비밀번호_확인이_일치해야_한다() {
+        // when
+        val password = "1234abcd"
+        val confirmPassword = "1234abcd"
+        val confirmPasswordInvalid = "1234abcde"
+
+        // then
+        /** 비밀번호 확인이 일치하는 경우 테스트 **/
+        composeTestRule.onNodeWithTag("Password")
+            .performTextInput(password)
+
+        composeTestRule.onNodeWithTag("ConfirmPassword")
+            .performTextInput(confirmPassword)
+
+        composeTestRule.onNodeWithTag("ConfirmPassword")
+            .assert(!hasText(PASSWORD_CONFIRM_ERROR))
+
+        // 텍스트 필드 초기화
+        composeTestRule.onNodeWithTag("ConfirmPassword")
+            .performTextClearance()
+
+        /** 비밀번호 확인이 일치하지 않는 경우 테스트 **/
+        composeTestRule.onNodeWithTag("Password")
+            .performTextInput(password)
+
+        composeTestRule.onNodeWithTag("ConfirmPassword")
+            .performTextInput(confirmPasswordInvalid)
+
+        composeTestRule.onNodeWithTag("ConfirmPassword")
+            .assert(hasText(PASSWORD_CONFIRM_ERROR))
+    }
+
     companion object {
         const val USERNAME_LENGTH_ERROR = "이름은 2~5자여야 합니다."
         const val USERNAME_REGEX_ERROR = "이름에는 숫자나 기호가 포함될 수 없습니다."
@@ -219,5 +269,6 @@ class InputValidationTest {
 
         const val PASSWORD_LENGTH_ERROR = "비밀번호는 8~16자여야 합니다."
         const val PASSWORD_REGEX_ERROR = "비밀번호는 영문과 숫자를 포함해야 합니다."
+        const val PASSWORD_CONFIRM_ERROR = "비밀번호가 일치하지 않습니다."
     }
 }
