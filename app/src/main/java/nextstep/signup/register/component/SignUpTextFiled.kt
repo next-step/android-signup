@@ -220,32 +220,44 @@ object SignUpTextFiled {
 
 @Preview
 @Composable
-private fun PreviewSignUpTextFiled() {
-    SignUpTextFiled()
-}
-
-
-@Preview
-@Composable
 private fun PreviewUserNameTextFiled() {
-    SignUpTextFiled.UserName(userName = "김컴포즈")
+    var inputUserName by remember { mutableStateOf("김컴포즈") }
+    SignUpTextFiled.UserName(
+        userName = inputUserName,
+        onChangedName = { inputUserName = it }
+    )
 }
 
 @Preview
 @Composable
 private fun PreviewEmailTextFiled() {
-    SignUpTextFiled.Email(email = "test@test.com")
+    var inputEmail by remember { mutableStateOf("test@test.com") }
+    SignUpTextFiled.Email(
+        email = inputEmail,
+        onChangedEmail = { inputEmail = it }
+    )
 }
 
 @Preview
 @Composable
 private fun PreviewPasswordTextFiled() {
-    SignUpTextFiled.Password(password = "김컴포즈1234")
+    var inputPassword by remember { mutableStateOf("김컴포즈1234") }
+    SignUpTextFiled.Password(
+        password = inputPassword,
+        onChangedPassword = { inputPassword = it }
+    )
 }
 
 
 @Preview
 @Composable
 private fun PreviewPasswordConfirmTextFiled() {
-    SignUpTextFiled.PasswordConfirm(passwordConfirm = "김컴포즈1234")
+    val mockPassword = "abcd1234"
+    var inputPasswordConfirm by remember { mutableStateOf("abcd1234") }
+    SignUpTextFiled.PasswordConfirm(
+        passwordConfirm = inputPasswordConfirm,
+        onChangedPasswordConfirm = { inputPasswordConfirm = it },
+        isShowError = (inputPasswordConfirm != mockPassword) && inputPasswordConfirm.isNotEmpty()
+
+    )
 }
