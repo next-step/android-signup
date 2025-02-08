@@ -1,6 +1,5 @@
 package nextstep.signup.ui.screen
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -31,9 +30,9 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import nextstep.signup.R
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.BlueGrey50
-import nextstep.signup.R
 
 @Composable
 fun SignUpScreen(modifier: Modifier) {
@@ -52,37 +51,37 @@ fun SignUpScreen(modifier: Modifier) {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             TitleText(
-                titleResId = R.string.sign_up_title,
+                title = stringResource(R.string.sign_up_title),
                 modifier = Modifier.padding(top = 60.dp)
             )
             InputField(
-                labelResId = R.string.user_name,
+                label = stringResource(R.string.user_name),
                 value = userName,
                 onValueChange = { userName = it },
                 modifier = Modifier.padding(top = 42.dp)
             )
             InputField(
-                labelResId = R.string.email,
+                label = stringResource(R.string.email),
                 value = email,
                 onValueChange = { email = it },
                 modifier = Modifier.padding(top = 32.dp)
             )
             InputField(
-                labelResId = R.string.password,
+                label = stringResource(R.string.password),
                 value = password,
                 inputType = KeyboardType.Password,
                 onValueChange = { password = it },
                 modifier = Modifier.padding(top = 32.dp)
             )
             InputField(
-                labelResId = R.string.password_confirm,
+                label = stringResource(R.string.password_confirm),
                 value = confirmPassword,
                 inputType = KeyboardType.Password,
                 onValueChange = { confirmPassword = it },
                 modifier = Modifier.padding(top = 32.dp)
             )
             SignUpButton(
-                buttonTextResId = R.string.sign_up_button,
+                buttonText = stringResource(R.string.sign_up_button),
                 modifier = Modifier.padding(top = 42.dp)
             )
         }
@@ -91,11 +90,11 @@ fun SignUpScreen(modifier: Modifier) {
 
 @Composable
 fun TitleText(
-    @StringRes titleResId: Int,
+    title: String,
     modifier: Modifier = Modifier,
 ) {
     Text(
-        text = stringResource(titleResId),
+        text = title,
         fontSize = 26.sp,
         fontWeight = FontWeight.W700,
         modifier = modifier
@@ -104,7 +103,7 @@ fun TitleText(
 
 @Composable
 fun InputField(
-    @StringRes labelResId: Int,
+    label: String,
     value: String,
     inputType: KeyboardType = KeyboardType.Text,
     onValueChange: (String) -> Unit,
@@ -123,7 +122,7 @@ fun InputField(
             VisualTransformation.None,
         label = {
             Text(
-                text = stringResource(labelResId),
+                text = label,
             )
         },
         maxLines = 1,
@@ -140,7 +139,7 @@ fun InputField(
 
 @Composable
 fun SignUpButton(
-    @StringRes buttonTextResId: Int,
+    buttonText: String,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
 ) {
@@ -154,7 +153,7 @@ fun SignUpButton(
         contentPadding = PaddingValues(vertical = 15.dp),
     ) {
         Text(
-            text = stringResource(buttonTextResId),
+            text = buttonText,
             fontSize = 14.sp,
             fontWeight = FontWeight.W500,
         )
@@ -165,7 +164,7 @@ fun SignUpButton(
 @Composable
 private fun TitlePreView() {
     TitleText(
-        titleResId = R.string.sign_up_title
+        title = "회원가입 화면이에용"
     )
 }
 
@@ -173,7 +172,7 @@ private fun TitlePreView() {
 @Composable
 private fun InputFieldPreView() {
     InputField(
-        labelResId = R.string.user_name,
+        label = "홀리몰리 입력필드",
         value = "홀리몰리",
         onValueChange = { }
     )
@@ -183,7 +182,7 @@ private fun InputFieldPreView() {
 @Composable
 private fun SignUpButtonPreView() {
     SignUpButton(
-        buttonTextResId = R.string.sign_up_button
+        buttonText = "SingUp"
     )
 }
 
