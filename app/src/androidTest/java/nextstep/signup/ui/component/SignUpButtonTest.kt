@@ -14,7 +14,7 @@ class SignUpButtonTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun showButton() {
+    fun 가입완료_버튼_노출() {
         val tag = "show"
         // given
         composeTestRule.setContent {
@@ -34,7 +34,7 @@ class SignUpButtonTest {
     }
 
     @Test
-    fun disableCheck() {
+    fun 가입완료_버튼_비활성화() {
         val tag = "disable"
         // given
         composeTestRule.setContent {
