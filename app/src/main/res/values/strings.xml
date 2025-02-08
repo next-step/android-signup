@@ -7,6 +7,13 @@
     <string name="password_confirm">Password Confirm</string>
     <string name="sign_up_button">Sign Up</string>
 
+    <string name="user_name_error_length">이름은 2~5자 사이어야 합니다.</string>
+    <string name="user_name_error_invalid">이름은 한글 또는 영문만 입력 가능합니다.</string>
+    <string name="email_error_invalid">이메일 형식이 올바르지 않습니다.</string>
+    <string name="password_error_length">비밀번호는 8~16자여야 합니다.</string>
+    <string name="password_error_invalid">비밀번호는 영문, 숫자, 특수문자를 포함해야 합니다.</string>
+    <string name="password_confirm_error_invalid">비밀번호가 일치하지 않습니다.</string>
+
     <string name="test_input">InputField</string>
     <string name="test_input_password">PasswordField</string>
 </resources>
