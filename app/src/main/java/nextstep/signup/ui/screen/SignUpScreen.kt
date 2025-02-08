@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,18 +41,43 @@ fun SignUpScreen(modifier: Modifier) {
     Surface(
         modifier = modifier.background(Color.White),
     ) {
+        var userName by remember { mutableStateOf<String?>(null) }
+        val userErrorMsg by rememberUpdatedState(
+            when {
+                userName == null -> null
+                userName!!.length !in 2..5 -> stringResource(R.string.user_name_error_length)
+                !userName!!.matches(Regex(RegexPattern.USERNAME_REGEX)) -> stringResource(R.string.user_name_error_length)
+                else -> null
+            }
+        )
 
-        var userName by remember { mutableStateOf("") }
-        var userErrorMsg by remember { mutableStateOf<String?>(null) }
+        var email by remember { mutableStateOf<String?>(null) }
+        val emailErrorMsg by rememberUpdatedState(
+            when {
+                email == null -> null
+                !email!!.matches(Regex(RegexPattern.EMAIL_REGEX)) -> stringResource(R.string.user_name_error_invalid)
+                else -> null
+            }
+        )
 
-        var email by remember { mutableStateOf("") }
-        var emailErrorMsg by remember { mutableStateOf<String?>(null) }
+        var password by remember { mutableStateOf<String?>(null) }
+        val passwordErrorMsg by rememberUpdatedState(
+            when {
+                password == null -> null
+                password!!.length !in 8..16 -> stringResource(R.string.password_error_length)
+                !password!!.matches(Regex(RegexPattern.PASSWORD_REGEX)) -> stringResource(R.string.password_error_invalid)
+                else -> null
+            }
+        )
 
-        var password by remember { mutableStateOf("") }
-        var passwordErrorMsg by remember { mutableStateOf<String?>(null) }
-
-        var confirmPassword by remember { mutableStateOf("") }
-        var confirmPasswordErrorMsg by remember { mutableStateOf<String?>(null) }
+        var confirmPassword by remember { mutableStateOf<String?>(null) }
+        val confirmPasswordErrorMsg by rememberUpdatedState(
+            when {
+                confirmPassword == null -> null
+                confirmPassword != password -> stringResource(R.string.password_confirm_error_invalid)
+                else -> null
+            }
+        )
 
         Column(
             modifier = Modifier
@@ -68,11 +94,6 @@ fun SignUpScreen(modifier: Modifier) {
                 value = userName,
                 onValueChange = {
                     userName = it
-                    userErrorMsg = when {
-                        it.length !in 2..5 -> "이름은 2~5자 사이어야 합니다."
-                        !it.matches(Regex(RegexPattern.USERNAME_REGEX)) -> "이름은 한글 또는 영문만 입력 가능합니다."
-                        else -> null
-                    }
                 },
                 errorMsg = userErrorMsg,
                 modifier = Modifier.padding(top = 42.dp)
@@ -83,10 +104,6 @@ fun SignUpScreen(modifier: Modifier) {
                 errorMsg = emailErrorMsg,
                 onValueChange = {
                     email = it
-                    emailErrorMsg = when {
-                        !it.matches(Regex(RegexPattern.EMAIL_REGEX)) -> "이메일 형식이 올바르지 않습니다."
-                        else -> null
-                    }
                 },
                 modifier = Modifier.padding(top = 32.dp)
             )
@@ -97,11 +114,6 @@ fun SignUpScreen(modifier: Modifier) {
                 inputType = KeyboardType.Password,
                 onValueChange = {
                     password = it
-                    passwordErrorMsg = when {
-                        it.length !in 8..16 -> "비밀번호는 8~16자 사이어야 합니다."
-                        !it.matches(Regex(RegexPattern.PASSWORD_REGEX)) -> "비밀번호는 영문과 숫자를 포함해야 합니다."
-                        else -> null
-                    }
                 },
                 modifier = Modifier.padding(top = 32.dp)
             )
@@ -112,10 +124,6 @@ fun SignUpScreen(modifier: Modifier) {
                 inputType = KeyboardType.Password,
                 onValueChange = {
                     confirmPassword = it
-                    confirmPasswordErrorMsg = when {
-                        it != password -> "비밀번호가 일치하지 않습니다."
-                        else -> null
-                    }
                 },
                 modifier = Modifier.padding(top = 32.dp)
             )
@@ -143,14 +151,14 @@ fun TitleText(
 @Composable
 fun InputField(
     label: String,
-    value: String,
-    errorMsg: String? = null,
+    value: String?,
+    errorMsg: String?,
     inputType: KeyboardType = KeyboardType.Text,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     TextField(
-        value = value,
+        value = value?:"",
         onValueChange = onValueChange,
         isError = errorMsg != null,
         supportingText = {
@@ -226,6 +234,7 @@ private fun InputFieldPreView() {
     InputField(
         label = "홀리몰리 입력필드",
         value = "홀리몰리",
+        errorMsg = null,
         onValueChange = { }
     )
 }
