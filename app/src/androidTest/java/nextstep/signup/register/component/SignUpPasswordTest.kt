@@ -64,9 +64,19 @@ class SignUpPasswordTest {
     }
 
     @Test
-    fun should_show_error_when_not_contain_english_and_digit_password() {
+    fun should_show_error_when_not_contain_english_and_digit_password_case1() {
         //given
         password = "12341234"
+
+        //then
+        composeTestRule
+            .onNodeWithText(ERROR_PASSWORD)
+            .assertIsDisplayed()
+    }
+    @Test
+    fun should_show_error_when_not_contain_english_and_digit_password_case2() {
+        //given
+        password = "qwerqwer"
 
         //then
         composeTestRule
