@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
@@ -20,11 +19,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import nextstep.signup.component.MyButton
-import nextstep.signup.component.MyTextField
+import nextstep.signup.component.SubmitButton
+import nextstep.signup.component.UserRegisterTextField
 import nextstep.signup.component.Title
 import nextstep.signup.util.ValidationUtil.setUsernameErrorMessage
 import nextstep.signup.ui.theme.SignupTheme
+import nextstep.signup.util.ValidationUtil.setEmailErrorMessage
+import nextstep.signup.util.ValidationUtil.setPasswordConfirmErrorMessage
+import nextstep.signup.util.ValidationUtil.setPasswordErrorMessage
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,10 +69,9 @@ fun UserRegisterScreen(modifier: Modifier = Modifier) {
         )
         PasswordInputField(
             value = password,
+            errorMessage = setPasswordErrorMessage(password),
             onValueChange = { password = it },
-            modifier = Modifier
-                .width(296.dp)
-                .height(53.dp)
+            modifier = Modifier.width(296.dp),
         )
         PasswordConfirmInputField(
             value = passwordConfirm,
