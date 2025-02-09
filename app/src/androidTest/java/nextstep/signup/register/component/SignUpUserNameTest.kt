@@ -29,6 +29,23 @@ class SignUpUserNameTest {
     }
 
     @Test
+    fun should_not_show_error_when_empty_username() {
+        //given
+        username = ""
+
+        //then
+        composeTestRule
+            .onNodeWithText(
+                context.getString(R.string.sign_up_error_username_length)
+            ).assertDoesNotExist()
+
+        composeTestRule
+            .onNodeWithText(
+                context.getString(R.string.sign_up_error_username)
+            ).assertDoesNotExist()
+    }
+
+    @Test
     fun should_show_error_when_not_username_length_2_5() {
         //given
         username = "a"

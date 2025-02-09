@@ -33,6 +33,18 @@ class SignUpPasswordConfirmTest {
     }
 
     @Test
+    fun should_not_show_error_when_empty_password_confirm() {
+        //given
+        passwordConfirm = ""
+
+        //then
+        composeTestRule
+            .onNodeWithText(
+                context.getString(R.string.sign_up_error_password_confirm)
+            ).assertDoesNotExist()
+    }
+
+    @Test
     fun should_show_error_when_not_equals_password() {
         //given
         passwordConfirm = "qwer1235"

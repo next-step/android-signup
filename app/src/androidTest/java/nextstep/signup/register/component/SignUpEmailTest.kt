@@ -29,6 +29,19 @@ class SignUpEmailTest {
                 onChangedEmail = { email = it })
         }
     }
+    @Test
+    fun should_not_show_error_when_empty_email() {
+        //given
+        email = ""
+
+        //then
+        composeTestRule
+            .onNodeWithText(
+                context.getString(R.string.sign_up_error_email)
+            ).assertDoesNotExist()
+    }
+
+
 
     @Test
     fun should_show_error_when_wrong_format_email(){

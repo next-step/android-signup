@@ -30,6 +30,24 @@ class SignUpPasswordTest {
         }
     }
     @Test
+    fun should_not_show_error_when_empty_password() {
+        //given
+        password = ""
+
+        //then
+        composeTestRule
+            .onNodeWithText(
+                context.getString(R.string.sign_up_error_password_length)
+            ).assertDoesNotExist()
+
+        composeTestRule
+            .onNodeWithText(
+                context.getString(R.string.sign_up_error_password)
+            ).assertDoesNotExist()
+    }
+
+
+    @Test
     fun should_show_error_when_not_password_length_8_16() {
         //given
         password = "a"
