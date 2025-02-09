@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import nextstep.signup.component.MyButton
 import nextstep.signup.component.MyTextField
 import nextstep.signup.component.Title
+import nextstep.signup.util.ValidationUtil.setUsernameErrorMessage
 import nextstep.signup.ui.theme.SignupTheme
 
 class MainActivity : ComponentActivity() {
@@ -49,15 +50,14 @@ fun UserRegisterScreen(modifier: Modifier = Modifier) {
             .padding(horizontal = 16.dp)
             .padding(top = 100.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(20.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         UserRegisterTitle()
         UsernameInputField(
             value = userName,
+            errorMessage = setUsernameErrorMessage(userName),
             onValueChange = { userName = it },
-            modifier = Modifier
-                .width(296.dp)
-                .height(53.dp)
+            modifier = Modifier.width(296.dp),
         )
         EmailInputField(
             value = email,
@@ -95,13 +95,15 @@ private fun UserRegisterTitle(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun UsernameInputField(
+fun UsernameInputField(
     value: String,
+    errorMessage: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    MyTextField(
+    UserRegisterTextField(
         value = value,
+        errorMessage = errorMessage,
         onValueChange = onValueChange,
         labelText = stringResource(R.string.user_register_input_username_label),
         modifier = modifier,

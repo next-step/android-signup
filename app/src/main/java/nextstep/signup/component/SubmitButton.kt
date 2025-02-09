@@ -9,7 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun MyButton(
+fun SubmitButton(
     text: String,
     onClickButton: () -> Unit,
     modifier: Modifier = Modifier,
@@ -27,8 +27,8 @@ fun MyButton(
 
 @Preview
 @Composable
-private fun MyButtonPreview() {
-    MyButton(
+private fun SubmitButtonPreview() {
+    SubmitButton(
         text = "버튼",
         onClickButton = {},
     )
