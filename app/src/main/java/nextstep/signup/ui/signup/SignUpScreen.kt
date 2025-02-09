@@ -14,6 +14,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
@@ -29,7 +30,12 @@ import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
 fun SignUpScreen(modifier: Modifier = Modifier) {
-    val state = SignUpState()
+    // Q. state를 remember block으로 감싸야 하는지 궁금합니다.
+    // 내부에서 변경 가능한 state를 관리하고 있기 때문에, state에 변경 사항이 생기면 recomposition이 발생해 매번 초기화가 발생해 TextField에 값을 입력해도 반영되지 않을 것으로 예측했으나
+    // remember block으로 감싸지 않아도 잘 동작합니다. 왜 잘 동작하는지 궁금합니다.
+    val state = remember {
+        SignUpState(InputValidator())
+    }
 
     SignUpScreen(
         modifier = modifier,
@@ -85,7 +91,15 @@ private fun SignUpScreen(
                     ),
                     keyboardOptions = KeyboardOptions(
                         imeAction = ImeAction.Next
-                    )
+                    ),
+                    isError = !state.userNameValidation.isValidUsername,
+                    supportingText = {
+                        if (!state.userNameValidation.isInLength) {
+                            Text(stringResource(R.string.username_error_length))
+                        } else if (state.userNameValidation.hasNumber || state.userNameValidation.hasSpecialCharacter) {
+                            Text(stringResource(R.string.username_error_number_or_special_character))
+                        }
+                    }
                 )
             }
 
@@ -108,7 +122,13 @@ private fun SignUpScreen(
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Email,
                         imeAction = ImeAction.Next
-                    )
+                    ),
+                    isError = !state.emailValidation,
+                    supportingText = {
+                        if (!state.emailValidation) {
+                            Text(stringResource(R.string.email_error_format))
+                        }
+                    }
                 )
             }
 
@@ -132,7 +152,15 @@ private fun SignUpScreen(
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Password,
                         imeAction = ImeAction.Next
-                    )
+                    ),
+                    isError = !state.passwordValidation.isValidPassword,
+                    supportingText = {
+                        if (!state.passwordValidation.isInLength) {
+                            Text(stringResource(R.string.password_error_length))
+                        } else if (!state.passwordValidation.hasNumber || !state.passwordValidation.hasCharacter) {
+                            Text(stringResource(R.string.password_error_number_or_character))
+                        }
+                    }
                 )
             }
 
@@ -156,7 +184,13 @@ private fun SignUpScreen(
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Password,
                         imeAction = ImeAction.Done
-                    )
+                    ),
+                    isError = !state.isPasswordConfirmValid,
+                    supportingText = {
+                        if (!state.isPasswordConfirmValid) {
+                            Text(stringResource(R.string.password_confirm_error))
+                        }
+                    }
                 )
             }
 
@@ -186,7 +220,7 @@ private fun SignUpScreen(
 private fun SignUpScreenPreview() {
     SignupTheme {
         SignUpScreen(
-            state = SignUpState(),
+            state = SignUpState(InputValidator()),
             onAction = {},
         )
     }

@@ -18,6 +18,6 @@
   - [x] 텍스트 typography 정의해서 사용하기
   - [x] TextField for문 대신 4개로 변경하기
   - [x] State에 action 관련 코드 모두 없애기
-- [ ] 유효성 검사 기능을 담당하는 Class를 만든다. Composable에서는 람다로 class의 함수를 넘겨 받는다.
-- [ ] 유효성 검사를 통과하지 못하면 하단에 hint를 추가하고, error 처리한다.
+- [x] 유효성 검사 기능을 담당하는 Class를 만든다. Composable에서는 람다로 class의 함수를 넘겨 받는다.
+- [X] 유효성 검사를 통과하지 못하면 하단에 hint를 추가하고, error 처리한다.
 - [ ] UI 테스트를 작성한다.
