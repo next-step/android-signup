@@ -15,7 +15,7 @@
   - [x] Action 이름 현재형으로 바꾸기
   - [x] ~~email, password 등 TextField의 state는 TextFieldState로 변경하기~~ TextField에서 사용 불가
   - [x] LazyColumn 이용해서 Scrollable하게 바꾸기 + 키보드가 UI 가리지 않도록 설정하기
-  - [ ] 텍스트 typography 정의해서 사용하기
+  - [x] 텍스트 typography 정의해서 사용하기
   - [x] TextField for문 대신 4개로 변경하기
   - [x] State에 action 관련 코드 모두 없애기
 - [ ] 유효성 검사 기능을 담당하는 Class를 만든다. Composable에서는 람다로 class의 함수를 넘겨 받는다.

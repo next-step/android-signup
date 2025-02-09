@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -18,13 +19,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import nextstep.signup.R
 import nextstep.signup.ui.theme.SignupTheme
 
@@ -63,8 +62,7 @@ private fun SignUpScreen(
                 Text(
                     modifier = Modifier.padding(top = 48.dp, bottom = 6.dp),
                     text = stringResource(R.string.sign_up_welcome),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 26.sp,
+                    style = MaterialTheme.typography.headlineMedium,
                 )
             }
 
@@ -76,6 +74,7 @@ private fun SignUpScreen(
                     onValueChange = {
                         onAction(SignUpAction.OnUsernameChange(it))
                     },
+                    textStyle = MaterialTheme.typography.bodyLarge,
                     label = {
                         Text(stringResource(R.string.username_label))
                     },
@@ -97,6 +96,7 @@ private fun SignUpScreen(
                     onValueChange = {
                         onAction(SignUpAction.OnEmailChange(it))
                     },
+                    textStyle = MaterialTheme.typography.bodyLarge,
                     label = {
                         Text(stringResource(R.string.email_label))
                     },
@@ -119,6 +119,7 @@ private fun SignUpScreen(
                     onValueChange = {
                         onAction(SignUpAction.OnPasswordChange(it))
                     },
+                    textStyle = MaterialTheme.typography.bodyLarge,
                     label = {
                         Text(stringResource(R.string.password_label))
                     },
@@ -142,6 +143,7 @@ private fun SignUpScreen(
                     onValueChange = {
                         onAction(SignUpAction.OnPasswordConfirmChange(it))
                     },
+                    textStyle = MaterialTheme.typography.bodyLarge,
                     label = {
                         Text(stringResource(R.string.password_confirm_label))
                     },
@@ -169,6 +171,7 @@ private fun SignUpScreen(
                     }
                 ) {
                     Text(
+                        style = MaterialTheme.typography.bodyLarge,
                         text = stringResource(R.string.sign_up_sign),
                         modifier = Modifier.padding(vertical = 8.dp),
                     )
