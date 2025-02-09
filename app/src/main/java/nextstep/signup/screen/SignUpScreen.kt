@@ -4,7 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,6 +37,7 @@ fun SignUpScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(horizontal = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
