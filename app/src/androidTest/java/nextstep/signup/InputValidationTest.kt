@@ -27,7 +27,7 @@ class InputValidationTest {
                 username = username,
                 isUsernameValid = usernameValidation.isValidUsername,
                 isUsernameLengthValid = usernameValidation.isInLength,
-                isUsernameHasNumberAndSpecialCharacter = usernameValidation.hasNumber && usernameValidation.hasSpecialCharacter,
+                isUsernameHasNumberOrSpecialCharacter = usernameValidation.hasNumber && usernameValidation.hasSpecialCharacter,
                 onUsernameChange = { },
                 onImeClick = { TODO() },
             )

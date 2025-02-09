@@ -78,7 +78,7 @@ private fun SignUpScreen(
                     username = state.userName,
                     isUsernameValid = state.userNameValidation.isValidUsername,
                     isUsernameLengthValid = state.userNameValidation.isInLength,
-                    isUsernameHasNumberAndSpecialCharacter = state.userNameValidation.hasNumber && state.userNameValidation.hasSpecialCharacter,
+                    isUsernameHasNumberOrSpecialCharacter = state.userNameValidation.hasNumber || state.userNameValidation.hasSpecialCharacter,
                     onUsernameChange = {
                         onAction(SignUpAction.OnUsernameChange(it))
                     },
@@ -205,7 +205,7 @@ internal fun UsernameTextField(
     username: String,
     isUsernameValid: Boolean,
     isUsernameLengthValid: Boolean,
-    isUsernameHasNumberAndSpecialCharacter: Boolean,
+    isUsernameHasNumberOrSpecialCharacter: Boolean,
     onUsernameChange: (String) -> Unit,
     onImeClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -232,7 +232,7 @@ internal fun UsernameTextField(
         supportingText = {
             if (!isUsernameLengthValid) {
                 Text(stringResource(R.string.username_error_length))
-            } else if (!isUsernameHasNumberAndSpecialCharacter) {
+            } else if (isUsernameHasNumberOrSpecialCharacter) {
                 Text(stringResource(R.string.username_error_number_or_special_character))
             }
         }
