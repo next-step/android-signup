@@ -74,31 +74,16 @@ private fun SignUpScreen(
 
             item {
                 // 입력 폼
-                TextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = state.userName,
-                    onValueChange = {
+                UsernameTextField(
+                    username = state.userName,
+                    isUsernameValid = state.userNameValidation.isValidUsername,
+                    isUsernameLengthValid = state.userNameValidation.isInLength,
+                    isUsernameHasNumberAndSpecialCharacter = state.userNameValidation.hasNumber && state.userNameValidation.hasSpecialCharacter,
+                    onUsernameChange = {
                         onAction(SignUpAction.OnUsernameChange(it))
                     },
-                    textStyle = MaterialTheme.typography.bodyLarge,
-                    label = {
-                        Text(stringResource(R.string.username_label))
-                    },
-                    keyboardActions = KeyboardActions(
-                        onNext = {
-                            focusManager.moveFocus(FocusDirection.Next)
-                        }
-                    ),
-                    keyboardOptions = KeyboardOptions(
-                        imeAction = ImeAction.Next
-                    ),
-                    isError = !state.userNameValidation.isValidUsername,
-                    supportingText = {
-                        if (!state.userNameValidation.isInLength) {
-                            Text(stringResource(R.string.username_error_length))
-                        } else if (state.userNameValidation.hasNumber || state.userNameValidation.hasSpecialCharacter) {
-                            Text(stringResource(R.string.username_error_number_or_special_character))
-                        }
+                    onImeClick = {
+                        focusManager.moveFocus(FocusDirection.Next)
                     }
                 )
             }
@@ -213,6 +198,45 @@ private fun SignUpScreen(
             }
         }
     }
+}
+
+@Composable
+internal fun UsernameTextField(
+    username: String,
+    isUsernameValid: Boolean,
+    isUsernameLengthValid: Boolean,
+    isUsernameHasNumberAndSpecialCharacter: Boolean,
+    onUsernameChange: (String) -> Unit,
+    onImeClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    TextField(
+        modifier = modifier.fillMaxWidth(),
+        value = username,
+        onValueChange = {
+            onUsernameChange(it)
+        },
+        textStyle = MaterialTheme.typography.bodyLarge,
+        label = {
+            Text(stringResource(R.string.username_label))
+        },
+        keyboardActions = KeyboardActions(
+            onNext = {
+                onImeClick()
+            }
+        ),
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Next
+        ),
+        isError = !isUsernameValid,
+        supportingText = {
+            if (!isUsernameLengthValid) {
+                Text(stringResource(R.string.username_error_length))
+            } else if (!isUsernameHasNumberAndSpecialCharacter) {
+                Text(stringResource(R.string.username_error_number_or_special_character))
+            }
+        }
+    )
 }
 
 @Preview
