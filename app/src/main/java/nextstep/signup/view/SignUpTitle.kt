@@ -25,6 +25,6 @@ fun SignUpTitle(
 
 @Preview
 @Composable
-fun SignUpTitle_Preview() {
+private fun SignUpTitlePreview() {
     SignUpTitle("Welcome to Compose 🚀")
 }

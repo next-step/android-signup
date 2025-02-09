@@ -1,7 +1,6 @@
 package nextstep.signup.view
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -15,17 +14,17 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun SignUpTextField(
+fun SignUpBasicTextField(
     value: String,
     label: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    errorMessage: String = "",
 ) {
     TextField(
         value = value,
@@ -36,15 +35,18 @@ fun SignUpTextField(
             fontWeight = FontWeight.Normal,
             lineHeight = 24.sp
         ),
+        isError = errorMessage.isNotEmpty(),
         colors = TextFieldDefaults.colors(
             focusedLabelColor = Color(0XFF2196F3),
             focusedIndicatorColor = Color(0XFF2196F3),
             focusedContainerColor = Color(0XFFE3E8F1),
             unfocusedContainerColor = Color(0XFFE3E8F1),
+            errorTextColor = Color(0XFFBD413A),
+            errorIndicatorColor = Color(0XFFBD413A),
+            errorLabelColor = Color(0XFFBD413A)
         ),
         modifier = modifier
-            .fillMaxWidth()
-            .height(56.dp),
+            .fillMaxWidth(),
         label = {
             Text(
                 text = label,
@@ -53,26 +55,33 @@ fun SignUpTextField(
                 lineHeight = 16.sp
             )
         },
+        supportingText = {
+            if (errorMessage.isNotEmpty()) {
+                Text(
+                    text = errorMessage,
+                )
+            }
+        },
         singleLine = true,
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions
     )
 }
 
-@Preview
+@Preview(name = "Username 입력 TextField")
 @Composable
-private fun SignUpTextField_Username_Preview() {
-    SignUpTextField(
+private fun SignUpTextFieldPreview1() {
+    SignUpBasicTextField(
         label = "Username",
         value = "김컴포즈",
         onValueChange = {}
     )
 }
 
-@Preview
+@Preview(name = "Email 입력 TextField")
 @Composable
-private fun SignUpTextField_Email_Preview() {
-    SignUpTextField(
+private fun SignUpTextFieldPreview2() {
+    SignUpBasicTextField(
         label = "Email",
         value = "test@test.com",
         onValueChange = {},
@@ -80,10 +89,10 @@ private fun SignUpTextField_Email_Preview() {
     )
 }
 
-@Preview
+@Preview(name = "Password 입력 TextField")
 @Composable
-private fun SignUpTextField_Password_Preview() {
-    SignUpTextField(
+private fun SignUpTextFieldPreview3() {
+    SignUpBasicTextField(
         label = "Password",
         value = "abcd",
         onValueChange = {},

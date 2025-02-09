@@ -38,7 +38,7 @@ fun SignUpButton(
 
 @Preview
 @Composable
-fun SignUpButton_Preview() {
+private fun SignUpButtonPreview() {
     SignUpButton(
         text = "Sign Up",
         onClick = {}

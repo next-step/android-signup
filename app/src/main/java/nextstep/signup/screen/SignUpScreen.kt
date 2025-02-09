@@ -4,7 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -19,9 +21,13 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
+import nextstep.signup.view.EmailTextField
+import nextstep.signup.view.PasswordConfirmTextField
+import nextstep.signup.view.PasswordTextField
 import nextstep.signup.view.SignUpButton
-import nextstep.signup.view.SignUpTextField
+import nextstep.signup.view.SignUpBasicTextField
 import nextstep.signup.view.SignUpTitle
+import nextstep.signup.view.UserNameTextField
 
 @Composable
 fun SignUpScreen(
@@ -35,6 +41,7 @@ fun SignUpScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(horizontal = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -44,46 +51,37 @@ fun SignUpScreen(
             modifier = Modifier.padding(top = 80.dp)
         )
 
-        SignUpTextField(
+        UserNameTextField(
             modifier = Modifier.padding(top = 40.dp),
-            label = stringResource(R.string.signup_username),
-            value = userName,
+            userName = userName,
             onValueChange = {
                 userName = it
             }
         )
 
-        SignUpTextField(
+        EmailTextField(
             modifier = Modifier.padding(top = 36.dp),
-            label = stringResource(R.string.signup_email),
             value = email,
             onValueChange = {
                 email = it
             },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
         )
 
-        SignUpTextField(
+        PasswordTextField(
             modifier = Modifier.padding(top = 36.dp),
-            label = stringResource(R.string.signup_password),
             value = password,
             onValueChange = {
                 password = it
             },
-            visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
-
         )
 
-        SignUpTextField(
+        PasswordConfirmTextField(
             modifier = Modifier.padding(top = 36.dp),
-            label = stringResource(R.string.signup_confirm_password),
             value = passwordConfirm,
+            password = password,
             onValueChange = {
                 passwordConfirm = it
-            },
-            visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+            }
         )
 
         SignUpButton(
@@ -96,7 +94,7 @@ fun SignUpScreen(
 
 @Preview
 @Composable
-fun SignUpScreen_Preview() {
+private fun SignUpScreen_Preview() {
     SignUpScreen(
         modifier = Modifier
             .fillMaxSize()
