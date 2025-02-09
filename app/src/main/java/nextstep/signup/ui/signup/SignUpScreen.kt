@@ -13,10 +13,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
@@ -24,6 +20,8 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,50 +30,13 @@ import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
 fun SignUpScreen(modifier: Modifier = Modifier) {
-    var state by remember {
-        mutableStateOf(SignUpState())
-    }
+    val state = SignUpState()
 
     SignUpScreen(
         modifier = modifier,
         state = state,
         onAction = { action ->
-            when (action) {
-                is SignUpAction.OnEmailChange -> {
-                    state = state.copy(
-                        email = state.email.copy(
-                            value = action.value
-                        ),
-                    )
-                }
-
-                is SignUpAction.OnPasswordChange -> {
-                    state = state.copy(
-                        password = state.password.copy(
-                            value = action.value
-                        ),
-                    )
-                }
-
-                is SignUpAction.OnPasswordConfirmChange -> {
-                    state = state.copy(
-                        passwordConfirm = state.passwordConfirm.copy(
-                            value = action.value
-                        ),
-                    )
-                }
-
-                SignUpAction.OnSignUpClick -> {}
-                is SignUpAction.OnUsernameChange -> {
-                    state = state.copy(
-                        userName = state.userName.copy(
-                            value = action.value
-                        ),
-                    )
-                }
-
-                SignUpAction.None -> {}
-            }
+            state.onAction(action)
         }
     )
 }
@@ -95,16 +56,98 @@ private fun SignUpScreen(
             verticalArrangement = Arrangement.spacedBy(36.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            val focusManager = LocalFocusManager.current
+
             Text(
                 modifier = Modifier.padding(top = 48.dp, bottom = 6.dp),
                 text = stringResource(R.string.sign_up_welcome),
                 fontWeight = FontWeight.Bold,
                 fontSize = 26.sp,
             )
-            InputFields(
-                inputStates = state.getInputStateList(),
-                onAction = onAction,
+
+            // 입력 폼
+            TextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = state.userName,
+                onValueChange = {
+                    onAction(SignUpAction.OnUsernameChange(it))
+                },
+                label = {
+                    Text(stringResource(R.string.username_label))
+                },
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        focusManager.moveFocus(FocusDirection.Next)
+                    }
+                ),
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next
+                )
             )
+
+            TextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = state.email,
+                onValueChange = {
+                    onAction(SignUpAction.OnEmailChange(it))
+                },
+                label = {
+                    Text(stringResource(R.string.email_label))
+                },
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        focusManager.moveFocus(FocusDirection.Next)
+                    }
+                ),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Email,
+                    imeAction = ImeAction.Next
+                )
+            )
+
+            TextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = state.password,
+                onValueChange = {
+                    onAction(SignUpAction.OnPasswordChange(it))
+                },
+                label = {
+                    Text(stringResource(R.string.password_label))
+                },
+                visualTransformation = PasswordVisualTransformation(),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        focusManager.moveFocus(FocusDirection.Next)
+                    }
+                ),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Password,
+                    imeAction = ImeAction.Next
+                )
+            )
+
+            TextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = state.passwordConfirm,
+                onValueChange = {
+                    onAction(SignUpAction.OnPasswordConfirmChange(it))
+                },
+                label = {
+                    Text(stringResource(R.string.password_confirm_label))
+                },
+                visualTransformation = PasswordVisualTransformation(),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        focusManager.moveFocus(FocusDirection.Next)
+                    }
+                ),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Password,
+                    imeAction = ImeAction.Done
+                )
+            )
+
+            // 회원가입 버튼
             Button(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -120,38 +163,6 @@ private fun SignUpScreen(
                 )
             }
         }
-    }
-}
-
-@Composable
-private fun InputFields(
-    inputStates: List<InputState>,
-    onAction: (SignUpAction) -> Unit,
-) {
-    val focusManager = LocalFocusManager.current
-
-    for (inputState in inputStates) {
-        TextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = inputState.value,
-            label = {
-                if (inputState.label != null) {
-                    Text(stringResource(inputState.label))
-                }
-            },
-            visualTransformation = inputState.visualTransformation,
-            onValueChange = {
-                onAction(inputState.onValueChange(it))
-            },
-            keyboardActions = KeyboardActions(
-                onNext = {
-                    focusManager.moveFocus(FocusDirection.Next)
-                }
-            ),
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Next
-            )
-        )
     }
 }
 

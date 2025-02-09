@@ -1,46 +1,37 @@
 package nextstep.signup.ui.signup
 
-import androidx.annotation.StringRes
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
-import nextstep.signup.R
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 
-data class SignUpState(
-    val userName: InputState = InputState(
-        label = R.string.username_label,
-        onValueChange = {
-            SignUpAction.OnUsernameChange(it)
+class SignUpState {
+
+    var userName: String by mutableStateOf("")
+        private set
+    var email: String by mutableStateOf("")
+        private set
+    var password: String by mutableStateOf("")
+        private set
+    var passwordConfirm: String by mutableStateOf("")
+        private set
+
+    fun onAction(action: SignUpAction) {
+        when (action) {
+            is SignUpAction.OnEmailChange -> {
+                email = action.value
+            }
+            is SignUpAction.OnPasswordChange -> {
+                password = action.value
+            }
+            is SignUpAction.OnPasswordConfirmChange -> {
+                passwordConfirm = action.value
+            }
+            SignUpAction.OnSignUpClick -> {
+
+            }
+            is SignUpAction.OnUsernameChange -> {
+                userName = action.value
+            }
         }
-    ),
-    val email: InputState = InputState(
-        label = R.string.email_label,
-        onValueChange = {
-            SignUpAction.OnEmailChange(it)
-        }
-    ),
-    val password: InputState = InputState(
-        label = R.string.password_label,
-        visualTransformation = PasswordVisualTransformation(),
-        onValueChange = {
-            SignUpAction.OnPasswordChange(it)
-        }
-    ),
-    val passwordConfirm: InputState = InputState(
-        label = R.string.password_confirm_label,
-        visualTransformation = PasswordVisualTransformation(),
-        onValueChange = {
-            SignUpAction.OnPasswordConfirmChange(it)
-        }
-    ),
-) {
-    fun getInputStateList() = listOf(userName, email, password, passwordConfirm)
+    }
 }
-
-data class InputState(
-    @StringRes val label: Int? = null,
-    val value: String = "",
-    val visualTransformation: VisualTransformation = VisualTransformation.None,
-    val onValueChange: (String) -> SignUpAction = {
-        SignUpAction.None
-    },
-)
