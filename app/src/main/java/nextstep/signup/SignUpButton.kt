@@ -17,9 +17,9 @@ import nextstep.signup.ui.theme.SignupTheme
 @Composable
 fun SignUpButton(
     text: String,
-    textStyle: TextStyle = MaterialTheme.typography.labelLarge,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    textStyle: TextStyle = MaterialTheme.typography.labelLarge
 ) {
     Button(
         modifier = modifier.fillMaxWidth().height(50.dp),

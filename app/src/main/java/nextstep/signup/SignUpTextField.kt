@@ -25,9 +25,9 @@ import nextstep.signup.ui.theme.SignupTheme
 fun SignUpTextField(
     value: String,
     label: String,
-    supportingText: String = "",
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    supportingText: String = "",
     isError: Boolean = false,
     textStyle: TextStyle = MaterialTheme.typography.bodyLarge,
     visualTransformation: VisualTransformation = VisualTransformation.None,
