@@ -75,22 +75,19 @@ fun UserRegisterScreen(modifier: Modifier = Modifier) {
         )
         PasswordConfirmInputField(
             value = passwordConfirm,
+            errorMessage = setPasswordConfirmErrorMessage(password, passwordConfirm),
             onValueChange = { passwordConfirm = it },
-            modifier = Modifier
-                .width(296.dp)
-                .height(53.dp)
+            modifier = Modifier.width(296.dp),
         )
         RegisterButton(
             onButtonClick = {},
-            modifier = Modifier
-                .width(296.dp)
-                .height(50.dp),
+            modifier = Modifier.width(296.dp),
         )
     }
 }
 
 @Composable
-private fun UserRegisterTitle(modifier: Modifier = Modifier) {
+fun UserRegisterTitle(modifier: Modifier = Modifier) {
     Title(stringResource(R.string.user_register_screen_title), modifier)
 }
 
@@ -99,7 +96,7 @@ fun UsernameInputField(
     value: String,
     errorMessage: String,
     onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     UserRegisterTextField(
         value = value,
@@ -111,13 +108,15 @@ fun UsernameInputField(
 }
 
 @Composable
-private fun EmailInputField(
+fun EmailInputField(
     value: String,
+    errorMessage: String,
     onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    MyTextField(
+    UserRegisterTextField(
         value = value,
+        errorMessage = errorMessage,
         onValueChange = onValueChange,
         labelText = stringResource(R.string.user_register_input_email_label),
         modifier = modifier,
@@ -125,13 +124,15 @@ private fun EmailInputField(
 }
 
 @Composable
-private fun PasswordInputField(
+fun PasswordInputField(
     value: String,
+    errorMessage: String,
     onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    MyTextField(
+    UserRegisterTextField(
         value = value,
+        errorMessage = errorMessage,
         onValueChange = onValueChange,
         labelText = stringResource(R.string.user_register_input_password_label),
         visualTransformation = PasswordVisualTransformation(),
@@ -140,13 +141,15 @@ private fun PasswordInputField(
 }
 
 @Composable
-private fun PasswordConfirmInputField(
+fun PasswordConfirmInputField(
     value: String,
+    errorMessage: String,
     onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    MyTextField(
+    UserRegisterTextField(
         value = value,
+        errorMessage = errorMessage,
         onValueChange = onValueChange,
         labelText = stringResource(R.string.user_register_input_password_confirm_label),
         visualTransformation = PasswordVisualTransformation(),
@@ -155,11 +158,11 @@ private fun PasswordConfirmInputField(
 }
 
 @Composable
-private fun RegisterButton(
+fun RegisterButton(
     onButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    MyButton(
+    SubmitButton(
         text = "Sign Up",
         onClickButton = onButtonClick,
         modifier = modifier
