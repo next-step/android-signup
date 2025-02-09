@@ -41,7 +41,7 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
         state = state,
         onAction = { action ->
             when (action) {
-                is SignUpAction.OnEmailChanged -> {
+                is SignUpAction.OnEmailChange -> {
                     state = state.copy(
                         email = state.email.copy(
                             value = action.value
@@ -49,7 +49,7 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
                     )
                 }
 
-                is SignUpAction.OnPasswordChanged -> {
+                is SignUpAction.OnPasswordChange -> {
                     state = state.copy(
                         password = state.password.copy(
                             value = action.value
@@ -57,7 +57,7 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
                     )
                 }
 
-                is SignUpAction.OnPasswordConfirmChanged -> {
+                is SignUpAction.OnPasswordConfirmChange -> {
                     state = state.copy(
                         passwordConfirm = state.passwordConfirm.copy(
                             value = action.value
@@ -66,7 +66,7 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
                 }
 
                 SignUpAction.OnSignUpClick -> {}
-                is SignUpAction.OnUsernameChanged -> {
+                is SignUpAction.OnUsernameChange -> {
                     state = state.copy(
                         userName = state.userName.copy(
                             value = action.value

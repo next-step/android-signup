@@ -9,27 +9,27 @@ data class SignUpState(
     val userName: InputState = InputState(
         label = R.string.username_label,
         onValueChange = {
-            SignUpAction.OnUsernameChanged(it)
+            SignUpAction.OnUsernameChange(it)
         }
     ),
     val email: InputState = InputState(
         label = R.string.email_label,
         onValueChange = {
-            SignUpAction.OnEmailChanged(it)
+            SignUpAction.OnEmailChange(it)
         }
     ),
     val password: InputState = InputState(
         label = R.string.password_label,
         visualTransformation = PasswordVisualTransformation(),
         onValueChange = {
-            SignUpAction.OnPasswordChanged(it)
+            SignUpAction.OnPasswordChange(it)
         }
     ),
     val passwordConfirm: InputState = InputState(
         label = R.string.password_confirm_label,
         visualTransformation = PasswordVisualTransformation(),
         onValueChange = {
-            SignUpAction.OnPasswordConfirmChanged(it)
+            SignUpAction.OnPasswordConfirmChange(it)
         }
     ),
 ) {

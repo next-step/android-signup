@@ -12,7 +12,7 @@
 ### 3단계
 - 2단계 피드백 반영하기
   - [x] ScreenRoot 대신 screen으로 바꾸고 내부에서만 사용하는 composable은 private 접근자 붙이기
-  - [ ] Action 이름 현재형으로 바꾸기
+  - [x] Action 이름 현재형으로 바꾸기
   - [ ] email, password 등 TextField의 state는 TextFieldState로 변경하기
   - [ ] LazyColumn 이용해서 Scrollable하게 바꾸기 + 키보드가 UI 가리지 않도록 설정하기
   - [ ] 텍스트 typography 정의해서 사용하기
