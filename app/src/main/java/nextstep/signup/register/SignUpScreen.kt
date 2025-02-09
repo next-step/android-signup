@@ -24,9 +24,12 @@ fun SignUpScreen() {
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        SignUpTitle()
+        SignUpTitle(modifier = Modifier.padding(bottom = 40.dp))
         SignUpTextFiled()
-        SignUpButton(onSignUp = {})
+        SignUpButton(
+            modifier = Modifier.padding(top = 40.dp),
+            onSignUp = {}
+        )
     }
 }
 
