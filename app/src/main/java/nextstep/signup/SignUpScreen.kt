@@ -102,8 +102,8 @@ private fun InputFormContent(modifier: Modifier = Modifier) {
             onInputChange = { value ->
                 username = value
                 val signUpValidType = SignUpValidUsername().invoke(value)
-                userNameErrorMessage = if (signUpValidType == null) ""
-                else context.getString(signUpValidType.resId)
+                userNameErrorMessage =
+                    if (signUpValidType == null) "" else context.getString(signUpValidType.resId)
             },
             errorMessage = userNameErrorMessage,
         )
@@ -113,8 +113,8 @@ private fun InputFormContent(modifier: Modifier = Modifier) {
             onInputChange = { value ->
                 email = value
                 val signUpValidType = SignUpValidEmail().invoke(value)
-                emailErrorMessage = if (signUpValidType == null) ""
-                else context.getString(signUpValidType.resId)
+                emailErrorMessage =
+                    if (signUpValidType == null) "" else context.getString(signUpValidType.resId)
             },
             errorMessage = emailErrorMessage,
         )
@@ -125,8 +125,8 @@ private fun InputFormContent(modifier: Modifier = Modifier) {
             onInputChange = { value ->
                 password = value
                 val signUpValidType = SignUpValidPassword().invoke(value)
-                passwordErrorMessage = if (signUpValidType == null) ""
-                else context.getString(signUpValidType.resId)
+                passwordErrorMessage =
+                    if (signUpValidType == null) "" else context.getString(signUpValidType.resId)
             },
             errorMessage = passwordErrorMessage,
             visualTransformation = PasswordVisualTransformation(),
@@ -137,8 +137,8 @@ private fun InputFormContent(modifier: Modifier = Modifier) {
             onInputChange = { value ->
                 passwordConfirm = value
                 val signUpValidType = SignUpValidPasswordConfirm(password).invoke(value)
-                passwordConfirmErrorMessage = if (signUpValidType == null) ""
-                else context.getString(signUpValidType.resId)
+                passwordConfirmErrorMessage =
+                    if (signUpValidType == null) "" else context.getString(signUpValidType.resId)
             },
             errorMessage = passwordConfirmErrorMessage,
             visualTransformation = PasswordVisualTransformation(),
