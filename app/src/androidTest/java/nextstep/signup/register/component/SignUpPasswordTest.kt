@@ -50,7 +50,7 @@ class SignUpPasswordTest {
     @Test
     fun should_show_error_when_not_password_length_8_16() {
         //given
-        password = "a"
+        password = "abcdefg"
 
         //then
         composeTestRule

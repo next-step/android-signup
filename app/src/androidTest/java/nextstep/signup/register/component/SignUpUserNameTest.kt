@@ -48,7 +48,7 @@ class SignUpUserNameTest {
     @Test
     fun should_show_error_when_not_username_length_2_5() {
         //given
-        username = "a"
+        username = "abcdef"
 
         //then
         composeTestRule
