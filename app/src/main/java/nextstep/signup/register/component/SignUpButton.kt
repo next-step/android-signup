@@ -20,10 +20,12 @@ import nextstep.signup.ui.theme.Blue50
 @Composable
 fun SignUpButton(
     modifier: Modifier = Modifier,
-    onSignUp: () -> Unit
+    isEnabled : Boolean = false,
+    onSignUp: () -> Unit,
 ) {
     Button(
         onClick = onSignUp,
+        enabled = isEnabled,
         modifier = modifier
             .fillMaxWidth()
             .height(50.dp),
