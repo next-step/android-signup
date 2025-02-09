@@ -10,10 +10,14 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performTextClearance
 import androidx.compose.ui.test.performTextInput
+import nextstep.signup.ui.screen.EmailTextField
 import nextstep.signup.ui.screen.InputField
+import nextstep.signup.ui.screen.PasswordConfirmTextField
+import nextstep.signup.ui.screen.PasswordTextField
 import nextstep.signup.ui.screen.RegexPattern.EMAIL_REGEX
 import nextstep.signup.ui.screen.RegexPattern.PASSWORD_REGEX
 import nextstep.signup.ui.screen.RegexPattern.USERNAME_REGEX
+import nextstep.signup.ui.screen.UsernameTextField
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -23,74 +27,34 @@ class InputValidationTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    private val username = mutableStateOf("")
-    private val userErrorMsg = mutableStateOf<String?>(null)
-
-    private val email = mutableStateOf("")
-    private val emailErrorMsg = mutableStateOf<String?>(null)
-
-    private val passwrod = mutableStateOf("")
-    private val passwordErrorMsg = mutableStateOf<String?>(null)
-
-    private val confirmPassword = mutableStateOf("")
-    private val confirmPasswordErrorMsg = mutableStateOf<String?>(null)
+    private val username = mutableStateOf<String?>(null)
+    private val email = mutableStateOf<String?>(null)
+    private val passwrod = mutableStateOf<String?>(null)
+    private val confirmPassword = mutableStateOf<String?>(null)
 
     @Before
     fun setUp() {
         composeTestRule.setContent {
             Column {
-                InputField(
-                    label = "Username",
-                    value = username.value,
-                    errorMsg = userErrorMsg.value,
-                    onValueChange = {
-                        username.value = it
-                        userErrorMsg.value = when {
-                            it.length !in 2..5 -> USERNAME_LENGTH_ERROR
-                            !it.matches(Regex(USERNAME_REGEX)) -> USERNAME_REGEX_ERROR
-                            else -> null
-                        }
-                    },
+                UsernameTextField(
+                    userName = username.value,
+                    onUsernameChange = { username.value = it },
                     modifier = Modifier.testTag("Username")
                 )
-                InputField(
-                    label = "Email",
-                    value = email.value,
-                    errorMsg = emailErrorMsg.value,
-                    onValueChange = {
-                        email.value = it
-                        emailErrorMsg.value = when {
-                            !it.matches(Regex(EMAIL_REGEX)) -> EMAIL_REGEX_ERROR
-                            else -> null
-                        }
-                    },
+                EmailTextField(
+                    email = email.value,
+                    onEmailChange = { email.value = it },
                     modifier = Modifier.testTag("Email")
                 )
-                InputField(
-                    label = "Password",
-                    value = passwrod.value,
-                    errorMsg = passwordErrorMsg.value,
-                    onValueChange = {
-                        passwrod.value = it
-                        passwordErrorMsg.value = when {
-                            it.length !in 8..16 -> PASSWORD_LENGTH_ERROR
-                            !it.matches(Regex(PASSWORD_REGEX)) -> PASSWORD_REGEX_ERROR
-                            else -> null
-                        }
-                    },
+                PasswordTextField(
+                    password = passwrod.value,
+                    onPasswordChange = { passwrod.value = it },
                     modifier = Modifier.testTag("Password")
                 )
-                InputField(
-                    label = "ConfirmPassword",
-                    value = confirmPassword.value,
-                    errorMsg = confirmPasswordErrorMsg.value,
-                    onValueChange = {
-                        confirmPassword.value = it
-                        confirmPasswordErrorMsg.value = when {
-                            it != passwrod.value -> PASSWORD_CONFIRM_ERROR
-                            else -> null
-                        }
-                    },
+                PasswordConfirmTextField(
+                    password = passwrod.value,
+                    confirmPassword = confirmPassword.value,
+                    onPasswordChange = { confirmPassword.value = it },
                     modifier = Modifier.testTag("ConfirmPassword")
                 )
             }
