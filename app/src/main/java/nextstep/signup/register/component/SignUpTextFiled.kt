@@ -19,11 +19,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.R
-import nextstep.signup.register.constants.SignUpValidation.EMAIL_REGEX
-import nextstep.signup.register.constants.SignUpValidation.PASSWORD_LENGTH_REGEX
-import nextstep.signup.register.constants.SignUpValidation.PASSWORD_REGEX
-import nextstep.signup.register.constants.SignUpValidation.USERNAME_REGEX
-import nextstep.signup.register.constants.SignUpValidation.USER_LENGTH_REGEX
+import nextstep.signup.register.SignUpValidation
+import nextstep.signup.register.SignUpValidation.PASSWORD_LENGTH_REGEX
+import nextstep.signup.register.SignUpValidation.PASSWORD_REGEX
+import nextstep.signup.register.SignUpValidation.USERNAME_REGEX
+import nextstep.signup.register.SignUpValidation.USER_LENGTH_REGEX
 import nextstep.signup.ui.theme.Error
 import nextstep.signup.ui.theme.UserTextFiledColor
 
@@ -56,7 +56,10 @@ object SignUpTextFiled {
             PasswordConfirm(
                 passwordConfirm = inputPasswordConfirm,
                 onChangedPasswordConfirm = { inputPasswordConfirm = it },
-                isShowError = (inputPassword != inputPasswordConfirm) && inputPasswordConfirm.isNotEmpty()
+                isShowError = SignUpValidation.isValidPasswordConfirm(
+                    password = inputPassword,
+                    passwordConfirm = inputPasswordConfirm
+                ) && inputPasswordConfirm.isNotEmpty()
             )
         }
     }
@@ -69,9 +72,7 @@ object SignUpTextFiled {
         onChangedName: (String) -> Unit = {}
     ) {
         val isShowError =
-            (!userName.matches(Regex(USERNAME_REGEX)) ||
-                    !userName.matches(Regex(USER_LENGTH_REGEX))) &&
-                    userName.isNotEmpty()
+            !SignUpValidation.isValidUserName(userName) && userName.isNotEmpty()
 
         val errorMessage = when {
             !userName.matches(Regex(USER_LENGTH_REGEX)) -> {
@@ -109,7 +110,7 @@ object SignUpTextFiled {
         email: String = EMPTY_STRING,
         onChangedEmail: (String) -> Unit = {}
     ) {
-        val isShowError = !email.matches(Regex(EMAIL_REGEX)) && email.isNotEmpty()
+        val isShowError = !SignUpValidation.isValidEmail(email) && email.isNotEmpty()
 
         TextField(
             modifier = modifier
@@ -136,10 +137,8 @@ object SignUpTextFiled {
         onChangedPassword: (String) -> Unit = {}
     ) {
 
-        val isShowError =
-            (!password.matches(Regex(PASSWORD_REGEX)) ||
-                    !password.matches(Regex(PASSWORD_LENGTH_REGEX))) &&
-                    password.isNotEmpty()
+        val isShowError = !SignUpValidation.isValidPassword(password) &&
+                password.isNotEmpty()
 
         val errorMessage = when {
             !password.matches(Regex(PASSWORD_LENGTH_REGEX)) -> {

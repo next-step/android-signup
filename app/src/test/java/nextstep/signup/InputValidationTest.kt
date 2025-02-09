@@ -1,6 +1,6 @@
 package nextstep.signup
 
-import nextstep.signup.register.constants.SignUpValidation
+import nextstep.signup.register.SignUpValidation
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
