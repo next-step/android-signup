@@ -4,9 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -18,10 +18,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import nextstep.signup.textfield.EmailTextField
+import nextstep.signup.textfield.PasswordConfirmTextField
+import nextstep.signup.textfield.PasswordTextField
+import nextstep.signup.textfield.UsernameTextField
 import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
@@ -34,6 +37,7 @@ fun SignUpScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .background(color = Color.White)
             .padding(horizontal = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -49,29 +53,24 @@ fun SignUpScreen() {
             letterSpacing = 1.sp
         )
 
-        SignUpTextField(
+        UsernameTextField(
             value = userName,
-            label = stringResource(R.string.sign_up_user_name),
             onValueChange = { userName = it }
         )
 
-        SignUpTextField(
+        EmailTextField(
             value = email,
-            label = stringResource(R.string.sign_up_email),
             onValueChange = { email = it }
         )
 
-        SignUpTextField(
+        PasswordTextField(
             value = password,
-            label = stringResource(R.string.sign_up_password),
-            visualTransformation = PasswordVisualTransformation(),
             onValueChange = { password = it }
         )
 
-        SignUpTextField(
+        PasswordConfirmTextField(
             value = passwordConfirm,
-            label = stringResource(R.string.sign_up_password_confirm),
-            visualTransformation = PasswordVisualTransformation(),
+            password = password,
             onValueChange = { passwordConfirm = it }
         )
 
