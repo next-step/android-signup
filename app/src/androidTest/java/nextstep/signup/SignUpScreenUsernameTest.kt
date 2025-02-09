@@ -38,9 +38,8 @@ class SignUpScreenUsernameTest {
     @Test
     fun 회원_이름_길이가_1이면_이름_유효성_검사_실패_메세지가_보인다() {
         // given
-        val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
         val username = "일" // 길이 1
-        val invalidSupportingText = context.getString(R.string.sign_up_invalid_user_name_length)
+        val invalidSupportingText = "이름은 2~5자여야 합니다."
 
         composeTestRule.setContent {
             MaterialTheme {
@@ -62,9 +61,8 @@ class SignUpScreenUsernameTest {
     @Test
     fun 회원_이름_길이가_6이면_이름_유효성_검사_실패_메세지가_보인다() {
         // given
-        val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
         val username = "일이삼사오육" // 길이 6
-        val invalidSupportingText = context.getString(R.string.sign_up_invalid_user_name_length)
+        val invalidSupportingText = "이름은 2~5자여야 합니다."
 
         composeTestRule.setContent {
             MaterialTheme {
@@ -110,9 +108,8 @@ class SignUpScreenUsernameTest {
     @Test
     fun 이름에는_숫자가_포함될_수_없다() {
         // given
-        val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
         val username = "최성2" // 이름에 숫자 포함
-        val invalidSupportingText = context.getString(R.string.sign_up_invalid_user_name_letter)
+        val invalidSupportingText = "이름에는 숫자나 기호가 포함될 수 없습니다."
 
         composeTestRule.setContent {
             MaterialTheme {
@@ -134,9 +131,8 @@ class SignUpScreenUsernameTest {
     @Test
     fun 이름에는_문자가_포함될_수_없다() {
         // given
-        val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
-        val username = "최성^" // 이름에 특수문자(문자) 포함
-        val invalidSupportingText = context.getString(R.string.sign_up_invalid_user_name_letter)
+        val username = "최성^" // 이름에 기호 포함
+        val invalidSupportingText = "이름에는 숫자나 기호가 포함될 수 없습니다."
 
         composeTestRule.setContent {
             MaterialTheme {

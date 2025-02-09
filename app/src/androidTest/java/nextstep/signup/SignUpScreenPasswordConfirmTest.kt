@@ -1,12 +1,10 @@
 package nextstep.signup
 
-import android.content.Context
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.performTextReplacement
-import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Rule
 import org.junit.Test
 
@@ -40,9 +38,7 @@ class SignUpScreenPasswordConfirmTest {
     @Test
     fun 비밀번호와_비밀번호_확인이_다르면_유효성_검사_실패_메세지가_보인다() {
         // given
-        val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
-        val invalidPasswordConfirmMessage =
-            context.getString(R.string.sign_up_invalid_password_confirm)
+        val invalidPasswordConfirmMessage = "비밀번호가 일치하지 않습니다."
 
         composeTestRule.setContent {
             MaterialTheme {
@@ -67,9 +63,7 @@ class SignUpScreenPasswordConfirmTest {
     @Test
     fun 비밀번호와_비밀번호_확인이_같으면_유효성_검사_실패_메세지가_보이지_않는다() {
         // given
-        val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
-        val invalidPasswordConfirmMessage =
-            context.getString(R.string.sign_up_invalid_password_confirm)
+        val invalidPasswordConfirmMessage = "비밀번호가 일치하지 않습니다."
         val passwordConfirm = "abcd1234"
 
         composeTestRule.setContent {
@@ -94,9 +88,7 @@ class SignUpScreenPasswordConfirmTest {
 
     @Test
     fun 비밀번호_확인_입력_후_비밀번호가_바뀌면_실패_메세지가_보인다() {
-        val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
-        val invalidPasswordConfirmMessage =
-            context.getString(R.string.sign_up_invalid_password_confirm)
+        val invalidPasswordConfirmMessage = "비밀번호가 일치하지 않습니다."
 
         composeTestRule.setContent {
             MaterialTheme {

@@ -1,11 +1,9 @@
 package nextstep.signup
 
-import android.content.Context
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextInput
-import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Rule
 import org.junit.Test
 
@@ -38,10 +36,8 @@ class SignUpScreenPasswordTest {
     @Test
     fun 비밀번호_길이가_8미만이면_비밀번호_유효성_검사_실패_메세지가_보인다() {
         // given
-        val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
         val passwordInput = "Abc12!" // 길이 6 (< 8)
-        val invalidPasswordLengthMessage =
-            context.getString(R.string.sign_up_invalid_password_length)
+        val invalidPasswordLengthMessage = "비밀번호는 8~16자여야 합니다."
 
         composeTestRule.setContent {
             MaterialTheme {
@@ -63,10 +59,8 @@ class SignUpScreenPasswordTest {
     @Test
     fun 비밀번호_길이가_16초과이면_비밀번호_유효성_검사_실패_메세지가_보인다() {
         // given
-        val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
         val passwordInput = "Abc12345Abc12345X" // 길이 17 (> 16)
-        val invalidPasswordLengthMessage =
-            context.getString(R.string.sign_up_invalid_password_length)
+        val invalidPasswordLengthMessage = "비밀번호는 8~16자여야 합니다."
 
         composeTestRule.setContent {
             MaterialTheme {
@@ -88,10 +82,8 @@ class SignUpScreenPasswordTest {
     @Test
     fun 비밀번호에_숫자가_없으면_비밀번호_유효성_검사_실패_메세지가_보인다() {
         // given
-        val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
         val passwordInput = "Abcdefgh" // 숫자 없음
-        val invalidPasswordLetterMessage =
-            context.getString(R.string.sign_up_invalid_password_letter)
+        val invalidPasswordLetterMessage = "비밀번호는 영문과 숫자를 포함해야 합니다."
 
         composeTestRule.setContent {
             MaterialTheme {
@@ -113,10 +105,8 @@ class SignUpScreenPasswordTest {
     @Test
     fun 비밀번호에_영문이_없으면_비밀번호_유효성_검사_실패_메세지가_보인다() {
         // given
-        val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
         val passwordInput = "12345678" // 영문 없음
-        val invalidPasswordLetterMessage =
-            context.getString(R.string.sign_up_invalid_password_letter)
+        val invalidPasswordLetterMessage = "비밀번호는 영문과 숫자를 포함해야 합니다."
 
         composeTestRule.setContent {
             MaterialTheme {
@@ -138,12 +128,9 @@ class SignUpScreenPasswordTest {
     @Test
     fun 올바른_비밀번호_입력시_유효성_검사_실패_메세지가_보이지_않는다() {
         // given
-        val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
         val passwordInput = "Abcd1234"
-        val invalidPasswordLengthMessage =
-            context.getString(R.string.sign_up_invalid_password_length)
-        val invalidPasswordLetterMessage =
-            context.getString(R.string.sign_up_invalid_password_letter)
+        val invalidPasswordLengthMessage = "비밀번호는 8~16자여야 합니다."
+        val invalidPasswordLetterMessage = "비밀번호는 영문과 숫자를 포함해야 합니다."
 
         composeTestRule.setContent {
             MaterialTheme {
