@@ -24,6 +24,7 @@ import nextstep.signup.component.MyTextField
 import nextstep.signup.component.Title
 import nextstep.signup.ui.theme.SignupTheme
 import nextstep.signup.util.ValidationUtil.setEmailErrorMessage
+import nextstep.signup.util.ValidationUtil.setPasswordErrorMessage
 import nextstep.signup.util.ValidationUtil.setUsernameErrorMessage
 
 class MainActivity : ComponentActivity() {
@@ -40,11 +41,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun UserRegisterScreen(modifier: Modifier = Modifier) {
     var userName by rememberSaveable { mutableStateOf("") }
-    var userNameErrorMessage by rememberSaveable { mutableStateOf("") }
-
     var email by rememberSaveable { mutableStateOf("") }
-    var emailErrorMessage by rememberSaveable { mutableStateOf("") }
-
     var password by rememberSaveable { mutableStateOf("") }
     var passwordConfirm by rememberSaveable { mutableStateOf("") }
 
@@ -59,24 +56,19 @@ fun UserRegisterScreen(modifier: Modifier = Modifier) {
         UserRegisterTitle()
         UsernameInputField(
             value = userName,
-            errorMessage = userNameErrorMessage,
-            onValueChange = {
-                userName = it
-                userNameErrorMessage = setUsernameErrorMessage(it)
-            },
+            errorMessage = setUsernameErrorMessage(userName),
+            onValueChange = { userName = it },
             modifier = Modifier.width(296.dp),
         )
         EmailInputField(
             value = email,
-            errorMessage = emailErrorMessage,
-            onValueChange = {
-                email = it
-                emailErrorMessage = setEmailErrorMessage(it)
-            },
+            errorMessage = setEmailErrorMessage(email),
+            onValueChange = { email = it },
             modifier = Modifier.width(296.dp),
         )
         PasswordInputField(
             value = password,
+            errorMessage = setPasswordErrorMessage(password),
             onValueChange = { password = it },
             modifier = Modifier.width(296.dp),
         )
@@ -132,11 +124,13 @@ fun EmailInputField(
 @Composable
 fun PasswordInputField(
     value: String,
+    errorMessage: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     MyTextField(
         value = value,
+        errorMessage = errorMessage,
         onValueChange = onValueChange,
         labelText = stringResource(R.string.user_register_input_password_label),
         visualTransformation = PasswordVisualTransformation(),
