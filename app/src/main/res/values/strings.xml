@@ -10,5 +10,6 @@
     <string name="signup_password_length_error">비밀번호는 8~16자여야 합니다.</string>
     <string name="signup_password_format_error">비밀번호는 영문자와 숫자를 포함해야 합니다.</string>
     <string name="signup_confirm_password">Password Confirm</string>
+    <string name="signup_confirm_password_error">비밀번호가 일치하지 않습니다.</string>
     <string name="signup_button">Sign Up</string>
 </resources>

@@ -42,4 +42,8 @@ object SignUpValidator {
         }
     }
 
+    fun isValidPasswordConfirm(password: String, passwordConfirm: String): Boolean {
+        return passwordConfirm.isEmpty() || password == passwordConfirm
+    }
+
 }
