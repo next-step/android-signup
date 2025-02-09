@@ -31,7 +31,7 @@ import nextstep.signup.R
 import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
-fun SignUpScreenRoot(modifier: Modifier = Modifier) {
+fun SignUpScreen(modifier: Modifier = Modifier) {
     var state by remember {
         mutableStateOf(SignUpState())
     }
@@ -81,7 +81,7 @@ fun SignUpScreenRoot(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun SignUpScreen(
+private fun SignUpScreen(
     state: SignUpState,
     onAction: (SignUpAction) -> Unit,
     modifier: Modifier = Modifier,
@@ -124,7 +124,7 @@ fun SignUpScreen(
 }
 
 @Composable
-fun InputFields(
+private fun InputFields(
     inputStates: List<InputState>,
     onAction: (SignUpAction) -> Unit,
 ) {

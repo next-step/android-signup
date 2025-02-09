@@ -3,7 +3,7 @@ package nextstep.signup
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import nextstep.signup.ui.signup.SignUpScreenRoot
+import nextstep.signup.ui.signup.SignUpScreen
 import nextstep.signup.ui.theme.SignupTheme
 
 class MainActivity : ComponentActivity() {
@@ -11,7 +11,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SignupTheme {
-                SignUpScreenRoot()
+                SignUpScreen()
             }
         }
     }
