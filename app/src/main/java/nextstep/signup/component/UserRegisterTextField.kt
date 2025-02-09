@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun MyTextField(
+fun UserRegisterTextField(
     value: String,
     labelText: String,
     onValueChange: (String) -> Unit,
@@ -68,10 +68,10 @@ fun MyTextField(
 
 @Preview
 @Composable
-private fun MyTextFieldPreview() {
+private fun UserRegisterFieldPreview() {
     var input by rememberSaveable { mutableStateOf("") }
 
-    MyTextField(
+    UserRegisterTextField(
         value = input ,
         onValueChange = {input = it},
         labelText = "Username",
@@ -80,10 +80,10 @@ private fun MyTextFieldPreview() {
 
 @Preview
 @Composable
-private fun MyTextFieldErrorPreview() {
+private fun UserRegisterFieldErrorPreview() {
     var input by rememberSaveable { mutableStateOf("") }
 
-    MyTextField(
+    UserRegisterTextField(
         value = input ,
         onValueChange = {input = it},
         labelText = "Username",

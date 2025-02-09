@@ -19,8 +19,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import nextstep.signup.component.MyButton
-import nextstep.signup.component.MyTextField
+import nextstep.signup.component.SubmitButton
+import nextstep.signup.component.UserRegisterTextField
 import nextstep.signup.component.Title
 import nextstep.signup.ui.theme.SignupTheme
 import nextstep.signup.util.ValidationUtil.setEmailErrorMessage
@@ -98,7 +98,7 @@ fun UsernameInputField(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    MyTextField(
+    UserRegisterTextField(
         value = value,
         errorMessage = errorMessage,
         onValueChange = onValueChange,
@@ -114,7 +114,7 @@ fun EmailInputField(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    MyTextField(
+    UserRegisterTextField(
         value = value,
         errorMessage = errorMessage,
         onValueChange = onValueChange,
@@ -130,7 +130,7 @@ fun PasswordInputField(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    MyTextField(
+    UserRegisterTextField(
         value = value,
         errorMessage = errorMessage,
         onValueChange = onValueChange,
@@ -147,7 +147,7 @@ fun PasswordConfirmInputField(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    MyTextField(
+    UserRegisterTextField(
         value = value,
         errorMessage = errorMessage,
         onValueChange = onValueChange,
@@ -162,7 +162,7 @@ fun RegisterButton(
     onButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    MyButton(
+    SubmitButton(
         text = "Sign Up",
         onClickButton = onButtonClick,
         modifier = modifier
