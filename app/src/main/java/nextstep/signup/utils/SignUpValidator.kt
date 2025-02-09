@@ -6,12 +6,19 @@ enum class UserNameErrorType {
     USERNAME_FORMAT_ERROR,
 }
 
+enum class PasswordErrorType {
+    NO_ERROR,
+    PASSWORD_LENGTH_ERROR,
+    PASSWORD_FORMAT_ERROR,
+}
 
 object SignUpValidator {
 
     private const val USERNAME_REGEX = "^[a-zA-Z가-힣]+$"
 
     private const val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
+
+    private const val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$"
 
     fun validateUserName(userName: String): UserNameErrorType {
         return when {
@@ -24,6 +31,15 @@ object SignUpValidator {
 
     fun isValidEmail(email: String): Boolean {
         return email.isEmpty() || email.matches(Regex(EMAIL_REGEX))
+    }
+
+    fun validatePassword(password: String): PasswordErrorType {
+        return when {
+            password.isEmpty() -> PasswordErrorType.NO_ERROR
+            password.length < 8 || password.length > 16 -> PasswordErrorType.PASSWORD_LENGTH_ERROR
+            !password.matches(Regex(PASSWORD_REGEX)) -> PasswordErrorType.PASSWORD_FORMAT_ERROR
+            else -> PasswordErrorType.NO_ERROR
+        }
     }
 
 }
