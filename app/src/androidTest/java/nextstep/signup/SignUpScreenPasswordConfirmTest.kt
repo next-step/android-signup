@@ -1,0 +1,93 @@
+package nextstep.signup
+
+import android.content.Context
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performTextInput
+import androidx.test.platform.app.InstrumentationRegistry
+import org.junit.Rule
+import org.junit.Test
+
+class SignUpScreenPasswordConfirmTest {
+
+    @get:Rule
+    val composeTestRule = createComposeRule()
+
+    @Test
+    fun 비밀번호_확인을_입력해도_입력된_비밀번호_확인이_보이지_않는다() {
+        // given
+        val passwordInput = "a12345678!"
+        composeTestRule.setContent {
+            MaterialTheme {
+                SignUpScreen()
+            }
+        }
+
+        // when
+        // Password Confirm 필드에 입력
+        composeTestRule
+            .onNodeWithText("Password Confirm")
+            .performTextInput(passwordInput)
+
+        // then
+        composeTestRule
+            .onNodeWithText(passwordInput)
+            .assertDoesNotExist()
+    }
+
+    @Test
+    fun 비밀번호와_비밀번호_확인이_다르면_유효성_검사_실패_메세지가_보인다() {
+        // given
+        val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
+        val invalidPasswordConfirmMessage =
+            context.getString(R.string.sign_up_invalid_password_confirm)
+
+        composeTestRule.setContent {
+            MaterialTheme {
+                SignUpScreen()
+            }
+        }
+
+        // when
+        composeTestRule
+            .onNodeWithText("Password")
+            .performTextInput("ABCD1234")
+        composeTestRule
+            .onNodeWithText("Password Confirm")
+            .performTextInput("abcd1234!")
+
+        // then
+        composeTestRule
+            .onNodeWithText(invalidPasswordConfirmMessage)
+            .assertExists()
+    }
+
+    @Test
+    fun 비밀번호와_비밀번호_확인이_같으면_유효성_검사_실패_메세지가_보이지_않는다() {
+        // given
+        val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
+        val invalidPasswordConfirmMessage =
+            context.getString(R.string.sign_up_invalid_password_confirm)
+        val passwordConfirm = "abcd1234"
+
+        composeTestRule.setContent {
+            MaterialTheme {
+                SignUpScreen()
+            }
+        }
+
+        // when
+        composeTestRule
+            .onNodeWithText("Password")
+            .performTextInput(passwordConfirm)
+        composeTestRule
+            .onNodeWithText("Password Confirm")
+            .performTextInput(passwordConfirm)
+
+        // then
+        composeTestRule
+            .onNodeWithText(invalidPasswordConfirmMessage)
+            .assertDoesNotExist()
+    }
+}
