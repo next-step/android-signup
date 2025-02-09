@@ -30,7 +30,10 @@ import nextstep.signup.ui.theme.UserTextFiledColor
 object SignUpTextFiled {
 
     @Composable
-    operator fun invoke(modifier: Modifier = Modifier) {
+    operator fun invoke(
+        modifier: Modifier = Modifier,
+        onChangeValid: (Boolean) -> Unit = {}
+    ) {
 
         var inputUserName by remember { mutableStateOf(EMPTY_STRING) }
         var inputEmail by remember { mutableStateOf(EMPTY_STRING) }
@@ -43,20 +46,60 @@ object SignUpTextFiled {
         ) {
             UserName(
                 userName = inputUserName,
-                onChangedName = { inputUserName = it }
+                onChangedName = {
+                    inputUserName = it
+                    onChangeValid(
+                        SignUpValidation.isAllValid(
+                            userName = inputUserName,
+                            email = inputEmail,
+                            password = inputPassword,
+                            passwordConfirm = inputPasswordConfirm
+                        )
+                    )
+                }
             )
             Email(
                 email = inputEmail,
-                onChangedEmail = { inputEmail = it }
+                onChangedEmail = {
+                    inputEmail = it
+                    onChangeValid(
+                        SignUpValidation.isAllValid(
+                            userName = inputUserName,
+                            email = inputEmail,
+                            password = inputPassword,
+                            passwordConfirm = inputPasswordConfirm
+                        )
+                    )
+                }
             )
             Password(
                 password = inputPassword,
-                onChangedPassword = { inputPassword = it }
+                onChangedPassword = {
+                    inputPassword = it
+                    onChangeValid(
+                        SignUpValidation.isAllValid(
+                            userName = inputUserName,
+                            email = inputEmail,
+                            password = inputPassword,
+                            passwordConfirm = inputPasswordConfirm
+                        )
+                    )
+                }
             )
             PasswordConfirm(
                 passwordConfirm = inputPasswordConfirm,
-                onChangedPasswordConfirm = { inputPasswordConfirm = it },
-                isShowError = SignUpValidation.isValidPasswordConfirm(
+                onChangedPasswordConfirm = {
+                    inputPasswordConfirm = it
+                    onChangeValid(
+                        SignUpValidation.isAllValid(
+                            userName = inputUserName,
+                            email = inputEmail,
+                            password = inputPassword,
+                            passwordConfirm = inputPasswordConfirm
+                        )
+                    )
+                },
+                isShowError = !SignUpValidation.isValidPasswordConfirm(
                     password = inputPassword,
                     passwordConfirm = inputPasswordConfirm
                 ) && inputPasswordConfirm.isNotEmpty()
