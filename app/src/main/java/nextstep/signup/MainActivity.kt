@@ -24,6 +24,7 @@ import nextstep.signup.component.MyTextField
 import nextstep.signup.component.Title
 import nextstep.signup.ui.theme.SignupTheme
 import nextstep.signup.util.ValidationUtil.setEmailErrorMessage
+import nextstep.signup.util.ValidationUtil.setPasswordConfirmErrorMessage
 import nextstep.signup.util.ValidationUtil.setPasswordErrorMessage
 import nextstep.signup.util.ValidationUtil.setUsernameErrorMessage
 
@@ -74,6 +75,7 @@ fun UserRegisterScreen(modifier: Modifier = Modifier) {
         )
         PasswordConfirmInputField(
             value = passwordConfirm,
+            errorMessage = setPasswordConfirmErrorMessage(password, passwordConfirm),
             onValueChange = { passwordConfirm = it },
             modifier = Modifier.width(296.dp),
         )
@@ -141,11 +143,13 @@ fun PasswordInputField(
 @Composable
 fun PasswordConfirmInputField(
     value: String,
+    errorMessage: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     MyTextField(
         value = value,
+        errorMessage = errorMessage,
         onValueChange = onValueChange,
         labelText = stringResource(R.string.user_register_input_password_confirm_label),
         visualTransformation = PasswordVisualTransformation(),

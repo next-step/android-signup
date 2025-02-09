@@ -26,9 +26,16 @@ object ValidationUtil {
         else -> ""
     }
 
+    fun setPasswordConfirmErrorMessage(password: String, passwordConfirm: String) = when {
+        passwordConfirm.isBlank() -> ""
+        password != passwordConfirm -> PASSWORD_CONFIRM_NOT_SAME
+        else -> ""
+    }
+
     const val USER_NAME_LENGTH_ERROR = "이름은 2~5자여야 합니다."
     const val USER_NAME_IN_SPECIAL_CHARS_ERROR = "이름에 특수문자가 들어갈 수 없습니다."
     const val EMAIL_FORMAT_ERROR = "이메일 형식이 올바르지 않습니다."
     const val PASSWORD_LENGTH_ERROR = "비밀번호는 8~16자여야 합니다."
     const val PASSWORD_FORMAT_ERROR = "비밀번호는 영문과 숫자를 포함해야 합니다."
+    const val PASSWORD_CONFIRM_NOT_SAME = "비밀번호가 일치하지 않습니다."
 }
