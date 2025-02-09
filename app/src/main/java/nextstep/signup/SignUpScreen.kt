@@ -93,7 +93,7 @@ private fun InputFormContent(modifier: Modifier = Modifier) {
     val context = LocalContext.current
 
     Column(
-        verticalArrangement = Arrangement.spacedBy(36.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier,
     ) {
         SignUpInputForm(
