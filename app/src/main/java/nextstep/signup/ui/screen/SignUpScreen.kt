@@ -17,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,42 +41,9 @@ fun SignUpScreen(modifier: Modifier) {
         modifier = modifier.background(Color.White),
     ) {
         var userName by remember { mutableStateOf<String?>(null) }
-        val userErrorMsg by rememberUpdatedState(
-            when {
-                userName == null -> null
-                userName!!.length !in 2..5 -> stringResource(R.string.user_name_error_length)
-                !userName!!.matches(Regex(RegexPattern.USERNAME_REGEX)) -> stringResource(R.string.user_name_error_length)
-                else -> null
-            }
-        )
-
         var email by remember { mutableStateOf<String?>(null) }
-        val emailErrorMsg by rememberUpdatedState(
-            when {
-                email == null -> null
-                !email!!.matches(Regex(RegexPattern.EMAIL_REGEX)) -> stringResource(R.string.email_error_invalid)
-                else -> null
-            }
-        )
-
         var password by remember { mutableStateOf<String?>(null) }
-        val passwordErrorMsg by rememberUpdatedState(
-            when {
-                password == null -> null
-                password!!.length !in 8..16 -> stringResource(R.string.password_error_length)
-                !password!!.matches(Regex(RegexPattern.PASSWORD_REGEX)) -> stringResource(R.string.password_error_invalid)
-                else -> null
-            }
-        )
-
         var confirmPassword by remember { mutableStateOf<String?>(null) }
-        val confirmPasswordErrorMsg by rememberUpdatedState(
-            when {
-                confirmPassword == null -> null
-                confirmPassword != password -> stringResource(R.string.password_confirm_error_invalid)
-                else -> null
-            }
-        )
 
         Column(
             modifier = Modifier
@@ -89,40 +55,31 @@ fun SignUpScreen(modifier: Modifier) {
                 title = stringResource(R.string.sign_up_title),
                 modifier = Modifier.padding(top = 60.dp)
             )
-            InputField(
-                label = stringResource(R.string.user_name),
-                value = userName,
-                onValueChange = {
+            UsernameTextField(
+                userName = userName,
+                onUsernameChange = {
                     userName = it
                 },
-                errorMsg = userErrorMsg,
                 modifier = Modifier.padding(top = 42.dp)
             )
-            InputField(
-                label = stringResource(R.string.email),
-                value = email,
-                errorMsg = emailErrorMsg,
-                onValueChange = {
+            EmailTextField(
+                email = email,
+                onEmailChange = {
                     email = it
                 },
                 modifier = Modifier.padding(top = 32.dp)
             )
-            InputField(
-                label = stringResource(R.string.password),
-                value = password,
-                errorMsg = passwordErrorMsg,
-                inputType = KeyboardType.Password,
-                onValueChange = {
+            PasswordTextField(
+                password = password,
+                onPasswordChange = {
                     password = it
                 },
                 modifier = Modifier.padding(top = 32.dp)
             )
-            InputField(
-                label = stringResource(R.string.password_confirm),
-                value = confirmPassword,
-                errorMsg = confirmPasswordErrorMsg,
-                inputType = KeyboardType.Password,
-                onValueChange = {
+            PasswordConfirmTextField(
+                password = password,
+                confirmPassword = confirmPassword,
+                onPasswordChange = {
                     confirmPassword = it
                 },
                 modifier = Modifier.padding(top = 32.dp)
@@ -144,6 +101,95 @@ fun TitleText(
         text = title,
         fontSize = 26.sp,
         fontWeight = FontWeight.W700,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun UsernameTextField(
+    userName: String?,
+    onUsernameChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val errorMsg = when {
+        userName == null -> null
+        userName.length !in 2..5 -> stringResource(R.string.user_name_error_length)
+        !userName.matches(Regex(RegexPattern.USERNAME_REGEX)) -> stringResource(R.string.user_name_error_invalid)
+        else -> null
+    }
+
+    InputField(
+        label = stringResource(R.string.user_name),
+        value = userName,
+        errorMsg = errorMsg,
+        modifier = modifier,
+        onValueChange = onUsernameChange,
+    )
+}
+
+@Composable
+fun EmailTextField(
+    email: String?,
+    onEmailChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val errorMsg = when {
+        email == null -> null
+        !email.matches(Regex(RegexPattern.EMAIL_REGEX)) -> stringResource(R.string.email_error_invalid)
+        else -> null
+    }
+
+    InputField(
+        label = stringResource(R.string.email),
+        value = email,
+        errorMsg = errorMsg,
+        modifier = modifier,
+        onValueChange = onEmailChange,
+    )
+}
+
+@Composable
+fun PasswordTextField(
+    password: String?,
+    onPasswordChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val errorMsg = when {
+        password == null -> null
+        password.length !in 8..16 -> stringResource(R.string.password_error_length)
+        !password.matches(Regex(RegexPattern.PASSWORD_REGEX)) -> stringResource(R.string.password_error_invalid)
+        else -> null
+    }
+
+    InputField(
+        label = stringResource(R.string.password),
+        value = password,
+        errorMsg = errorMsg,
+        inputType = KeyboardType.Password,
+        onValueChange = onPasswordChange,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun PasswordConfirmTextField(
+    password: String?,
+    confirmPassword: String?,
+    onPasswordChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val errorMsg = when {
+        confirmPassword == null -> null
+        confirmPassword != password -> stringResource(R.string.password_confirm_error_invalid)
+        else -> null
+    }
+
+    InputField(
+        label = stringResource(R.string.password_confirm),
+        value = confirmPassword,
+        errorMsg = errorMsg,
+        inputType = KeyboardType.Password,
+        onValueChange = onPasswordChange,
         modifier = modifier
     )
 }
