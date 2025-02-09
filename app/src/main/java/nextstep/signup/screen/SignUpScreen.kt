@@ -21,6 +21,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
+import nextstep.signup.view.EmailTextField
 import nextstep.signup.view.SignUpButton
 import nextstep.signup.view.SignUpBasicTextField
 import nextstep.signup.view.SignUpTitle
@@ -56,14 +57,12 @@ fun SignUpScreen(
             }
         )
 
-        SignUpBasicTextField(
+        EmailTextField(
             modifier = Modifier.padding(top = 36.dp),
-            label = stringResource(R.string.signup_email),
             value = email,
             onValueChange = {
                 email = it
             },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
         )
 
         SignUpBasicTextField(

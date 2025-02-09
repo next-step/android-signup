@@ -22,4 +22,8 @@ object SignUpValidator {
         }
     }
 
+    fun isValidEmail(email: String): Boolean {
+        return email.isEmpty() || email.matches(Regex(EMAIL_REGEX))
+    }
+
 }
