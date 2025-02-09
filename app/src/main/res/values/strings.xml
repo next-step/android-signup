@@ -2,6 +2,8 @@
     <string name="app_name">Signup</string>
     <string name="signup_title">Welcome to Compose 🚀</string>
     <string name="signup_username">Username</string>
+    <string name="signup_username_length_error">이름은 2~5자여야 합니다.</string>
+    <string name="signup_username_format_error">이름에는 숫자나 기호가 포함될 수 없습니다.</string>
     <string name="signup_email">Email</string>
     <string name="signup_password">Password</string>
     <string name="signup_confirm_password">Password Confirm</string>

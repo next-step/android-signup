@@ -22,8 +22,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
 import nextstep.signup.view.SignUpButton
-import nextstep.signup.view.SignUpTextField
+import nextstep.signup.view.SignUpBasicTextField
 import nextstep.signup.view.SignUpTitle
+import nextstep.signup.view.UserNameTextField
 
 @Composable
 fun SignUpScreen(
@@ -47,16 +48,15 @@ fun SignUpScreen(
             modifier = Modifier.padding(top = 80.dp)
         )
 
-        SignUpTextField(
+        UserNameTextField(
             modifier = Modifier.padding(top = 40.dp),
-            label = stringResource(R.string.signup_username),
-            value = userName,
+            userName = userName,
             onValueChange = {
                 userName = it
             }
         )
 
-        SignUpTextField(
+        SignUpBasicTextField(
             modifier = Modifier.padding(top = 36.dp),
             label = stringResource(R.string.signup_email),
             value = email,
@@ -66,7 +66,7 @@ fun SignUpScreen(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
         )
 
-        SignUpTextField(
+        SignUpBasicTextField(
             modifier = Modifier.padding(top = 36.dp),
             label = stringResource(R.string.signup_password),
             value = password,
@@ -78,7 +78,7 @@ fun SignUpScreen(
 
         )
 
-        SignUpTextField(
+        SignUpBasicTextField(
             modifier = Modifier.padding(top = 36.dp),
             label = stringResource(R.string.signup_confirm_password),
             value = passwordConfirm,
