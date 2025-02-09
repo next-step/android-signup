@@ -22,4 +22,16 @@ object SignUpValidation {
 
     fun isValidPasswordConfirm(password: String, passwordConfirm: String): Boolean =
         password == passwordConfirm
+
+    fun isAllValid(
+        userName: String,
+        email: String,
+        password: String,
+        passwordConfirm: String
+    ) =
+        isValidUserName(userName) &&
+                isValidEmail(email) &&
+                isValidPassword(password) &&
+                isValidPasswordConfirm(password, passwordConfirm)
+
 }

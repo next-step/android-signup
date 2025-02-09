@@ -45,4 +45,52 @@ class InputValidationTest {
         assertFalse(SignUpValidation.isValidPasswordConfirm("asdf1234","asdf123"))
         assertTrue(SignUpValidation.isValidPasswordConfirm("asdf1234","asdf1234"))
     }
+
+
+    @Test
+    fun should_be_ture_when_all_valid() {
+        assertTrue(
+            SignUpValidation.isAllValid(
+                userName = "abc",
+                email = "duksung1234@naver.com",
+                password = "asdf1234",
+                passwordConfirm = "asdf1234"
+            )
+        )
+        assertFalse(
+            SignUpValidation.isAllValid(
+                userName = "a",
+                email = "duksung1234@naver.com",
+                password = "asdf1234",
+                passwordConfirm = "asdf1234"
+            )
+        )
+
+        assertFalse(
+            SignUpValidation.isAllValid(
+                userName = "abac",
+                email = "duksung1234@",
+                password = "asdf1234",
+                passwordConfirm = "asdf1234"
+            )
+        )
+
+        assertFalse(
+            SignUpValidation.isAllValid(
+                userName = "abac",
+                email = "duksung1234@naver.com",
+                password = "asdf123",
+                passwordConfirm = "asdf1234"
+            )
+        )
+
+        assertFalse(
+            SignUpValidation.isAllValid(
+                userName = "abac",
+                email = "duksung1234@naver.com",
+                password = "asdf123asdf123asdf123asdf123",
+                passwordConfirm = "asdf123asdf123asdf123asdf123"
+            )
+        )
+    }
 }
