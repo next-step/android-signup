@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -48,7 +49,9 @@ private fun SignUpScreen(
     modifier: Modifier = Modifier,
 ) {
     Scaffold { paddingValues ->
-        Column(
+        val focusManager = LocalFocusManager.current
+
+        LazyColumn(
             modifier = modifier
                 .fillMaxSize()
                 .padding(paddingValues)
@@ -56,110 +59,120 @@ private fun SignUpScreen(
             verticalArrangement = Arrangement.spacedBy(36.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            val focusManager = LocalFocusManager.current
-
-            Text(
-                modifier = Modifier.padding(top = 48.dp, bottom = 6.dp),
-                text = stringResource(R.string.sign_up_welcome),
-                fontWeight = FontWeight.Bold,
-                fontSize = 26.sp,
-            )
-
-            // 입력 폼
-            TextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = state.userName,
-                onValueChange = {
-                    onAction(SignUpAction.OnUsernameChange(it))
-                },
-                label = {
-                    Text(stringResource(R.string.username_label))
-                },
-                keyboardActions = KeyboardActions(
-                    onNext = {
-                        focusManager.moveFocus(FocusDirection.Next)
-                    }
-                ),
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Next
-                )
-            )
-
-            TextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = state.email,
-                onValueChange = {
-                    onAction(SignUpAction.OnEmailChange(it))
-                },
-                label = {
-                    Text(stringResource(R.string.email_label))
-                },
-                keyboardActions = KeyboardActions(
-                    onNext = {
-                        focusManager.moveFocus(FocusDirection.Next)
-                    }
-                ),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Email,
-                    imeAction = ImeAction.Next
-                )
-            )
-
-            TextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = state.password,
-                onValueChange = {
-                    onAction(SignUpAction.OnPasswordChange(it))
-                },
-                label = {
-                    Text(stringResource(R.string.password_label))
-                },
-                visualTransformation = PasswordVisualTransformation(),
-                keyboardActions = KeyboardActions(
-                    onNext = {
-                        focusManager.moveFocus(FocusDirection.Next)
-                    }
-                ),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Password,
-                    imeAction = ImeAction.Next
-                )
-            )
-
-            TextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = state.passwordConfirm,
-                onValueChange = {
-                    onAction(SignUpAction.OnPasswordConfirmChange(it))
-                },
-                label = {
-                    Text(stringResource(R.string.password_confirm_label))
-                },
-                visualTransformation = PasswordVisualTransformation(),
-                keyboardActions = KeyboardActions(
-                    onDone = {
-                        focusManager.clearFocus()
-                    }
-                ),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Password,
-                    imeAction = ImeAction.Done
-                )
-            )
-
-            // 회원가입 버튼
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 6.dp),
-                onClick = {
-                    onAction(SignUpAction.OnSignUpClick)
-                }
-            ) {
+            item {
                 Text(
-                    text = stringResource(R.string.sign_up_sign),
-                    modifier = Modifier.padding(vertical = 8.dp),
+                    modifier = Modifier.padding(top = 48.dp, bottom = 6.dp),
+                    text = stringResource(R.string.sign_up_welcome),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 26.sp,
                 )
+            }
+
+            item {
+                // 입력 폼
+                TextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = state.userName,
+                    onValueChange = {
+                        onAction(SignUpAction.OnUsernameChange(it))
+                    },
+                    label = {
+                        Text(stringResource(R.string.username_label))
+                    },
+                    keyboardActions = KeyboardActions(
+                        onNext = {
+                            focusManager.moveFocus(FocusDirection.Next)
+                        }
+                    ),
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next
+                    )
+                )
+            }
+
+            item {
+                TextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = state.email,
+                    onValueChange = {
+                        onAction(SignUpAction.OnEmailChange(it))
+                    },
+                    label = {
+                        Text(stringResource(R.string.email_label))
+                    },
+                    keyboardActions = KeyboardActions(
+                        onNext = {
+                            focusManager.moveFocus(FocusDirection.Next)
+                        }
+                    ),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Email,
+                        imeAction = ImeAction.Next
+                    )
+                )
+            }
+
+            item {
+                TextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = state.password,
+                    onValueChange = {
+                        onAction(SignUpAction.OnPasswordChange(it))
+                    },
+                    label = {
+                        Text(stringResource(R.string.password_label))
+                    },
+                    visualTransformation = PasswordVisualTransformation(),
+                    keyboardActions = KeyboardActions(
+                        onNext = {
+                            focusManager.moveFocus(FocusDirection.Next)
+                        }
+                    ),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password,
+                        imeAction = ImeAction.Next
+                    )
+                )
+            }
+
+            item {
+                TextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = state.passwordConfirm,
+                    onValueChange = {
+                        onAction(SignUpAction.OnPasswordConfirmChange(it))
+                    },
+                    label = {
+                        Text(stringResource(R.string.password_confirm_label))
+                    },
+                    visualTransformation = PasswordVisualTransformation(),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            focusManager.clearFocus()
+                        }
+                    ),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password,
+                        imeAction = ImeAction.Done
+                    )
+                )
+            }
+
+            item {
+                // 회원가입 버튼
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 6.dp),
+                    onClick = {
+                        onAction(SignUpAction.OnSignUpClick)
+                    }
+                ) {
+                    Text(
+                        text = stringResource(R.string.sign_up_sign),
+                        modifier = Modifier.padding(vertical = 8.dp),
+                    )
+                }
             }
         }
     }
