@@ -1,4 +1,4 @@
-package nextstep.signup
+package nextstep.signup.textfield
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,7 +33,9 @@ fun SignUpTextField(
     visualTransformation: VisualTransformation = VisualTransformation.None,
 ) {
     TextField(
-        modifier = modifier.fillMaxWidth().heightIn(min = 56.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .heightIn(min = 56.dp),
         value = value,
         isError = isError,
         onValueChange = onValueChange,
