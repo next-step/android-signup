@@ -5,6 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextInput
+import androidx.compose.ui.test.performTextReplacement
 import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Rule
 import org.junit.Test
@@ -89,5 +90,38 @@ class SignUpScreenPasswordConfirmTest {
         composeTestRule
             .onNodeWithText(invalidPasswordConfirmMessage)
             .assertDoesNotExist()
+    }
+
+    @Test
+    fun 비밀번호_확인_입력_후_비밀번호가_바뀌면_실패_메세지가_보인다() {
+        val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
+        val invalidPasswordConfirmMessage =
+            context.getString(R.string.sign_up_invalid_password_confirm)
+
+        composeTestRule.setContent {
+            MaterialTheme {
+                SignUpScreen()
+            }
+        }
+
+        // when
+        composeTestRule
+            .onNodeWithText("Password")
+            .performTextInput("123123123")
+
+        // when
+        composeTestRule
+            .onNodeWithText("Password Confirm")
+            .performTextInput("123123123")
+
+        // when
+        composeTestRule
+            .onNodeWithText("Password")
+            .performTextReplacement("123123123a")
+
+        // then
+        composeTestRule
+            .onNodeWithText(invalidPasswordConfirmMessage)
+            .assertExists()
     }
 }

@@ -1,5 +1,6 @@
 package nextstep.signup
 
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -31,6 +32,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import nextstep.signup.signupvalidation.SignUpInvalidType
 import nextstep.signup.signupvalidation.SignUpValidEmail
 import nextstep.signup.signupvalidation.SignUpValidPassword
 import nextstep.signup.signupvalidation.SignUpValidPasswordConfirm
@@ -101,9 +103,11 @@ private fun InputFormContent(modifier: Modifier = Modifier) {
             label = stringResource(R.string.sign_up_user_name_label),
             onInputChange = { value ->
                 username = value
-                val signUpValidType = SignUpValidUsername().invoke(value)
-                userNameErrorMessage =
-                    if (signUpValidType == null) "" else context.getString(signUpValidType.resId)
+                userNameErrorMessage = getErrorMessage(
+                    context = context,
+                    input = value,
+                    validSignUp = SignUpValidUsername()
+                )
             },
             errorMessage = userNameErrorMessage,
         )
@@ -112,21 +116,29 @@ private fun InputFormContent(modifier: Modifier = Modifier) {
             label = stringResource(R.string.sign_up_email_label),
             onInputChange = { value ->
                 email = value
-                val signUpValidType = SignUpValidEmail().invoke(value)
-                emailErrorMessage =
-                    if (signUpValidType == null) "" else context.getString(signUpValidType.resId)
+                emailErrorMessage = getErrorMessage(
+                    context = context,
+                    input = value,
+                    validSignUp = SignUpValidEmail(),
+                )
             },
             errorMessage = emailErrorMessage,
         )
-
         SignUpInputForm(
             input = password,
             label = stringResource(R.string.sign_up_password_label),
             onInputChange = { value ->
                 password = value
-                val signUpValidType = SignUpValidPassword().invoke(value)
-                passwordErrorMessage =
-                    if (signUpValidType == null) "" else context.getString(signUpValidType.resId)
+                passwordConfirmErrorMessage = getErrorMessage(
+                    context = context,
+                    input = value,
+                    validSignUp = SignUpValidPasswordConfirm(passwordConfirm)
+                )
+                passwordErrorMessage = getErrorMessage(
+                    context = context,
+                    input = value,
+                    validSignUp = SignUpValidPassword()
+                )
             },
             errorMessage = passwordErrorMessage,
             visualTransformation = PasswordVisualTransformation(),
@@ -136,14 +148,26 @@ private fun InputFormContent(modifier: Modifier = Modifier) {
             label = stringResource(R.string.sign_up_password_confirm_label),
             onInputChange = { value ->
                 passwordConfirm = value
-                val signUpValidType = SignUpValidPasswordConfirm(password).invoke(value)
-                passwordConfirmErrorMessage =
-                    if (signUpValidType == null) "" else context.getString(signUpValidType.resId)
+                passwordConfirmErrorMessage = getErrorMessage(
+                    context = context,
+                    input = value,
+                    validSignUp = SignUpValidPasswordConfirm(password)
+                )
+
             },
             errorMessage = passwordConfirmErrorMessage,
             visualTransformation = PasswordVisualTransformation(),
         )
     }
+}
+
+private fun getErrorMessage(
+    context: Context,
+    input: String,
+    validSignUp: (String) -> SignUpInvalidType?,
+): String {
+    val signUpValidType = validSignUp.invoke(input) ?: return ""
+    return context.getString(signUpValidType.resId)
 }
 
 @Composable
