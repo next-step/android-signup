@@ -137,8 +137,8 @@ private fun SignUpScreen(
                 },
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardActions = KeyboardActions(
-                    onNext = {
-                        focusManager.moveFocus(FocusDirection.Next)
+                    onDone = {
+                        focusManager.clearFocus()
                     }
                 ),
                 keyboardOptions = KeyboardOptions(
@@ -151,8 +151,7 @@ private fun SignUpScreen(
             Button(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 6.dp)
-                    .focusable(enabled = true),
+                    .padding(top = 6.dp),
                 onClick = {
                     onAction(SignUpAction.OnSignUpClick)
                 }
