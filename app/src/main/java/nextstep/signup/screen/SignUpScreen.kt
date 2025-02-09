@@ -96,7 +96,7 @@ fun SignUpScreen(
 
 @Preview
 @Composable
-fun SignUpScreen_Preview() {
+private fun SignUpScreen_Preview() {
     SignUpScreen(
         modifier = Modifier
             .fillMaxSize()

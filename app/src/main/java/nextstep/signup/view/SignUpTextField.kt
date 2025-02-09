@@ -59,9 +59,9 @@ fun SignUpTextField(
     )
 }
 
-@Preview
+@Preview(name = "Username 입력 TextField")
 @Composable
-private fun SignUpTextField_Username_Preview() {
+private fun SignUpTextFieldPreview1() {
     SignUpTextField(
         label = "Username",
         value = "김컴포즈",
@@ -69,9 +69,9 @@ private fun SignUpTextField_Username_Preview() {
     )
 }
 
-@Preview
+@Preview(name = "Email 입력 TextField")
 @Composable
-private fun SignUpTextField_Email_Preview() {
+private fun SignUpTextFieldPreview2() {
     SignUpTextField(
         label = "Email",
         value = "test@test.com",
@@ -80,9 +80,9 @@ private fun SignUpTextField_Email_Preview() {
     )
 }
 
-@Preview
+@Preview(name = "Password 입력 TextField")
 @Composable
-private fun SignUpTextField_Password_Preview() {
+private fun SignUpTextFieldPreview3() {
     SignUpTextField(
         label = "Password",
         value = "abcd",
