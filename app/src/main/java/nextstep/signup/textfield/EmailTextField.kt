@@ -20,7 +20,7 @@ fun EmailTextField(
 ) {
     val isInvalidFormatError by remember(value) {
         derivedStateOf {
-            value.isNotEmpty() && !value.matches(Regex(RegexConst.EMAIL_REGEX))
+            value.isNotEmpty() && !value.matches(Regex(SignUpConst.EMAIL_REGEX))
         }
     }
 

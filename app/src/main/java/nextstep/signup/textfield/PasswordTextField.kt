@@ -13,6 +13,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import nextstep.signup.R
+import nextstep.signup.textfield.SignUpConst.PASSWORD_MAX_LENGTH
+import nextstep.signup.textfield.SignUpConst.PASSWORD_MIN_LENGTH
 import nextstep.signup.ui.theme.SignupTheme
 
 private enum class PasswordError {
@@ -29,8 +31,8 @@ fun PasswordTextField(
         derivedStateOf {
             when {
                 value.isEmpty() -> PasswordError.NONE
-                value.length !in 8..16 -> PasswordError.LENGTH_ERROR
-                !value.matches(Regex(RegexConst.PASSWORD_REGEX)) -> PasswordError.REQUIRED_CHARACTER_NOT_INCLUDE_ERROR
+                value.length !in PASSWORD_MIN_LENGTH..PASSWORD_MAX_LENGTH -> PasswordError.LENGTH_ERROR
+                !value.matches(Regex(SignUpConst.PASSWORD_REGEX)) -> PasswordError.REQUIRED_CHARACTER_NOT_INCLUDE_ERROR
                 else -> PasswordError.NONE
             }
         }

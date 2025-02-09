@@ -10,6 +10,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import nextstep.signup.R
+import nextstep.signup.textfield.SignUpConst.USERNAME_MAX_LENGTH
+import nextstep.signup.textfield.SignUpConst.USERNAME_MIN_LENGTH
 import nextstep.signup.ui.theme.SignupTheme
 
 private enum class UsernameError {
@@ -26,8 +28,8 @@ fun UsernameTextField(
         derivedStateOf {
             when {
                 value.isEmpty() -> UsernameError.NONE
-                !value.matches(Regex(RegexConst.USERNAME_REGEX)) -> UsernameError.INVALID_CHARACTER_ERROR
-                value.length !in 2..5 -> UsernameError.LENGTH_ERROR
+                !value.matches(Regex(SignUpConst.USERNAME_REGEX)) -> UsernameError.INVALID_CHARACTER_ERROR
+                value.length !in USERNAME_MIN_LENGTH..USERNAME_MAX_LENGTH -> UsernameError.LENGTH_ERROR
                 else -> UsernameError.NONE
             }
         }
