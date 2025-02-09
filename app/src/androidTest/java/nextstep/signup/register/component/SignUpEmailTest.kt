@@ -6,8 +6,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import androidx.test.platform.app.InstrumentationRegistry
-import nextstep.signup.R
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -16,8 +14,6 @@ class SignUpEmailTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
-
-    private val context = InstrumentationRegistry.getInstrumentation().targetContext
 
     private var email by mutableStateOf("")
 
@@ -36,34 +32,34 @@ class SignUpEmailTest {
 
         //then
         composeTestRule
-            .onNodeWithText(
-                context.getString(R.string.sign_up_error_email)
-            ).assertDoesNotExist()
+            .onNodeWithText(ERROR_EMAIL)
+            .assertDoesNotExist()
     }
 
 
-
     @Test
-    fun should_show_error_when_wrong_format_email(){
+    fun should_show_error_when_wrong_format_email() {
         //given
         email = "abc@a"
 
         //then
         composeTestRule
-            .onNodeWithText(
-                context.getString(R.string.sign_up_error_email)
-            ).assertIsDisplayed()
+            .onNodeWithText(ERROR_EMAIL)
+            .assertIsDisplayed()
     }
 
     @Test
-    fun should_not_show_error_when_correct_format_email(){
+    fun should_not_show_error_when_correct_format_email() {
         //given
         email = "abc@abc.com"
 
         //then
         composeTestRule
-            .onNodeWithText(
-                context.getString(R.string.sign_up_error_email)
-            ).assertDoesNotExist()
+            .onNodeWithText(ERROR_EMAIL)
+            .assertDoesNotExist()
+    }
+
+    companion object {
+        private const val ERROR_EMAIL = "이메일 형식이 올바르지 않습니다."
     }
 }

@@ -6,8 +6,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import androidx.test.platform.app.InstrumentationRegistry
-import nextstep.signup.R
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -17,7 +15,6 @@ class SignUpPasswordTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    private val context = InstrumentationRegistry.getInstrumentation().targetContext
     private var password by mutableStateOf("")
 
 
@@ -36,14 +33,12 @@ class SignUpPasswordTest {
 
         //then
         composeTestRule
-            .onNodeWithText(
-                context.getString(R.string.sign_up_error_password_length)
-            ).assertDoesNotExist()
+            .onNodeWithText(ERROR_PASSWORD_LENGTH)
+            .assertDoesNotExist()
 
         composeTestRule
-            .onNodeWithText(
-                context.getString(R.string.sign_up_error_password)
-            ).assertDoesNotExist()
+            .onNodeWithText(ERROR_PASSWORD)
+            .assertDoesNotExist()
     }
 
 
@@ -54,9 +49,8 @@ class SignUpPasswordTest {
 
         //then
         composeTestRule
-            .onNodeWithText(
-                context.getString(R.string.sign_up_error_password_length)
-            ).assertIsDisplayed()
+            .onNodeWithText(ERROR_PASSWORD_LENGTH)
+            .assertIsDisplayed()
     }
 
     @Test
@@ -66,9 +60,8 @@ class SignUpPasswordTest {
 
         //then
         composeTestRule
-            .onNodeWithText(
-                context.getString(R.string.sign_up_error_password)
-            ).assertIsDisplayed()
+            .onNodeWithText(ERROR_PASSWORD)
+            .assertIsDisplayed()
     }
 
     @Test
@@ -79,13 +72,18 @@ class SignUpPasswordTest {
 
         //then
         composeTestRule
-            .onNodeWithText(
-                context.getString(R.string.sign_up_error_password_length)
-            ).assertDoesNotExist()
+            .onNodeWithText(ERROR_PASSWORD_LENGTH)
+            .assertDoesNotExist()
 
         composeTestRule
-            .onNodeWithText(
-                context.getString(R.string.sign_up_error_password)
-            ).assertDoesNotExist()
+            .onNodeWithText(ERROR_PASSWORD)
+            .assertDoesNotExist()
+    }
+
+    companion object {
+
+        private const val ERROR_PASSWORD_LENGTH = "비밀번호는 8~16자여야 합니다."
+        private const val ERROR_PASSWORD = "비밀번호는 영문과 숫자를 포함해야 합니다."
+
     }
 }

@@ -6,8 +6,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import androidx.test.platform.app.InstrumentationRegistry
-import nextstep.signup.R
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -16,7 +14,6 @@ class SignUpUserNameTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
-    private val context = InstrumentationRegistry.getInstrumentation().targetContext
     private var username by mutableStateOf("")
 
     @Before
@@ -35,14 +32,12 @@ class SignUpUserNameTest {
 
         //then
         composeTestRule
-            .onNodeWithText(
-                context.getString(R.string.sign_up_error_username_length)
-            ).assertDoesNotExist()
+            .onNodeWithText(ERROR_USERNAME_LENGTH)
+            .assertDoesNotExist()
 
         composeTestRule
-            .onNodeWithText(
-                context.getString(R.string.sign_up_error_username)
-            ).assertDoesNotExist()
+            .onNodeWithText(ERROR_USERNAME)
+            .assertDoesNotExist()
     }
 
     @Test
@@ -52,9 +47,8 @@ class SignUpUserNameTest {
 
         //then
         composeTestRule
-            .onNodeWithText(
-                context.getString(R.string.sign_up_error_username_length)
-            ).assertIsDisplayed()
+            .onNodeWithText(ERROR_USERNAME_LENGTH)
+            .assertIsDisplayed()
     }
 
     @Test
@@ -64,9 +58,8 @@ class SignUpUserNameTest {
 
         //then
         composeTestRule
-            .onNodeWithText(
-                context.getString(R.string.sign_up_error_username)
-            ).assertIsDisplayed()
+            .onNodeWithText(ERROR_USERNAME)
+            .assertIsDisplayed()
     }
 
     @Test
@@ -77,13 +70,17 @@ class SignUpUserNameTest {
 
         //then
         composeTestRule
-            .onNodeWithText(
-                context.getString(R.string.sign_up_error_username_length)
-            ).assertDoesNotExist()
+            .onNodeWithText(ERROR_USERNAME_LENGTH)
+            .assertDoesNotExist()
 
         composeTestRule
-            .onNodeWithText(
-                context.getString(R.string.sign_up_error_username)
-            ).assertDoesNotExist()
+            .onNodeWithText(ERROR_USERNAME)
+            .assertDoesNotExist()
+    }
+
+    companion object {
+        private const val ERROR_USERNAME_LENGTH = "이름은 2~5자여야 합니다."
+        private const val ERROR_USERNAME = "이름에는 숫자나 기호가 포함될 수 없습니다."
+
     }
 }
