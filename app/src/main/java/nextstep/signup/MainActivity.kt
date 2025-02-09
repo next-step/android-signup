@@ -61,10 +61,9 @@ fun UserRegisterScreen(modifier: Modifier = Modifier) {
         )
         EmailInputField(
             value = email,
+            errorMessage = setEmailErrorMessage(email),
             onValueChange = { email = it },
-            modifier = Modifier
-                .width(296.dp)
-                .height(53.dp)
+            modifier = Modifier.width(296.dp),
         )
         PasswordInputField(
             value = password,
