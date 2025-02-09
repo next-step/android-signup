@@ -7,6 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
@@ -37,7 +38,7 @@ class SignUpViewTest {
 
         composeTestRule.setContent {
             TitleText(
-                titleResId = R.string.sign_up_title,
+                title = stringResource(R.string.sign_up_title),
                 modifier = Modifier.fillMaxWidth()
             )
         }
@@ -59,15 +60,17 @@ class SignUpViewTest {
             var input by remember { mutableStateOf("") }
 
             InputField(
-                labelResId = R.string.test_input,
+                label = stringResource(R.string.test_input),
                 value = input,
+                errorMsg = null,
                 onValueChange = { input = it },
                 modifier = Modifier.testTag("inputField")
             )
 
             InputField(
-                labelResId = R.string.test_input_password,
+                label = stringResource(R.string.test_input_password),
                 value = input,
+                errorMsg = null,
                 onValueChange = { input = it },
                 inputType = KeyboardType.Password,
                 modifier = Modifier.testTag("passwordField")
@@ -112,7 +115,7 @@ class SignUpViewTest {
         var clicked = false
         composeTestRule.setContent {
             SignUpButton(
-                buttonTextResId = R.string.sign_up_button,
+                buttonText = stringResource(R.string.sign_up_button),
                 modifier = Modifier.testTag(buttonTag),
             ) {
                 clicked = true

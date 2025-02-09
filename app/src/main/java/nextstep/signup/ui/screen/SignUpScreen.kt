@@ -1,6 +1,5 @@
 package nextstep.signup.ui.screen
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -31,19 +30,20 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import nextstep.signup.R
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.BlueGrey50
-import nextstep.signup.R
+import nextstep.signup.ui.theme.RedError
 
 @Composable
 fun SignUpScreen(modifier: Modifier) {
     Surface(
         modifier = modifier.background(Color.White),
     ) {
-        var userName by remember { mutableStateOf("") }
-        var email by remember { mutableStateOf("") }
-        var password by remember { mutableStateOf("") }
-        var confirmPassword by remember { mutableStateOf("") }
+        var userName by remember { mutableStateOf<String?>(null) }
+        var email by remember { mutableStateOf<String?>(null) }
+        var password by remember { mutableStateOf<String?>(null) }
+        var confirmPassword by remember { mutableStateOf<String?>(null) }
 
         Column(
             modifier = Modifier
@@ -52,37 +52,40 @@ fun SignUpScreen(modifier: Modifier) {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             TitleText(
-                titleResId = R.string.sign_up_title,
+                title = stringResource(R.string.sign_up_title),
                 modifier = Modifier.padding(top = 60.dp)
             )
-            InputField(
-                labelResId = R.string.user_name,
-                value = userName,
-                onValueChange = { userName = it },
+            UsernameTextField(
+                userName = userName,
+                onUsernameChange = {
+                    userName = it
+                },
                 modifier = Modifier.padding(top = 42.dp)
             )
-            InputField(
-                labelResId = R.string.email,
-                value = email,
-                onValueChange = { email = it },
+            EmailTextField(
+                email = email,
+                onEmailChange = {
+                    email = it
+                },
                 modifier = Modifier.padding(top = 32.dp)
             )
-            InputField(
-                labelResId = R.string.password,
-                value = password,
-                inputType = KeyboardType.Password,
-                onValueChange = { password = it },
+            PasswordTextField(
+                password = password,
+                onPasswordChange = {
+                    password = it
+                },
                 modifier = Modifier.padding(top = 32.dp)
             )
-            InputField(
-                labelResId = R.string.password_confirm,
-                value = confirmPassword,
-                inputType = KeyboardType.Password,
-                onValueChange = { confirmPassword = it },
+            PasswordConfirmTextField(
+                password = password,
+                confirmPassword = confirmPassword,
+                onPasswordChange = {
+                    confirmPassword = it
+                },
                 modifier = Modifier.padding(top = 32.dp)
             )
             SignUpButton(
-                buttonTextResId = R.string.sign_up_button,
+                buttonText = stringResource(R.string.sign_up_button),
                 modifier = Modifier.padding(top = 42.dp)
             )
         }
@@ -91,11 +94,11 @@ fun SignUpScreen(modifier: Modifier) {
 
 @Composable
 fun TitleText(
-    @StringRes titleResId: Int,
+    title: String,
     modifier: Modifier = Modifier,
 ) {
     Text(
-        text = stringResource(titleResId),
+        text = title,
         fontSize = 26.sp,
         fontWeight = FontWeight.W700,
         modifier = modifier
@@ -103,16 +106,116 @@ fun TitleText(
 }
 
 @Composable
+fun UsernameTextField(
+    userName: String?,
+    onUsernameChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val errorMsg = when {
+        userName == null -> null
+        userName.length !in 2..5 -> stringResource(R.string.user_name_error_length)
+        !userName.matches(Regex(RegexPattern.USERNAME_REGEX)) -> stringResource(R.string.user_name_error_invalid)
+        else -> null
+    }
+
+    InputField(
+        label = stringResource(R.string.user_name),
+        value = userName,
+        errorMsg = errorMsg,
+        modifier = modifier,
+        onValueChange = onUsernameChange,
+    )
+}
+
+@Composable
+fun EmailTextField(
+    email: String?,
+    onEmailChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val errorMsg = when {
+        email == null -> null
+        !email.matches(Regex(RegexPattern.EMAIL_REGEX)) -> stringResource(R.string.email_error_invalid)
+        else -> null
+    }
+
+    InputField(
+        label = stringResource(R.string.email),
+        value = email,
+        errorMsg = errorMsg,
+        modifier = modifier,
+        onValueChange = onEmailChange,
+    )
+}
+
+@Composable
+fun PasswordTextField(
+    password: String?,
+    onPasswordChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val errorMsg = when {
+        password == null -> null
+        password.length !in 8..16 -> stringResource(R.string.password_error_length)
+        !password.matches(Regex(RegexPattern.PASSWORD_REGEX)) -> stringResource(R.string.password_error_invalid)
+        else -> null
+    }
+
+    InputField(
+        label = stringResource(R.string.password),
+        value = password,
+        errorMsg = errorMsg,
+        inputType = KeyboardType.Password,
+        onValueChange = onPasswordChange,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun PasswordConfirmTextField(
+    password: String?,
+    confirmPassword: String?,
+    onPasswordChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val errorMsg = when {
+        confirmPassword == null -> null
+        confirmPassword != password -> stringResource(R.string.password_confirm_error_invalid)
+        else -> null
+    }
+
+    InputField(
+        label = stringResource(R.string.password_confirm),
+        value = confirmPassword,
+        errorMsg = errorMsg,
+        inputType = KeyboardType.Password,
+        onValueChange = onPasswordChange,
+        modifier = modifier
+    )
+}
+
+@Composable
 fun InputField(
-    @StringRes labelResId: Int,
-    value: String,
+    label: String,
+    value: String?,
+    errorMsg: String?,
     inputType: KeyboardType = KeyboardType.Text,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     TextField(
-        value = value,
+        value = value?:"",
         onValueChange = onValueChange,
+        isError = errorMsg != null,
+        supportingText = {
+            errorMsg?.let {
+                Text(
+                    text = it,
+                    color = RedError,
+                    fontSize = 12.sp,
+                )
+            }
+        },
         keyboardOptions = KeyboardOptions.Default.copy(
             imeAction = ImeAction.Done,
             keyboardType = KeyboardType.Password
@@ -123,7 +226,7 @@ fun InputField(
             VisualTransformation.None,
         label = {
             Text(
-                text = stringResource(labelResId),
+                text = label,
             )
         },
         maxLines = 1,
@@ -132,6 +235,8 @@ fun InputField(
             unfocusedContainerColor = BlueGrey50,
             focusedContainerColor = BlueGrey50,
             focusedLabelColor = Blue50,
+            errorCursorColor = RedError,
+            errorLabelColor = RedError,
         ),
         modifier = modifier
             .fillMaxWidth()
@@ -140,7 +245,7 @@ fun InputField(
 
 @Composable
 fun SignUpButton(
-    @StringRes buttonTextResId: Int,
+    buttonText: String,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
 ) {
@@ -154,7 +259,7 @@ fun SignUpButton(
         contentPadding = PaddingValues(vertical = 15.dp),
     ) {
         Text(
-            text = stringResource(buttonTextResId),
+            text = buttonText,
             fontSize = 14.sp,
             fontWeight = FontWeight.W500,
         )
@@ -165,7 +270,7 @@ fun SignUpButton(
 @Composable
 private fun TitlePreView() {
     TitleText(
-        titleResId = R.string.sign_up_title
+        title = "회원가입 화면이에용"
     )
 }
 
@@ -173,8 +278,9 @@ private fun TitlePreView() {
 @Composable
 private fun InputFieldPreView() {
     InputField(
-        labelResId = R.string.user_name,
+        label = "홀리몰리 입력필드",
         value = "홀리몰리",
+        errorMsg = null,
         onValueChange = { }
     )
 }
@@ -183,7 +289,13 @@ private fun InputFieldPreView() {
 @Composable
 private fun SignUpButtonPreView() {
     SignUpButton(
-        buttonTextResId = R.string.sign_up_button
+        buttonText = "SingUp"
     )
+}
+
+object RegexPattern {
+    const val USERNAME_REGEX = "^[a-zA-Z가-힣]+$"
+    const val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
+    const val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$"
 }
 
