@@ -23,6 +23,7 @@ import nextstep.signup.component.MyButton
 import nextstep.signup.component.MyTextField
 import nextstep.signup.component.Title
 import nextstep.signup.ui.theme.SignupTheme
+import nextstep.signup.util.ValidationUtil.setEmailErrorMessage
 import nextstep.signup.util.ValidationUtil.setUsernameErrorMessage
 
 class MainActivity : ComponentActivity() {
@@ -40,7 +41,10 @@ class MainActivity : ComponentActivity() {
 fun UserRegisterScreen(modifier: Modifier = Modifier) {
     var userName by rememberSaveable { mutableStateOf("") }
     var userNameErrorMessage by rememberSaveable { mutableStateOf("") }
+
     var email by rememberSaveable { mutableStateOf("") }
+    var emailErrorMessage by rememberSaveable { mutableStateOf("") }
+
     var password by rememberSaveable { mutableStateOf("") }
     var passwordConfirm by rememberSaveable { mutableStateOf("") }
 
@@ -64,7 +68,11 @@ fun UserRegisterScreen(modifier: Modifier = Modifier) {
         )
         EmailInputField(
             value = email,
-            onValueChange = { email = it },
+            errorMessage = emailErrorMessage,
+            onValueChange = {
+                email = it
+                emailErrorMessage = setEmailErrorMessage(it)
+            },
             modifier = Modifier.width(296.dp),
         )
         PasswordInputField(
@@ -108,11 +116,13 @@ fun UsernameInputField(
 @Composable
 fun EmailInputField(
     value: String,
+    errorMessage: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     MyTextField(
         value = value,
+        errorMessage = errorMessage,
         onValueChange = onValueChange,
         labelText = stringResource(R.string.user_register_input_email_label),
         modifier = modifier,
