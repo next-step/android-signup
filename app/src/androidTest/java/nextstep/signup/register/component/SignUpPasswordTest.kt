@@ -60,7 +60,7 @@ class SignUpPasswordTest {
     }
 
     @Test
-    fun should_show_error_when_not_contain_english_or_digit_password() {
+    fun should_show_error_when_not_contain_english_and_digit_password() {
         //given
         password = "12341234"
 
