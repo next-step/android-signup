@@ -49,7 +49,13 @@ class MainActivity : ComponentActivity() {
                         password = password.password,
                         isPasswordError = password.isError,
                         passwordSupportingText = password.supportingText,
-                        onPasswordChange = { password = Password(it).toUiState() },
+                        onPasswordChange = {
+                            password = Password(it).toUiState()
+                            if (passwordConfirm.passwordConfirm.isNotEmpty()) {
+                                passwordConfirm =
+                                    PasswordConfirm(passwordConfirm.passwordConfirm).toUiState(it)
+                            }
+                        },
                         passwordConfirm = passwordConfirm.passwordConfirm,
                         isPasswordConfirmError = passwordConfirm.isError,
                         passwordConfirmSupportingText = passwordConfirm.supportingText,
