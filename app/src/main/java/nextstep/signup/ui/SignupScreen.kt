@@ -51,7 +51,7 @@ fun SignupScreen() {
                 .fillMaxSize()
                 .background(White)
                 .padding(horizontal = 33.dp),
-            verticalArrangement = Arrangement.spacedBy(36.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             // Title
@@ -65,7 +65,7 @@ fun SignupScreen() {
                 label = usernameLabel,
                 value = username,
                 onValueChange = { username = it },
-                modifier = Modifier.padding(top = 6.dp),
+                modifier = Modifier.padding(top = 23.dp),
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next
                 )
@@ -115,7 +115,7 @@ fun SignupScreen() {
                 onClick = {
                     // Signup Action
                 },
-                modifier = Modifier.padding(top = 6.dp),
+                modifier = Modifier.padding(top = 3.dp),
             )
         }
     }
