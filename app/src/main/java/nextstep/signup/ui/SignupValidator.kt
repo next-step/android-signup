@@ -8,4 +8,5 @@ object SignupValidator {
     fun isValidUsername(username: String) = username.matches(Regex(USERNAME_REGEX))
     fun isValidEmail(email: String) = email.matches(Regex(EMAIL_REGEX))
     fun isValidPassword(password: String) = password.matches(Regex(PASSWORD_REGEX))
+    fun isPasswordMatching(password: String, confirmPassword: String) = password == confirmPassword
 }
