@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -82,18 +83,30 @@ fun SignUpContents(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.spacedBy(36.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        item { SignUpInputForm(placeHolderText = stringResource(R.string.signup_main_input_name), keyboardType = KeyboardType.Text) }
-        item { SignUpInputForm(placeHolderText = stringResource(R.string.signup_main_input_email), keyboardType = KeyboardType.Text) }
+        item {
+            SignUpInputForm(
+                placeHolderText = stringResource(R.string.signup_main_input_name),
+                keyboardType = KeyboardType.Text
+            )
+        }
+        item {
+            SignUpInputForm(
+                placeHolderText = stringResource(R.string.signup_main_input_email),
+                keyboardType = KeyboardType.Text
+            )
+        }
         item {
             SignUpInputForm(
                 placeHolderText = stringResource(R.string.signup_main_input_password),
-                keyboardType = KeyboardType.NumberPassword
+                keyboardType = KeyboardType.NumberPassword,
+                visualTransformation = PasswordVisualTransformation()
             )
         }
         item {
             SignUpInputForm(
                 placeHolderText = stringResource(R.string.signup_main_input_password_confirm),
-                keyboardType = KeyboardType.NumberPassword
+                keyboardType = KeyboardType.NumberPassword,
+                visualTransformation = PasswordVisualTransformation()
             )
         }
         item {
@@ -135,7 +148,8 @@ fun SignUpButton(modifier: Modifier = Modifier, buttonTitle: String, onClick: ()
 fun SignUpInputForm(
     modifier: Modifier = Modifier,
     placeHolderText: String,
-    keyboardType: KeyboardType
+    keyboardType: KeyboardType,
+    visualTransformation: VisualTransformation = VisualTransformation.None
 ) {
     var textFieldValue by remember { mutableStateOf(TextFieldValue("")) }
     TextField(
@@ -144,7 +158,7 @@ fun SignUpInputForm(
             textFieldValue = newTextFieldValue
         },
         label = { Text(placeHolderText) },
-        visualTransformation = VisualTransformation.None,
+        visualTransformation = visualTransformation,
         singleLine = true,
         placeholder = { Text(placeHolderText) },
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
@@ -152,8 +166,9 @@ fun SignUpInputForm(
         colors = TextFieldDefaults.colors(
             focusedContainerColor = Color(0xFFE3E8F1),
             unfocusedContainerColor = Color(0xFFE3E8F1)
+        ),
+
         )
-    )
 }
 
 @Preview(showBackground = true)
