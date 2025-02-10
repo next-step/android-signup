@@ -23,7 +23,7 @@ import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.BlueGray20
 import nextstep.signup.ui.theme.Gray20
 import nextstep.signup.ui.theme.Red
-import nextstep.signup.validator.Validator
+import nextstep.signup.validator.SignupInfoValidator
 
 @Composable
 internal fun SignupTextField(
@@ -31,7 +31,7 @@ internal fun SignupTextField(
     text: String,
     onValueChange: (String) -> Unit,
     visualTransformation: VisualTransformation,
-    validator: Validator,
+    validator: SignupInfoValidator,
     modifier: Modifier = Modifier,
 ) {
     val validateResult = validator.checkCondition(text)
@@ -89,7 +89,7 @@ private fun SignupFieldPreview_userName() {
         text = text,
         onValueChange = { text = it },
         visualTransformation = VisualTransformation.None,
-        validator = Validator.Username
+        validator = SignupInfoValidator.Username
     )
 }
 
@@ -103,6 +103,6 @@ private fun SignupFieldPreview_password() {
         text = text,
         onValueChange = { text = it },
         visualTransformation = PasswordVisualTransformation(),
-        validator = Validator.Password
+        validator = SignupInfoValidator.Password
     )
 }

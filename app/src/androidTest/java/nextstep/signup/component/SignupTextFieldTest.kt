@@ -12,7 +12,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import nextstep.signup.validator.Validator
+import nextstep.signup.validator.SignupInfoValidator
 import org.junit.Rule
 import org.junit.Test
 
@@ -30,7 +30,7 @@ class SignupTextFieldTest {
                 text = "text",
                 onValueChange = { },
                 visualTransformation = VisualTransformation.None,
-                validator = Validator.Username,
+                validator = SignupInfoValidator.Username,
                 modifier = Modifier.testTag(label)
             )
         }
@@ -52,7 +52,7 @@ class SignupTextFieldTest {
                 text = text,
                 onValueChange = setText,
                 visualTransformation = VisualTransformation.None,
-                validator = Validator.Username,
+                validator = SignupInfoValidator.Username,
                 modifier = Modifier.testTag(label)
             )
         }
@@ -79,7 +79,7 @@ class SignupTextFieldTest {
                 text = password,
                 onValueChange = setPassword,
                 visualTransformation = PasswordVisualTransformation(),
-                validator = Validator.Password,
+                validator = SignupInfoValidator.Password,
                 modifier = Modifier.testTag(label)
             )
         }
@@ -104,7 +104,7 @@ class SignupTextFieldTest {
                 text = "이름이뭐랍니까",
                 onValueChange = { },
                 visualTransformation = VisualTransformation.None,
-                validator = Validator.Username
+                validator = SignupInfoValidator.Username
             )
         }
 
@@ -123,7 +123,7 @@ class SignupTextFieldTest {
                 text = "이용우2",
                 onValueChange = { },
                 visualTransformation = VisualTransformation.None,
-                validator = Validator.Username
+                validator = SignupInfoValidator.Username
             )
         }
 
@@ -142,7 +142,7 @@ class SignupTextFieldTest {
                 text = "raindragonn!gmail.com",
                 onValueChange = { },
                 visualTransformation = VisualTransformation.None,
-                validator = Validator.Email
+                validator = SignupInfoValidator.Email
             )
         }
 
@@ -161,7 +161,7 @@ class SignupTextFieldTest {
                 text = "123",
                 onValueChange = { },
                 visualTransformation = VisualTransformation.None,
-                validator = Validator.Password
+                validator = SignupInfoValidator.Password
             )
         }
 
@@ -180,7 +180,7 @@ class SignupTextFieldTest {
                 text = "가나다라마바사아",
                 onValueChange = { },
                 visualTransformation = VisualTransformation.None,
-                validator = Validator.Password
+                validator = SignupInfoValidator.Password
             )
         }
 
@@ -205,7 +205,7 @@ class SignupTextFieldTest {
                 text = password,
                 onValueChange = setPassword,
                 visualTransformation = VisualTransformation.None,
-                validator = Validator.Password,
+                validator = SignupInfoValidator.Password,
                 modifier = Modifier.testTag(passwordLabel)
             )
 
@@ -214,7 +214,7 @@ class SignupTextFieldTest {
                 text = passwordConfirm,
                 onValueChange = setPasswordConfirm,
                 visualTransformation = VisualTransformation.None,
-                validator = Validator.PasswordConfirm { password },
+                validator = SignupInfoValidator.PasswordConfirm { password },
                 modifier = Modifier.testTag(passwordConfirmLabel)
             )
         }

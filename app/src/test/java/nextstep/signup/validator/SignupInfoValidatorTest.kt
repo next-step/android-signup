@@ -2,7 +2,7 @@ package nextstep.signup.validator
 
 import org.junit.Test
 
-class ValidatorTest {
+class SignupInfoValidatorTest {
 
     @Test
     fun `이름이 2자 보다 적으면 안된다`() {
@@ -10,10 +10,10 @@ class ValidatorTest {
         val username = "김"
 
         // when
-        val result = Validator.Username.checkCondition(username)
+        val result = SignupInfoValidator.Username.checkCondition(username)
 
         //then
-        assert(result == ValidateResult.INVALID_LENGTH_USERNAME)
+        assert(result == SignupInfoValidateResult.INVALID_LENGTH_USERNAME)
     }
 
     @Test
@@ -22,10 +22,10 @@ class ValidatorTest {
         val username = "가나가라마바사아"
 
         // when
-        val result = Validator.Username.checkCondition(username)
+        val result = SignupInfoValidator.Username.checkCondition(username)
 
         //then
-        assert(result == ValidateResult.INVALID_LENGTH_USERNAME)
+        assert(result == SignupInfoValidateResult.INVALID_LENGTH_USERNAME)
     }
 
     @Test
@@ -34,10 +34,10 @@ class ValidatorTest {
         val username = "1!2@"
 
         // when
-        val result = Validator.Username.checkCondition(username)
+        val result = SignupInfoValidator.Username.checkCondition(username)
 
         //then
-        assert(result == ValidateResult.INVALID_FORMAT_USERNAME)
+        assert(result == SignupInfoValidateResult.INVALID_FORMAT_USERNAME)
     }
 
     @Test
@@ -46,10 +46,10 @@ class ValidatorTest {
         val email = "raindragonn@gmail.com"
 
         // when
-        val result = Validator.Email.checkCondition(email)
+        val result = SignupInfoValidator.Email.checkCondition(email)
 
         //then
-        assert(result == ValidateResult.SUCCESS)
+        assert(result == SignupInfoValidateResult.SUCCESS)
     }
 
     @Test
@@ -58,10 +58,10 @@ class ValidatorTest {
         val password = "1q2w3e4"
 
         // when
-        val result = Validator.Password.checkCondition(password)
+        val result = SignupInfoValidator.Password.checkCondition(password)
 
         //then
-        assert(result == ValidateResult.INVALID_LENGTH_PASSWORD)
+        assert(result == SignupInfoValidateResult.INVALID_LENGTH_PASSWORD)
     }
 
     @Test
@@ -70,10 +70,10 @@ class ValidatorTest {
         val password = "1q2w3e4r5t6y7u8i9"
 
         // when
-        val result = Validator.Password.checkCondition(password)
+        val result = SignupInfoValidator.Password.checkCondition(password)
 
         //then
-        assert(result == ValidateResult.INVALID_LENGTH_PASSWORD)
+        assert(result == SignupInfoValidateResult.INVALID_LENGTH_PASSWORD)
     }
 
     @Test
@@ -82,10 +82,10 @@ class ValidatorTest {
         val password = "123456789"
 
         // when
-        val result = Validator.Password.checkCondition(password)
+        val result = SignupInfoValidator.Password.checkCondition(password)
 
         //then
-        assert(result == ValidateResult.INVALID_FORMAT_PASSWORD)
+        assert(result == SignupInfoValidateResult.INVALID_FORMAT_PASSWORD)
     }
 
     @Test
@@ -94,10 +94,10 @@ class ValidatorTest {
         val password = "qwertyui"
 
         // when
-        val result = Validator.Password.checkCondition(password)
+        val result = SignupInfoValidator.Password.checkCondition(password)
 
         //then
-        assert(result == ValidateResult.INVALID_FORMAT_PASSWORD)
+        assert(result == SignupInfoValidateResult.INVALID_FORMAT_PASSWORD)
     }
 
     @Test
@@ -107,12 +107,12 @@ class ValidatorTest {
         val passwordConfirm = "1q2w3e4r"
 
         // when
-        val result = Validator.PasswordConfirm {
+        val result = SignupInfoValidator.PasswordConfirm {
             password
         }.checkCondition(passwordConfirm)
 
         //then
-        assert(result == ValidateResult.SUCCESS)
+        assert(result == SignupInfoValidateResult.SUCCESS)
     }
 
 }

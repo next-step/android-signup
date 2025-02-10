@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import nextstep.signup.R
 
-enum class ValidateResult {
+enum class SignupInfoValidateResult {
     SUCCESS,
     INVALID_LENGTH_USERNAME,
     INVALID_FORMAT_USERNAME,

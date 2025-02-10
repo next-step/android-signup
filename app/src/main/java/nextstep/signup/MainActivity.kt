@@ -23,7 +23,7 @@ import nextstep.signup.component.SignupButton
 import nextstep.signup.component.SignupTextField
 import nextstep.signup.component.SignupTitle
 import nextstep.signup.ui.theme.SignupTheme
-import nextstep.signup.validator.Validator
+import nextstep.signup.validator.SignupInfoValidator
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,28 +67,28 @@ internal fun SignupScreen(
             text = userName,
             onValueChange = setUserName,
             visualTransformation = VisualTransformation.None,
-            validator = Validator.Username
+            validator = SignupInfoValidator.Username
         )
         SignupTextField(
             label = stringResource(R.string.signup_label_email),
             text = email,
             onValueChange = setEmail,
             visualTransformation = VisualTransformation.None,
-            validator = Validator.Email,
+            validator = SignupInfoValidator.Email,
         )
         SignupTextField(
             label = stringResource(R.string.signup_label_password),
             text = password,
             onValueChange = setPassword,
             visualTransformation = PasswordVisualTransformation(),
-            validator = Validator.Password,
+            validator = SignupInfoValidator.Password,
         )
         SignupTextField(
             label = stringResource(R.string.signup_label_password_confirm),
             text = passwordConfirm,
             onValueChange = setPasswordConfirm,
             visualTransformation = PasswordVisualTransformation(),
-            validator = Validator.PasswordConfirm { password },
+            validator = SignupInfoValidator.PasswordConfirm { password },
         )
         SignupButton(
             modifier = Modifier.padding(top = 6.dp),
