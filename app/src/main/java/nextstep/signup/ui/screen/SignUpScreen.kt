@@ -34,16 +34,17 @@ import nextstep.signup.R
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.BlueGrey50
 import nextstep.signup.ui.theme.RedError
+import nextstep.signup.ui.utils.ValidateUtils
 
 @Composable
 fun SignUpScreen(modifier: Modifier) {
     Surface(
         modifier = modifier.background(Color.White),
     ) {
-        var userName by remember { mutableStateOf<String?>(null) }
-        var email by remember { mutableStateOf<String?>(null) }
-        var password by remember { mutableStateOf<String?>(null) }
-        var confirmPassword by remember { mutableStateOf<String?>(null) }
+        var userName by remember { mutableStateOf("") }
+        var email by remember { mutableStateOf("") }
+        var password by remember { mutableStateOf("") }
+        var confirmPassword by remember { mutableStateOf("") }
 
         Column(
             modifier = Modifier
@@ -107,16 +108,11 @@ fun TitleText(
 
 @Composable
 fun UsernameTextField(
-    userName: String?,
+    userName: String,
     onUsernameChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val errorMsg = when {
-        userName == null -> null
-        userName.length !in 2..5 -> stringResource(R.string.user_name_error_length)
-        !userName.matches(Regex(RegexPattern.USERNAME_REGEX)) -> stringResource(R.string.user_name_error_invalid)
-        else -> null
-    }
+    val errorMsg = getUserNameErorrMessage(userName)
 
     InputField(
         label = stringResource(R.string.user_name),
@@ -129,15 +125,11 @@ fun UsernameTextField(
 
 @Composable
 fun EmailTextField(
-    email: String?,
+    email: String,
     onEmailChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val errorMsg = when {
-        email == null -> null
-        !email.matches(Regex(RegexPattern.EMAIL_REGEX)) -> stringResource(R.string.email_error_invalid)
-        else -> null
-    }
+    val errorMsg = getEmailErrorMessage(email)
 
     InputField(
         label = stringResource(R.string.email),
@@ -150,16 +142,11 @@ fun EmailTextField(
 
 @Composable
 fun PasswordTextField(
-    password: String?,
+    password: String,
     onPasswordChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    val errorMsg = when {
-        password == null -> null
-        password.length !in 8..16 -> stringResource(R.string.password_error_length)
-        !password.matches(Regex(RegexPattern.PASSWORD_REGEX)) -> stringResource(R.string.password_error_invalid)
-        else -> null
-    }
+    val errorMsg = getPasswordErrorMessage(password)
 
     InputField(
         label = stringResource(R.string.password),
@@ -173,16 +160,12 @@ fun PasswordTextField(
 
 @Composable
 fun PasswordConfirmTextField(
-    password: String?,
-    confirmPassword: String?,
+    password: String,
+    confirmPassword: String,
     onPasswordChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    val errorMsg = when {
-        confirmPassword == null -> null
-        confirmPassword != password -> stringResource(R.string.password_confirm_error_invalid)
-        else -> null
-    }
+    val errorMsg = getPasswordConfirmErrorMessage(password, confirmPassword)
 
     InputField(
         label = stringResource(R.string.password_confirm),
@@ -197,24 +180,22 @@ fun PasswordConfirmTextField(
 @Composable
 fun InputField(
     label: String,
-    value: String?,
-    errorMsg: String?,
+    value: String,
+    errorMsg: String,
     inputType: KeyboardType = KeyboardType.Text,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     TextField(
-        value = value?:"",
+        value = value,
         onValueChange = onValueChange,
-        isError = errorMsg != null,
+        isError = errorMsg.isNotEmpty(),
         supportingText = {
-            errorMsg?.let {
-                Text(
-                    text = it,
-                    color = RedError,
-                    fontSize = 12.sp,
-                )
-            }
+            Text(
+                text = errorMsg,
+                color = RedError,
+                fontSize = 12.sp,
+            )
         },
         keyboardOptions = KeyboardOptions.Default.copy(
             imeAction = ImeAction.Done,
@@ -266,6 +247,44 @@ fun SignUpButton(
     }
 }
 
+@Composable
+fun getUserNameErorrMessage(userName: String): String {
+    return when {
+        userName.isEmpty() -> ""
+        !ValidateUtils.isValidUsernameLength(userName) -> stringResource(R.string.user_name_error_length)
+        !ValidateUtils.isValidUsername(userName) -> stringResource(R.string.user_name_error_invalid)
+        else -> ""
+    }
+}
+
+@Composable
+fun getEmailErrorMessage(email: String): String {
+    return when {
+        email.isEmpty() -> ""
+        !ValidateUtils.isValidEmail(email) -> stringResource(R.string.email_error_invalid)
+        else -> ""
+    }
+}
+
+@Composable
+fun getPasswordErrorMessage(password: String): String {
+    return when {
+        password.isEmpty() -> ""
+        !ValidateUtils.isValidPasswordLength(password) -> stringResource(R.string.password_error_length)
+        !ValidateUtils.isValidPassword(password) -> stringResource(R.string.password_error_invalid)
+        else -> ""
+    }
+}
+
+@Composable
+fun getPasswordConfirmErrorMessage(password: String, confirmPassword: String): String {
+    return when {
+        password.isEmpty() || confirmPassword.isEmpty() -> ""
+        !ValidateUtils.isValidatePasswordConfirm(password, confirmPassword) -> stringResource(R.string.password_confirm_error_invalid)
+        else -> ""
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun TitlePreView() {
@@ -280,7 +299,7 @@ private fun InputFieldPreView() {
     InputField(
         label = "홀리몰리 입력필드",
         value = "홀리몰리",
-        errorMsg = null,
+        errorMsg = "",
         onValueChange = { }
     )
 }
@@ -292,10 +311,3 @@ private fun SignUpButtonPreView() {
         buttonText = "SingUp"
     )
 }
-
-object RegexPattern {
-    const val USERNAME_REGEX = "^[a-zA-Z가-힣]+$"
-    const val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
-    const val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$"
-}
-
