@@ -25,7 +25,9 @@ fun SignupButton(
                 style = MaterialTheme.typography.labelLarge
             )
         },
-        colors = ButtonDefaults.buttonColors().copy(containerColor = Blue50)
+        colors = ButtonDefaults
+            .buttonColors()
+            .copy(containerColor = Blue50),
     )
 }
 
