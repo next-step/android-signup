@@ -52,8 +52,7 @@ fun SignupScreen() {
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight()
+                .fillMaxSize()
                 .background(White)
                 .padding(
                     horizontal = 33.dp,
