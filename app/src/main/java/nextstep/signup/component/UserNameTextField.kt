@@ -26,7 +26,7 @@ internal fun UserNameTextFiled(
 
 @Preview(showBackground = true)
 @Composable
-private fun UserNameTextField_long_name() {
+private fun UserNameTextFieldPreview_long_name() {
     UserNameTextFiled(
         text = "김수한무거북이",
         onValueChange = { },
@@ -35,7 +35,7 @@ private fun UserNameTextField_long_name() {
 
 @Preview(showBackground = true)
 @Composable
-private fun UserNameTextField_short_name() {
+private fun UserNameTextFieldPreview_short_name() {
     UserNameTextFiled(
         text = "이",
         onValueChange = { },
@@ -44,7 +44,7 @@ private fun UserNameTextField_short_name() {
 
 @Preview(showBackground = true)
 @Composable
-private fun UserNameTextField_format_error() {
+private fun UserNameTextFieldPreview_format_error() {
     UserNameTextFiled(
         text = "2용우!",
         onValueChange = { },
@@ -53,7 +53,7 @@ private fun UserNameTextField_format_error() {
 
 @Preview(showBackground = true)
 @Composable
-private fun UserNameTextField_normal() {
+private fun UserNameTextFieldPreview_normal() {
     UserNameTextFiled(
         text = "컴포즈",
         onValueChange = { },

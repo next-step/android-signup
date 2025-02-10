@@ -26,7 +26,7 @@ internal fun EmailTextFiled(
 
 @Preview(showBackground = true)
 @Composable
-private fun EmailTextFiled_error() {
+private fun EmailTextFiledPreview_error() {
     EmailTextFiled(
         text = "raindragonn!gmail.com",
         onValueChange = { },
@@ -35,7 +35,7 @@ private fun EmailTextFiled_error() {
 
 @Preview(showBackground = true)
 @Composable
-private fun EmailTextFiled_normal() {
+private fun EmailTextFiledPreview_normal() {
     EmailTextFiled(
         text = "raindragonn@gmail.com",
         onValueChange = { },

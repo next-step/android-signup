@@ -26,7 +26,7 @@ internal fun PasswordTextFiled(
 
 @Preview(showBackground = true)
 @Composable
-private fun PasswordTextFiled_format_error() {
+private fun PasswordTextFiledPreview_format_error() {
     PasswordTextFiled(
         text = "123123123",
         onValueChange = { },
@@ -35,7 +35,7 @@ private fun PasswordTextFiled_format_error() {
 
 @Preview(showBackground = true)
 @Composable
-private fun PasswordTextFiled_length_error() {
+private fun PasswordTextFiledPreview_length_error() {
     PasswordTextFiled(
         text = "1q2w3e",
         onValueChange = { },
@@ -44,7 +44,7 @@ private fun PasswordTextFiled_length_error() {
 
 @Preview(showBackground = true)
 @Composable
-private fun PasswordTextFiled_normal() {
+private fun PasswordTextFiledPreview_normal() {
     PasswordTextFiled(
         text = "1q2w3e4r",
         onValueChange = { },
