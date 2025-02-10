@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import nextstep.signup.R
 import nextstep.signup.register.component.SignUpButton
-import nextstep.signup.register.component.SignUpTextFiled
+import nextstep.signup.register.component.SignUpInputContainer
 import nextstep.signup.register.component.SignUpTitle
 
 
@@ -50,7 +50,7 @@ fun SignUpScreen() {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             SignUpTitle(modifier = Modifier.padding(bottom = 40.dp))
-            SignUpTextFiled(onChangeValid = { isEnableSignUp = it })
+            SignUpInputContainer(onChangeValid = { isEnableSignUp = it })
             SignUpButton(
                 modifier = Modifier.padding(top = 40.dp),
                 isEnabled = isEnableSignUp,
