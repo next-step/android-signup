@@ -1,5 +1,6 @@
 package nextstep.signup.ui
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -28,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.R
+import nextstep.signup.ui.theme.SignupTheme
 import nextstep.signup.ui.theme.White
 
 @Composable
@@ -169,8 +171,19 @@ fun SignupScreenPreview() {
     SignupScreen()
 }
 
-@Preview
+//@Preview
+//@Composable
+//fun SignupTitlePreview() {
+//    SignupTitle(title = "테스트")
+//}
+
+@Preview(name = "LightThemePreview")
+@Preview(name = "DarkThemePreview", uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun SignupTitlePreview() {
-    SignupTitle(title = "테스트")
+    SignupTheme {
+        Surface {
+            SignupTitle(title = "테스트")
+        }
+    }
 }
