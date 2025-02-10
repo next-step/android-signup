@@ -15,9 +15,9 @@ import nextstep.signup.ui.theme.Typography
 
 @Composable
 fun SignUpButton(
-    modifier: Modifier = Modifier,
     enabled: Boolean,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Button(
         modifier = modifier.fillMaxWidth(),

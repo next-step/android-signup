@@ -1,5 +1,7 @@
 package nextstep.signup.ui.component
 
+import android.content.res.Resources
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,18 +31,59 @@ import nextstep.signup.ui.theme.SignupTheme
 import nextstep.signup.ui.theme.Typography
 
 @Composable
-private fun SignUpEditField(
+fun SignUpEditFields(
+    inputModel: SignUpInputModel,
+    onUpdateModel: (SignUpInputModel) -> Unit,
     modifier: Modifier = Modifier,
-    value: String,
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(36.dp),
+    ) {
+        SignUpEditField(
+            inputModel = inputModel,
+            type = SignUpInputType.USERNAME,
+            onValueChanged = { onUpdateModel(inputModel.copy(username = it)) },
+        )
+        SignUpEditField(
+            inputModel = inputModel,
+            type = SignUpInputType.EMAIL,
+            onValueChanged = { onUpdateModel(inputModel.copy(email = it)) },
+        )
+        SignUpEditField(
+            inputModel = inputModel,
+            type = SignUpInputType.PASSWORD,
+            onValueChanged = { onUpdateModel(inputModel.copy(password = it)) },
+        )
+        SignUpEditField(
+            inputModel = inputModel,
+            type = SignUpInputType.PASSWORD_CONFIRM,
+            onValueChanged = { onUpdateModel(inputModel.copy(passwordConfirm = it)) },
+        )
+    }
+}
+
+@Composable
+private fun SignUpEditField(
+    inputModel: SignUpInputModel,
     type: SignUpInputType,
     onValueChanged: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
+
+    val isError = type.isError(inputModel)
+    val errorMessageResId = type.errorMessageResId(inputModel)
+
     TextField(
         modifier = modifier.fillMaxWidth(),
-        value = value,
+        value = inputModel.getValueBySignUpInputType(type),
         textStyle = Typography.bodyLarge,
         singleLine = true,
         onValueChange = onValueChanged,
+        isError = isError,
+        supportingText = {
+            if (isError) ErrorMessageText(resId = errorMessageResId)
+        },
         label = { Text(text = stringResource(type.labelResId)) },
         visualTransformation = if (type.keyboardType == KeyboardType.Password) PasswordVisualTransformation() else VisualTransformation.None,
         keyboardOptions = KeyboardOptions(
@@ -50,37 +93,15 @@ private fun SignUpEditField(
     )
 }
 
+
 @Composable
-fun SignUpEditFields(
-    modifier: Modifier = Modifier,
-    inputModel: SignUpInputModel,
-    onUpdateModel: (SignUpInputModel) -> Unit,
-) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(36.dp),
-    ) {
-        SignUpEditField(
-            value = inputModel.username,
-            type = SignUpInputType.USERNAME,
-            onValueChanged = { onUpdateModel(inputModel.copy(username = it)) },
-        )
-        SignUpEditField(
-            value = inputModel.email,
-            type = SignUpInputType.EMAIL,
-            onValueChanged = { onUpdateModel(inputModel.copy(email = it)) },
-        )
-        SignUpEditField(
-            value = inputModel.password,
-            type = SignUpInputType.PASSWORD,
-            onValueChanged = { onUpdateModel(inputModel.copy(password = it)) },
-        )
-        SignUpEditField(
-            value = inputModel.passwordConfirm,
-            type = SignUpInputType.PASSWORD_CONFIRM,
-            onValueChanged = { onUpdateModel(inputModel.copy(passwordConfirm = it)) },
-        )
-    }
+private fun ErrorMessageText(@StringRes resId: Int?) {
+    if (resId == null || resId == Resources.ID_NULL) return
+    Text(
+        text = stringResource(resId),
+        style = Typography.bodySmall,
+        color = MaterialTheme.colorScheme.error,
+    )
 }
 
 @Preview(showSystemUi = true)
