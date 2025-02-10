@@ -74,7 +74,7 @@ fun SignUpScreen(
                 .height(50.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Blue50,
-            )
+            ),
         ) {
             Text(stringResource(R.string.btn_sign_up))
         }
@@ -83,14 +83,7 @@ fun SignUpScreen(
 
 @Composable
 private fun InputFormContent(modifier: Modifier = Modifier) {
-    var username by remember { mutableStateOf("") }
-    var userNameErrorMessage by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var emailErrorMessage by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var passwordErrorMessage by remember { mutableStateOf("") }
-    var passwordConfirm by remember { mutableStateOf("") }
-    var passwordConfirmErrorMessage by remember { mutableStateOf("") }
+    var state by remember { mutableStateOf(SignUpState()) }
 
     val context = LocalContext.current
 
@@ -99,63 +92,69 @@ private fun InputFormContent(modifier: Modifier = Modifier) {
         modifier = modifier,
     ) {
         SignUpInputForm(
-            input = username,
+            input = state.username,
             label = stringResource(R.string.sign_up_user_name_label),
+            errorMessage = state.userNameErrorMessage,
             onInputChange = { value ->
-                username = value
-                userNameErrorMessage = getErrorMessage(
-                    context = context,
-                    input = value,
-                    validSignUp = SignUpValidUsername()
+                state = state.copy(
+                    username = value, userNameErrorMessage = getErrorMessage(
+                        context = context,
+                        input = value,
+                        validSignUp = SignUpValidUsername()
+                    )
                 )
             },
-            errorMessage = userNameErrorMessage,
         )
         SignUpInputForm(
-            input = email,
+            input = state.email,
             label = stringResource(R.string.sign_up_email_label),
+            errorMessage = state.emailErrorMessage,
             onInputChange = { value ->
-                email = value
-                emailErrorMessage = getErrorMessage(
-                    context = context,
-                    input = value,
-                    validSignUp = SignUpValidEmail(),
+                state = state.copy(
+                    email = value,
+                    emailErrorMessage = getErrorMessage(
+                        context = context,
+                        input = value,
+                        validSignUp = SignUpValidEmail(),
+                    )
                 )
             },
-            errorMessage = emailErrorMessage,
         )
         SignUpInputForm(
-            input = password,
+            input = state.password,
             label = stringResource(R.string.sign_up_password_label),
             onInputChange = { value ->
-                password = value
-                passwordConfirmErrorMessage = getErrorMessage(
-                    context = context,
-                    input = value,
-                    validSignUp = SignUpValidPasswordConfirm(passwordConfirm)
-                )
-                passwordErrorMessage = getErrorMessage(
-                    context = context,
-                    input = value,
-                    validSignUp = SignUpValidPassword()
+                state = state.copy(
+                    password = value,
+                    passwordConfirmErrorMessage = getErrorMessage(
+                        context = context,
+                        input = value,
+                        validSignUp = SignUpValidPasswordConfirm(state.passwordConfirm)
+                    ),
+                    passwordErrorMessage = getErrorMessage(
+                        context = context,
+                        input = value,
+                        validSignUp = SignUpValidPassword()
+                    )
                 )
             },
-            errorMessage = passwordErrorMessage,
+            errorMessage = state.passwordErrorMessage,
             visualTransformation = PasswordVisualTransformation(),
         )
         SignUpInputForm(
-            input = passwordConfirm,
+            input = state.passwordConfirm,
             label = stringResource(R.string.sign_up_password_confirm_label),
             onInputChange = { value ->
-                passwordConfirm = value
-                passwordConfirmErrorMessage = getErrorMessage(
-                    context = context,
-                    input = value,
-                    validSignUp = SignUpValidPasswordConfirm(password)
+                state = state.copy(
+                    passwordConfirm = value,
+                    passwordConfirmErrorMessage = getErrorMessage(
+                        context = context,
+                        input = value,
+                        validSignUp = SignUpValidPasswordConfirm(state.password)
+                    )
                 )
-
             },
-            errorMessage = passwordConfirmErrorMessage,
+            errorMessage = state.passwordConfirmErrorMessage,
             visualTransformation = PasswordVisualTransformation(),
         )
     }
