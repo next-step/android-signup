@@ -1,9 +1,19 @@
 package nextstep.signup.component
 
-import androidx.compose.ui.test.assertIsEnabled
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
+import kotlinx.coroutines.launch
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -28,10 +38,27 @@ class SignupScreenTest(
     @get:Rule
     val composeTestRule = createComposeRule()
 
+    private val snackBarMessage = "회원가입 완료!"
+
     @Before
     fun setup() {
         composeTestRule.setContent {
-            SignupScreen(onClickSignUp = {})
+            val scope = rememberCoroutineScope()
+            val snackBarHostState = remember { SnackbarHostState() }
+
+            Scaffold(
+                modifier = Modifier.fillMaxSize(),
+                snackbarHost = { SnackbarHost(snackBarHostState) }
+            ) { padding ->
+                SignupScreen(
+                    modifier = Modifier.padding(padding),
+                    onClickSignUp = {
+                        scope.launch {
+                            snackBarHostState.showSnackbar(snackBarMessage)
+                        }
+                    }
+                )
+            }
         }
     }
 
@@ -54,10 +81,14 @@ class SignupScreenTest(
             .onNodeWithText("Password Confirm")
             .performTextInput(passwordConfirm)
 
-        // then
         composeTestRule
             .onNodeWithText("Sign Up")
-            .assertIsEnabled()
+            .performClick()
+
+        // then
+        composeTestRule
+            .onNodeWithText(snackBarMessage)
+            .assertIsDisplayed()
     }
 
 
