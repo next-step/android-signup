@@ -1,5 +1,6 @@
 package nextstep.signup.ui
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -30,6 +32,8 @@ import nextstep.signup.ui.theme.White
 
 @Composable
 fun SignupScreen() {
+    val context = LocalContext.current
+
     val title = stringResource(R.string.signup_title)
     val usernameLabel = stringResource(R.string.signup_label_username)
     val emailLabel = stringResource(R.string.signup_label_email)
@@ -41,6 +45,18 @@ fun SignupScreen() {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordConfirm by remember { mutableStateOf("") }
+
+    val usernameValidation = SignupValidator.validateUsername(username)
+    val emailValidation = SignupValidator.validateEmail(email)
+    val passwordValidation = SignupValidator.validatePassword(password)
+    val passwordConfirmValidation = SignupValidator.validatePassword(passwordConfirm)
+    val isPasswordMatch = SignupValidator.validatePasswordMatch(password, passwordConfirm)
+
+    val usernameError = SignupValidator.getErrorMessage(context, usernameValidation)
+    val emailError = SignupValidator.getErrorMessage(context, emailValidation)
+    val passwordError = SignupValidator.getErrorMessage(context, passwordValidation)
+    val passwordConfirmError = SignupValidator.getErrorMessage(context, passwordConfirmValidation)
+    val passwordMismatchError = SignupValidator.getErrorMessage(context, isPasswordMatch)
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -68,7 +84,9 @@ fun SignupScreen() {
                 modifier = Modifier.padding(top = 23.dp),
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next
-                )
+                ),
+                isError = usernameError.isNotEmpty(),
+                errorMessage = usernameError
             )
 
             // Email
@@ -80,7 +98,9 @@ fun SignupScreen() {
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Email,
                     imeAction = ImeAction.Next
-                )
+                ),
+                isError = emailError.isNotEmpty(),
+                errorMessage = emailError
             )
 
             // Password
@@ -93,7 +113,9 @@ fun SignupScreen() {
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Next
-                )
+                ),
+                isError = passwordError.isNotEmpty(),
+                errorMessage = passwordError
             )
 
             // Password Confirm
@@ -106,14 +128,18 @@ fun SignupScreen() {
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Done
-                )
+                ),
+                isError = passwordConfirmError.isNotEmpty(),
+                errorMessage = passwordConfirmError
             )
 
             // Signup Button
             SignupButton(
                 text = signUpButton,
                 onClick = {
-                    // Signup Action
+                    if (isPasswordMatch != SignupValidator.ResultType.Success) {
+                        Toast.makeText(context, passwordMismatchError, Toast.LENGTH_SHORT).show()
+                    }
                 },
                 modifier = Modifier.padding(top = 3.dp),
             )
