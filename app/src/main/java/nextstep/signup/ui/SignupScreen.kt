@@ -1,13 +1,11 @@
 package nextstep.signup.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
@@ -54,29 +52,28 @@ fun SignupScreen() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(White)
-                .padding(
-                    horizontal = 33.dp,
-                    vertical = 60.dp
-                ),
+                .padding(horizontal = 33.dp),
+            verticalArrangement = Arrangement.spacedBy(36.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             // Title
-            SignupTitle(title = title)
+            SignupTitle(
+                title = title,
+                modifier = Modifier.padding(top = 60.dp)
+            )
 
             // Username
-            Spacer(Modifier.size(39.dp))
             SignupTextField(
                 label = usernameLabel,
                 value = username,
                 onValueChange = { username = it },
-                modifier = Modifier,
+                modifier = Modifier.padding(top = 6.dp),
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next
                 )
             )
 
             // Email
-            Spacer(Modifier.size(33.dp))
             SignupTextField(
                 label = emailLabel,
                 value = email,
@@ -89,7 +86,6 @@ fun SignupScreen() {
             )
 
             // Password
-            Spacer(Modifier.size(33.dp))
             SignupTextField(
                 label = passwordLabel,
                 value = password,
@@ -103,7 +99,6 @@ fun SignupScreen() {
             )
 
             // Password Confirm
-            Spacer(Modifier.size(39.dp))
             SignupTextField(
                 label = passwordConfirmLabel,
                 value = passwordConfirm,
@@ -117,23 +112,25 @@ fun SignupScreen() {
             )
 
             // Signup Button
-            Spacer(Modifier.size(39.dp))
             SignupButton(
                 text = signUpButton,
                 onClick = {
                     // Signup Action
                 },
-                modifier = Modifier,
+                modifier = Modifier.padding(top = 6.dp),
             )
         }
     }
 }
 
 @Composable
-fun SignupTitle(title: String) {
+fun SignupTitle(
+    title: String,
+    modifier: Modifier = Modifier
+) {
     Text(
         text = title,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight(),
         fontSize = 26.sp,
