@@ -14,7 +14,7 @@ class SignupButtonTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun displaysSignUpText() {
+    fun signUpButton_ShowsText_WhenDisplayed() {
         // given
         val buttonText = "Sign Up"
 
@@ -32,7 +32,7 @@ class SignupButtonTest {
     }
 
     @Test
-    fun triggersOnClick() {
+    fun signUpButton_TriggersOnClick_WhenClicked() {
         // Given
         val buttonText = "Sign Up"
         var clicked = false
