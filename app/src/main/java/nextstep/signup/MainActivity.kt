@@ -65,11 +65,6 @@ fun SignUpScreen() {
         var password by remember { mutableStateOf("") }
         var passwordConfirm by remember { mutableStateOf("") }
 
-        var isUsernameTextFieldError by remember { mutableStateOf(false) }
-        var isEmailTextFieldError by remember { mutableStateOf(false) }
-        var isPasswordTextFieldError by remember { mutableStateOf(false) }
-        var isPasswordConfirmTextFieldError by remember { mutableStateOf(false) }
-
         var usernameSupportingText by remember { mutableStateOf("") }
         var emailSupportingText by remember { mutableStateOf("") }
         var passwordSupportingText by remember { mutableStateOf("") }
@@ -79,14 +74,11 @@ fun SignUpScreen() {
             username = it
 
             if (it.length !in 2..6) {
-                isUsernameTextFieldError = true
                 usernameSupportingText = "이름은 2~5자여야 합니다."
             } else {
                 if (!it.matches(Regex(USERNAME_REGEX))) {
-                    isUsernameTextFieldError = true
                     usernameSupportingText = "이름에는 숫자나 기호가 포함될 수 없습니다."
                 } else {
-                    isUsernameTextFieldError = false
                     usernameSupportingText = ""
                 }
             }
@@ -96,10 +88,8 @@ fun SignUpScreen() {
             email = it
 
             if (!it.matches(Regex(EMAIL_REGEX))) {
-                isEmailTextFieldError = true
                 emailSupportingText = "이메일 형식이 올바르지 않습니다."
             } else {
-                isEmailTextFieldError = false
                 emailSupportingText = ""
             }
         }
@@ -108,14 +98,11 @@ fun SignUpScreen() {
             password = it
 
             if (it.length !in 8..16) {
-                isPasswordTextFieldError = true
                 passwordSupportingText = "비밀번호는 8~16자여야 합니다."
             } else {
                 if (!it.matches(Regex(PASSWORD_REGEX))) {
-                    isPasswordTextFieldError = true
                     passwordSupportingText = "비밀번호는 영문과 숫자를 포함해야 합니다."
                 } else {
-                    isPasswordTextFieldError = false
                     passwordSupportingText = ""
                 }
             }
@@ -125,10 +112,8 @@ fun SignUpScreen() {
             passwordConfirm = it
 
             if (it != password)  {
-                isPasswordConfirmTextFieldError = true
                 passwordConfirmSupportingText = "비밀번호가 일치하지 않습니다."
             } else {
-                isPasswordConfirmTextFieldError = false
                 passwordConfirmSupportingText = ""
             }
         }
@@ -138,7 +123,6 @@ fun SignUpScreen() {
             text = username,
             type = SignUpTextFieldType.USERNAME,
             modifier = Modifier.padding(top = 42.dp),
-            isError = isUsernameTextFieldError,
             onTextChanged = onUsernameChanged,
             errorMessage = usernameSupportingText
         )
@@ -146,7 +130,6 @@ fun SignUpScreen() {
             text = email,
             type = SignUpTextFieldType.EMAIL,
             modifier = Modifier.padding(top = 33.dp),
-            isError = isEmailTextFieldError,
             onTextChanged = onEmailChanged,
             errorMessage = emailSupportingText
         )
@@ -154,7 +137,6 @@ fun SignUpScreen() {
             text = password,
             type = SignUpTextFieldType.PASSWORD,
             modifier = Modifier.padding(top = 33.dp),
-            isError = isPasswordTextFieldError,
             onTextChanged = onPasswordChanged,
             errorMessage = passwordSupportingText
         )
@@ -162,7 +144,6 @@ fun SignUpScreen() {
             text = passwordConfirm,
             type = SignUpTextFieldType.PASSWORD_CONFIRM,
             modifier = Modifier.padding(top = 33.dp),
-            isError = isPasswordConfirmTextFieldError,
             onTextChanged = onPasswordConfirmChanged,
             errorMessage = passwordConfirmSupportingText
         )
@@ -187,7 +168,6 @@ fun SignUpTextField(
     text: String,
     type: SignUpTextFieldType,
     modifier: Modifier = Modifier,
-    isError: Boolean = false,
     onTextChanged: (String) -> Unit = {},
     errorMessage: String
 ) {
@@ -203,7 +183,7 @@ fun SignUpTextField(
                 letterSpacing = 0.5.sp
             )
         },
-        isError = isError,
+        isError = errorMessage.isNotEmpty(),
         singleLine = true,
         colors = TextFieldDefaults.colors(
             focusedTextColor = Gray70,
