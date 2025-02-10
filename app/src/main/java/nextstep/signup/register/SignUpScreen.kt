@@ -40,9 +40,10 @@ fun SignUpScreen() {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         snackbarHost = { SnackbarHost(snackBarHostState) }
-    ) { _ ->
+    ) { paddingValue ->
         Column(
             modifier = Modifier
+                .padding(paddingValue)
                 .fillMaxSize()
                 .padding(horizontal = 16.dp, vertical = 32.dp)
                 .verticalScroll(rememberScrollState()),
