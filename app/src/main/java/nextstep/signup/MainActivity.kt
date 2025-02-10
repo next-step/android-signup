@@ -16,9 +16,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import nextstep.signup.component.EmailTextFiled
 import nextstep.signup.component.SignupButton
 import nextstep.signup.component.SignupTextField
 import nextstep.signup.component.SignupTitle
@@ -67,12 +67,9 @@ internal fun SignupScreen(
             text = userName,
             onValueChange = setUserName,
         )
-        SignupTextField(
-            label = stringResource(R.string.signup_label_email),
+        EmailTextFiled(
             text = email,
             onValueChange = setEmail,
-            visualTransformation = VisualTransformation.None,
-            validator = SignupInfoValidator.Email,
         )
         SignupTextField(
             label = stringResource(R.string.signup_label_password),
