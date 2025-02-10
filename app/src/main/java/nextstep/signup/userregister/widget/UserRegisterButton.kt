@@ -8,12 +8,14 @@ import androidx.compose.ui.unit.dp
 import nextstep.signup.component.SubmitButton
 
 @Composable
-fun RegisterButton(
+fun UserRegisterButton(
+    enabled: Boolean,
     onButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     SubmitButton(
         text = "Sign Up",
+        enabled = enabled,
         onClickButton = onButtonClick,
         modifier = modifier
     )
@@ -21,9 +23,21 @@ fun RegisterButton(
 
 @Preview
 @Composable
-private fun RegisterButtonPreview() {
-    RegisterButton(
+private fun UserRegisterButtonPreview() {
+    UserRegisterButton(
         onButtonClick = {},
+        enabled = true,
         modifier = Modifier.width(296.dp)
     )
 }
+
+@Preview
+@Composable
+private fun UserRegisterButtonDisabledPreview() {
+    UserRegisterButton(
+        onButtonClick = {},
+        enabled = false,
+        modifier = Modifier.width(296.dp)
+    )
+}
+

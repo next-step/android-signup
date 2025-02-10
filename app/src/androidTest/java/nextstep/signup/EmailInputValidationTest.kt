@@ -2,6 +2,7 @@ package nextstep.signup
 
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import nextstep.signup.userregister.widget.EmailInputField
 import nextstep.signup.util.ValidationUtil.setEmailErrorMessage
 import org.junit.Rule
 import org.junit.Test

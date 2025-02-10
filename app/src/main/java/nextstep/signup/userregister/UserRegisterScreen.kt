@@ -18,9 +18,10 @@ import nextstep.signup.ui.theme.SignupTheme
 import nextstep.signup.userregister.widget.EmailInputField
 import nextstep.signup.userregister.widget.PasswordConfirmInputField
 import nextstep.signup.userregister.widget.PasswordInputField
-import nextstep.signup.userregister.widget.RegisterButton
+import nextstep.signup.userregister.widget.UserRegisterButton
 import nextstep.signup.userregister.widget.UserRegisterTitle
 import nextstep.signup.userregister.widget.UsernameInputField
+import nextstep.signup.util.ValidationUtil.checkIsAllPassValidation
 import nextstep.signup.util.ValidationUtil.setEmailErrorMessage
 import nextstep.signup.util.ValidationUtil.setPasswordConfirmErrorMessage
 import nextstep.signup.util.ValidationUtil.setPasswordErrorMessage
@@ -66,8 +67,14 @@ fun UserRegisterScreen(modifier: Modifier = Modifier) {
             onValueChange = { passwordConfirm = it },
             modifier = Modifier.width(296.dp),
         )
-        RegisterButton(
+        UserRegisterButton(
             onButtonClick = {},
+            enabled = checkIsAllPassValidation(
+                userName = userName,
+                email = email,
+                password = password,
+                passwordConfirm = passwordConfirm,
+            ),
             modifier = Modifier.width(296.dp),
         )
     }

@@ -32,6 +32,30 @@ object ValidationUtil {
         else -> ""
     }
 
+    fun checkIsAllPassValidation(
+        userName: String,
+        email: String,
+        password: String,
+        passwordConfirm: String,
+    ): Boolean {
+        val hasBlankValue = listOf(userName, email, password, passwordConfirm).any { it.isBlank() }
+        if (hasBlankValue) {
+            return false
+        }
+
+        val hasError = listOf(
+            setUsernameErrorMessage(userName),
+            setEmailErrorMessage(email),
+            setPasswordErrorMessage(password),
+            setPasswordConfirmErrorMessage(password, passwordConfirm)
+        ).any { it.isNotEmpty() }
+        if (hasError) {
+            return false
+        }
+
+        return true
+    }
+
     const val USER_NAME_LENGTH_ERROR = "이름은 2~5자여야 합니다."
     const val USER_NAME_IN_SPECIAL_CHARS_ERROR = "이름에 특수문자가 들어갈 수 없습니다."
     const val EMAIL_FORMAT_ERROR = "이메일 형식이 올바르지 않습니다."
