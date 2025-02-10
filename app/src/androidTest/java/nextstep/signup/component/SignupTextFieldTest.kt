@@ -2,6 +2,8 @@ package nextstep.signup.component
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -29,7 +31,8 @@ class SignupTextFieldTest {
                 text = text,
                 onValueChange = setText,
                 visualTransformation = VisualTransformation.None,
-                validator = Validator.Username
+                validator = Validator.Username,
+                modifier = Modifier.testTag(label)
             )
         }
 
@@ -50,7 +53,8 @@ class SignupTextFieldTest {
                 text = text,
                 onValueChange = setText,
                 visualTransformation = VisualTransformation.None,
-                validator = Validator.Username
+                validator = Validator.Username,
+                modifier = Modifier.testTag(label)
             )
         }
 
@@ -76,7 +80,8 @@ class SignupTextFieldTest {
                 text = password,
                 onValueChange = setPassword,
                 visualTransformation = PasswordVisualTransformation(),
-                validator = Validator.Password
+                validator = Validator.Password,
+                modifier = Modifier.testTag(label)
             )
         }
 

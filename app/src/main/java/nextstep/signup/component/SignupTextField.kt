@@ -10,7 +10,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -39,8 +38,7 @@ internal fun SignupTextField(
 
     TextField(
         modifier = modifier
-            .fillMaxWidth()
-            .testTag(label),
+            .fillMaxWidth(),
         value = text,
         onValueChange = onValueChange,
         colors = TextFieldDefaults.colors(
