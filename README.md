@@ -15,6 +15,7 @@
   - [ ] 불필요한 Spacer 제거 및 padding 수정
   - [ ] Component 의 기본 동작과 중복되는 wrapContentHeight 제거
   - [ ] MaterialTheme.typography 사용하여 텍스트 스타일 적용
+  - [ ] 테스트코드 메소드의 이름을 직관적인 이름으로 재정의
 - [ ] 유효성 검사 로직 추가
 - [ ] 비밀번호 일치 여부 검증 로직 추가
 - [ ] 에러 UI 추가
