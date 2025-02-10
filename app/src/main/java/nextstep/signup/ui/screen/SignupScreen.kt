@@ -77,6 +77,7 @@ fun SignupScreen(
                 autoCorrectEnabled = false,
                 keyboardType = KeyboardType.Password
             ),
+            secure = true,
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(33.dp))
@@ -88,6 +89,7 @@ fun SignupScreen(
                 autoCorrectEnabled = false,
                 keyboardType = KeyboardType.Password
             ),
+            secure = true,
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(39.dp))
