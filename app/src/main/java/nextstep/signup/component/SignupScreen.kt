@@ -19,9 +19,11 @@ import nextstep.signup.R
 
 @Composable
 internal fun SignupScreen(
-    modifier: Modifier = Modifier,
+    onClickSignUp: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     var isValidation by remember { mutableStateOf(false) }
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -43,7 +45,7 @@ internal fun SignupScreen(
         SignupButton(
             modifier = Modifier.padding(top = 6.dp),
             text = stringResource(R.string.signup_button),
-            onClick = {},
+            onClick = onClickSignUp,
             enabled = isValidation
         )
     }
@@ -52,5 +54,7 @@ internal fun SignupScreen(
 @Preview(showBackground = true)
 @Composable
 private fun SignupScreenPreview() {
-    SignupScreen()
+    SignupScreen(
+        onClickSignUp = {}
+    )
 }

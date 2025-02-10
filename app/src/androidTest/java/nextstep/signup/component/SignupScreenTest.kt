@@ -31,7 +31,7 @@ class SignupScreenTest(
     @Before
     fun setup() {
         composeTestRule.setContent {
-            SignupScreen()
+            SignupScreen(onClickSignUp = {})
         }
     }
 
