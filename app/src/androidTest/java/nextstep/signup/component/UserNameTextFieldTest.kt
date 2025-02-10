@@ -2,8 +2,13 @@ package nextstep.signup.component
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextInput
 import org.junit.Before
@@ -15,7 +20,7 @@ class UserNameTextFieldTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    private val label = "Username"
+    private val tag = "testTag"
 
     @Before
     fun setup() {
@@ -24,8 +29,20 @@ class UserNameTextFieldTest {
             UserNameTextFiled(
                 text = text,
                 onValueChange = setText,
+                modifier = Modifier.testTag(tag)
             )
         }
+    }
+
+    @Test
+    fun `이름_라벨이_보여진다`() {
+        // given
+        val label = "Username"
+
+        // then
+        composeTestRule
+            .onNodeWithTag(label)
+            .assert(hasText(label))
     }
 
     @Test
@@ -35,7 +52,7 @@ class UserNameTextFieldTest {
 
         // when
         composeTestRule
-            .onNodeWithText(label)
+            .onNodeWithTag(tag)
             .performTextInput(inputName)
 
         // then
@@ -51,7 +68,7 @@ class UserNameTextFieldTest {
 
         // when
         composeTestRule
-            .onNodeWithText(label)
+            .onNodeWithTag(tag)
             .performTextInput(shortName)
 
         // then
@@ -67,7 +84,7 @@ class UserNameTextFieldTest {
 
         // when
         composeTestRule
-            .onNodeWithText(label)
+            .onNodeWithTag(tag)
             .performTextInput(longName)
 
         // then
@@ -82,7 +99,7 @@ class UserNameTextFieldTest {
         val hasNumberName = "이용우2"
 
         composeTestRule
-            .onNodeWithText(label)
+            .onNodeWithTag(tag)
             .performTextInput(hasNumberName)
 
         // then
