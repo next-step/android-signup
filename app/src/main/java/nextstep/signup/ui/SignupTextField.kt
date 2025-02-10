@@ -17,6 +17,7 @@ import nextstep.signup.ui.theme.BlackDark
 import nextstep.signup.ui.theme.BlackGrey
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.BlueGrey20
+import nextstep.signup.ui.theme.RedDark
 
 
 @Composable
@@ -27,7 +28,9 @@ fun SignupTextField(
     modifier: Modifier = Modifier,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    keyboardActions: KeyboardActions = KeyboardActions.Default
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+    isError: Boolean = false,
+    errorMessage: String = "",
 ) {
     TextField(
         value = value,
@@ -41,6 +44,13 @@ fun SignupTextField(
             )
         },
         singleLine = true,
+        isError = isError,
+        supportingText = {
+            Text(
+                text = errorMessage,
+                style = MaterialTheme.typography.bodySmall
+            )
+        },
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
@@ -55,21 +65,38 @@ fun SignupTextField(
             unfocusedTextColor = BlackDark,
             focusedContainerColor = BlueGrey20,
             unfocusedContainerColor = BlueGrey20,
+            errorContainerColor = BlueGrey20,
             cursorColor = Blue50,
+            errorCursorColor = RedDark,
             focusedIndicatorColor = Blue50,
             unfocusedIndicatorColor = BlackGrey,
+            errorIndicatorColor = RedDark,
             focusedLabelColor = Blue50,
             unfocusedLabelColor = BlackGrey,
+            errorLabelColor = RedDark,
+            errorSupportingTextColor = RedDark
         )
     )
 }
 
 @Preview
 @Composable
-fun SignupTextFieldPreview() {
+fun SignupTextFieldValidPreview() {
     SignupTextField(
         label = "Email",
         value = "abc@gmail.com",
         onValueChange = { },
+    )
+}
+
+@Preview
+@Composable
+fun SignupTextFieldErrorPreview() {
+    SignupTextField(
+        label = "Email",
+        value = "abc#gmail.com",
+        onValueChange = { },
+        isError = true,
+        errorMessage = "이메일 형식이 올바르지 않습니다."
     )
 }
