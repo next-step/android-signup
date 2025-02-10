@@ -5,12 +5,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextInput
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import nextstep.signup.validator.SignupInfoValidator
 import org.junit.Rule
@@ -38,91 +36,6 @@ class SignupTextFieldTest {
         composeTestRule
             .onNodeWithTag(label)
             .assertExists()
-    }
-
-
-    @Test
-    fun `비밀번호의_입력값은_그대로_보이지_않는다`() {
-        // given
-        val label = "Password"
-        composeTestRule.setContent {
-            val (password, setPassword) = remember { mutableStateOf("") }
-            SignupTextField(
-                label = label,
-                text = password,
-                onValueChange = setPassword,
-                visualTransformation = PasswordVisualTransformation(),
-                validator = SignupInfoValidator.Password,
-                modifier = Modifier.testTag(label)
-            )
-        }
-
-        // when 비밀번호를 입력하면
-        composeTestRule
-            .onNodeWithTag(label)
-            .performTextInput("아무도 알알랴줌")
-
-        // then 비밀번호는 보여지지 않는다.
-        composeTestRule
-            .onNodeWithText("아무도 알알랴줌")
-            .assertIsNotDisplayed()
-    }
-
-    @Test
-    fun `이메일_형식이_맞지않으면_에러문구가_보인다`() {
-        // given
-        composeTestRule.setContent {
-            SignupTextField(
-                label = "email",
-                text = "raindragonn!gmail.com",
-                onValueChange = { },
-                visualTransformation = VisualTransformation.None,
-                validator = SignupInfoValidator.Email
-            )
-        }
-
-        // then
-        composeTestRule
-            .onNodeWithText("이메일 형식이 올바르지 않습니다.")
-            .assertIsDisplayed()
-    }
-
-    @Test
-    fun `비밀번호가_8에서_16자가_아니면_에러문구가_보인다`() {
-        // given
-        composeTestRule.setContent {
-            SignupTextField(
-                label = "password",
-                text = "123",
-                onValueChange = { },
-                visualTransformation = VisualTransformation.None,
-                validator = SignupInfoValidator.Password
-            )
-        }
-
-        // then
-        composeTestRule
-            .onNodeWithText("비밀번호는 8~16자여야 합니다.")
-            .assertIsDisplayed()
-    }
-
-    @Test
-    fun `비밀번호에_영문과_숫자를_포함하지_않으면_에러문구가_보인다`() {
-        // given
-        composeTestRule.setContent {
-            SignupTextField(
-                label = "password",
-                text = "가나다라마바사아",
-                onValueChange = { },
-                visualTransformation = VisualTransformation.None,
-                validator = SignupInfoValidator.Password
-            )
-        }
-
-        // then
-        composeTestRule
-            .onNodeWithText("비밀번호는 영문과 숫자를 포함해야 합니다.")
-            .assertIsDisplayed()
     }
 
     @Test
