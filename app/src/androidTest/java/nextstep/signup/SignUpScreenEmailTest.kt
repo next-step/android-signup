@@ -7,32 +7,13 @@ import androidx.compose.ui.test.performTextInput
 import org.junit.Rule
 import org.junit.Test
 
-class SignUpScreenTest {
+class SignUpScreenEmailTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
 
     @Test
-    fun 이름을_입력하면_입력된_이름이_보인다() {
-        // given
-        val userName = "ChoiSeongHoon"
-        composeTestRule.setContent {
-            MaterialTheme {
-                SignUpScreen()
-            }
-        }
-
-        composeTestRule
-            .onNodeWithText("Username")
-            .performTextInput(userName)
-
-        composeTestRule
-            .onNodeWithText(userName)
-            .assertExists()
-    }
-
-    @Test
-    fun 이메일을_입력하면_입력된_이름이_보인다() {
+    fun 이메일을_입력하면_입력된_이메일이_보인다() {
         // given
         val emailInput = "ver@test.com"
         composeTestRule.setContent {
@@ -41,50 +22,60 @@ class SignUpScreenTest {
             }
         }
 
+        // when
         composeTestRule
             .onNodeWithText("Email")
             .performTextInput(emailInput)
 
+        // then
         composeTestRule
             .onNodeWithText(emailInput)
             .assertExists()
     }
 
     @Test
-    fun 비밀번호를_입력해도_입력된_비밀번호가_보이지_않는다() {
+    fun 잘못된_이메일_입력시_유효성_검사_실패_메세지가_보인다() {
         // given
-        val passwordInput = "12345678!"
+        val emailInput = "invalidEmail" // 잘못된 이메일 형식
+        val invalidEmailMessage = "이메일 형식이 올바르지 않습니다."
+
         composeTestRule.setContent {
             MaterialTheme {
                 SignUpScreen()
             }
         }
 
+        // when
         composeTestRule
-            .onNodeWithText("Password")
-            .performTextInput(passwordInput)
+            .onNodeWithText("Email")
+            .performTextInput(emailInput)
 
+        // then
         composeTestRule
-            .onNodeWithText(passwordInput)
-            .assertDoesNotExist()
+            .onNodeWithText(invalidEmailMessage)
+            .assertExists()
     }
 
     @Test
-    fun 비밀번호_확인을_입력해도_입력된_비밀번호_확인이_보이지_않는다() {
+    fun 올바른_이메일_입력시_유효성_검사_실패_메세지가_보이지_않는다() {
         // given
-        val passwordInput = "12345678!"
+        val emailInput = "valid@test.com" // 올바른 이메일 형식
+        val invalidEmailMessage = "이메일 형식이 올바르지 않습니다."
+
         composeTestRule.setContent {
             MaterialTheme {
                 SignUpScreen()
             }
         }
 
+        // when
         composeTestRule
-            .onNodeWithText("Password")
-            .performTextInput(passwordInput)
+            .onNodeWithText("Email")
+            .performTextInput(emailInput)
 
+        // then
         composeTestRule
-            .onNodeWithText(passwordInput)
+            .onNodeWithText(invalidEmailMessage)
             .assertDoesNotExist()
     }
 }
