@@ -41,7 +41,7 @@ class UserNameTextFieldTest {
 
         // then
         composeTestRule
-            .onNodeWithTag(label)
+            .onNodeWithTag(tag)
             .assert(hasText(label))
     }
 

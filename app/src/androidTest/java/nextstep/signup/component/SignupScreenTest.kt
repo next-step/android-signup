@@ -1,7 +1,7 @@
 package nextstep.signup.component
 
+import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextInput
 import org.junit.Before
@@ -56,8 +56,8 @@ class SignupScreenTest(
 
         // then
         composeTestRule
-            .onAllNodesWithText("Sign Up")
-
+            .onNodeWithText("Sign Up")
+            .assertIsEnabled()
     }
 
 
