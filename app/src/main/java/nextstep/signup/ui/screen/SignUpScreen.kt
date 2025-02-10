@@ -1,6 +1,5 @@
 package nextstep.signup.ui.screen
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
