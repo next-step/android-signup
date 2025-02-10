@@ -34,5 +34,15 @@ object ValidateUtils {
     fun isValidatePasswordConfirm(password: String, confirmPassword: String): Boolean {
         return password == confirmPassword
     }
+
+    // 모든 입력 필드 유효성 검증
+    fun isValidAll(username: String, email: String, password: String, confirmPassword: String): Boolean {
+        return isValidUsernameLength(username) &&
+            isValidUsername(username) &&
+            isValidEmail(email) &&
+            isValidPasswordLength(password) &&
+            isValidPassword(password) &&
+            isValidatePasswordConfirm(password, confirmPassword)
+    }
 }
 
