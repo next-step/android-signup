@@ -40,6 +40,7 @@ import nextstep.signup.R
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.BlueGrey50
 import nextstep.signup.ui.theme.RedError
+import nextstep.signup.ui.utils.MessageUtils
 import nextstep.signup.ui.utils.ValidateUtils
 
 @Composable
@@ -57,6 +58,8 @@ fun SignUpScreen(
         var email by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
         var confirmPassword by remember { mutableStateOf("") }
+
+        val signUpCompleteMsg = remember { MessageUtils.getSignUpCompleteMessage(context) }
 
         Column(
             modifier = Modifier
@@ -104,7 +107,7 @@ fun SignUpScreen(
             ) {
                 coroutineScope.launch {
                     snackbarHostState.showSnackbar(
-                        message = getSignUpCompleteMessage(context),
+                        message = signUpCompleteMsg,
                         duration = SnackbarDuration.Short
                     )
                 }
@@ -132,10 +135,13 @@ fun UsernameTextField(
     onUsernameChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val context = LocalContext.current
+    val errorMsg = MessageUtils.getUserNameErorrMessage(context, userName)
+
     InputField(
         label = stringResource(R.string.user_name),
         value = userName,
-        errorMsg = getUserNameErorrMessage(userName),
+        errorMsg = errorMsg,
         modifier = modifier,
         onValueChange = onUsernameChange,
     )
@@ -147,10 +153,13 @@ fun EmailTextField(
     onEmailChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val context = LocalContext.current
+    val errorMsg = MessageUtils.getEmailErrorMessage(context, email)
+
     InputField(
         label = stringResource(R.string.email),
         value = email,
-        errorMsg = getEmailErrorMessage(email),
+        errorMsg = errorMsg,
         modifier = modifier,
         onValueChange = onEmailChange,
     )
@@ -162,10 +171,13 @@ fun PasswordTextField(
     onPasswordChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val context = LocalContext.current
+    val errorMsg = MessageUtils.getPasswordErrorMessage(context, password)
+
     InputField(
         label = stringResource(R.string.password),
         value = password,
-        errorMsg = getPasswordErrorMessage(password),
+        errorMsg = errorMsg,
         inputType = KeyboardType.Password,
         onValueChange = onPasswordChange,
         modifier = modifier
@@ -179,10 +191,13 @@ fun PasswordConfirmTextField(
     onPasswordChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val context = LocalContext.current
+    val errorMsg = MessageUtils.getPasswordConfirmErrorMessage(context, password, confirmPassword)
+
     InputField(
         label = stringResource(R.string.password_confirm),
         value = confirmPassword,
-        errorMsg = getPasswordConfirmErrorMessage(password, confirmPassword),
+        errorMsg = errorMsg,
         inputType = KeyboardType.Password,
         onValueChange = onPasswordChange,
         modifier = modifier
@@ -259,48 +274,6 @@ fun SignUpButton(
             fontWeight = FontWeight.W500,
         )
     }
-}
-
-@Composable
-fun getUserNameErorrMessage(userName: String): String {
-    return when {
-        userName.isEmpty() -> ""
-        !ValidateUtils.isValidUsernameLength(userName) -> stringResource(R.string.user_name_error_length)
-        !ValidateUtils.isValidUsername(userName) -> stringResource(R.string.user_name_error_invalid)
-        else -> ""
-    }
-}
-
-@Composable
-fun getEmailErrorMessage(email: String): String {
-    return when {
-        email.isEmpty() -> ""
-        !ValidateUtils.isValidEmail(email) -> stringResource(R.string.email_error_invalid)
-        else -> ""
-    }
-}
-
-@Composable
-fun getPasswordErrorMessage(password: String): String {
-    return when {
-        password.isEmpty() -> ""
-        !ValidateUtils.isValidPasswordLength(password) -> stringResource(R.string.password_error_length)
-        !ValidateUtils.isValidPassword(password) -> stringResource(R.string.password_error_invalid)
-        else -> ""
-    }
-}
-
-@Composable
-fun getPasswordConfirmErrorMessage(password: String, confirmPassword: String): String {
-    return when {
-        password.isEmpty() || confirmPassword.isEmpty() -> ""
-        !ValidateUtils.isValidatePasswordConfirm(password, confirmPassword) -> stringResource(R.string.password_confirm_error_invalid)
-        else -> ""
-    }
-}
-
-fun getSignUpCompleteMessage(context: Context): String {
-    return context.getString(R.string.sign_up_success)
 }
 
 @Preview(showBackground = true)
