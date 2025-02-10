@@ -140,11 +140,7 @@ fun SignUpScreen() {
             modifier = Modifier.padding(top = 42.dp),
             isError = isUsernameTextFieldError,
             onTextChanged = onUsernameChanged,
-            supportingText = if (isUsernameTextFieldError) {
-                { SignUpTextFieldSupportingText(usernameSupportingText) }
-            } else {
-                null
-            }
+            errorMessage = usernameSupportingText
         )
         SignUpTextField(
             text = email,
@@ -152,11 +148,7 @@ fun SignUpScreen() {
             modifier = Modifier.padding(top = 33.dp),
             isError = isEmailTextFieldError,
             onTextChanged = onEmailChanged,
-            supportingText = if (isEmailTextFieldError) {
-                { SignUpTextFieldSupportingText(emailSupportingText) }
-            } else {
-                null
-            }
+            errorMessage = emailSupportingText
         )
         SignUpTextField(
             text = password,
@@ -164,11 +156,7 @@ fun SignUpScreen() {
             modifier = Modifier.padding(top = 33.dp),
             isError = isPasswordTextFieldError,
             onTextChanged = onPasswordChanged,
-            supportingText = if (isPasswordTextFieldError) {
-                { SignUpTextFieldSupportingText(passwordSupportingText) }
-            } else {
-                null
-            }
+            errorMessage = passwordSupportingText
         )
         SignUpTextField(
             text = passwordConfirm,
@@ -176,11 +164,7 @@ fun SignUpScreen() {
             modifier = Modifier.padding(top = 33.dp),
             isError = isPasswordConfirmTextFieldError,
             onTextChanged = onPasswordConfirmChanged,
-            supportingText = if (isPasswordConfirmTextFieldError) {
-                { SignUpTextFieldSupportingText(passwordConfirmSupportingText) }
-            } else {
-                null
-            }
+            errorMessage = passwordConfirmSupportingText
         )
         SignUpButton(Modifier.padding(top = 39.dp))
     }
@@ -205,7 +189,7 @@ fun SignUpTextField(
     modifier: Modifier = Modifier,
     isError: Boolean = false,
     onTextChanged: (String) -> Unit = {},
-    supportingText: @Composable (() -> Unit)? = null,
+    errorMessage: String
 ) {
     TextField(
         value = text,
@@ -232,7 +216,11 @@ fun SignUpTextField(
             focusedContainerColor = Blue20,
             unfocusedContainerColor = Blue20,
         ),
-        supportingText = supportingText,
+        supportingText = {
+            if (errorMessage.isNotEmpty()) {
+                SignUpTextFieldSupportingText(errorMessage)
+            }
+        },
         visualTransformation = when (type) {
             SignUpTextFieldType.USERNAME, SignUpTextFieldType.EMAIL -> VisualTransformation.None
             SignUpTextFieldType.PASSWORD, SignUpTextFieldType.PASSWORD_CONFIRM -> PasswordVisualTransformation()
@@ -304,7 +292,8 @@ private fun SignUpTextFieldPreview() {
     SignUpTextField(
         text = previewText,
         type = SignUpTextFieldType.USERNAME,
-        onTextChanged = onPreviewTextChanged
+        onTextChanged = onPreviewTextChanged,
+        errorMessage = ""
     )
 }
 
