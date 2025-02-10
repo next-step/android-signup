@@ -1,4 +1,4 @@
-package nextstep.signup.component
+package nextstep.signup.component.textfield
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -8,7 +8,6 @@ import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
 import nextstep.signup.components.SignUpTextField
 import org.junit.Before
 import org.junit.Rule

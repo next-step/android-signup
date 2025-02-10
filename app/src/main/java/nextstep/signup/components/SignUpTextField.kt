@@ -25,6 +25,8 @@ internal fun SignUpTextField(
     modifier: Modifier = Modifier,
     keyboardType: KeyboardType = KeyboardType.Text,
     needHide: Boolean = false,
+    isError: Boolean = false,
+    supportingText: String = "",
 ) {
     TextField(
         value = value,
@@ -33,15 +35,18 @@ internal fun SignUpTextField(
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
         visualTransformation = if (needHide) PasswordVisualTransformation() else VisualTransformation.None,
         modifier = modifier,
+        isError = isError,
+        supportingText = { Text(text = supportingText) },
         singleLine = true,
         colors = TextFieldDefaults.colors(
             focusedContainerColor = BlueGrey20,
             unfocusedContainerColor = BlueGrey20,
+            errorContainerColor = BlueGrey20,
         )
     )
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun SignUpTextFieldPreview() {
     var text by remember { mutableStateOf("김컴포즈") }
@@ -55,7 +60,7 @@ private fun SignUpTextFieldPreview() {
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun SignUpTextFieldWithPasswordPreview() {
     var text by remember { mutableStateOf("password1234") }

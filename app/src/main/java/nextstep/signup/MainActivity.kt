@@ -12,16 +12,25 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import nextstep.signup.domain.Email
+import nextstep.signup.domain.Password
+import nextstep.signup.domain.PasswordConfirm
+import nextstep.signup.domain.Username
+import nextstep.signup.mapper.toUiState
+import nextstep.signup.state.EmailState
+import nextstep.signup.state.PasswordConfirmState
+import nextstep.signup.state.PasswordState
+import nextstep.signup.state.UsernameState
 import nextstep.signup.ui.theme.SignupTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            var username by remember { mutableStateOf("") }
-            var email by remember { mutableStateOf("") }
-            var password by remember { mutableStateOf("") }
-            var passwordConfirm by remember { mutableStateOf("") }
+            var usernameState: UsernameState by remember { mutableStateOf(UsernameState()) }
+            var email by remember { mutableStateOf(EmailState()) }
+            var password by remember { mutableStateOf(PasswordState()) }
+            var passwordConfirm by remember { mutableStateOf(PasswordConfirmState()) }
 
             SignupTheme {
                 Scaffold(
@@ -29,14 +38,30 @@ class MainActivity : ComponentActivity() {
                     containerColor = MaterialTheme.colorScheme.background,
                 ) { paddingValues ->
                     SignUpScreen(
-                        username = username,
-                        onUserNameChange = { username = it },
-                        email = email,
-                        onEmailChange = { email = it },
-                        password = password,
-                        onPasswordChange = { password = it },
-                        passwordConfirm = passwordConfirm,
-                        onPasswordConfirmChange = { passwordConfirm = it },
+                        username = usernameState.username,
+                        isUsernameError = usernameState.isError,
+                        usernameSupportingText = usernameState.supportingText,
+                        onUserNameChange = { usernameState = Username(it).toUiState() },
+                        email = email.email,
+                        isEmailError = email.isError,
+                        emailSupportingText = email.supportingText,
+                        onEmailChange = { email = Email(it).toUiState() },
+                        password = password.password,
+                        isPasswordError = password.isError,
+                        passwordSupportingText = password.supportingText,
+                        onPasswordChange = {
+                            password = Password(it).toUiState()
+                            if (passwordConfirm.passwordConfirm.isNotEmpty()) {
+                                passwordConfirm =
+                                    PasswordConfirm(passwordConfirm.passwordConfirm).toUiState(it)
+                            }
+                        },
+                        passwordConfirm = passwordConfirm.passwordConfirm,
+                        isPasswordConfirmError = passwordConfirm.isError,
+                        passwordConfirmSupportingText = passwordConfirm.supportingText,
+                        onPasswordConfirmChange = {
+                            passwordConfirm = PasswordConfirm(it).toUiState(password.password)
+                        },
                         onSignUpButtonClick = {},
                         modifier = Modifier
                             .fillMaxSize()
