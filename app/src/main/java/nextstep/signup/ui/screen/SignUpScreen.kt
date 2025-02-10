@@ -1,5 +1,6 @@
 package nextstep.signup.ui.screen
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -9,6 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -17,10 +20,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -30,6 +35,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
 import nextstep.signup.R
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.BlueGrey50
@@ -37,10 +43,16 @@ import nextstep.signup.ui.theme.RedError
 import nextstep.signup.ui.utils.ValidateUtils
 
 @Composable
-fun SignUpScreen(modifier: Modifier) {
+fun SignUpScreen(
+    modifier: Modifier,
+    snackbarHostState: SnackbarHostState,
+) {
     Surface(
         modifier = modifier.background(Color.White),
     ) {
+        val context = LocalContext.current
+        val coroutineScope = rememberCoroutineScope()
+
         var userName by remember { mutableStateOf("") }
         var email by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
@@ -89,7 +101,14 @@ fun SignUpScreen(modifier: Modifier) {
                 buttonText = stringResource(R.string.sign_up_button),
                 isEnabled = ValidateUtils.isValidAll(userName, email, password, confirmPassword),
                 modifier = Modifier.padding(top = 42.dp)
-            )
+            ) {
+                coroutineScope.launch {
+                    snackbarHostState.showSnackbar(
+                        message = getSignUpCompleteMessage(context),
+                        duration = SnackbarDuration.Short
+                    )
+                }
+            }
         }
     }
 }
@@ -278,6 +297,10 @@ fun getPasswordConfirmErrorMessage(password: String, confirmPassword: String): S
         !ValidateUtils.isValidatePasswordConfirm(password, confirmPassword) -> stringResource(R.string.password_confirm_error_invalid)
         else -> ""
     }
+}
+
+fun getSignUpCompleteMessage(context: Context): String {
+    return context.getString(R.string.sign_up_success)
 }
 
 @Preview(showBackground = true)
