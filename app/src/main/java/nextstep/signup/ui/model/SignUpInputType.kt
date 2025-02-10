@@ -71,7 +71,7 @@ enum class SignUpInputType(
 
     fun errorMessageResId(inputModel: SignUpInputModel): Int? {
         return if (this == PASSWORD_CONFIRM) {
-            if (inputModel.run { passwordConfirm != password }) R.string.password_is_equal_confirm_error_message else 0
+            if (inputModel.run { passwordConfirm != password }) R.string.password_is_equal_confirm_error_message else null
         } else {
             validate(inputModel.getValueBySignUpInputType(this))?.errorMessageResId
         }
