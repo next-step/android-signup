@@ -113,12 +113,10 @@ fun UsernameTextField(
     onUsernameChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val errorMsg = getUserNameErorrMessage(userName)
-
     InputField(
         label = stringResource(R.string.user_name),
         value = userName,
-        errorMsg = errorMsg,
+        errorMsg = getUserNameErorrMessage(userName),
         modifier = modifier,
         onValueChange = onUsernameChange,
     )
@@ -130,12 +128,10 @@ fun EmailTextField(
     onEmailChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val errorMsg = getEmailErrorMessage(email)
-
     InputField(
         label = stringResource(R.string.email),
         value = email,
-        errorMsg = errorMsg,
+        errorMsg = getEmailErrorMessage(email),
         modifier = modifier,
         onValueChange = onEmailChange,
     )
@@ -147,12 +143,10 @@ fun PasswordTextField(
     onPasswordChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val errorMsg = getPasswordErrorMessage(password)
-
     InputField(
         label = stringResource(R.string.password),
         value = password,
-        errorMsg = errorMsg,
+        errorMsg = getPasswordErrorMessage(password),
         inputType = KeyboardType.Password,
         onValueChange = onPasswordChange,
         modifier = modifier
@@ -166,12 +160,10 @@ fun PasswordConfirmTextField(
     onPasswordChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val errorMsg = getPasswordConfirmErrorMessage(password, confirmPassword)
-
     InputField(
         label = stringResource(R.string.password_confirm),
         value = confirmPassword,
-        errorMsg = errorMsg,
+        errorMsg = getPasswordConfirmErrorMessage(password, confirmPassword),
         inputType = KeyboardType.Password,
         onValueChange = onPasswordChange,
         modifier = modifier
