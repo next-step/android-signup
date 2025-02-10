@@ -111,8 +111,6 @@ class SignupTextFieldTest {
         composeTestRule
             .onNodeWithText("이름은 2~5자여야 합니다.")
             .assertIsDisplayed()
-
-        "이름에는 숫자나 기호가 포함될 수 없습니다."
     }
 
     @Test
