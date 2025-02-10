@@ -17,12 +17,14 @@ internal fun PasswordConfirmTextFiled(
     passwordProvider: () -> String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    onValidation: ((Boolean) -> Unit)? = null,
 ) {
     SignupTextField(
         modifier = modifier,
         label = stringResource(R.string.signup_label_password_confirm),
         text = text,
         onValueChange = onValueChange,
+        onValidation = { onValidation?.invoke(it) },
         visualTransformation = PasswordVisualTransformation(),
         validator = SignupInfoValidator.PasswordConfirm(passwordProvider),
     )

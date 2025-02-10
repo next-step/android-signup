@@ -13,12 +13,14 @@ internal fun PasswordTextFiled(
     text: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    onValidation: ((Boolean) -> Unit)? = null,
 ) {
     SignupTextField(
         modifier = modifier,
         label = stringResource(R.string.signup_label_password),
         text = text,
         onValueChange = onValueChange,
+        onValidation = { onValidation?.invoke(it) },
         visualTransformation = PasswordVisualTransformation(),
         validator = SignupInfoValidator.Password,
     )

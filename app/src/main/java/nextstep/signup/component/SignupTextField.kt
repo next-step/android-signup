@@ -31,8 +31,9 @@ internal fun SignupTextField(
     text: String,
     onValueChange: (String) -> Unit,
     visualTransformation: VisualTransformation,
-    validator: SignupInfoValidator = SignupInfoValidator.None,
     modifier: Modifier = Modifier,
+    validator: SignupInfoValidator = SignupInfoValidator.None,
+    onValidation: ((Boolean) -> Unit)? = null,
 ) {
     val validateResult = validator.checkCondition(text)
 
@@ -40,7 +41,10 @@ internal fun SignupTextField(
         modifier = modifier
             .fillMaxWidth(),
         value = text,
-        onValueChange = onValueChange,
+        onValueChange = {
+            onValueChange(it)
+            onValidation?.invoke(text.isNotEmpty() && validator.checkCondition(it).isSuccess())
+        },
         colors = TextFieldDefaults.colors(
             unfocusedTextColor = Black20,
             focusedTextColor = Black20,
