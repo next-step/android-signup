@@ -9,4 +9,18 @@ data class SignUpState(
     val passwordErrorMessage: String = "",
     val passwordConfirm: String = "",
     val passwordConfirmErrorMessage: String = "",
-)
+) {
+    val isSignUpEnabled
+        get() = listOf(
+            userNameErrorMessage,
+            emailErrorMessage,
+            passwordErrorMessage,
+            passwordConfirmErrorMessage
+        ).all { it.isBlank() } && listOf(
+            username,
+            email,
+            password,
+            passwordConfirm
+        ).all { it.isNotBlank() }
+}
+

@@ -121,6 +121,7 @@ fun SignUpScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
+            enabled = state.isSignUpEnabled,
             colors = ButtonDefaults.buttonColors(
                 containerColor = Blue50,
             ),
