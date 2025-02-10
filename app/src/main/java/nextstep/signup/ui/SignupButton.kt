@@ -20,11 +20,12 @@ import nextstep.signup.ui.theme.White
 @Composable
 fun SignupButton(
     text: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Button(
         onClick = onClick,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight(),
         shape = RoundedCornerShape(100.dp),
