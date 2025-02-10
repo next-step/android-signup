@@ -43,7 +43,7 @@ internal fun SignupTextField(
         value = text,
         onValueChange = {
             onValueChange(it)
-            onValidation?.invoke(text.isNotEmpty() && validator.checkCondition(it).isSuccess())
+            onValidation?.invoke(validator.checkCondition(it).isSuccess())
         },
         colors = TextFieldDefaults.colors(
             unfocusedTextColor = Black20,
@@ -67,7 +67,7 @@ internal fun SignupTextField(
                 )
             )
         },
-        isError = !validateResult.isSuccess(),
+        isError = validateResult.isError(),
         label = {
             Text(
                 text = label,

@@ -6,6 +6,7 @@ import nextstep.signup.R
 
 enum class SignupInfoValidateResult {
     SUCCESS,
+    EMPTY,
     INVALID_LENGTH_USERNAME,
     INVALID_FORMAT_USERNAME,
     INVALID_FORMAT_EMAIL,
@@ -15,10 +16,13 @@ enum class SignupInfoValidateResult {
 
     fun isSuccess() = this == SUCCESS
 
+    fun isError() = this != SUCCESS && this != EMPTY
+
     @Composable
     fun getErrorMessage() =
         when (this) {
             SUCCESS -> ""
+            EMPTY -> ""
             INVALID_LENGTH_USERNAME -> stringResource(R.string.invalid_length_username)
             INVALID_FORMAT_USERNAME -> stringResource(R.string.invalid_format_username)
             INVALID_FORMAT_EMAIL -> stringResource(R.string.invalid_format_email)

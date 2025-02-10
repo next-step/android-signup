@@ -15,7 +15,7 @@ sealed interface SignupInfoValidator {
         private val regex by lazy { Regex(USERNAME_REGEX) }
 
         override fun checkCondition(value: String): SignupInfoValidateResult {
-            if (value.isEmpty()) return SignupInfoValidateResult.SUCCESS
+            if (value.isEmpty()) return SignupInfoValidateResult.EMPTY
             if (value.length !in 2..5) return SignupInfoValidateResult.INVALID_LENGTH_USERNAME
 
             return when (value.matches(regex)) {
@@ -31,7 +31,7 @@ sealed interface SignupInfoValidator {
         private val regex by lazy { Regex(EMAIL_REGEX) }
 
         override fun checkCondition(value: String): SignupInfoValidateResult {
-            if (value.isEmpty()) return SignupInfoValidateResult.SUCCESS
+            if (value.isEmpty()) return SignupInfoValidateResult.EMPTY
             return when (value.matches(regex)) {
                 true -> SignupInfoValidateResult.SUCCESS
                 false -> SignupInfoValidateResult.INVALID_FORMAT_EMAIL
@@ -45,7 +45,7 @@ sealed interface SignupInfoValidator {
         private val regex by lazy { Regex(PASSWORD_REGEX) }
 
         override fun checkCondition(value: String): SignupInfoValidateResult {
-            if (value.isEmpty()) return SignupInfoValidateResult.SUCCESS
+            if (value.isEmpty()) return SignupInfoValidateResult.EMPTY
             if (value.length !in 8..16) return SignupInfoValidateResult.INVALID_LENGTH_PASSWORD
 
             return when (value.matches(regex)) {
@@ -59,7 +59,7 @@ sealed interface SignupInfoValidator {
         private val passwordProvider: () -> String,
     ) : SignupInfoValidator {
         override fun checkCondition(value: String): SignupInfoValidateResult {
-            if (value.isEmpty()) return SignupInfoValidateResult.SUCCESS
+            if (value.isEmpty()) return SignupInfoValidateResult.EMPTY
             return when (passwordProvider() == value) {
                 true -> SignupInfoValidateResult.SUCCESS
                 false -> SignupInfoValidateResult.NOT_MATCH_PASSWORD
