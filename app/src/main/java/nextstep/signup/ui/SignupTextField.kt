@@ -1,7 +1,6 @@
 package nextstep.signup.ui
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -35,9 +34,7 @@ fun SignupTextField(
     TextField(
         value = value,
         onValueChange = onValueChange,
-        modifier = modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
+        modifier = modifier.fillMaxWidth(),
         textStyle = TextStyle(
             color = BlackDark,
             fontSize = 16.sp,
