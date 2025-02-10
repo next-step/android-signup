@@ -3,9 +3,7 @@ package nextstep.signup
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import nextstep.signup.util.ValidationUtil.PASSWORD_CONFIRM_NOT_SAME
 import nextstep.signup.util.ValidationUtil.setPasswordConfirmErrorMessage
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -16,38 +14,46 @@ class PasswordConfirmInputValidationTest {
     private val password = mutableStateOf("")
     private val passwordConfirm = mutableStateOf("")
 
-    @Before
-    fun setup() {
+    fun setPasswordConfirmInputField(
+        password: String,
+        passwordConfirm: String,
+    ) {
         composeTestRule.setContent {
             PasswordConfirmInputField(
-                value = passwordConfirm.value,
-                errorMessage = setPasswordConfirmErrorMessage(password.value, passwordConfirm.value),
-                onValueChange = { passwordConfirm.value = it }
+                value = passwordConfirm,
+                errorMessage = setPasswordConfirmErrorMessage(password, passwordConfirm),
+                onValueChange = {}
             )
         }
     }
 
     @Test
     fun `비밀번호_확인_입력값과_비밀번호_입력값은_같아야_한다`() {
+        // given
+        val password = "1234567890"
+        val passwordConfirm = "1234567890"
+
         // when
-        password.value = "1234567890"
-        passwordConfirm.value = "1234567890"
+        setPasswordConfirmInputField(password, passwordConfirm)
 
         // then
         composeTestRule
-            .onNodeWithText(PASSWORD_CONFIRM_NOT_SAME)
+            .onNodeWithText("비밀번호가 일치하지 않습니다.")
             .assertDoesNotExist()
     }
 
     @Test
     fun `비밀번호_확인_입력값과_비밀번호_입력값이_다르면_에러메세지가_노출된다`() {
+        // given
+        val password = "1234567890"
+        val passwordConfirm = "ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊ"
+
         // when
-        password.value = "1234567890"
-        passwordConfirm.value = "ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊ"
+        setPasswordConfirmInputField(password, passwordConfirm)
 
         // then
         composeTestRule
-            .onNodeWithText(PASSWORD_CONFIRM_NOT_SAME)
+            .onNodeWithText("비밀번호가 일치하지 않습니다.")
             .assertExists()
     }
 }
