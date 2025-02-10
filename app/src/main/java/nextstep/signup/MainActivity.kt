@@ -74,39 +74,25 @@ fun SignUpScreen() {
 
         val onUsernameChanged: (String) -> Unit = {
             username = it
-            usernameSupportingText = if (username.isNotEmpty()) {
-                validation.getUsernameValidationMessage(username)
-            } else {
-                ""
-            }
+            usernameSupportingText = validation.getUsernameValidationMessage(username)
         }
 
         val onEmailChanged: (String) -> Unit = {
             email = it
-            emailSupportingText = if (email.isNotEmpty()) {
-                validation.getEmailValidationMessage(email)
-            } else {
-                ""
-            }
+            emailSupportingText = validation.getEmailValidationMessage(email)
         }
 
         val onPasswordChanged: (String) -> Unit = {
             password = it
-            passwordSupportingText = validation.getPasswordValidationMessage(password)
-            passwordConfirmSupportingText = if (password.isNotEmpty() && passwordConfirm.isNotEmpty()) {
+            passwordSupportingText = validation.getPasswordValidationMessage(password, passwordConfirm)
+            passwordConfirmSupportingText =
                 validation.getPasswordConfirmValidationMessage(password, passwordConfirm)
-            } else {
-                ""
-            }
         }
 
         val onPasswordConfirmChanged: (String) -> Unit = {
             passwordConfirm = it
-            passwordConfirmSupportingText = if (password.isNotEmpty() && passwordConfirm.isNotEmpty()) {
+            passwordConfirmSupportingText =
                 validation.getPasswordConfirmValidationMessage(password, passwordConfirm)
-            } else {
-                ""
-            }
         }
 
         SignUpTitle(Modifier.padding(top = 60.dp))
@@ -286,7 +272,3 @@ enum class SignUpTextFieldType(val hint: String) {
     PASSWORD("Password"),
     PASSWORD_CONFIRM("Password Confirm")
 }
-
-const val USERNAME_REGEX = "^[a-zA-Z가-힣]+$"
-const val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
-const val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$"
