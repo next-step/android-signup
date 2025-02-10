@@ -12,7 +12,7 @@ class SignupTitleTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun titleText() {
+    fun `컴포넌트가_렌더링_된다`() {
         // given
         val text = "Welcome to Compose \uD83D\uDE80"
         composeTestRule.setContent {
