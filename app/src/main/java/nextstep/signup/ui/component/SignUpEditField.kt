@@ -1,5 +1,6 @@
 package nextstep.signup.ui.component
 
+import android.content.res.Resources
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,9 +32,9 @@ import nextstep.signup.ui.theme.Typography
 
 @Composable
 fun SignUpEditFields(
-    modifier: Modifier = Modifier,
     inputModel: SignUpInputModel,
     onUpdateModel: (SignUpInputModel) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier,
@@ -64,14 +65,14 @@ fun SignUpEditFields(
 
 @Composable
 private fun SignUpEditField(
-    modifier: Modifier = Modifier,
     inputModel: SignUpInputModel,
     type: SignUpInputType,
     onValueChanged: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
 
     val isError = type.isError(inputModel)
-    val errorMessageResId = type.errorMessageResiId(inputModel)
+    val errorMessageResId = type.errorMessageResId(inputModel)
 
     TextField(
         modifier = modifier.fillMaxWidth(),
@@ -94,8 +95,8 @@ private fun SignUpEditField(
 
 
 @Composable
-private fun ErrorMessageText(@StringRes resId: Int) {
-    if (resId == 0) return
+private fun ErrorMessageText(@StringRes resId: Int?) {
+    if (resId == null || resId == Resources.ID_NULL) return
     Text(
         text = stringResource(resId),
         style = Typography.bodySmall,

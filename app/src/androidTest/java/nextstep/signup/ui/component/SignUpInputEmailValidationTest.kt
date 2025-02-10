@@ -17,7 +17,7 @@ class SignUpInputEmailValidationTest {
     val composeTestRule = createComposeRule()
     private var model by mutableStateOf(SignUpInputModel())
 
-    private lateinit var errorMessage: String
+    private val errorMessage = "이메일 형식이 올바르지 않습니다."
 
     @Before
     fun setup() {
@@ -26,7 +26,6 @@ class SignUpInputEmailValidationTest {
                 inputModel = model,
                 onUpdateModel = { model = it }
             )
-            errorMessage = stringResource(R.string.email_error_message)
         }
     }
 

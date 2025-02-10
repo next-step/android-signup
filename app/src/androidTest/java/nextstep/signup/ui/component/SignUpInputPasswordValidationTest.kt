@@ -21,9 +21,9 @@ class SignUpInputPasswordValidationTest {
     val composeTestRule = createComposeRule()
     private var model by mutableStateOf(SignUpInputModel())
 
-    private lateinit var lengthErrorMessage: String
-    private lateinit var characterTypeErrorMessage: String
-    private lateinit var isEqualErrorMessage: String
+    private val lengthErrorMessage = "비밀번호는 8~16자여야 합니다."
+    private val characterTypeErrorMessage = "비밀번호는 영문과 숫자를 포함해야 합니다."
+    private val isEqualErrorMessage = "비밀번호가 일치하지 않습니다."
 
     @Before
     fun setup() {
@@ -32,11 +32,6 @@ class SignUpInputPasswordValidationTest {
                 inputModel = model,
                 onUpdateModel = { model = it }
             )
-            lengthErrorMessage = stringResource(R.string.password_length_error_message)
-            characterTypeErrorMessage =
-                stringResource(R.string.password_character_type_error_message)
-            isEqualErrorMessage =
-                stringResource(R.string.password_is_equal_confirm_error_message)
         }
     }
 

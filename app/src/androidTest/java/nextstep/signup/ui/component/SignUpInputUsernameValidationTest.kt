@@ -17,8 +17,8 @@ class SignUpInputUsernameValidationTest {
     val composeTestRule = createComposeRule()
     private var model by mutableStateOf(SignUpInputModel())
 
-    private lateinit var lengthErrorMessage: String
-    private lateinit var characterTypeErrorMessage: String
+    private val lengthErrorMessage = "이름은 2~5자여야 합니다."
+    private val characterTypeErrorMessage = "이름에는 숫자나 기호가 포함될 수 없습니다."
 
     @Before
     fun setup() {
@@ -27,10 +27,6 @@ class SignUpInputUsernameValidationTest {
                 inputModel = model,
                 onUpdateModel = { model = it }
             )
-
-            lengthErrorMessage = stringResource(R.string.username_length_error_message)
-            characterTypeErrorMessage =
-                stringResource(R.string.username_character_type_error_message)
         }
     }
 

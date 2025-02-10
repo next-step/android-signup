@@ -1,5 +1,7 @@
 package nextstep.signup.ui.model
 
+import android.content.res.Resources
+import android.os.Build
 import androidx.annotation.StringRes
 import androidx.compose.ui.text.input.KeyboardType
 import nextstep.signup.R
@@ -67,11 +69,11 @@ enum class SignUpInputType(
         }
     }
 
-    fun errorMessageResiId(inputModel: SignUpInputModel): Int {
+    fun errorMessageResId(inputModel: SignUpInputModel): Int? {
         return if (this == PASSWORD_CONFIRM) {
             if (inputModel.run { passwordConfirm != password }) R.string.password_is_equal_confirm_error_message else 0
         } else {
-            validate(inputModel.getValueBySignUpInputType(this))?.errorMessageResId ?: 0
+            validate(inputModel.getValueBySignUpInputType(this))?.errorMessageResId
         }
     }
 
