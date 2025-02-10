@@ -100,7 +100,6 @@ fun SignUpScreen(
                 modifier = Modifier.padding(top = 32.dp)
             )
             SignUpButton(
-                buttonText = stringResource(R.string.sign_up_button),
                 isEnabled = ValidateUtils.isValidAll(userName, email, password, confirmPassword),
                 modifier = Modifier.padding(top = 42.dp)
             ) {
@@ -252,7 +251,6 @@ fun InputField(
 
 @Composable
 fun SignUpButton(
-    buttonText: String,
     isEnabled: Boolean,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
@@ -268,7 +266,7 @@ fun SignUpButton(
         contentPadding = PaddingValues(vertical = 15.dp),
     ) {
         Text(
-            text = buttonText,
+            text = stringResource(R.string.sign_up_button),
             fontSize = 14.sp,
             fontWeight = FontWeight.W500,
         )
@@ -298,7 +296,6 @@ private fun InputFieldPreView() {
 @Composable
 private fun SignUpButtonPreView() {
     SignUpButton(
-        buttonText = "SingUp",
         isEnabled = true
     )
 }
