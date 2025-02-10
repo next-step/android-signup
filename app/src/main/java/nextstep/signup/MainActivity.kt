@@ -60,11 +60,128 @@ fun SignUpScreen() {
             .fillMaxHeight(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        var username by remember { mutableStateOf("") }
+        var email by remember { mutableStateOf("") }
+        var password by remember { mutableStateOf("") }
+        var passwordConfirm by remember { mutableStateOf("") }
+
+        var isUsernameTextFieldError by remember { mutableStateOf(false) }
+        var isEmailTextFieldError by remember { mutableStateOf(false) }
+        var isPasswordTextFieldError by remember { mutableStateOf(false) }
+        var isPasswordConfirmTextFieldError by remember { mutableStateOf(false) }
+
+        var usernameSupportingText by remember { mutableStateOf("") }
+        var emailSupportingText by remember { mutableStateOf("") }
+        var passwordSupportingText by remember { mutableStateOf("") }
+        var passwordConfirmSupportingText by remember { mutableStateOf("") }
+
+        val onUsernameChanged: (String) -> Unit = {
+            username = it
+
+            if (it.length !in 2..6) {
+                isUsernameTextFieldError = true
+                usernameSupportingText = "이름은 2~5자여야 합니다."
+            } else {
+                if (!it.matches(Regex(USERNAME_REGEX))) {
+                    isUsernameTextFieldError = true
+                    usernameSupportingText = "이름에는 숫자나 기호가 포함될 수 없습니다."
+                } else {
+                    isUsernameTextFieldError = false
+                    usernameSupportingText = ""
+                }
+            }
+        }
+
+        val onEmailChanged: (String) -> Unit = {
+            email = it
+
+            if (!it.matches(Regex(EMAIL_REGEX))) {
+                isEmailTextFieldError = true
+                emailSupportingText = "이메일 형식이 올바르지 않습니다."
+            } else {
+                isEmailTextFieldError = false
+                emailSupportingText = ""
+            }
+        }
+
+        val onPasswordChanged: (String) -> Unit = {
+            password = it
+
+            if (it.length !in 8..16) {
+                isPasswordTextFieldError = true
+                passwordSupportingText = "비밀번호는 8~16자여야 합니다."
+            } else {
+                if (!it.matches(Regex(PASSWORD_REGEX))) {
+                    isPasswordTextFieldError = true
+                    passwordSupportingText = "비밀번호는 영문과 숫자를 포함해야 합니다."
+                } else {
+                    isPasswordTextFieldError = false
+                    passwordSupportingText = ""
+                }
+            }
+        }
+
+        val onPasswordConfirmChanged: (String) -> Unit = {
+            passwordConfirm = it
+
+            if (it != password)  {
+                isPasswordConfirmTextFieldError = true
+                passwordConfirmSupportingText = "비밀번호가 일치하지 않습니다."
+            } else {
+                isPasswordConfirmTextFieldError = false
+                passwordConfirmSupportingText = ""
+            }
+        }
+
         SignUpTitle(Modifier.padding(top = 60.dp))
-        SignUpTextField(SignUpTextFieldType.USERNAME, Modifier.padding(top = 42.dp))
-        SignUpTextField(SignUpTextFieldType.EMAIL, Modifier.padding(top = 33.dp))
-        SignUpTextField(SignUpTextFieldType.PASSWORD, Modifier.padding(top = 33.dp))
-        SignUpTextField(SignUpTextFieldType.PASSWORD_CONFIRM, Modifier.padding(top = 33.dp))
+        SignUpTextField(
+            text = username,
+            type = SignUpTextFieldType.USERNAME,
+            modifier = Modifier.padding(top = 42.dp),
+            isError = isUsernameTextFieldError,
+            onTextChanged = onUsernameChanged,
+            supportingText = if (isUsernameTextFieldError) {
+                { SignUpTextFieldSupportingText(usernameSupportingText) }
+            } else {
+                null
+            }
+        )
+        SignUpTextField(
+            text = email,
+            type = SignUpTextFieldType.EMAIL,
+            modifier = Modifier.padding(top = 33.dp),
+            isError = isEmailTextFieldError,
+            onTextChanged = onEmailChanged,
+            supportingText = if (isEmailTextFieldError) {
+                { SignUpTextFieldSupportingText(emailSupportingText) }
+            } else {
+                null
+            }
+        )
+        SignUpTextField(
+            text = password,
+            type = SignUpTextFieldType.PASSWORD,
+            modifier = Modifier.padding(top = 33.dp),
+            isError = isPasswordTextFieldError,
+            onTextChanged = onPasswordChanged,
+            supportingText = if (isPasswordTextFieldError) {
+                { SignUpTextFieldSupportingText(passwordSupportingText) }
+            } else {
+                null
+            }
+        )
+        SignUpTextField(
+            text = passwordConfirm,
+            type = SignUpTextFieldType.PASSWORD_CONFIRM,
+            modifier = Modifier.padding(top = 33.dp),
+            isError = isPasswordConfirmTextFieldError,
+            onTextChanged = onPasswordConfirmChanged,
+            supportingText = if (isPasswordConfirmTextFieldError) {
+                { SignUpTextFieldSupportingText(passwordConfirmSupportingText) }
+            } else {
+                null
+            }
+        )
         SignUpButton(Modifier.padding(top = 39.dp))
     }
 }
@@ -83,16 +200,16 @@ fun SignUpTitle(modifier: Modifier = Modifier) {
 
 @Composable
 fun SignUpTextField(
+    text: String,
     type: SignUpTextFieldType,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isError: Boolean = false,
+    onTextChanged: (String) -> Unit = {},
+    supportingText: @Composable (() -> Unit)? = null,
 ) {
-    var input by remember { mutableStateOf("") }
-
     TextField(
-        value = input,
-        onValueChange = {
-            input = it
-        },
+        value = text,
+        onValueChange = onTextChanged,
         label = {
             Text(
                 text = type.hint,
@@ -102,6 +219,7 @@ fun SignUpTextField(
                 letterSpacing = 0.5.sp
             )
         },
+        isError = isError,
         singleLine = true,
         colors = TextFieldDefaults.colors(
             focusedTextColor = Gray70,
@@ -114,6 +232,7 @@ fun SignUpTextField(
             focusedContainerColor = Blue20,
             unfocusedContainerColor = Blue20,
         ),
+        supportingText = supportingText,
         visualTransformation = when (type) {
             SignUpTextFieldType.USERNAME, SignUpTextFieldType.EMAIL -> VisualTransformation.None
             SignUpTextFieldType.PASSWORD, SignUpTextFieldType.PASSWORD_CONFIRM -> PasswordVisualTransformation()
@@ -127,7 +246,6 @@ fun SignUpTextField(
         ),
         modifier = modifier
             .width(296.dp)
-            .height(56.dp)
             .clip(shape = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp))
     )
 }
@@ -159,6 +277,17 @@ fun SignUpButton(modifier: Modifier = Modifier) {
     )
 }
 
+@Composable
+fun SignUpTextFieldSupportingText(text: String, modifier: Modifier = Modifier) {
+    Text(
+        text = text,
+        fontSize = 12.sp,
+        lineHeight = 16.sp,
+        fontWeight = FontWeight.W400,
+        modifier = modifier
+    )
+}
+
 
 @Preview(showBackground = true)
 @Composable
@@ -169,7 +298,14 @@ private fun SignUpTitlePreview() {
 @Preview(showBackground = true)
 @Composable
 private fun SignUpTextFieldPreview() {
-    SignUpTextField(SignUpTextFieldType.USERNAME)
+    var previewText by remember { mutableStateOf("") }
+    val onPreviewTextChanged: (String) -> Unit = { previewText = it }
+
+    SignUpTextField(
+        text = previewText,
+        type = SignUpTextFieldType.USERNAME,
+        onTextChanged = onPreviewTextChanged
+    )
 }
 
 @Preview(showBackground = true)
@@ -190,3 +326,7 @@ enum class SignUpTextFieldType(val hint: String) {
     PASSWORD("Password"),
     PASSWORD_CONFIRM("Password Confirm")
 }
+
+const val USERNAME_REGEX = "^[a-zA-Z가-힣]+$"
+const val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
+const val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$"
