@@ -30,7 +30,6 @@ class SignupTextFieldTest {
                 text = "text",
                 onValueChange = { },
                 visualTransformation = VisualTransformation.None,
-                validator = SignupInfoValidator.Username,
                 modifier = Modifier.testTag(label)
             )
         }
@@ -41,32 +40,6 @@ class SignupTextFieldTest {
             .assertExists()
     }
 
-    @Test
-    fun `이름_입력값은_그대로_보여진다`() {
-        // given
-        val label = "UserName"
-        composeTestRule.setContent {
-            val (text, setText) = remember { mutableStateOf("") }
-            SignupTextField(
-                label = label,
-                text = text,
-                onValueChange = setText,
-                visualTransformation = VisualTransformation.None,
-                validator = SignupInfoValidator.Username,
-                modifier = Modifier.testTag(label)
-            )
-        }
-
-        // when 이용우를 입력하면
-        composeTestRule
-            .onNodeWithTag(label)
-            .performTextInput("이용우")
-
-        // then 이용우가 보여지는가
-        composeTestRule
-            .onNodeWithText("이용우")
-            .assertIsDisplayed()
-    }
 
     @Test
     fun `비밀번호의_입력값은_그대로_보이지_않는다`() {
@@ -93,44 +66,6 @@ class SignupTextFieldTest {
         composeTestRule
             .onNodeWithText("아무도 알알랴줌")
             .assertIsNotDisplayed()
-    }
-
-    @Test
-    fun `이름이_2자에서_5자가_아니면_에러문구가_보인다`() {
-        // given
-        composeTestRule.setContent {
-            SignupTextField(
-                label = "label",
-                text = "이름이뭐랍니까",
-                onValueChange = { },
-                visualTransformation = VisualTransformation.None,
-                validator = SignupInfoValidator.Username
-            )
-        }
-
-        // then
-        composeTestRule
-            .onNodeWithText("이름은 2~5자여야 합니다.")
-            .assertIsDisplayed()
-    }
-
-    @Test
-    fun `이름에_숫자나_기호를_포함하면_에러문구가_보인다`() {
-        // given
-        composeTestRule.setContent {
-            SignupTextField(
-                label = "UserName",
-                text = "이용우2",
-                onValueChange = { },
-                visualTransformation = VisualTransformation.None,
-                validator = SignupInfoValidator.Username
-            )
-        }
-
-        // then
-        composeTestRule
-            .onNodeWithText("이름에는 숫자나 기호가 포함될 수 없습니다.")
-            .assertIsDisplayed()
     }
 
     @Test

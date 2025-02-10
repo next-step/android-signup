@@ -31,7 +31,7 @@ internal fun SignupTextField(
     text: String,
     onValueChange: (String) -> Unit,
     visualTransformation: VisualTransformation,
-    validator: SignupInfoValidator,
+    validator: SignupInfoValidator = SignupInfoValidator.None,
     modifier: Modifier = Modifier,
 ) {
     val validateResult = validator.checkCondition(text)

@@ -3,6 +3,12 @@ package nextstep.signup.validator
 sealed interface SignupInfoValidator {
     fun checkCondition(value: String): SignupInfoValidateResult
 
+    data object None : SignupInfoValidator {
+        override fun checkCondition(value: String): SignupInfoValidateResult {
+            return SignupInfoValidateResult.SUCCESS
+        }
+    }
+
     data object Username : SignupInfoValidator {
 
         private const val USERNAME_REGEX = "^[a-zA-Z가-힣]+$"

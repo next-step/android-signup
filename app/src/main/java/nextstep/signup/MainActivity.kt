@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import nextstep.signup.component.SignupButton
 import nextstep.signup.component.SignupTextField
 import nextstep.signup.component.SignupTitle
+import nextstep.signup.component.UserNameTextFiled
 import nextstep.signup.ui.theme.SignupTheme
 import nextstep.signup.validator.SignupInfoValidator
 
@@ -61,13 +62,10 @@ internal fun SignupScreen(
             modifier = Modifier.padding(top = 6.dp),
             text = stringResource(R.string.signup_title)
         )
-        SignupTextField(
+        UserNameTextFiled(
             modifier = Modifier.padding(top = 20.dp),
-            label = stringResource(R.string.signup_label_user_name),
             text = userName,
             onValueChange = setUserName,
-            visualTransformation = VisualTransformation.None,
-            validator = SignupInfoValidator.Username
         )
         SignupTextField(
             label = stringResource(R.string.signup_label_email),
