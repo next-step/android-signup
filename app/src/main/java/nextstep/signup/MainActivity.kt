@@ -15,17 +15,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nextstep.signup.component.EmailTextFiled
+import nextstep.signup.component.PasswordConfirmTextFiled
 import nextstep.signup.component.PasswordTextFiled
 import nextstep.signup.component.SignupButton
-import nextstep.signup.component.SignupTextField
 import nextstep.signup.component.SignupTitle
 import nextstep.signup.component.UserNameTextFiled
 import nextstep.signup.ui.theme.SignupTheme
-import nextstep.signup.validator.SignupInfoValidator
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,12 +74,10 @@ internal fun SignupScreen(
             text = password,
             onValueChange = setPassword,
         )
-        SignupTextField(
-            label = stringResource(R.string.signup_label_password_confirm),
+        PasswordConfirmTextFiled(
             text = passwordConfirm,
+            passwordProvider = { password },
             onValueChange = setPasswordConfirm,
-            visualTransformation = PasswordVisualTransformation(),
-            validator = SignupInfoValidator.PasswordConfirm { password },
         )
         SignupButton(
             modifier = Modifier.padding(top = 6.dp),

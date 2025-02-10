@@ -47,7 +47,7 @@ class PasswordTextFieldTest {
     }
 
     @Test
-    fun `비밀번호는_그대로_보이지_않는다`() {
+    fun `비밀번호는_평문으로_보이지_않는다`() {
         // given
         val password = "1q2w3e4r"
 
