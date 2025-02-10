@@ -39,6 +39,7 @@ import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.Gray30
 import nextstep.signup.ui.theme.Gray50
 import nextstep.signup.ui.theme.Gray70
+import nextstep.signup.ui.theme.Red50
 import nextstep.signup.ui.theme.SignupTheme
 
 class MainActivity : ComponentActivity() {
@@ -167,9 +168,12 @@ fun SignUpTextField(
             unfocusedTextColor = Gray70,
             focusedLabelColor = Blue50,
             unfocusedLabelColor = Gray50,
+            errorLabelColor = Red50,
             focusedIndicatorColor = Blue50,
             unfocusedIndicatorColor = Gray50,
+            errorIndicatorColor = Red50,
             cursorColor = Blue50,
+            errorCursorColor = Red50,
             focusedContainerColor = Blue20,
             unfocusedContainerColor = Blue20,
         ),
