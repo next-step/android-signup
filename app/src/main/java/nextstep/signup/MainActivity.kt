@@ -70,51 +70,42 @@ fun SignUpScreen() {
         var passwordSupportingText by remember { mutableStateOf("") }
         var passwordConfirmSupportingText by remember { mutableStateOf("") }
 
+        val validation = SignUpTextFieldValidation()
+
         val onUsernameChanged: (String) -> Unit = {
             username = it
-
-            if (it.length !in 2..6) {
-                usernameSupportingText = "이름은 2~5자여야 합니다."
+            usernameSupportingText = if (username.isNotEmpty()) {
+                validation.getUsernameValidationMessage(username)
             } else {
-                if (!it.matches(Regex(USERNAME_REGEX))) {
-                    usernameSupportingText = "이름에는 숫자나 기호가 포함될 수 없습니다."
-                } else {
-                    usernameSupportingText = ""
-                }
+                ""
             }
         }
 
         val onEmailChanged: (String) -> Unit = {
             email = it
-
-            if (!it.matches(Regex(EMAIL_REGEX))) {
-                emailSupportingText = "이메일 형식이 올바르지 않습니다."
+            emailSupportingText = if (email.isNotEmpty()) {
+                validation.getEmailValidationMessage(email)
             } else {
-                emailSupportingText = ""
+                ""
             }
         }
 
         val onPasswordChanged: (String) -> Unit = {
             password = it
-
-            if (it.length !in 8..16) {
-                passwordSupportingText = "비밀번호는 8~16자여야 합니다."
+            passwordSupportingText = validation.getPasswordValidationMessage(password)
+            passwordConfirmSupportingText = if (password.isNotEmpty() && passwordConfirm.isNotEmpty()) {
+                validation.getPasswordConfirmValidationMessage(password, passwordConfirm)
             } else {
-                if (!it.matches(Regex(PASSWORD_REGEX))) {
-                    passwordSupportingText = "비밀번호는 영문과 숫자를 포함해야 합니다."
-                } else {
-                    passwordSupportingText = ""
-                }
+                ""
             }
         }
 
         val onPasswordConfirmChanged: (String) -> Unit = {
             passwordConfirm = it
-
-            if (it != password)  {
-                passwordConfirmSupportingText = "비밀번호가 일치하지 않습니다."
+            passwordConfirmSupportingText = if (password.isNotEmpty() && passwordConfirm.isNotEmpty()) {
+                validation.getPasswordConfirmValidationMessage(password, passwordConfirm)
             } else {
-                passwordConfirmSupportingText = ""
+                ""
             }
         }
 
