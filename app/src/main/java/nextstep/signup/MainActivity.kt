@@ -34,7 +34,11 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import nextstep.signup.ui.theme.Blue20
 import nextstep.signup.ui.theme.Blue50
+import nextstep.signup.ui.theme.Gray30
+import nextstep.signup.ui.theme.Gray50
+import nextstep.signup.ui.theme.Gray70
 import nextstep.signup.ui.theme.SignupTheme
 
 class MainActivity : ComponentActivity() {
@@ -100,15 +104,15 @@ fun SignUpTextField(
         },
         singleLine = true,
         colors = TextFieldDefaults.colors(
-            focusedTextColor = Color(0xFF1D1B20),
-            unfocusedTextColor = Color(0xFF1D1B20),
+            focusedTextColor = Gray70,
+            unfocusedTextColor = Gray70,
             focusedLabelColor = Blue50,
-            unfocusedLabelColor = Color(0xFF49454F),
+            unfocusedLabelColor = Gray50,
             focusedIndicatorColor = Blue50,
-            unfocusedIndicatorColor = Color(0xFF49454F),
+            unfocusedIndicatorColor = Gray50,
             cursorColor = Blue50,
-            focusedContainerColor = Color(0xFFE3E8F1),
-            unfocusedContainerColor = Color(0xFFE3E8F1),
+            focusedContainerColor = Blue20,
+            unfocusedContainerColor = Blue20,
         ),
         visualTransformation = when (type) {
             SignUpTextFieldType.USERNAME, SignUpTextFieldType.EMAIL -> VisualTransformation.None
@@ -138,10 +142,10 @@ fun SignUpButton(modifier: Modifier = Modifier) {
         shape = RoundedCornerShape(100.dp),
         contentPadding = PaddingValues(0.dp),
         colors = ButtonColors(
-            containerColor = Color(0xFF2196F3),
+            containerColor = Blue50,
             contentColor = Color.White,
-            disabledContainerColor = Color(0x1D1B201F),
-            disabledContentColor = Color(0x1D1B201F),
+            disabledContainerColor = Gray30,
+            disabledContentColor = Gray30,
         ),
         content = {
             Text(
