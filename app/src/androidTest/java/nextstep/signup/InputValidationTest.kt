@@ -11,12 +11,8 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performTextClearance
 import androidx.compose.ui.test.performTextInput
 import nextstep.signup.ui.screen.EmailTextField
-import nextstep.signup.ui.screen.InputField
 import nextstep.signup.ui.screen.PasswordConfirmTextField
 import nextstep.signup.ui.screen.PasswordTextField
-import nextstep.signup.ui.screen.RegexPattern.EMAIL_REGEX
-import nextstep.signup.ui.screen.RegexPattern.PASSWORD_REGEX
-import nextstep.signup.ui.screen.RegexPattern.USERNAME_REGEX
 import nextstep.signup.ui.screen.UsernameTextField
 import org.junit.Before
 import org.junit.Rule
@@ -27,10 +23,10 @@ class InputValidationTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    private val username = mutableStateOf<String?>(null)
-    private val email = mutableStateOf<String?>(null)
-    private val passwrod = mutableStateOf<String?>(null)
-    private val confirmPassword = mutableStateOf<String?>(null)
+    private val username = mutableStateOf<String>("")
+    private val email = mutableStateOf<String>("")
+    private val passwrod = mutableStateOf<String>("")
+    private val confirmPassword = mutableStateOf<String>("")
 
     @Before
     fun setUp() {
