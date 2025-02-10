@@ -14,6 +14,12 @@ val Typography = Typography(
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
+    ),
+    headlineMedium = TextStyle(
+        fontWeight = FontWeight.Bold,
+        lineHeight = 20.sp,
+        fontSize = 26.sp,
+        letterSpacing = 26.sp * 0.01, // px = fontSize * figma percentage
     )
     /* Other default text styles to override
     titleLarge = TextStyle(
