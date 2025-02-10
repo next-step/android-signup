@@ -1,22 +1,19 @@
 package nextstep.signup.mapper
 
 import nextstep.signup.domain.PasswordConfirm
-import nextstep.signup.domain.PasswordConfirmValidationResult
-import nextstep.signup.domain.PasswordConfirmValidationResult.VALID
-import nextstep.signup.domain.PasswordConfirmValidationResult.NOT_SAME
+import nextstep.signup.domain.ValidationResult
 import nextstep.signup.state.PasswordConfirmState
 
-fun PasswordConfirm.toUiState(
-    password: String
-): PasswordConfirmState {
-    val validationResult: PasswordConfirmValidationResult = validate(password)
+fun PasswordConfirm.toUiState(): PasswordConfirmState {
+    val validationResult: ValidationResult = validate()
 
     return PasswordConfirmState(
         passwordConfirm = value,
-        isError = validationResult != VALID,
+        isError = validationResult != ValidationResult.VALID,
         supportingText = when (validationResult) {
-            VALID -> ""
-            NOT_SAME -> "비밀번호가 일치하지 않습니다."
+            ValidationResult.VALID -> ""
+            ValidationResult.NOT_SAME -> "비밀번호가 일치하지 않습니다."
+            else -> ""
         }
     )
 }
