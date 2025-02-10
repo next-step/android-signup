@@ -21,15 +21,14 @@ class SignupTextFieldTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun userName() {
+    fun `컴포넌트가_렌더링_된다`() {
         // given
         val label = "UserName"
         composeTestRule.setContent {
-            val (text, setText) = remember { mutableStateOf("") }
             SignupTextField(
                 label = label,
-                text = text,
-                onValueChange = setText,
+                text = "text",
+                onValueChange = { },
                 visualTransformation = VisualTransformation.None,
                 validator = Validator.Username,
                 modifier = Modifier.testTag(label)
@@ -43,7 +42,7 @@ class SignupTextFieldTest {
     }
 
     @Test
-    fun inputText() {
+    fun `이름_입력값은_그대로_보여진다`() {
         // given
         val label = "UserName"
         composeTestRule.setContent {
@@ -70,7 +69,7 @@ class SignupTextFieldTest {
     }
 
     @Test
-    fun passwordIsNotDisplay() {
+    fun `비밀번호의_입력값은_그대로_보이지_않는다`() {
         // given
         val label = "Password"
         composeTestRule.setContent {
@@ -99,14 +98,11 @@ class SignupTextFieldTest {
     @Test
     fun `이름이_2자에서_5자가_아니면_에러문구가_보인다`() {
         // given
-        val label = "UserName"
-        val userName = "이용우"
         composeTestRule.setContent {
-            val (text, setText) = remember { mutableStateOf(userName) }
             SignupTextField(
-                label = label,
-                text = text,
-                onValueChange = setText,
+                label = "label",
+                text = "이름이뭐랍니까",
+                onValueChange = { },
                 visualTransformation = VisualTransformation.None,
                 validator = Validator.Username
             )
@@ -121,14 +117,11 @@ class SignupTextFieldTest {
     @Test
     fun `이름에_숫자나_기호를_포함하면_에러문구가_보인다`() {
         // given
-        val label = "UserName"
-        val userName = "이용우2"
         composeTestRule.setContent {
-            val (text, setText) = remember { mutableStateOf(userName) }
             SignupTextField(
-                label = label,
-                text = text,
-                onValueChange = setText,
+                label = "UserName",
+                text = "이용우2",
+                onValueChange = { },
                 visualTransformation = VisualTransformation.None,
                 validator = Validator.Username
             )
@@ -143,15 +136,11 @@ class SignupTextFieldTest {
     @Test
     fun `이메일_형식이_맞지않으면_에러문구가_보인다`() {
         // given
-        val label = "email"
-        val email = "raindragonn!gmail.com"
-
         composeTestRule.setContent {
-            val (text, setText) = remember { mutableStateOf(email) }
             SignupTextField(
-                label = label,
-                text = text,
-                onValueChange = setText,
+                label = "email",
+                text = "raindragonn!gmail.com",
+                onValueChange = { },
                 visualTransformation = VisualTransformation.None,
                 validator = Validator.Email
             )
@@ -166,15 +155,11 @@ class SignupTextFieldTest {
     @Test
     fun `비밀번호가_8에서_16자가_아니면_에러문구가_보인다`() {
         // given
-        val label = "password"
-        val password = "123"
-
         composeTestRule.setContent {
-            val (text, setText) = remember { mutableStateOf(password) }
             SignupTextField(
-                label = label,
-                text = text,
-                onValueChange = setText,
+                label = "password",
+                text = "123",
+                onValueChange = { },
                 visualTransformation = VisualTransformation.None,
                 validator = Validator.Password
             )
@@ -189,15 +174,11 @@ class SignupTextFieldTest {
     @Test
     fun `비밀번호에_영문과_숫자를_포함하지_않으면_에러문구가_보인다`() {
         // given
-        val label = "password"
-        val password = "가나다라마바사아"
-
         composeTestRule.setContent {
-            val (text, setText) = remember { mutableStateOf(password) }
             SignupTextField(
-                label = label,
-                text = text,
-                onValueChange = setText,
+                label = "password",
+                text = "가나다라마바사아",
+                onValueChange = { },
                 visualTransformation = VisualTransformation.None,
                 validator = Validator.Password
             )
@@ -212,30 +193,41 @@ class SignupTextFieldTest {
     @Test
     fun `비밀번호가_일치하지않으면_에러문구가_보인다`() {
         // given
-        val label = "password"
-        val originPassword = "1q2w3e4r5t"
-        val confirmPassword = "1q2w3e4r5"
+        val passwordLabel = "password"
+        val passwordConfirmLabel = "passwordConfirm"
 
         composeTestRule.setContent {
-            val (password, setPassword) = remember { mutableStateOf(originPassword) }
-            val (passwordConfirm, setPasswordConfirm) = remember { mutableStateOf(confirmPassword) }
+            val (password, setPassword) = remember { mutableStateOf("") }
+            val (passwordConfirm, setPasswordConfirm) = remember { mutableStateOf("") }
 
             SignupTextField(
-                label = label,
+                label = passwordLabel,
                 text = password,
                 onValueChange = setPassword,
                 visualTransformation = VisualTransformation.None,
-                validator = Validator.Password
+                validator = Validator.Password,
+                modifier = Modifier.testTag(passwordLabel)
             )
 
             SignupTextField(
-                label = label,
+                label = passwordConfirmLabel,
                 text = passwordConfirm,
                 onValueChange = setPasswordConfirm,
                 visualTransformation = VisualTransformation.None,
-                validator = Validator.PasswordConfirm { password }
+                validator = Validator.PasswordConfirm { password },
+                modifier = Modifier.testTag(passwordConfirmLabel)
             )
         }
+        val originPassword = "1q2w3e4r5t"
+        val confirmPassword = "1q2w3e4r5"
+
+        composeTestRule
+            .onNodeWithTag(passwordLabel)
+            .performTextInput(originPassword)
+
+        composeTestRule
+            .onNodeWithTag(passwordConfirmLabel)
+            .performTextInput(confirmPassword)
 
         // then
         composeTestRule
