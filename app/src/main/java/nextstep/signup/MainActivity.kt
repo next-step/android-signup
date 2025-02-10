@@ -25,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
@@ -62,7 +63,7 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 42.dp),
-                title = "Welcome to Compose \uD83D\uDE80"
+                title = stringResource(R.string.signup_main_title)
             )
         },
     ) { contentPadding ->
@@ -81,17 +82,17 @@ fun SignUpContents(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.spacedBy(36.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        item { SignUpInputForm(placeHolderText = "UserName", keyboardType = KeyboardType.Text) }
-        item { SignUpInputForm(placeHolderText = "Email", keyboardType = KeyboardType.Text) }
+        item { SignUpInputForm(placeHolderText = stringResource(R.string.signup_main_input_name), keyboardType = KeyboardType.Text) }
+        item { SignUpInputForm(placeHolderText = stringResource(R.string.signup_main_input_email), keyboardType = KeyboardType.Text) }
         item {
             SignUpInputForm(
-                placeHolderText = "Password",
+                placeHolderText = stringResource(R.string.signup_main_input_password),
                 keyboardType = KeyboardType.NumberPassword
             )
         }
         item {
             SignUpInputForm(
-                placeHolderText = "Password Confirm",
+                placeHolderText = stringResource(R.string.signup_main_input_password_confirm),
                 keyboardType = KeyboardType.NumberPassword
             )
         }
@@ -100,7 +101,7 @@ fun SignUpContents(modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp),
-                buttonTitle = "Sign UP",
+                buttonTitle = stringResource(R.string.signup_main_signtup_button),
                 onClick = {})
         }
     }
