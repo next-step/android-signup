@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -16,16 +15,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
+import nextstep.signup.utils.SignUpValidator
 import nextstep.signup.view.EmailTextField
 import nextstep.signup.view.PasswordConfirmTextField
 import nextstep.signup.view.PasswordTextField
 import nextstep.signup.view.SignUpButton
-import nextstep.signup.view.SignUpBasicTextField
 import nextstep.signup.view.SignUpTitle
 import nextstep.signup.view.UserNameTextField
 
@@ -54,6 +51,7 @@ fun SignUpScreen(
         UserNameTextField(
             modifier = Modifier.padding(top = 40.dp),
             userName = userName,
+            errorType = SignUpValidator.Username(userName).validate(),
             onValueChange = {
                 userName = it
             }
@@ -62,6 +60,7 @@ fun SignUpScreen(
         EmailTextField(
             modifier = Modifier.padding(top = 36.dp),
             value = email,
+            errorType = SignUpValidator.Email(email).validate(),
             onValueChange = {
                 email = it
             },
@@ -70,6 +69,7 @@ fun SignUpScreen(
         PasswordTextField(
             modifier = Modifier.padding(top = 36.dp),
             value = password,
+            errorType = SignUpValidator.Password(password).validate(),
             onValueChange = {
                 password = it
             },
@@ -78,7 +78,10 @@ fun SignUpScreen(
         PasswordConfirmTextField(
             modifier = Modifier.padding(top = 36.dp),
             value = passwordConfirm,
-            password = password,
+            errorType = SignUpValidator.PasswordConfirm(
+                value = passwordConfirm,
+                password = passwordConfirm
+            ).validate(),
             onValueChange = {
                 passwordConfirm = it
             }

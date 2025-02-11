@@ -8,6 +8,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -15,6 +16,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import nextstep.signup.R
+import nextstep.signup.utils.SignUpErrorType
 
 @Composable
 fun SignUpBasicTextField(
@@ -24,7 +27,7 @@ fun SignUpBasicTextField(
     modifier: Modifier = Modifier,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    errorMessage: String = "",
+    errorType: SignUpErrorType = SignUpErrorType.NO_ERROR,
 ) {
     TextField(
         value = value,
@@ -35,7 +38,7 @@ fun SignUpBasicTextField(
             fontWeight = FontWeight.Normal,
             lineHeight = 24.sp
         ),
-        isError = errorMessage.isNotEmpty(),
+        isError = errorType == SignUpErrorType.NO_ERROR,
         colors = TextFieldDefaults.colors(
             focusedLabelColor = Color(0XFF2196F3),
             focusedIndicatorColor = Color(0XFF2196F3),
@@ -56,9 +59,9 @@ fun SignUpBasicTextField(
             )
         },
         supportingText = {
-            if (errorMessage.isNotEmpty()) {
+            if (errorType != SignUpErrorType.NO_ERROR) {
                 Text(
-                    text = errorMessage,
+                    text = errorType.toErrorMessage(),
                 )
             }
         },
@@ -66,6 +69,19 @@ fun SignUpBasicTextField(
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions
     )
+}
+
+@Composable
+private fun SignUpErrorType.toErrorMessage(): String {
+    return when (this) {
+        SignUpErrorType.NO_ERROR -> ""
+        SignUpErrorType.USERNAME_LENGTH_ERROR -> stringResource(R.string.signup_username_length_error)
+        SignUpErrorType.USERNAME_FORMAT_ERROR -> stringResource(R.string.signup_username_format_error)
+        SignUpErrorType.EMAIL_ERROR -> stringResource(R.string.signup_email_format_error)
+        SignUpErrorType.PASSWORD_LENGTH_ERROR -> stringResource(R.string.signup_password_length_error)
+        SignUpErrorType.PASSWORD_FORMAT_ERROR -> stringResource(R.string.signup_password_format_error)
+        SignUpErrorType.PASSWORD_CONFIRM_ERROR -> stringResource(R.string.signup_confirm_password_error)
+    }
 }
 
 @Preview(name = "Username 입력 TextField")
