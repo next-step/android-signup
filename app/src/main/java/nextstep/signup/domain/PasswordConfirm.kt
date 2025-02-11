@@ -1,9 +1,10 @@
 package nextstep.signup.domain
 
-data class PasswordConfirm(val password: Password, val value: String): InputField {
+data class PasswordConfirm(val password: String = "", val value: String = ""): InputField {
     override fun validate(): ValidationResult {
         return when {
-            value != password.value -> ValidationResult.NOT_SAME
+            value.isEmpty() -> ValidationResult.EMPTY_VALUE
+            value != password -> ValidationResult.NOT_SAME
             else -> ValidationResult.VALID
         }
     }

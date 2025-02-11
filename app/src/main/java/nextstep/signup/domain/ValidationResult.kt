@@ -6,4 +6,5 @@ enum class ValidationResult {
     INVALID_LENGTH,
     INVALID_CHARACTER,
     NOT_SAME,
+    EMPTY_VALUE,
 }

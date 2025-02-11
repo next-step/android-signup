@@ -2,9 +2,10 @@ package nextstep.signup.domain
 
 
 @JvmInline
-value class Email(val value: String): InputField {
+value class Email(val value: String = ""): InputField {
     override fun validate(): ValidationResult {
         return when {
+            value.isEmpty() -> ValidationResult.EMPTY_VALUE
             !value.matches(emailRegex) -> ValidationResult.INVALID_FORM
             else -> ValidationResult.VALID
         }

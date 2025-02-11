@@ -1,9 +1,10 @@
 package nextstep.signup.domain
 
 @JvmInline
-value class Password(val value: String): InputField {
+value class Password(val value: String = ""): InputField {
     override fun validate(): ValidationResult {
         return when {
+            value.isEmpty() -> ValidationResult.EMPTY_VALUE
             value.length !in MINIMUM_LENGTH..MAXIMUM_LENGTH -> ValidationResult.INVALID_LENGTH
             !value.matches(passwordRegex) -> ValidationResult.INVALID_CHARACTER
             else -> ValidationResult.VALID

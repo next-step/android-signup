@@ -11,7 +11,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import nextstep.signup.components.SignUpTextField
 import nextstep.signup.domain.Email
 import nextstep.signup.mapper.toUiState
-import nextstep.signup.state.EmailState
+import nextstep.signup.state.InputFieldState
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,24 +25,25 @@ class EmailSignUpTextFieldInvalidFormTest(
 ) {
     @get:Rule
     val composeTestRule = createComposeRule()
-    private val emailState: MutableState<EmailState> = mutableStateOf(EmailState())
+    private val inputFieldState: MutableState<InputFieldState> =
+        mutableStateOf(Email().toUiState())
 
     @Test
     fun email형식을_따르지_않으면_에러메시지가_표시된다() {
         // given
         composeTestRule.setContent {
             SignUpTextField(
-                value = emailState.value.email,
-                onValueChange = { emailState.value = Email(it).toUiState() },
-                isError = emailState.value.isError,
-                supportingText = emailState.value.supportingText,
+                value = inputFieldState.value.input,
+                onValueChange = { inputFieldState.value = Email(it).toUiState() },
+                isError = inputFieldState.value.isError,
+                supportingText = inputFieldState.value.supportingText,
                 label = "email",
                 modifier = Modifier.testTag(TAG_SIGN_UP_TEXT_FIELD)
             )
         }
 
         // when
-        emailState.value = Email(input).toUiState()
+        inputFieldState.value = Email(input).toUiState()
 
         // then
         composeTestRule
