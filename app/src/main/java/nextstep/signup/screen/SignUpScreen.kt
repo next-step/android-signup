@@ -40,12 +40,19 @@ fun SignUpScreen(
     var password by remember { mutableStateOf("") }
     var passwordConfirm by remember { mutableStateOf("") }
 
-    val isAllValid by remember(userName, email, password, passwordConfirm) {
+    val usernameError = remember(userName) { SignUpValidator.Username(userName).validate() }
+    val emailError = remember(email) { SignUpValidator.Email(email).validate() }
+    val passwordError = remember(password) { SignUpValidator.Password(password).validate() }
+    val passwordConfirmError = remember(passwordConfirm, password) {
+        SignUpValidator.PasswordConfirm(passwordConfirm, password).validate()
+    }
+
+    val isAllValid by remember(usernameError, emailError, passwordError, passwordConfirmError) {
         derivedStateOf {
-            SignUpValidator.Username(userName).validate() == SignUpErrorType.NO_ERROR &&
-                    SignUpValidator.Email(email).validate() == SignUpErrorType.NO_ERROR &&
-                    SignUpValidator.Password(password).validate() == SignUpErrorType.NO_ERROR &&
-                    SignUpValidator.PasswordConfirm(passwordConfirm, password).validate() == SignUpErrorType.NO_ERROR
+            usernameError == SignUpErrorType.NO_ERROR &&
+                    emailError == SignUpErrorType.NO_ERROR &&
+                    passwordError == SignUpErrorType.NO_ERROR &&
+                    passwordConfirmError == SignUpErrorType.NO_ERROR
         }
     }
 
@@ -71,7 +78,7 @@ fun SignUpScreen(
         UserNameTextField(
             modifier = Modifier.padding(top = 40.dp),
             userName = userName,
-            errorType = SignUpValidator.Username(userName).validate(),
+            errorType = usernameError,
             onValueChange = {
                 userName = it
             }
@@ -80,7 +87,7 @@ fun SignUpScreen(
         EmailTextField(
             modifier = Modifier.padding(top = 36.dp),
             value = email,
-            errorType = SignUpValidator.Email(email).validate(),
+            errorType = emailError,
             onValueChange = {
                 email = it
             },
@@ -89,7 +96,7 @@ fun SignUpScreen(
         PasswordTextField(
             modifier = Modifier.padding(top = 36.dp),
             value = password,
-            errorType = SignUpValidator.Password(password).validate(),
+            errorType = passwordError,
             onValueChange = {
                 password = it
             },
@@ -98,10 +105,7 @@ fun SignUpScreen(
         PasswordConfirmTextField(
             modifier = Modifier.padding(top = 36.dp),
             value = passwordConfirm,
-            errorType = SignUpValidator.PasswordConfirm(
-                value = passwordConfirm,
-                password = passwordConfirm
-            ).validate(),
+            errorType = passwordConfirmError,
             onValueChange = {
                 passwordConfirm = it
             }
