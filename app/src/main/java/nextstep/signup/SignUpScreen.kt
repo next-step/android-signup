@@ -38,22 +38,22 @@ fun SignUpScreen() {
     var password by remember { mutableStateOf("") }
     var passwordConfirm by remember { mutableStateOf("") }
 
-    val usernameError by remember(key1 = userName) {
+    val usernameError by remember {
         derivedStateOf {
             InputValidator.validateUsername(userName)
         }
     }
-    val passwordError by remember(key1 = password) {
+    val passwordError by remember {
         derivedStateOf {
             InputValidator.validatePassword(password)
         }
     }
-    val isValidEmailFormat by remember(key1 = email) {
+    val isValidEmailFormat by remember {
         derivedStateOf {
             InputValidator.isValidEmail(email)
         }
     }
-    val isPasswordMatched by remember(key1 = password, key2 = passwordConfirm) {
+    val isPasswordMatched by remember {
         derivedStateOf {
             InputValidator.isPasswordMatched(password, passwordConfirm)
         }
