@@ -1,6 +1,7 @@
 package nextstep.signup.ui.screen
 
 import android.graphics.Color
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -46,20 +47,53 @@ fun SignupScreen(
             ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = stringResource(R.string.welcome_to_compose),
-            fontWeight = FontWeight.W700,
-            fontSize = 26.sp,
-            lineHeight = 20.sp,
-        )
+        TitleContent()
         Spacer(modifier = Modifier.height(42.dp))
+        TextFieldsContent(
+            username = username,
+            email = email,
+            password = password,
+            passwordConfirm = passwordConfirm,
+            onUsernameChange = onUsernameChange,
+            onEmailChange = onEmailChange,
+            onPasswordChange = onPasswordChange,
+            onPasswordConfirmChange = onPasswordConfirmChange
+        )
+        Spacer(modifier = Modifier.height(39.dp))
+        ButtonContent()
+    }
+}
+
+@Composable
+private fun TitleContent() {
+    Text(
+        text = stringResource(R.string.welcome_to_compose),
+        fontWeight = FontWeight.W700,
+        fontSize = 26.sp,
+        lineHeight = 20.sp,
+    )
+}
+
+@Composable
+private fun TextFieldsContent(
+    username: String,
+    email: String,
+    password: String,
+    passwordConfirm: String,
+    onUsernameChange: (String) -> Unit,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onPasswordConfirmChange: (String) -> Unit,
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(33.dp)
+    ) {
         SignupTextField(
             value = username,
             onValueChange = onUsernameChange,
             label = stringResource(R.string.username),
             modifier = Modifier.fillMaxWidth()
         )
-        Spacer(modifier = Modifier.height(33.dp))
         SignupTextField(
             value = email,
             onValueChange = onEmailChange,
@@ -69,7 +103,6 @@ fun SignupScreen(
             ),
             modifier = Modifier.fillMaxWidth()
         )
-        Spacer(modifier = Modifier.height(33.dp))
         SignupTextField(
             value = password,
             onValueChange = onPasswordChange,
@@ -81,7 +114,6 @@ fun SignupScreen(
             secure = true,
             modifier = Modifier.fillMaxWidth()
         )
-        Spacer(modifier = Modifier.height(33.dp))
         SignupTextField(
             value = passwordConfirm,
             onValueChange = onPasswordConfirmChange,
@@ -93,16 +125,20 @@ fun SignupScreen(
             secure = true,
             modifier = Modifier.fillMaxWidth()
         )
-        Spacer(modifier = Modifier.height(39.dp))
-        SignupButton(
-            label = stringResource(R.string.signup),
-            onClick = {},
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp)
-        )
     }
 }
+
+@Composable
+private fun ButtonContent() {
+    SignupButton(
+        label = stringResource(R.string.signup),
+        onClick = {},
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(50.dp)
+    )
+}
+
 
 @Preview(
     showBackground = true,
