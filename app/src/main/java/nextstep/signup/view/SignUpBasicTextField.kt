@@ -38,7 +38,7 @@ fun SignUpBasicTextField(
             fontWeight = FontWeight.Normal,
             lineHeight = 24.sp
         ),
-        isError = errorType == SignUpErrorType.NO_ERROR,
+        isError = errorType != SignUpErrorType.NO_ERROR,
         colors = TextFieldDefaults.colors(
             focusedLabelColor = Color(0XFF2196F3),
             focusedIndicatorColor = Color(0XFF2196F3),

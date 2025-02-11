@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
+import nextstep.signup.utils.SignUpErrorType
 import nextstep.signup.utils.SignUpValidator
 import nextstep.signup.view.EmailTextField
 import nextstep.signup.view.PasswordConfirmTextField
@@ -34,6 +36,21 @@ fun SignUpScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordConfirm by remember { mutableStateOf("") }
+
+    val isAllValid by remember(userName, email, password, passwordConfirm) {
+        derivedStateOf {
+            SignUpValidator.Username(userName).validate() == SignUpErrorType.NO_ERROR &&
+                    SignUpValidator.Email(email).validate() == SignUpErrorType.NO_ERROR &&
+                    SignUpValidator.Password(password).validate() == SignUpErrorType.NO_ERROR &&
+                    SignUpValidator.PasswordConfirm(passwordConfirm, password).validate() == SignUpErrorType.NO_ERROR
+        }
+    }
+
+    val isAllNotEmpty by remember(userName, email, password, passwordConfirm) {
+        derivedStateOf {
+            userName.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && passwordConfirm.isNotEmpty()
+        }
+    }
 
     Column(
         modifier = modifier
@@ -90,6 +107,7 @@ fun SignUpScreen(
         SignUpButton(
             modifier = Modifier.padding(top = 40.dp),
             text = stringResource(R.string.signup_button),
+            enabled = isAllValid && isAllNotEmpty,
             onClick = {},
         )
     }
