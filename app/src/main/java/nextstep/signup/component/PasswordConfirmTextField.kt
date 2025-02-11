@@ -1,9 +1,7 @@
 package nextstep.signup.component
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -11,6 +9,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import nextstep.signup.R
 import nextstep.signup.validator.SignupInfoValidator
 
@@ -46,20 +46,22 @@ internal fun PasswordConfirmTextFiled(
 
 @Preview(showBackground = true)
 @Composable
-private fun PasswordTextFiledPreview() {
-    val (password, setPassword) = remember { mutableStateOf("") }
-    val (passwordConfirm, setPasswordConfirm) = remember { mutableStateOf("") }
+private fun PasswordConfirmTextFiledPreview(
+    @PreviewParameter(PasswordConfirmTextFieldPreviewParameterProvider::class) params: PasswordConfirmPreviewParams,
+) {
+    PasswordConfirmTextFiled(
+        text = params.first,
+        password = params.second,
+        onValueChange = { },
+    )
+}
+typealias PasswordConfirmPreviewParams = Pair<String, String>
 
-    Column {
-        PasswordTextFiled(
-            text = password,
-            onValueChange = setPassword
+class PasswordConfirmTextFieldPreviewParameterProvider :
+    PreviewParameterProvider<PasswordConfirmPreviewParams> {
+    override val values: Sequence<PasswordConfirmPreviewParams>
+        get() = sequenceOf(
+            "password" to "password",
+            "password" to "passwor1"
         )
-
-        PasswordConfirmTextFiled(
-            text = passwordConfirm,
-            password = password,
-            onValueChange = setPasswordConfirm,
-        )
-    }
 }

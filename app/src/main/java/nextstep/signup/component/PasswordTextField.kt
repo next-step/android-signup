@@ -8,6 +8,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import nextstep.signup.R
 import nextstep.signup.validator.SignupInfoValidator
 
@@ -38,27 +40,20 @@ internal fun PasswordTextFiled(
 
 @Preview(showBackground = true)
 @Composable
-private fun PasswordTextFiledPreview_format_error() {
+private fun PasswordTextFiledPreview(
+    @PreviewParameter(PasswordTextFieldPreviewParameterProvider::class) password: String,
+) {
     PasswordTextFiled(
-        text = "123123123",
+        text = password,
         onValueChange = { },
     )
 }
 
-@Preview(showBackground = true)
-@Composable
-private fun PasswordTextFiledPreview_length_error() {
-    PasswordTextFiled(
-        text = "1q2w3e",
-        onValueChange = { },
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun PasswordTextFiledPreview_normal() {
-    PasswordTextFiled(
-        text = "1q2w3e4r",
-        onValueChange = { },
-    )
+class PasswordTextFieldPreviewParameterProvider : PreviewParameterProvider<String> {
+    override val values: Sequence<String>
+        get() = sequenceOf(
+            "123123123",
+            "1q2w3e",
+            "1q2w3e4r",
+        )
 }

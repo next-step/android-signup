@@ -8,6 +8,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import nextstep.signup.R
 import nextstep.signup.validator.SignupInfoValidator
 
@@ -38,36 +40,21 @@ internal fun UserNameTextFiled(
 
 @Preview(showBackground = true)
 @Composable
-private fun UserNameTextFieldPreview_long_name() {
+private fun UserNameTextFieldPreview(
+    @PreviewParameter(UsernamePreviewParameterProvider::class) username: String,
+) {
     UserNameTextFiled(
-        text = "김수한무거북이",
-        onValueChange = { },
+        text = username,
+        onValueChange = {}
     )
 }
 
-@Preview(showBackground = true)
-@Composable
-private fun UserNameTextFieldPreview_short_name() {
-    UserNameTextFiled(
-        text = "이",
-        onValueChange = { },
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun UserNameTextFieldPreview_format_error() {
-    UserNameTextFiled(
-        text = "2용우!",
-        onValueChange = { },
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun UserNameTextFieldPreview_normal() {
-    UserNameTextFiled(
-        text = "컴포즈",
-        onValueChange = { },
-    )
+class UsernamePreviewParameterProvider : PreviewParameterProvider<String> {
+    override val values: Sequence<String>
+        get() = sequenceOf(
+            "김수한무거북이",
+            "이",
+            "2용우!",
+            "컴포즈",
+        )
 }

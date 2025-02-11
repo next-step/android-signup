@@ -8,6 +8,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import nextstep.signup.R
 import nextstep.signup.validator.SignupInfoValidator
 
@@ -35,21 +37,21 @@ internal fun EmailTextFiled(
     )
 }
 
-
 @Preview(showBackground = true)
 @Composable
-private fun EmailTextFiledPreview_error() {
+private fun EmailTextFiledPreview(
+    @PreviewParameter(EmailTextFieldPreviewParameterProvider::class) email: String,
+) {
     EmailTextFiled(
-        text = "raindragonn!gmail.com",
+        text = email,
         onValueChange = { },
     )
 }
 
-@Preview(showBackground = true)
-@Composable
-private fun EmailTextFiledPreview_normal() {
-    EmailTextFiled(
-        text = "raindragonn@gmail.com",
-        onValueChange = { },
-    )
+class EmailTextFieldPreviewParameterProvider : PreviewParameterProvider<String> {
+    override val values: Sequence<String>
+        get() = sequenceOf(
+            "raindragonn!gmail.com",
+            "raindragonn@gmail.com",
+        )
 }
