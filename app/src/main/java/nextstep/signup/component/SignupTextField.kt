@@ -1,6 +1,7 @@
 package nextstep.signup.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -10,7 +11,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -24,7 +24,8 @@ import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.BlueGray20
 import nextstep.signup.ui.theme.Gray20
 import nextstep.signup.ui.theme.Red
-import nextstep.signup.validator.Validator
+import nextstep.signup.validator.SignupInfoValidateResult
+
 
 @Composable
 internal fun SignupTextField(
@@ -32,15 +33,13 @@ internal fun SignupTextField(
     text: String,
     onValueChange: (String) -> Unit,
     visualTransformation: VisualTransformation,
-    validator: Validator,
     modifier: Modifier = Modifier,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    validateResult: SignupInfoValidateResult = SignupInfoValidateResult.Success,
 ) {
-    val validateResult = validator.checkCondition(text)
-
     TextField(
         modifier = modifier
-            .fillMaxWidth()
-            .testTag(label),
+            .fillMaxWidth(),
         value = text,
         onValueChange = onValueChange,
         colors = TextFieldDefaults.colors(
@@ -65,7 +64,8 @@ internal fun SignupTextField(
                 )
             )
         },
-        isError = !validateResult.isSuccess(),
+        keyboardOptions = keyboardOptions,
+        isError = validateResult.isError(),
         label = {
             Text(
                 text = label,
@@ -91,7 +91,6 @@ private fun SignupFieldPreview_userName() {
         text = text,
         onValueChange = { text = it },
         visualTransformation = VisualTransformation.None,
-        validator = Validator.Username
     )
 }
 
@@ -105,6 +104,5 @@ private fun SignupFieldPreview_password() {
         text = text,
         onValueChange = { text = it },
         visualTransformation = PasswordVisualTransformation(),
-        validator = Validator.Password
     )
 }

@@ -19,6 +19,7 @@ internal fun SignupButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
 ) {
     Button(
         modifier = modifier
@@ -27,7 +28,8 @@ internal fun SignupButton(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
             containerColor = Blue50
-        )
+        ),
+        enabled = enabled
     ) {
         Text(
             text = text,
@@ -45,6 +47,7 @@ internal fun SignupButton(
 private fun SignupButtonPreview() {
     SignupButton(
         text = "Sign Up",
+        enabled = true,
         onClick = {}
     )
 }

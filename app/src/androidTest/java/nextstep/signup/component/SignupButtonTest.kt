@@ -15,7 +15,7 @@ class SignupButtonTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun buttonClick() {
+    fun `버튼의_클릭이벤트가_동작한다`() {
         // given
         composeTestRule.setContent {
             var text by remember { mutableStateOf("Sign Up") }
