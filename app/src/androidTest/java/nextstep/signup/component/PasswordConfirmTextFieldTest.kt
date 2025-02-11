@@ -5,7 +5,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.hasSetTextAction
 import androidx.compose.ui.test.isDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
@@ -54,7 +53,6 @@ class PasswordConfirmTextFieldTest {
             )
         }
 
-        hasSetTextAction()
         // then
         composeTestRule
             .onAllNodesWithText("\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022")
