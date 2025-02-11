@@ -9,6 +9,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.textfield.EmailTextField
+import nextstep.signup.textfield.InputValidator
 import nextstep.signup.textfield.PasswordConfirmTextField
 import nextstep.signup.textfield.PasswordTextField
 import nextstep.signup.textfield.UsernameTextField
@@ -33,6 +35,27 @@ fun SignUpScreen() {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordConfirm by remember { mutableStateOf("") }
+
+    val usernameError by remember(key1 = userName) {
+        derivedStateOf {
+            InputValidator.validateUsername(userName)
+        }
+    }
+    val passwordError by remember(key1 = password) {
+        derivedStateOf {
+            InputValidator.validatePassword(password)
+        }
+    }
+    val isValidEmailFormat by remember(key1 = email) {
+        derivedStateOf {
+            InputValidator.isValidEmail(email)
+        }
+    }
+    val isPasswordMatched by remember(key1 = password, key2 = passwordConfirm) {
+        derivedStateOf {
+            InputValidator.isPasswordMatched(password, passwordConfirm)
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -55,22 +78,25 @@ fun SignUpScreen() {
 
         UsernameTextField(
             value = userName,
+            error = usernameError,
             onValueChange = { userName = it }
         )
 
         EmailTextField(
             value = email,
+            isValidFormat = isValidEmailFormat,
             onValueChange = { email = it }
         )
 
         PasswordTextField(
             value = password,
+            error = passwordError,
             onValueChange = { password = it }
         )
 
         PasswordConfirmTextField(
             value = passwordConfirm,
-            password = password,
+            isPasswordMatched = isPasswordMatched,
             onValueChange = { passwordConfirm = it }
         )
 
