@@ -15,6 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -30,8 +31,10 @@ import nextstep.signup.view.UserNameTextField
 
 @Composable
 fun SignUpScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    showSnackBar: (String) -> Unit = {}
 ) {
+    val context = LocalContext.current
     var userName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -108,7 +111,9 @@ fun SignUpScreen(
             modifier = Modifier.padding(top = 40.dp),
             text = stringResource(R.string.signup_button),
             enabled = isAllValid && isAllNotEmpty,
-            onClick = {},
+            onClick = {
+                showSnackBar(context.getString(R.string.signup_success_snackbar_message))
+            },
         )
     }
 }
