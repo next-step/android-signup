@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -15,6 +16,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import nextstep.signup.domain.Email
 import nextstep.signup.domain.Password
@@ -63,7 +66,10 @@ class MainActivity : ComponentActivity() {
                         INPUT_FIELD_KEY_PASSWORD_CONFIRM to InputFieldChangeListener { it: String ->
                             inputFields = inputFields.toMutableMap().apply {
                                 this[INPUT_FIELD_KEY_PASSWORD_CONFIRM] =
-                                    PasswordConfirm(this[INPUT_FIELD_KEY_PASSWORD]?.input ?: "", it).toUiState()
+                                    PasswordConfirm(
+                                        this[INPUT_FIELD_KEY_PASSWORD]?.input ?: "",
+                                        it
+                                    ).toUiState()
                             }
                         },
                     )
@@ -77,7 +83,13 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     containerColor = MaterialTheme.colorScheme.background,
-                    snackbarHost = { SnackbarHost(snackBarHostState) },
+                    snackbarHost = {
+                        val height = LocalConfiguration.current.screenHeightDp
+                        SnackbarHost(
+                            snackBarHostState,
+                            modifier = Modifier.padding(bottom = (height - 148).dp)
+                        )
+                    },
                 ) { paddingValues ->
                     SignUpScreen(
                         inputFields = inputFields,
