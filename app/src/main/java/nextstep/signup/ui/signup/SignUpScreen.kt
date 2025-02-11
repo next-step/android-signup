@@ -187,6 +187,7 @@ private fun SignUpScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 6.dp),
+                    enabled = state.isInputAllValid,
                     onClick = {
                         onAction(SignUpAction.OnSignUpClick)
                     }

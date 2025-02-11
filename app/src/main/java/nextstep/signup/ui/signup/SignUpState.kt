@@ -33,6 +33,10 @@ class SignUpState(
         password == passwordConfirm
     }
 
+    val isInputAllValid by derivedStateOf {
+        userNameValidation.isValidUsername && emailValidation && passwordValidation.isValidPassword && isPasswordConfirmValid
+    }
+
     fun updateUserName(value: String) {
         userName = value
     }
