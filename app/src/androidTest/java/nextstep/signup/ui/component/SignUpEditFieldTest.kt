@@ -13,6 +13,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onChildAt
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextInput
 import nextstep.signup.ui.model.SignUpInputModel
 import org.junit.Rule
@@ -42,7 +43,6 @@ class SignUpEditFieldTest {
             .assertCountEquals(4)
     }
 
-
     @Test
     fun 사용자_입력창_값_입력_시_업데이트() {
         // given
@@ -67,5 +67,31 @@ class SignUpEditFieldTest {
         composeTestRule.onNodeWithTag(tag)
             .onChildAt(0)
             .assert(hasText(input))
+    }
+
+    @Test
+    fun 사용자_입력값이_유효하지_않다면_에러_문구_노출() {
+        // given
+        val tag = "tag"
+        val username = "a"
+        composeTestRule.setContent {
+            var model by remember { mutableStateOf(SignUpInputModel()) }
+            SignUpEditFields(
+                inputModel = model,
+                modifier = Modifier.testTag(tag),
+                onUpdateModel = { model = it }
+            )
+        }
+
+        // when
+        composeTestRule
+            .onNodeWithTag(tag)
+            .onChildAt(0)
+            .performTextInput(username)
+
+        // then
+        composeTestRule
+            .onNodeWithText("이름은 2~5자여야 합니다.")
+            .assertExists()
     }
 }
