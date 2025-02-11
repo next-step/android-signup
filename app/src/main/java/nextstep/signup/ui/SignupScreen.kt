@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,6 +37,7 @@ import nextstep.signup.ui.theme.White
 fun SignupScreen() {
     val context = LocalContext.current
 
+    // String Resources
     val title = stringResource(R.string.signup_title)
     val usernameLabel = stringResource(R.string.signup_label_username)
     val emailLabel = stringResource(R.string.signup_label_email)
@@ -43,22 +45,45 @@ fun SignupScreen() {
     val passwordConfirmLabel = stringResource(R.string.signup_label_password_confirm)
     val signUpButton = stringResource(R.string.signup_button)
 
+    // Input State
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordConfirm by remember { mutableStateOf("") }
 
-    val usernameValidation = SignupValidator.validateUsername(username)
-    val emailValidation = SignupValidator.validateEmail(email)
-    val passwordValidation = SignupValidator.validatePassword(password)
-    val passwordConfirmValidation = SignupValidator.validatePassword(passwordConfirm)
-    val isPasswordMatch = SignupValidator.validatePasswordMatch(password, passwordConfirm)
+    // Validation State
+    val usernameValidation by remember {
+        derivedStateOf { SignupValidator.validateUsername(username) }
+    }
+    val emailValidation by remember {
+        derivedStateOf { SignupValidator.validateEmail(email) }
+    }
+    val passwordValidation by remember {
+        derivedStateOf { SignupValidator.validatePassword(password) }
+    }
+    val passwordConfirmValidation by remember {
+        derivedStateOf { SignupValidator.validatePassword(passwordConfirm) }
+    }
+    val isPasswordMatch by remember {
+        derivedStateOf { SignupValidator.validatePasswordMatch(password, passwordConfirm) }
+    }
 
-    val usernameError = SignupValidator.getErrorMessage(context, usernameValidation)
-    val emailError = SignupValidator.getErrorMessage(context, emailValidation)
-    val passwordError = SignupValidator.getErrorMessage(context, passwordValidation)
-    val passwordConfirmError = SignupValidator.getErrorMessage(context, passwordConfirmValidation)
-    val passwordMismatchError = SignupValidator.getErrorMessage(context, isPasswordMatch)
+    // Error Messages
+    val usernameError by remember {
+        derivedStateOf { SignupValidator.getErrorMessage(context, usernameValidation) }
+    }
+    val emailError by remember {
+        derivedStateOf { SignupValidator.getErrorMessage(context, emailValidation) }
+    }
+    val passwordError by remember {
+        derivedStateOf { SignupValidator.getErrorMessage(context, passwordValidation) }
+    }
+    val passwordConfirmError by remember {
+        derivedStateOf { SignupValidator.getErrorMessage(context, passwordConfirmValidation) }
+    }
+    val passwordMismatchError by remember {
+        derivedStateOf { SignupValidator.getErrorMessage(context, isPasswordMatch) }
+    }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
