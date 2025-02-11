@@ -13,7 +13,7 @@ class SignupInfoValidatorTest {
         val result = SignupInfoValidator.Username.checkCondition(username)
 
         //then
-        assert(result == SignupInfoValidateResult.INVALID_LENGTH_USERNAME)
+        assert(result == SignupInfoValidateResult.Failure.Username.INVALID_LENGTH_USERNAME)
     }
 
     @Test
@@ -25,7 +25,7 @@ class SignupInfoValidatorTest {
         val result = SignupInfoValidator.Username.checkCondition(username)
 
         //then
-        assert(result == SignupInfoValidateResult.INVALID_LENGTH_USERNAME)
+        assert(result == SignupInfoValidateResult.Failure.Username.INVALID_LENGTH_USERNAME)
     }
 
     @Test
@@ -37,7 +37,7 @@ class SignupInfoValidatorTest {
         val result = SignupInfoValidator.Username.checkCondition(username)
 
         //then
-        assert(result == SignupInfoValidateResult.INVALID_FORMAT_USERNAME)
+        assert(result == SignupInfoValidateResult.Failure.Username.INVALID_FORMAT_USERNAME)
     }
 
     @Test
@@ -49,7 +49,7 @@ class SignupInfoValidatorTest {
         val result = SignupInfoValidator.Email.checkCondition(email)
 
         //then
-        assert(result == SignupInfoValidateResult.SUCCESS)
+        assert(result == SignupInfoValidateResult.Success)
     }
 
     @Test
@@ -61,7 +61,7 @@ class SignupInfoValidatorTest {
         val result = SignupInfoValidator.Password.checkCondition(password)
 
         //then
-        assert(result == SignupInfoValidateResult.INVALID_LENGTH_PASSWORD)
+        assert(result == SignupInfoValidateResult.Failure.Password.INVALID_LENGTH_PASSWORD)
     }
 
     @Test
@@ -73,7 +73,7 @@ class SignupInfoValidatorTest {
         val result = SignupInfoValidator.Password.checkCondition(password)
 
         //then
-        assert(result == SignupInfoValidateResult.INVALID_LENGTH_PASSWORD)
+        assert(result == SignupInfoValidateResult.Failure.Password.INVALID_LENGTH_PASSWORD)
     }
 
     @Test
@@ -85,7 +85,7 @@ class SignupInfoValidatorTest {
         val result = SignupInfoValidator.Password.checkCondition(password)
 
         //then
-        assert(result == SignupInfoValidateResult.INVALID_FORMAT_PASSWORD)
+        assert(result == SignupInfoValidateResult.Failure.Password.INVALID_FORMAT_PASSWORD)
     }
 
     @Test
@@ -97,7 +97,7 @@ class SignupInfoValidatorTest {
         val result = SignupInfoValidator.Password.checkCondition(password)
 
         //then
-        assert(result == SignupInfoValidateResult.INVALID_FORMAT_PASSWORD)
+        assert(result == SignupInfoValidateResult.Failure.Password.INVALID_FORMAT_PASSWORD)
     }
 
     @Test
@@ -112,7 +112,7 @@ class SignupInfoValidatorTest {
         }.checkCondition(passwordConfirm)
 
         //then
-        assert(result == SignupInfoValidateResult.SUCCESS)
+        assert(result == SignupInfoValidateResult.Success)
     }
 
 }

@@ -1,7 +1,5 @@
-package nextstep.signup.validator.username
+package nextstep.signup.validator
 
-import nextstep.signup.validator.SignupInfoValidateResult
-import nextstep.signup.validator.SignupInfoValidator
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
@@ -29,10 +27,13 @@ class SignupInfoValidatorEmailFormatTest(
         @Parameterized.Parameters
         fun params(): Collection<Array<Any>> {
             return listOf(
-                arrayOf("gmail.com", SignupInfoValidateResult.INVALID_FORMAT_EMAIL),
-                arrayOf("raindragonn", SignupInfoValidateResult.INVALID_FORMAT_EMAIL),
-                arrayOf("raindragonn@gmail", SignupInfoValidateResult.INVALID_FORMAT_EMAIL),
-                arrayOf("raindragonn@gmail.com", SignupInfoValidateResult.SUCCESS),
+                arrayOf("gmail.com", SignupInfoValidateResult.Failure.Email.INVALID_FORMAT_EMAIL),
+                arrayOf("raindragonn", SignupInfoValidateResult.Failure.Email.INVALID_FORMAT_EMAIL),
+                arrayOf(
+                    "raindragonn@gmail",
+                    SignupInfoValidateResult.Failure.Email.INVALID_FORMAT_EMAIL
+                ),
+                arrayOf("raindragonn@gmail.com", SignupInfoValidateResult.Success),
             )
         }
     }

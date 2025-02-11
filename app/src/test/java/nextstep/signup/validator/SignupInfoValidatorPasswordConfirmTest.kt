@@ -1,7 +1,5 @@
-package nextstep.signup.validator.username
+package nextstep.signup.validator
 
-import nextstep.signup.validator.SignupInfoValidateResult
-import nextstep.signup.validator.SignupInfoValidator
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
@@ -31,9 +29,17 @@ class SignupInfoValidatorPasswordConfirmTest(
         @Parameterized.Parameters
         fun params(): Collection<Array<Any>> {
             return listOf(
-                arrayOf("1q2w3e4rt", "1q2w3e4r", SignupInfoValidateResult.NOT_MATCH_PASSWORD),
-                arrayOf("1231231q", "1231231w", SignupInfoValidateResult.NOT_MATCH_PASSWORD),
-                arrayOf("1231231w", "1231231w", SignupInfoValidateResult.SUCCESS),
+                arrayOf(
+                    "1q2w3e4rt",
+                    "1q2w3e4r",
+                    SignupInfoValidateResult.Failure.PasswordConfirm.NOT_MATCH_PASSWORD
+                ),
+                arrayOf(
+                    "1231231q",
+                    "1231231w",
+                    SignupInfoValidateResult.Failure.PasswordConfirm.NOT_MATCH_PASSWORD
+                ),
+                arrayOf("1231231w", "1231231w", SignupInfoValidateResult.Success),
             )
         }
     }

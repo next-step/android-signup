@@ -1,7 +1,5 @@
-package nextstep.signup.validator.username
+package nextstep.signup.validator
 
-import nextstep.signup.validator.SignupInfoValidateResult
-import nextstep.signup.validator.SignupInfoValidator
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
@@ -29,12 +27,15 @@ class SignupInfoValidatorUsernameLengthTest(
         @Parameterized.Parameters
         fun params(): Collection<Array<Any>> {
             return listOf(
-                arrayOf("가", SignupInfoValidateResult.INVALID_LENGTH_USERNAME),
-                arrayOf("가나", SignupInfoValidateResult.SUCCESS),
-                arrayOf("가나다", SignupInfoValidateResult.SUCCESS),
-                arrayOf("가나다라", SignupInfoValidateResult.SUCCESS),
-                arrayOf("가나다라마", SignupInfoValidateResult.SUCCESS),
-                arrayOf("가나다라마사", SignupInfoValidateResult.INVALID_LENGTH_USERNAME),
+                arrayOf("가", SignupInfoValidateResult.Failure.Username.INVALID_LENGTH_USERNAME),
+                arrayOf("가나", SignupInfoValidateResult.Success),
+                arrayOf("가나다", SignupInfoValidateResult.Success),
+                arrayOf("가나다라", SignupInfoValidateResult.Success),
+                arrayOf("가나다라마", SignupInfoValidateResult.Success),
+                arrayOf(
+                    "가나다라마사",
+                    SignupInfoValidateResult.Failure.Username.INVALID_LENGTH_USERNAME
+                ),
             )
         }
     }
