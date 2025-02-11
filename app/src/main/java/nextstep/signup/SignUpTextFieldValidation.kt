@@ -10,7 +10,7 @@ class SignUpTextFieldValidation {
             return ""
         }
 
-        return if (username.length !in 2..6) {
+        return if (username.length !in 2..5) {
             "이름은 2~5자여야 합니다."
         } else {
             if (!username.matches(Regex(usernameRegex))) {
