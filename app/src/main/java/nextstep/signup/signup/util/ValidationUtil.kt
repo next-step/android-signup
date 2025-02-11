@@ -8,9 +8,9 @@ object ValidationUtil {
     const val PASSWORD_LENGTH_ERROR = "비밀번호는 8~16자여야 합니다."
     const val PASSWORD_FORMAT_ERROR = "비밀번호는 영문과 숫자를 포함해야 합니다."
     const val PASSWORD_MISMATCH_ERROR = "비밀번호가 일치하지 않습니다."
-    private const val USERNAME_REGEX = "^[a-zA-Z가-힣]+$"
-    private const val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
-    private const val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$"
+    private val USERNAME_REGEX = "^[a-zA-Z가-힣]+$".toRegex()
+    private val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$".toRegex()
+    private val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$".toRegex()
 
     fun isNameValid(username: String): String {
         return when {
@@ -18,7 +18,7 @@ object ValidationUtil {
                 USERNAME_LENGTH_ERROR
             }
 
-            !username.matches(Regex(USERNAME_REGEX)) -> {
+            !username.matches(USERNAME_REGEX) -> {
                 USERNAME_FORMAT_ERROR
             }
 
@@ -31,7 +31,7 @@ object ValidationUtil {
     fun isEmailValid(email: String): String {
         return when {
 
-            !email.matches(Regex(EMAIL_REGEX)) -> {
+            !email.matches(EMAIL_REGEX) -> {
                 EMAIL_FORMAT_ERROR
             }
 
@@ -47,7 +47,7 @@ object ValidationUtil {
                 PASSWORD_LENGTH_ERROR
             }
 
-            !password.matches(Regex(PASSWORD_REGEX)) -> {
+            !password.matches(PASSWORD_REGEX) -> {
                 PASSWORD_FORMAT_ERROR
             }
 
