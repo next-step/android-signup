@@ -22,25 +22,18 @@ import nextstep.signup.ui.theme.Red50
 @Composable
 fun SignUpTextField(
     text: String,
-    hintText: String,
+    label: @Composable (() -> Unit)? = null,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     modifier: Modifier = Modifier,
     onTextChanged: (String) -> Unit = {},
+    supportingText: @Composable (() -> Unit)? = null,
     errorMessage: String
 ) {
     TextField(
         value = text,
         onValueChange = onTextChanged,
-        label = {
-            Text(
-                text = hintText,
-                fontSize = 16.sp,
-                lineHeight = 24.sp,
-                fontWeight = FontWeight.W400,
-                letterSpacing = 0.5.sp
-            )
-        },
+        label = label,
         isError = errorMessage.isNotEmpty(),
         singleLine = true,
         colors = TextFieldDefaults.colors(
@@ -57,18 +50,7 @@ fun SignUpTextField(
             focusedContainerColor = Blue20,
             unfocusedContainerColor = Blue20,
         ),
-        supportingText = if (errorMessage.isNotEmpty()) {
-            {
-                Text(
-                    text = errorMessage,
-                    fontSize = 12.sp,
-                    lineHeight = 16.sp,
-                    fontWeight = FontWeight.W400,
-                )
-            }
-        } else {
-            null
-        },
+        supportingText = supportingText,
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
         modifier = modifier
