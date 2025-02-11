@@ -43,7 +43,7 @@ class SignUpPasswordTest {
 
 
     @Test
-    fun should_show_error_when_not_password_length_8_16() {
+    fun should_show_error_when_not_password_length_8_16_case1() {
         //given
         password = "abcdefg"
 
@@ -52,11 +52,31 @@ class SignUpPasswordTest {
             .onNodeWithText(ERROR_PASSWORD_LENGTH)
             .assertIsDisplayed()
     }
+    @Test
+    fun should_show_error_when_not_password_length_8_16_case2() {
+        //given
+        password = "abcdefgabcdefgabc"
+
+        //then
+        composeTestRule
+            .onNodeWithText(ERROR_PASSWORD_LENGTH)
+            .assertIsDisplayed()
+    }
 
     @Test
-    fun should_show_error_when_not_contain_english_and_digit_password() {
+    fun should_show_error_when_not_contain_english_and_digit_password_case1() {
         //given
         password = "12341234"
+
+        //then
+        composeTestRule
+            .onNodeWithText(ERROR_PASSWORD)
+            .assertIsDisplayed()
+    }
+    @Test
+    fun should_show_error_when_not_contain_english_and_digit_password_case2() {
+        //given
+        password = "qwerqwer"
 
         //then
         composeTestRule

@@ -1,7 +1,5 @@
 package nextstep.signup.register.component
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
@@ -16,7 +14,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.R
 import nextstep.signup.register.SignUpValidation
@@ -28,42 +25,6 @@ import nextstep.signup.ui.theme.Error
 import nextstep.signup.ui.theme.UserTextFiledColor
 
 object SignUpTextFiled {
-
-    @Composable
-    operator fun invoke(modifier: Modifier = Modifier) {
-
-        var inputUserName by remember { mutableStateOf(EMPTY_STRING) }
-        var inputEmail by remember { mutableStateOf(EMPTY_STRING) }
-        var inputPassword by remember { mutableStateOf(EMPTY_STRING) }
-        var inputPasswordConfirm by remember { mutableStateOf(EMPTY_STRING) }
-
-        Column(
-            modifier = modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(36.dp)
-        ) {
-            UserName(
-                userName = inputUserName,
-                onChangedName = { inputUserName = it }
-            )
-            Email(
-                email = inputEmail,
-                onChangedEmail = { inputEmail = it }
-            )
-            Password(
-                password = inputPassword,
-                onChangedPassword = { inputPassword = it }
-            )
-            PasswordConfirm(
-                passwordConfirm = inputPasswordConfirm,
-                onChangedPasswordConfirm = { inputPasswordConfirm = it },
-                isShowError = SignUpValidation.isValidPasswordConfirm(
-                    password = inputPassword,
-                    passwordConfirm = inputPasswordConfirm
-                ) && inputPasswordConfirm.isNotEmpty()
-            )
-        }
-    }
-
 
     @Composable
     fun UserName(
@@ -214,7 +175,7 @@ object SignUpTextFiled {
         )
     }
 
-    private const val EMPTY_STRING = ""
+    const val EMPTY_STRING = ""
 }
 
 @Preview
