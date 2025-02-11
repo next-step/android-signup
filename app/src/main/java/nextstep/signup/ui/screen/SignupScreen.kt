@@ -25,6 +25,10 @@ import nextstep.signup.R
 import nextstep.signup.ui.component.SignupButton
 import nextstep.signup.ui.component.SignupTextField
 import nextstep.signup.ui.theme.SignupTheme
+import nextstep.signup.ui.validateEmail
+import nextstep.signup.ui.validatePassword
+import nextstep.signup.ui.validatePasswordConfirm
+import nextstep.signup.ui.validateUsername
 
 @Composable
 fun SignupScreen(
@@ -88,44 +92,103 @@ private fun TextFieldsContent(
     Column(
         verticalArrangement = Arrangement.spacedBy(33.dp)
     ) {
-        SignupTextField(
-            value = username,
-            onValueChange = onUsernameChange,
-            label = stringResource(R.string.username),
-            modifier = Modifier.fillMaxWidth()
+        UsernameTextField(
+            username = username,
+            onUsernameChange = onUsernameChange
         )
-        SignupTextField(
-            value = email,
-            onValueChange = onEmailChange,
-            label = stringResource(R.string.email),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Email
-            ),
-            modifier = Modifier.fillMaxWidth()
+        EmailTextField(
+            email = email,
+            onEmailChange = onEmailChange
         )
-        SignupTextField(
-            value = password,
-            onValueChange = onPasswordChange,
-            label = stringResource(R.string.password),
-            keyboardOptions = KeyboardOptions(
-                autoCorrectEnabled = false,
-                keyboardType = KeyboardType.Password
-            ),
-            secure = true,
-            modifier = Modifier.fillMaxWidth()
+        PasswordTextField(
+            password = password,
+            onPasswordChange = onPasswordChange
         )
-        SignupTextField(
-            value = passwordConfirm,
-            onValueChange = onPasswordConfirmChange,
-            label = stringResource(R.string.password_confirm),
-            keyboardOptions = KeyboardOptions(
-                autoCorrectEnabled = false,
-                keyboardType = KeyboardType.Password
-            ),
-            secure = true,
-            modifier = Modifier.fillMaxWidth()
+        PasswordConfirmTextField(
+            password = password,
+            passwordConfirm = passwordConfirm,
+            onPasswordConfirmChange = onPasswordConfirmChange
         )
     }
+}
+
+@Composable
+fun UsernameTextField(
+    username: String,
+    onUsernameChange: (String) -> Unit,
+) {
+    val errorMsg = validateUsername(username)
+
+    SignupTextField(
+        value = username,
+        onValueChange = onUsernameChange,
+        label = stringResource(R.string.username),
+        errorMsg = if (errorMsg != null) stringResource(errorMsg) else null,
+        modifier = Modifier.fillMaxWidth()
+    )
+}
+
+@Composable
+fun EmailTextField(
+    email: String,
+    onEmailChange: (String) -> Unit,
+) {
+    val errorMsg = validateEmail(email)
+
+    SignupTextField(
+        value = email,
+        onValueChange = onEmailChange,
+        label = stringResource(R.string.email),
+        keyboardOptions = KeyboardOptions(
+            autoCorrectEnabled = false,
+            keyboardType = KeyboardType.Email
+        ),
+        errorMsg = if (errorMsg != null) stringResource(errorMsg) else null,
+        modifier = Modifier.fillMaxWidth()
+    )
+}
+
+@Composable
+fun PasswordTextField(
+    password: String,
+    onPasswordChange: (String) -> Unit,
+) {
+    val errorMsg = validatePassword(password)
+
+    SignupTextField(
+        value = password,
+        onValueChange = onPasswordChange,
+        label = stringResource(R.string.password),
+        keyboardOptions = KeyboardOptions(
+            autoCorrectEnabled = false,
+            keyboardType = KeyboardType.Password
+        ),
+        secure = true,
+        errorMsg = if (errorMsg != null) stringResource(errorMsg) else null,
+        modifier = Modifier.fillMaxWidth()
+    )
+}
+
+@Composable
+fun PasswordConfirmTextField(
+    password: String,
+    passwordConfirm: String,
+    onPasswordConfirmChange: (String) -> Unit,
+) {
+    val errorMsg = validatePasswordConfirm(password, passwordConfirm)
+
+    SignupTextField(
+        value = passwordConfirm,
+        onValueChange = onPasswordConfirmChange,
+        label = stringResource(R.string.password_confirm),
+        keyboardOptions = KeyboardOptions(
+            autoCorrectEnabled = false,
+            keyboardType = KeyboardType.Password
+        ),
+        secure = true,
+        errorMsg = if (errorMsg != null) stringResource(errorMsg) else null,
+        modifier = Modifier.fillMaxWidth()
+    )
 }
 
 @Composable
@@ -138,7 +201,6 @@ private fun ButtonContent() {
             .height(50.dp)
     )
 }
-
 
 @Preview(
     showBackground = true,
