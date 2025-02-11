@@ -38,36 +38,39 @@ fun SignupScreen() {
             var email by remember { mutableStateOf("") }
             var password by remember { mutableStateOf("") }
             var passwordConfirm by remember { mutableStateOf("") }
+
+            val nameValidator = NameValidator()
+            val emailValidator = EmailValidator()
             val passwordValidator = PasswordValidator()
-            val passwordMatchValidator = PasswordMatchValidator(enteredPassword = password)
+            val passwordMatchValidator = PasswordMatchValidator(getEnteredPassword = { password })
 
             SignupTitle()
             SignupForm(
                 label = stringResource(R.string.signup_field_label_username),
                 inputValue = username,
                 onInputChange = { username = it },
-                validator = NameValidator(),
+                validResult = nameValidator.validate(username),
             )
             SignupForm(
                 label = stringResource(R.string.signup_field_label_email),
                 inputValue = email,
                 onInputChange = { email = it },
                 inputType = KeyboardType.Email,
-                validator = EmailValidator(),
+                validResult = emailValidator.validate(email),
             )
             SignupForm(
                 label = stringResource(R.string.signup_field_label_password),
                 inputValue = password,
                 onInputChange = { password = it },
                 inputType = KeyboardType.Password,
-                validator = passwordValidator,
+                validResult = passwordValidator.validate(password),
             )
             SignupForm(
                 label = stringResource(R.string.signup_field_label_password_confirm),
                 inputValue = passwordConfirm,
                 onInputChange = { passwordConfirm = it },
                 inputType = KeyboardType.Password,
-                validator = passwordMatchValidator,
+                validResult = passwordMatchValidator.validate(passwordConfirm),
             )
             SubmitButton()
         }

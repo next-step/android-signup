@@ -18,23 +18,18 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import nextstep.signup.ui.theme.SignupBlue
-import nextstep.signup.ui.util.EmailValidator
-import nextstep.signup.ui.util.NameValidator
-import nextstep.signup.ui.util.PasswordMatchValidator
-import nextstep.signup.ui.util.PasswordValidator
+import nextstep.signup.ui.util.ValidationResult
 import nextstep.signup.ui.util.Validator
 
 @Composable
 fun SignupForm(
-    label: String,
+    label: String = "",
     inputValue: String = "",
     onInputChange: (String) -> Unit = {},
     inputType: KeyboardType = KeyboardType.Text,
-    validator: Validator = NameValidator(),
+    validResult: ValidationResult,
     modifier: Modifier = Modifier,
 ) {
-    val validResult = validator.validate(inputValue)
-
     TextField(
         value = inputValue,
         onValueChange = { newText -> onInputChange(newText) },
@@ -63,22 +58,24 @@ fun SignupForm(
     )
 }
 
-class FormPreviewParameterProvider : PreviewParameterProvider<Pair<String, Validator>> {
+class FormPreviewParameterProvider : PreviewParameterProvider<Pair<String, ValidationResult>> {
+    private val successResult = ValidationResult(isValid = true, errorMessage = 0)
+
     override val values = sequenceOf(
-        Pair("Username", NameValidator()),
-        Pair("Email", EmailValidator()),
-        Pair("Password", PasswordValidator()),
-        Pair("Password Confirm", PasswordMatchValidator()),
+        Pair("Username", successResult),
+        Pair("Email", successResult),
+        Pair("Password", successResult),
+        Pair("Password Confirm", successResult),
     )
 }
 
 @Preview
 @Composable
 fun SignupFormPreview(
-    @PreviewParameter(FormPreviewParameterProvider::class, limit = 4) type: Pair<String, Validator>
+    @PreviewParameter(FormPreviewParameterProvider::class, limit = 4) type: Pair<String, ValidationResult>
 ) {
     SignupForm(
         label = type.first,
-        validator = type.second,
+        validResult = type.second,
     )
 }
