@@ -36,10 +36,7 @@ class InputValidationTest {
                     placeHolderText = stringResource(R.string.signup_main_input_name),
                     keyboardType = KeyboardType.Text,
                     textFieldValue = nameFieldValue.value,
-                    onValueChange = { newTextFieldValue ->
-                        nameFieldValue.value = newTextFieldValue
-                        nameErrorMessage.value = isNameValid(newTextFieldValue.text)
-                    },
+                    onValueChange = {},
                     errorMessage = nameErrorMessage.value
                 )
             }
@@ -64,10 +61,7 @@ class InputValidationTest {
                     placeHolderText = stringResource(R.string.signup_main_input_name),
                     keyboardType = KeyboardType.Text,
                     textFieldValue = nameFieldValue.value,
-                    onValueChange = { newTextFieldValue ->
-                        nameFieldValue.value = newTextFieldValue
-                        nameErrorMessage.value = isNameValid(newTextFieldValue.text)
-                    },
+                    onValueChange = {},
                     errorMessage = nameErrorMessage.value
                 )
             }
@@ -92,10 +86,7 @@ class InputValidationTest {
                     placeHolderText = stringResource(R.string.signup_main_input_name),
                     keyboardType = KeyboardType.Text,
                     textFieldValue = nameFieldValue.value,
-                    onValueChange = { newTextFieldValue ->
-                        nameFieldValue.value = newTextFieldValue
-                        nameErrorMessage.value = isNameValid(newTextFieldValue.text)
-                    },
+                    onValueChange = {},
                     errorMessage = nameErrorMessage.value
                 )
             }
@@ -120,10 +111,7 @@ class InputValidationTest {
                     placeHolderText = stringResource(R.string.signup_main_input_email),
                     keyboardType = KeyboardType.Text,
                     textFieldValue = emailFieldValue.value,
-                    onValueChange = { newTextFieldValue ->
-                        emailFieldValue.value = newTextFieldValue
-                        emailErrorMessage.value = isEmailValid(newTextFieldValue.text)
-                    },
+                    onValueChange = {},
                     errorMessage = emailErrorMessage.value
                 )
             }
@@ -148,10 +136,7 @@ class InputValidationTest {
                     placeHolderText = stringResource(R.string.signup_main_input_password),
                     keyboardType = KeyboardType.Text,
                     textFieldValue = passwordFieldValue.value,
-                    onValueChange = { newTextFieldValue ->
-                        passwordFieldValue.value = newTextFieldValue
-                        passwordErrorMessage.value = isPasswordValid(newTextFieldValue.text)
-                    },
+                    onValueChange = {},
                     errorMessage = passwordErrorMessage.value
                 )
             }
@@ -176,10 +161,7 @@ class InputValidationTest {
                     placeHolderText = stringResource(R.string.signup_main_input_password),
                     keyboardType = KeyboardType.Text,
                     textFieldValue = passwordFieldValue.value,
-                    onValueChange = { newTextFieldValue ->
-                        passwordFieldValue.value = newTextFieldValue
-                        passwordErrorMessage.value = isPasswordValid(newTextFieldValue.text)
-                    },
+                    onValueChange = {},
                     errorMessage = passwordErrorMessage.value
                 )
             }
