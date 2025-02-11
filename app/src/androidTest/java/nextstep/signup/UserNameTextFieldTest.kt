@@ -12,7 +12,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class InputValidationTest {
+class UserNameTextFieldTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -29,7 +29,6 @@ class InputValidationTest {
                 isUsernameLengthValid = usernameValidation.isInLength,
                 isUsernameHasNumberOrSpecialCharacter = usernameValidation.hasNumber && usernameValidation.hasSpecialCharacter,
                 onUsernameChange = { },
-                onImeClick = { TODO() },
             )
         }
     }
