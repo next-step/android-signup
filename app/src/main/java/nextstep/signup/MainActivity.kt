@@ -17,20 +17,54 @@ import nextstep.signup.domain.Password
 import nextstep.signup.domain.PasswordConfirm
 import nextstep.signup.domain.Username
 import nextstep.signup.mapper.toUiState
-import nextstep.signup.state.EmailState
-import nextstep.signup.state.PasswordConfirmState
-import nextstep.signup.state.PasswordState
-import nextstep.signup.state.UsernameState
+import nextstep.signup.state.InputFieldState
 import nextstep.signup.ui.theme.SignupTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            var usernameState: UsernameState by remember { mutableStateOf(UsernameState()) }
-            var email by remember { mutableStateOf(EmailState()) }
-            var password by remember { mutableStateOf(PasswordState()) }
-            var passwordConfirm by remember { mutableStateOf(PasswordConfirmState()) }
+            var inputFields: Map<String, InputFieldState> by remember {
+                mutableStateOf(
+                    mapOf(
+                        INPUT_FIELD_KEY_USERNAME to Username().toUiState(),
+                        INPUT_FIELD_KEY_EMAIL to Email().toUiState(),
+                        INPUT_FIELD_KEY_PASSWORD to Password().toUiState(),
+                        INPUT_FIELD_KEY_PASSWORD_CONFIRM to PasswordConfirm().toUiState()
+                    )
+                )
+            }
+            val inputFieldChangeListeners: Map<String, InputFieldChangeListener> by remember {
+                mutableStateOf(
+                    mapOf(
+                        INPUT_FIELD_KEY_USERNAME to InputFieldChangeListener { username: String ->
+                            inputFields = inputFields.toMutableMap().apply {
+                                this[INPUT_FIELD_KEY_USERNAME] = Username(username).toUiState()
+                            }
+                        },
+                        INPUT_FIELD_KEY_EMAIL to InputFieldChangeListener { it: String ->
+                            inputFields = inputFields.toMutableMap().apply {
+                                this[INPUT_FIELD_KEY_EMAIL] = Email(it).toUiState()
+                            }
+                        },
+                        INPUT_FIELD_KEY_PASSWORD to InputFieldChangeListener { it: String ->
+                            inputFields = inputFields.toMutableMap().apply {
+                                this[INPUT_FIELD_KEY_PASSWORD] = Password(it).toUiState()
+                                this[INPUT_FIELD_KEY_PASSWORD_CONFIRM] = PasswordConfirm(
+                                    it,
+                                    this[INPUT_FIELD_KEY_PASSWORD_CONFIRM]?.input ?: ""
+                                ).toUiState()
+                            }
+                        },
+                        INPUT_FIELD_KEY_PASSWORD_CONFIRM to InputFieldChangeListener { it: String ->
+                            inputFields = inputFields.toMutableMap().apply {
+                                this[INPUT_FIELD_KEY_PASSWORD_CONFIRM] =
+                                    PasswordConfirm(this[INPUT_FIELD_KEY_PASSWORD]?.input ?: "", it).toUiState()
+                            }
+                        },
+                    )
+                )
+            }
 
             SignupTheme {
                 Scaffold(
@@ -38,30 +72,8 @@ class MainActivity : ComponentActivity() {
                     containerColor = MaterialTheme.colorScheme.background,
                 ) { paddingValues ->
                     SignUpScreen(
-                        username = usernameState.username,
-                        isUsernameError = usernameState.isError,
-                        usernameSupportingText = usernameState.supportingText,
-                        onUserNameChange = { usernameState = Username(it).toUiState() },
-                        email = email.email,
-                        isEmailError = email.isError,
-                        emailSupportingText = email.supportingText,
-                        onEmailChange = { email = Email(it).toUiState() },
-                        password = password.password,
-                        isPasswordError = password.isError,
-                        passwordSupportingText = password.supportingText,
-                        onPasswordChange = {
-                            password = Password(it).toUiState()
-                            if (passwordConfirm.passwordConfirm.isNotEmpty()) {
-                                passwordConfirm =
-                                    PasswordConfirm(passwordConfirm.passwordConfirm).toUiState(it)
-                            }
-                        },
-                        passwordConfirm = passwordConfirm.passwordConfirm,
-                        isPasswordConfirmError = passwordConfirm.isError,
-                        passwordConfirmSupportingText = passwordConfirm.supportingText,
-                        onPasswordConfirmChange = {
-                            passwordConfirm = PasswordConfirm(it).toUiState(password.password)
-                        },
+                        inputFields = inputFields,
+                        inputFieldChangeListeners = inputFieldChangeListeners,
                         onSignUpButtonClick = {},
                         modifier = Modifier
                             .fillMaxSize()
@@ -70,5 +82,12 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    companion object {
+        private const val INPUT_FIELD_KEY_USERNAME = "username"
+        private const val INPUT_FIELD_KEY_EMAIL = "email"
+        private const val INPUT_FIELD_KEY_PASSWORD = "password"
+        private const val INPUT_FIELD_KEY_PASSWORD_CONFIRM = "passwordConfirm"
     }
 }
