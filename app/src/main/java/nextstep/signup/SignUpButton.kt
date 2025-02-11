@@ -1,5 +1,6 @@
 package nextstep.signup
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
@@ -17,12 +18,14 @@ import nextstep.signup.ui.theme.SignupTheme
 @Composable
 fun SignUpButton(
     text: String,
+    enabled: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     textStyle: TextStyle = MaterialTheme.typography.labelLarge
 ) {
     Button(
         modifier = modifier.fillMaxWidth().height(50.dp),
+        enabled = enabled,
         onClick = onClick,
         content = {
             Text(text = text, style = textStyle)
@@ -33,13 +36,21 @@ fun SignUpButton(
     )
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun SignUpButtonPreview() {
     SignupTheme {
-        SignUpButton(
-            text = "Sign Up",
-            onClick = {}
-        )
+        Column {
+            SignUpButton(
+                text = "Sign Up",
+                enabled = true,
+                onClick = {}
+            )
+            SignUpButton(
+                text = "Sign Up",
+                enabled = false,
+                onClick = {}
+            )
+        }
     }
 }

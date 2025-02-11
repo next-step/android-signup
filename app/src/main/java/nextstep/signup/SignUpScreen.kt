@@ -102,6 +102,7 @@ fun SignUpScreen() {
 
         SignUpButton(
             text = stringResource(R.string.sign_up),
+            enabled = true,
             onClick = {}
         )
     }
