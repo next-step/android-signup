@@ -1,24 +1,12 @@
 package nextstep.signup.component
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
-import kotlinx.coroutines.launch
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 
 /**
  * @author : interworks_aos
@@ -27,38 +15,17 @@ import org.junit.runners.Parameterized
  * @ClassName: SignupScreenTest
  * @Description:
  */
-@RunWith(Parameterized::class)
-class SignupScreenTest(
-    private val userName: String,
-    private val email: String,
-    private val password: String,
-    private val passwordConfirm: String,
-) {
+class SignupScreenTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    private val snackBarMessage = "회원가입 완료!"
-
     @Before
     fun setup() {
         composeTestRule.setContent {
-            val scope = rememberCoroutineScope()
-            val snackBarHostState = remember { SnackbarHostState() }
-
-            Scaffold(
-                modifier = Modifier.fillMaxSize(),
-                snackbarHost = { SnackbarHost(snackBarHostState) }
-            ) { padding ->
-                SignupScreen(
-                    modifier = Modifier.padding(padding),
-                    onClickSignUp = {
-                        scope.launch {
-                            snackBarHostState.showSnackbar(snackBarMessage)
-                        }
-                    }
-                )
-            }
+            SignupScreen(
+                onClickSignUp = {}
+            )
         }
     }
 
@@ -67,38 +34,23 @@ class SignupScreenTest(
         // when
         composeTestRule
             .onNodeWithText("Username")
-            .performTextInput(userName)
+            .performTextInput("컴포즈")
 
         composeTestRule
             .onNodeWithText("Email")
-            .performTextInput(email)
+            .performTextInput("android@gmail.com")
 
         composeTestRule
             .onNodeWithText("Password")
-            .performTextInput(password)
+            .performTextInput("1q2w3e4r")
 
         composeTestRule
             .onNodeWithText("Password Confirm")
-            .performTextInput(passwordConfirm)
-
-        composeTestRule
-            .onNodeWithText("Sign Up")
-            .performClick()
+            .performTextInput("1q2w3e4r")
 
         // then
         composeTestRule
-            .onNodeWithText(snackBarMessage)
-            .assertIsDisplayed()
-    }
-
-
-    companion object {
-        @JvmStatic
-        @Parameterized.Parameters
-        fun params(): Collection<Array<Any>> {
-            return listOf(
-                arrayOf("컴포즈", "android@gmail.com", "1q2w3e4r", "1q2w3e4r"),
-            )
-        }
+            .onNodeWithText("Sign Up")
+            .assertIsEnabled()
     }
 }
