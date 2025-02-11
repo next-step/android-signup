@@ -49,7 +49,7 @@ private fun EmailTextFiledPreview(
     )
 }
 
-class EmailTextFieldPreviewParameterProvider : PreviewParameterProvider<String> {
+private class EmailTextFieldPreviewParameterProvider : PreviewParameterProvider<String> {
     override val values: Sequence<String>
         get() = sequenceOf(
             "raindragonn!gmail.com",

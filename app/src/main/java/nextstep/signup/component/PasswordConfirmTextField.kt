@@ -50,9 +50,9 @@ private fun PasswordConfirmTextFiledPreview(
         onValueChange = { },
     )
 }
-typealias PasswordConfirmPreviewParams = Pair<String, String>
+private typealias PasswordConfirmPreviewParams = Pair<String, String>
 
-class PasswordConfirmTextFieldPreviewParameterProvider :
+private class PasswordConfirmTextFieldPreviewParameterProvider :
     PreviewParameterProvider<PasswordConfirmPreviewParams> {
     override val values: Sequence<PasswordConfirmPreviewParams>
         get() = sequenceOf(

@@ -50,7 +50,7 @@ private fun UserNameTextFieldPreview(
     )
 }
 
-class UsernamePreviewParameterProvider : PreviewParameterProvider<String> {
+private class UsernamePreviewParameterProvider : PreviewParameterProvider<String> {
     override val values: Sequence<String>
         get() = sequenceOf(
             "김수한무거북이",

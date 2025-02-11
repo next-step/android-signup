@@ -49,7 +49,7 @@ private fun PasswordTextFiledPreview(
     )
 }
 
-class PasswordTextFieldPreviewParameterProvider : PreviewParameterProvider<String> {
+private class PasswordTextFieldPreviewParameterProvider : PreviewParameterProvider<String> {
     override val values: Sequence<String>
         get() = sequenceOf(
             "123123123",
