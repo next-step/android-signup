@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -13,12 +12,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import nextstep.signup.R
 import nextstep.signup.SignUpTextFieldValidation
 
@@ -69,13 +66,7 @@ fun SignUpScreen() {
         SignUpTextField(
             text = username,
             label = {
-                Text(
-                    text = stringResource(id = R.string.username),
-                    fontSize = 16.sp,
-                    lineHeight = 24.sp,
-                    fontWeight = FontWeight.W400,
-                    letterSpacing = 0.5.sp
-                )
+                SignUpTextFieldLabel(text = stringResource(id = R.string.username))
             },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
@@ -85,14 +76,7 @@ fun SignUpScreen() {
             onTextChanged = onUsernameChanged,
             errorMessage = usernameSupportingText,
             supportingText = if (usernameSupportingText.isNotEmpty()) {
-                {
-                    Text(
-                        text = usernameSupportingText,
-                        fontSize = 12.sp,
-                        lineHeight = 16.sp,
-                        fontWeight = FontWeight.W400,
-                    )
-                }
+                { SignUpTextFieldSupportingText(text = usernameSupportingText) }
             } else {
                 null
             }
@@ -100,13 +84,7 @@ fun SignUpScreen() {
         SignUpTextField(
             text = email,
             label = {
-                Text(
-                    text = stringResource(id = R.string.email),
-                    fontSize = 16.sp,
-                    lineHeight = 24.sp,
-                    fontWeight = FontWeight.W400,
-                    letterSpacing = 0.5.sp
-                )
+                SignUpTextFieldLabel(text = stringResource(id = R.string.email))
             },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Email,
@@ -116,14 +94,7 @@ fun SignUpScreen() {
             onTextChanged = onEmailChanged,
             errorMessage = emailSupportingText,
             supportingText = if (emailSupportingText.isNotEmpty()) {
-                {
-                    Text(
-                        text = emailSupportingText,
-                        fontSize = 12.sp,
-                        lineHeight = 16.sp,
-                        fontWeight = FontWeight.W400,
-                    )
-                }
+                { SignUpTextFieldSupportingText(text = emailSupportingText) }
             } else {
                 null
             }
@@ -131,13 +102,7 @@ fun SignUpScreen() {
         SignUpTextField(
             text = password,
             label = {
-                Text(
-                    text = stringResource(id = R.string.password),
-                    fontSize = 16.sp,
-                    lineHeight = 24.sp,
-                    fontWeight = FontWeight.W400,
-                    letterSpacing = 0.5.sp
-                )
+                SignUpTextFieldLabel(text = stringResource(id = R.string.password))
             },
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(
@@ -148,14 +113,7 @@ fun SignUpScreen() {
             onTextChanged = onPasswordChanged,
             errorMessage = passwordSupportingText,
             supportingText = if (passwordSupportingText.isNotEmpty()) {
-                {
-                    Text(
-                        text = passwordSupportingText,
-                        fontSize = 12.sp,
-                        lineHeight = 16.sp,
-                        fontWeight = FontWeight.W400,
-                    )
-                }
+                { SignUpTextFieldSupportingText(text = passwordSupportingText) }
             } else {
                 null
             }
@@ -163,13 +121,7 @@ fun SignUpScreen() {
         SignUpTextField(
             text = passwordConfirm,
             label = {
-                Text(
-                    text = stringResource(id = R.string.password_confirm),
-                    fontSize = 16.sp,
-                    lineHeight = 24.sp,
-                    fontWeight = FontWeight.W400,
-                    letterSpacing = 0.5.sp
-                )
+                SignUpTextFieldLabel(text = stringResource(id = R.string.password_confirm))
             },
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(
@@ -180,14 +132,7 @@ fun SignUpScreen() {
             onTextChanged = onPasswordConfirmChanged,
             errorMessage = passwordConfirmSupportingText,
             supportingText = if (passwordConfirmSupportingText.isNotEmpty()) {
-                {
-                    Text(
-                        text = passwordConfirmSupportingText,
-                        fontSize = 12.sp,
-                        lineHeight = 16.sp,
-                        fontWeight = FontWeight.W400,
-                    )
-                }
+                { SignUpTextFieldSupportingText(text = passwordConfirmSupportingText) }
             } else {
                 null
             }
