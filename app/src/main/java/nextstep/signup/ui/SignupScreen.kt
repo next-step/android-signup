@@ -1,39 +1,43 @@
 package nextstep.signup.ui
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.R
+import nextstep.signup.ui.theme.SignupTheme
 import nextstep.signup.ui.theme.White
 
 @Composable
 fun SignupScreen() {
+    val context = LocalContext.current
+
+    // String Resources
     val title = stringResource(R.string.signup_title)
     val usernameLabel = stringResource(R.string.signup_label_username)
     val emailLabel = stringResource(R.string.signup_label_email)
@@ -41,10 +45,45 @@ fun SignupScreen() {
     val passwordConfirmLabel = stringResource(R.string.signup_label_password_confirm)
     val signUpButton = stringResource(R.string.signup_button)
 
+    // Input State
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordConfirm by remember { mutableStateOf("") }
+
+    // Validation State
+    val usernameValidation by remember {
+        derivedStateOf { SignupValidator.validateUsername(username) }
+    }
+    val emailValidation by remember {
+        derivedStateOf { SignupValidator.validateEmail(email) }
+    }
+    val passwordValidation by remember {
+        derivedStateOf { SignupValidator.validatePassword(password) }
+    }
+    val passwordConfirmValidation by remember {
+        derivedStateOf { SignupValidator.validatePassword(passwordConfirm) }
+    }
+    val isPasswordMatch by remember {
+        derivedStateOf { SignupValidator.validatePasswordMatch(password, passwordConfirm) }
+    }
+
+    // Error Messages
+    val usernameError by remember {
+        derivedStateOf { SignupValidator.getErrorMessage(context, usernameValidation) }
+    }
+    val emailError by remember {
+        derivedStateOf { SignupValidator.getErrorMessage(context, emailValidation) }
+    }
+    val passwordError by remember {
+        derivedStateOf { SignupValidator.getErrorMessage(context, passwordValidation) }
+    }
+    val passwordConfirmError by remember {
+        derivedStateOf { SignupValidator.getErrorMessage(context, passwordConfirmValidation) }
+    }
+    val passwordMismatchError by remember {
+        derivedStateOf { SignupValidator.getErrorMessage(context, isPasswordMatch) }
+    }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -52,31 +91,32 @@ fun SignupScreen() {
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight()
+                .fillMaxSize()
                 .background(White)
-                .padding(
-                    horizontal = 33.dp,
-                    vertical = 60.dp
-                ),
+                .padding(horizontal = 33.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             // Title
-            SignupTitle(title = title)
+            SignupTitle(
+                title = title,
+                modifier = Modifier.padding(top = 60.dp)
+            )
 
             // Username
-            Spacer(Modifier.size(39.dp))
             SignupTextField(
                 label = usernameLabel,
                 value = username,
                 onValueChange = { username = it },
+                modifier = Modifier.padding(top = 23.dp),
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next
-                )
+                ),
+                isError = usernameError.isNotEmpty(),
+                errorMessage = usernameError
             )
 
             // Email
-            Spacer(Modifier.size(33.dp))
             SignupTextField(
                 label = emailLabel,
                 value = email,
@@ -84,11 +124,12 @@ fun SignupScreen() {
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Email,
                     imeAction = ImeAction.Next
-                )
+                ),
+                isError = emailError.isNotEmpty(),
+                errorMessage = emailError
             )
 
             // Password
-            Spacer(Modifier.size(33.dp))
             SignupTextField(
                 label = passwordLabel,
                 value = password,
@@ -97,11 +138,12 @@ fun SignupScreen() {
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Next
-                )
+                ),
+                isError = passwordError.isNotEmpty(),
+                errorMessage = passwordError
             )
 
             // Password Confirm
-            Spacer(Modifier.size(39.dp))
             SignupTextField(
                 label = passwordConfirmLabel,
                 value = passwordConfirm,
@@ -110,31 +152,38 @@ fun SignupScreen() {
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Done
-                )
+                ),
+                isError = passwordConfirmError.isNotEmpty(),
+                errorMessage = passwordConfirmError
             )
 
             // Signup Button
-            Spacer(Modifier.size(39.dp))
             SignupButton(
                 text = signUpButton,
                 onClick = {
-                    // Signup Action
+                    if (isPasswordMatch != SignupValidator.ResultType.Success) {
+                        Toast.makeText(context, passwordMismatchError, Toast.LENGTH_SHORT).show()
+                    }
                 },
+                modifier = Modifier.padding(top = 3.dp),
             )
         }
     }
 }
 
 @Composable
-fun SignupTitle(title: String) {
+fun SignupTitle(
+    title: String,
+    modifier: Modifier = Modifier
+) {
     Text(
         text = title,
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
-        fontSize = 26.sp,
+        modifier = modifier,
+        fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.W700,
-        textAlign = TextAlign.Center
+        fontSize = 26.sp,
+        lineHeight = 20.sp,
+        letterSpacing = 0.26.sp,
     )
 }
 
@@ -144,8 +193,19 @@ fun SignupScreenPreview() {
     SignupScreen()
 }
 
-@Preview
+//@Preview
+//@Composable
+//fun SignupTitlePreview() {
+//    SignupTitle(title = "테스트")
+//}
+
+@Preview(name = "LightThemePreview")
+@Preview(name = "DarkThemePreview", uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun SignupTitlePreview() {
-    SignupTitle(title = "테스트")
+    SignupTheme {
+        Surface {
+            SignupTitle(title = "테스트")
+        }
+    }
 }

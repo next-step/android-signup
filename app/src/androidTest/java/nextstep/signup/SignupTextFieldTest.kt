@@ -14,7 +14,7 @@ class SignupTextFieldTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun updatesValueOnInput() {
+    fun signUpTextField_UpdatesValue_WhenInputValue() {
         // Given
         val useNameLabel = "Username"
         val expectedValue = "test"
