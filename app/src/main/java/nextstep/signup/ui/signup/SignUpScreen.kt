@@ -82,9 +82,6 @@ private fun SignUpScreen(
                     onUsernameChange = {
                         onAction(SignUpAction.OnUsernameChange(it))
                     },
-                    onImeClick = {
-                        focusManager.moveFocus(FocusDirection.Next)
-                    }
                 )
             }
 
@@ -99,11 +96,6 @@ private fun SignUpScreen(
                     label = {
                         Text(stringResource(R.string.email_label))
                     },
-                    keyboardActions = KeyboardActions(
-                        onNext = {
-                            focusManager.moveFocus(FocusDirection.Next)
-                        }
-                    ),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Email,
                         imeAction = ImeAction.Next
@@ -129,11 +121,6 @@ private fun SignUpScreen(
                         Text(stringResource(R.string.password_label))
                     },
                     visualTransformation = PasswordVisualTransformation(),
-                    keyboardActions = KeyboardActions(
-                        onNext = {
-                            focusManager.moveFocus(FocusDirection.Next)
-                        }
-                    ),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Password,
                         imeAction = ImeAction.Next
@@ -207,7 +194,6 @@ internal fun UsernameTextField(
     isUsernameLengthValid: Boolean,
     isUsernameHasNumberOrSpecialCharacter: Boolean,
     onUsernameChange: (String) -> Unit,
-    onImeClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     TextField(
@@ -220,11 +206,6 @@ internal fun UsernameTextField(
         label = {
             Text(stringResource(R.string.username_label))
         },
-        keyboardActions = KeyboardActions(
-            onNext = {
-                onImeClick()
-            }
-        ),
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Next
         ),
