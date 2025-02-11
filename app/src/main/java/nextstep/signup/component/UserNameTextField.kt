@@ -19,6 +19,7 @@ internal fun UserNameTextFiled(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     onValidation: (Boolean) -> Unit = {},
+    validator: SignupInfoValidator = SignupInfoValidator.Username
 ) {
     SignupTextField(
         modifier = modifier,
@@ -26,14 +27,14 @@ internal fun UserNameTextFiled(
         text = text,
         onValueChange = {
             onValueChange(it)
-            onValidation(SignupInfoValidator.Username.checkCondition(it).isSuccess())
+            onValidation(validator.checkCondition(it).isSuccess())
         },
         visualTransformation = VisualTransformation.None,
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Next,
             keyboardType = KeyboardType.Text
         ),
-        validateResult = SignupInfoValidator.Username.checkCondition(text)
+        validateResult = validator.checkCondition(text)
     )
 }
 

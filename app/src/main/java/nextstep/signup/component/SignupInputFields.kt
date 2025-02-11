@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nextstep.signup.model.SignupValidations
+import nextstep.signup.validator.SignupInfoValidator
 
 @Composable
 internal fun SignupInputFields(
@@ -23,6 +24,8 @@ internal fun SignupInputFields(
     var passwordConfirm by remember { mutableStateOf("") }
 
     var signupValidations by remember { mutableStateOf(SignupValidations()) }
+    val passwordConfirmValidator =
+        remember(password) { SignupInfoValidator.PasswordConfirm { password } }
 
     Column(
         modifier = modifier,
@@ -54,7 +57,7 @@ internal fun SignupInputFields(
         )
         PasswordConfirmTextFiled(
             text = passwordConfirm,
-            password = password,
+            validator = passwordConfirmValidator,
             onValueChange = { passwordConfirm = it },
             onValidation = {
                 signupValidations = signupValidations.copy(isPasswordConfirmPassed = it)

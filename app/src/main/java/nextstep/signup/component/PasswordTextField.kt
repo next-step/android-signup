@@ -19,22 +19,22 @@ internal fun PasswordTextFiled(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     onValidation: (Boolean) -> Unit = {},
+    validator: SignupInfoValidator = SignupInfoValidator.Password,
 ) {
-
     SignupTextField(
         modifier = modifier,
         label = stringResource(R.string.signup_label_password),
         text = text,
         onValueChange = {
             onValueChange(it)
-            onValidation(SignupInfoValidator.Password.checkCondition(it).isSuccess())
+            onValidation(validator.checkCondition(it).isSuccess())
         },
         visualTransformation = PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Next,
             keyboardType = KeyboardType.Password
         ),
-        validateResult = SignupInfoValidator.Password.checkCondition(text)
+        validateResult = validator.checkCondition(text)
     )
 }
 

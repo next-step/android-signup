@@ -19,6 +19,7 @@ internal fun EmailTextFiled(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     onValidation: (Boolean) -> Unit = {},
+    validator: SignupInfoValidator = SignupInfoValidator.Email,
 ) {
     SignupTextField(
         modifier = modifier,
@@ -26,14 +27,14 @@ internal fun EmailTextFiled(
         text = text,
         onValueChange = {
             onValueChange(it)
-            onValidation(SignupInfoValidator.Email.checkCondition(it).isSuccess())
+            onValidation(validator.checkCondition(it).isSuccess())
         },
         visualTransformation = VisualTransformation.None,
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Next,
             keyboardType = KeyboardType.Email
         ),
-        validateResult = SignupInfoValidator.Email.checkCondition(text)
+        validateResult = validator.checkCondition(text)
     )
 }
 
