@@ -1,7 +1,13 @@
 package nextstep.signup
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.assert
@@ -15,6 +21,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextClearance
 import androidx.compose.ui.test.performTextInput
+import kotlinx.coroutines.launch
 import nextstep.signup.ui.screen.EmailTextField
 import nextstep.signup.ui.screen.PasswordConfirmTextField
 import nextstep.signup.ui.screen.PasswordTextField
@@ -38,37 +45,50 @@ class InputValidationTest {
     @Before
     fun setUp() {
         composeTestRule.setContent {
-            Column {
-                UsernameTextField(
-                    userName = username.value,
-                    onUsernameChange = { username.value = it },
-                    modifier = Modifier.testTag("Username")
-                )
-                EmailTextField(
-                    email = email.value,
-                    onEmailChange = { email.value = it },
-                    modifier = Modifier.testTag("Email")
-                )
-                PasswordTextField(
-                    password = password.value,
-                    onPasswordChange = { password.value = it },
-                    modifier = Modifier.testTag("Password")
-                )
-                PasswordConfirmTextField(
-                    password = password.value,
-                    confirmPassword = confirmPassword.value,
-                    onPasswordChange = { confirmPassword.value = it },
-                    modifier = Modifier.testTag("ConfirmPassword")
-                )
-                SignUpButton(
-                    isEnabled = ValidateUtils.isValidAll(
-                        username = username.value,
+            val snackbarHostState = remember { SnackbarHostState() }
+            val coroutineScope = rememberCoroutineScope()
+
+            Scaffold(
+                snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+            ) {
+                Column(
+                    modifier = Modifier.padding(it),
+                ) {
+                    UsernameTextField(
+                        userName = username.value,
+                        onUsernameChange = { username.value = it },
+                        modifier = Modifier.testTag("Username")
+                    )
+                    EmailTextField(
                         email = email.value,
+                        onEmailChange = { email.value = it },
+                        modifier = Modifier.testTag("Email")
+                    )
+                    PasswordTextField(
                         password = password.value,
-                        confirmPassword = confirmPassword.value
-                    ),
-                    modifier = Modifier.testTag("SignUpButton")
-                )
+                        onPasswordChange = { password.value = it },
+                        modifier = Modifier.testTag("Password")
+                    )
+                    PasswordConfirmTextField(
+                        password = password.value,
+                        confirmPassword = confirmPassword.value,
+                        onPasswordChange = { confirmPassword.value = it },
+                        modifier = Modifier.testTag("ConfirmPassword")
+                    )
+                    SignUpButton(
+                        isEnabled = ValidateUtils.isValidAll(
+                            username = username.value,
+                            email = email.value,
+                            password = password.value,
+                            confirmPassword = confirmPassword.value
+                        ),
+                        modifier = Modifier.testTag("SignUpButton")
+                    ) {
+                        coroutineScope.launch {
+                            snackbarHostState.showSnackbar(SNACKBAR_MESSAGE)
+                        }
+                    }
+                }
             }
         }
     }
@@ -365,10 +385,7 @@ class InputValidationTest {
         composeTestRule.onNodeWithTag("ConfirmPassword").performTextInput(confirmPassword)
 
         composeTestRule.onNodeWithTag("SignUpButton").performClick()
-
-        composeTestRule
-            .onNodeWithText(SNACKBAR_MESSAGE)
-            .assertIsDisplayed()
+        composeTestRule.onNodeWithText(SNACKBAR_MESSAGE).assertIsDisplayed()
     }
 
     companion object {
