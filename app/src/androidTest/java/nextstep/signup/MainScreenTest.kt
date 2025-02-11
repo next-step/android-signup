@@ -17,7 +17,10 @@ class MainScreenTest {
     fun showMainScreen() {
         val tag = "mainScreen"
         composeTestRule.setContent {
-            MainScreen(modifier = Modifier.testTag(tag))
+            MainScreen(
+                onShowSnackBar = {},
+                modifier = Modifier.testTag(tag),
+            )
         }
 
         composeTestRule

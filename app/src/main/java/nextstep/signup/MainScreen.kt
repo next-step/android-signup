@@ -22,6 +22,7 @@ import nextstep.signup.utils.validator.isEnabled
 
 @Composable
 fun MainScreen(
+    onShowSnackBar: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var inputsModel by remember { mutableStateOf(SignUpInputModel()) }
@@ -40,7 +41,9 @@ fun MainScreen(
             inputModel = inputsModel,
             onUpdateModel = { inputsModel = it }
         )
-        SignUpButton(enabled = isSignUpButtonValid, onClick = {})
+        SignUpButton(enabled = isSignUpButtonValid, onClick = {
+            onShowSnackBar(true)
+        })
     }
 }
 
@@ -50,6 +53,7 @@ private fun MainScreenPreview() {
     SignupTheme {
         MainScreen(
             modifier = Modifier,
+            onShowSnackBar = {}
         )
     }
 }
