@@ -39,7 +39,6 @@ fun SignUpContents(modifier: Modifier = Modifier) {
         var passwordFieldValue by remember { mutableStateOf(TextFieldValue("")) }
         var passwordErrorMessage by remember { mutableStateOf("") }
         var passwordConfirmFieldValue by remember { mutableStateOf(TextFieldValue("")) }
-        var passwordConfirmErrorMessage by remember { mutableStateOf("") }
 
         SignUpInputForm(
             placeHolderText = stringResource(R.string.signup_main_input_name),
