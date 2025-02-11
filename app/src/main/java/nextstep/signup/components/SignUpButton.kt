@@ -11,11 +11,13 @@ import nextstep.signup.ui.theme.SignupTheme
 internal fun SignUpButton(
     text: String,
     onClick: () -> Unit,
+    enabled: Boolean,
     modifier: Modifier = Modifier,
 ) {
     Button(
         onClick = onClick,
         modifier = modifier,
+        enabled = enabled,
     ) {
         Text(text = text)
     }
@@ -23,10 +25,23 @@ internal fun SignUpButton(
 
 @Preview
 @Composable
-private fun SignUpButtonPreview() {
+private fun SignUpButtonEnabledPreview() {
     SignupTheme {
         SignUpButton(
             text = "Sign Up",
+            enabled = true,
+            onClick = {},
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun SignUpButtonDisabledPreview() {
+    SignupTheme {
+        SignUpButton(
+            text = "Sign Up",
+            enabled = false,
             onClick = {},
         )
     }

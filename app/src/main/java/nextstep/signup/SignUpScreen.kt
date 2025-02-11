@@ -60,6 +60,7 @@ internal fun SignUpScreen(
         SignUpButton(
             text = stringResource(R.string.sign_up_sign_up_button_text),
             onClick = onSignUpButtonClick,
+            enabled = inputFields.values.all { it.isError.not() && it.input.isNotEmpty() },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
