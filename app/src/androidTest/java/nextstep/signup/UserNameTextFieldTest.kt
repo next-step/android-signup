@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import nextstep.signup.ui.signup.InputValidator
 import nextstep.signup.ui.signup.UserNameValidationState
 import nextstep.signup.ui.signup.UsernameTextField
 import org.junit.Before
@@ -18,7 +17,6 @@ class UserNameTextFieldTest {
     val composeTestRule = createComposeRule()
     private var username by mutableStateOf("")
     private var usernameValidation by mutableStateOf(UserNameValidationState())
-    private val inputValidator = InputValidator()
 
     @Before
     fun setup() {
@@ -34,10 +32,12 @@ class UserNameTextFieldTest {
     }
 
     @Test
-    fun 사용자_이름은_2에서_5자여야_한다() {
+    fun 사용자_이름이_길이_내에_있다면_오류가_노출되지_않는다() {
         // when
         username = "김컴포즈"
-        usernameValidation = inputValidator.checkUserName(username)
+        usernameValidation = UserNameValidationState(
+            isInLength = true,
+        )
 
         // then
         composeTestRule
@@ -49,7 +49,9 @@ class UserNameTextFieldTest {
     fun 사용자_이름이_2에서_5자가_아니면_에러메시지가_노출된다() {
         // when
         username = "김컴포즈입니다"
-        usernameValidation = inputValidator.checkUserName(username)
+        usernameValidation = UserNameValidationState(
+            isInLength = false,
+        )
 
         // then
         composeTestRule
@@ -57,8 +59,66 @@ class UserNameTextFieldTest {
             .assertExists()
     }
 
+    @Test
+    fun 사용자_이름에_숫자가_없으면_에러메시지가_노출되지_않는다() {
+        // when
+        username = "컴포즈"
+        usernameValidation = UserNameValidationState(
+            hasNumber = false,
+        )
+
+        // then
+        composeTestRule
+            .onNodeWithText(USERNAME_HAS_NUMBER_OR_SPECIAL_CHARACTER_ERROR)
+            .assertDoesNotExist()
+    }
+
+    @Test
+    fun 사용자_이름에_숫자가_있으면_에러메시지가_노출되지_않는다() {
+        // when
+        username = "컴포즈3"
+        usernameValidation = UserNameValidationState(
+            hasNumber = true,
+        )
+
+        // then
+        composeTestRule
+            .onNodeWithText(USERNAME_HAS_NUMBER_OR_SPECIAL_CHARACTER_ERROR)
+            .assertExists()
+    }
+
+    @Test
+    fun 사용자_이름에_기호가_있으면_에러메시지가_노출된다() {
+        // when
+        username = "컴포즈!"
+        usernameValidation = UserNameValidationState(
+            hasSpecialCharacter = false,
+        )
+
+        // then
+        composeTestRule
+            .onNodeWithText(USERNAME_HAS_NUMBER_OR_SPECIAL_CHARACTER_ERROR)
+            .assertExists()
+    }
+
+    @Test
+    fun 사용자_이름에_기호가_없으면_에러메시지가_노출되지_않는다() {
+        // when
+        username = "컴포즈!"
+        usernameValidation = UserNameValidationState(
+            hasSpecialCharacter = false,
+        )
+
+        // then
+        composeTestRule
+            .onNodeWithText(USERNAME_HAS_NUMBER_OR_SPECIAL_CHARACTER_ERROR)
+            .assertDoesNotExist()
+    }
+
     companion object {
         private const val USERNAME_LENGTH_ERROR = "이름은 2~5자여야 합니다."
+        private const val USERNAME_HAS_NUMBER_OR_SPECIAL_CHARACTER_ERROR =
+            "이름에는 숫자나 기호가 포함될 수 없습니다."
     }
 
 }
