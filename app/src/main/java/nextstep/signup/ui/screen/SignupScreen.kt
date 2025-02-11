@@ -1,5 +1,6 @@
 package nextstep.signup.ui.screen
 
+import android.graphics.Color
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -103,7 +104,10 @@ fun SignupScreen(
     }
 }
 
-@Preview
+@Preview(
+    showBackground = true,
+    backgroundColor = Color.WHITE.toLong()
+)
 @Composable
 private fun SignupScreenPreview() {
     SignupTheme {
