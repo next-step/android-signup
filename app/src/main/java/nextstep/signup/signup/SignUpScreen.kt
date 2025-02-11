@@ -11,10 +11,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import nextstep.signup.R
 import nextstep.signup.SignUpTextFieldValidation
 
 
@@ -63,7 +65,7 @@ fun SignUpScreen() {
         SignUpTitle(Modifier.padding(top = 60.dp))
         SignUpTextField(
             text = username,
-            hintText = "Username",
+            hintText = stringResource(id = R.string.username),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Next
@@ -74,7 +76,7 @@ fun SignUpScreen() {
         )
         SignUpTextField(
             text = email,
-            hintText = "Email",
+            hintText = stringResource(id = R.string.email),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Next
@@ -85,7 +87,7 @@ fun SignUpScreen() {
         )
         SignUpTextField(
             text = password,
-            hintText = "Password",
+            hintText = stringResource(id = R.string.password),
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password,
@@ -97,7 +99,7 @@ fun SignUpScreen() {
         )
         SignUpTextField(
             text = passwordConfirm,
-            hintText = "Password Confirm",
+            hintText = stringResource(id = R.string.password_confirm),
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password,

@@ -11,6 +11,9 @@ import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performTextInput
+import nextstep.signup.signup.SignUpButton
+import nextstep.signup.signup.SignUpScreen
+import nextstep.signup.signup.SignUpTitle
 import org.junit.Rule
 import org.junit.Test
 
@@ -69,7 +72,7 @@ class SignUpScreenTest {
 
         // then
         composeTestRule
-            .onNodeWithText(SignUpTextFieldType.USERNAME.hint)
+            .onNodeWithText("Username")
             .performTextInput("일")
 
         composeTestRule
@@ -86,7 +89,7 @@ class SignUpScreenTest {
 
         // then
         composeTestRule
-            .onNodeWithText(SignUpTextFieldType.USERNAME.hint)
+            .onNodeWithText("Username")
             .performTextInput("일이삼사오육칠")
 
         composeTestRule
@@ -103,7 +106,7 @@ class SignUpScreenTest {
 
         // then
         composeTestRule
-            .onNodeWithText(SignUpTextFieldType.USERNAME.hint)
+            .onNodeWithText("Username")
             .performTextInput("123456")
 
         composeTestRule
@@ -120,7 +123,7 @@ class SignUpScreenTest {
 
         // then
         composeTestRule
-            .onNodeWithText(SignUpTextFieldType.EMAIL.hint)
+            .onNodeWithText("Email")
             .performTextInput("test")
 
         composeTestRule
@@ -137,7 +140,7 @@ class SignUpScreenTest {
 
         // then
         composeTestRule
-            .onNodeWithText(SignUpTextFieldType.PASSWORD.hint)
+            .onNodeWithText("Password")
             .performTextInput("1234567")
 
         composeTestRule
@@ -154,7 +157,7 @@ class SignUpScreenTest {
 
         // then
         composeTestRule
-            .onNodeWithText(SignUpTextFieldType.PASSWORD.hint)
+            .onNodeWithText("Password")
             .performTextInput("12345678901234567")
 
         composeTestRule
@@ -171,7 +174,7 @@ class SignUpScreenTest {
 
         // then
         composeTestRule
-            .onNodeWithText(SignUpTextFieldType.PASSWORD.hint)
+            .onNodeWithText("Password")
             .performTextInput("123456789")
 
         composeTestRule
@@ -188,11 +191,11 @@ class SignUpScreenTest {
 
         // then
         composeTestRule
-            .onNodeWithText(SignUpTextFieldType.PASSWORD.hint)
+            .onNodeWithText("Password")
             .performTextInput("12345678")
 
         composeTestRule
-            .onNodeWithText(SignUpTextFieldType.PASSWORD_CONFIRM.hint)
+            .onNodeWithText("Password Consfirm")
             .performTextInput("123456789")
 
         composeTestRule

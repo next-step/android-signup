@@ -57,10 +57,3 @@ private fun SignUpButtonPreview() {
 private fun SignUpScreenPreview() {
     SignUpScreen()
 }
-
-enum class SignUpTextFieldType(val hint: String) {
-    USERNAME("Username"),
-    EMAIL("Email"),
-    PASSWORD("Password"),
-    PASSWORD_CONFIRM("Password Confirm")
-}
