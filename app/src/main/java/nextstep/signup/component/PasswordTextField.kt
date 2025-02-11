@@ -1,8 +1,11 @@
 package nextstep.signup.component
 
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import nextstep.signup.R
@@ -13,16 +16,23 @@ internal fun PasswordTextFiled(
     text: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    onValidation: ((Boolean) -> Unit)? = null,
+    onValidation: (Boolean) -> Unit = {},
 ) {
+
     SignupTextField(
         modifier = modifier,
         label = stringResource(R.string.signup_label_password),
         text = text,
-        onValueChange = onValueChange,
-        onValidation = { onValidation?.invoke(it) },
+        onValueChange = {
+            onValueChange(it)
+            onValidation(SignupInfoValidator.Password.checkCondition(it).isSuccess())
+        },
         visualTransformation = PasswordVisualTransformation(),
-        validator = SignupInfoValidator.Password,
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Next,
+            keyboardType = KeyboardType.Password
+        ),
+        validateResult = SignupInfoValidator.Password.checkCondition(text)
     )
 }
 

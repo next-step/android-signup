@@ -31,7 +31,7 @@ class PasswordConfirmTextFieldTest {
 
             PasswordConfirmTextFiled(
                 text = passwordConfirm,
-                passwordProvider = { passwordConfirm },
+                password = passwordConfirm,
                 onValueChange = setPasswordConfirm,
             )
         }
@@ -53,7 +53,7 @@ class PasswordConfirmTextFieldTest {
 
             PasswordConfirmTextFiled(
                 text = passwordConfirm,
-                passwordProvider = { passwordConfirm },
+                password = passwordConfirm,
                 onValueChange = setPasswordConfirm,
             )
         }
@@ -84,7 +84,7 @@ class PasswordConfirmTextFieldTest {
 
             PasswordConfirmTextFiled(
                 text = passwordConfirm,
-                passwordProvider = { password },
+                password = password,
                 onValueChange = setPasswordConfirm,
                 modifier = Modifier.testTag(confirmTag)
             )

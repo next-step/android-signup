@@ -54,7 +54,7 @@ internal fun SignupInputFields(
         )
         PasswordConfirmTextFiled(
             text = passwordConfirm,
-            passwordProvider = { password },
+            password = password,
             onValueChange = setPasswordConfirm,
             onValidation = {
                 signupValidations = signupValidations.copy(isPasswordConfirmPassed = it)
