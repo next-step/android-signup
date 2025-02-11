@@ -81,10 +81,9 @@ class SignUpTextFieldValidationTest {
     fun `비밀번호가 8자 미만일 때 유효성 검사에 실패한다`() {
         // given
         val password = "1234567"
-        val passwordConfirm = "1234567"
 
         // when
-        val actualValue = validation.getPasswordValidationMessage(password, passwordConfirm)
+        val actualValue = validation.getPasswordValidationMessage(password)
 
         // then
         assert(actualValue == "비밀번호는 8~16자여야 합니다.")
@@ -94,10 +93,9 @@ class SignUpTextFieldValidationTest {
     fun `비밀번호가 16자를 초과할 때 유효성 검사에 실패한다`() {
         // given
         val password = "12345678901234567"
-        val passwordConfirm = "12345678901234567"
 
         // when
-        val actualValue = validation.getPasswordValidationMessage(password, passwordConfirm)
+        val actualValue = validation.getPasswordValidationMessage(password)
 
         // then
         assert(actualValue == "비밀번호는 8~16자여야 합니다.")
@@ -107,10 +105,9 @@ class SignUpTextFieldValidationTest {
     fun `비밀번호에 영문과 숫자가 포함되어 있지 않을 때 유효성 검사에 실패한다`() {
         // given
         val password = "123456789"
-        val passwordConfirm = "123456789"
 
         // when
-        val actualValue = validation.getPasswordValidationMessage(password, passwordConfirm)
+        val actualValue = validation.getPasswordValidationMessage(password)
 
         // then
         assert(actualValue == "비밀번호는 영문과 숫자를 포함해야 합니다.")

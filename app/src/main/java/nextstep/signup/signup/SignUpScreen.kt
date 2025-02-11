@@ -51,7 +51,7 @@ fun SignUpScreen() {
         val onPasswordChanged: (String) -> Unit = {
             password = it
             passwordSupportingText =
-                validation.getPasswordValidationMessage(password, passwordConfirm)
+                validation.getPasswordValidationMessage(password)
             passwordConfirmSupportingText =
                 validation.getPasswordConfirmValidationMessage(password, passwordConfirm)
         }

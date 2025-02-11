@@ -33,9 +33,9 @@ class SignUpTextFieldValidation {
         }
     }
 
-    fun getPasswordValidationMessage(password: String, passwordConfirm: String): String {
-        if (password.isEmpty() && passwordConfirm.isNotEmpty()) {
-            return "비밀번호는 8~16자여야 합니다."
+    fun getPasswordValidationMessage(password: String): String {
+        if (password.isEmpty()) {
+            return ""
         }
 
         return if (password.length !in 8..16) {
