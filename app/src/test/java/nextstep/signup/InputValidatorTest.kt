@@ -49,6 +49,16 @@ class InputValidatorTest {
         assertEquals(isValid, actual.isValidUsername)
     }
 
+    @ParameterizedTest
+    @MethodSource("emailProvider")
+    fun `이메일 테스트`(email: String, isValid: Boolean) {
+        // when
+        val actual = inputValidator.checkEmail(email)
+
+        // then
+        assertEquals(isValid, actual)
+    }
+
     companion object {
         @JvmStatic
         fun usernameLengthProvider(): Iterable<Array<Any>> {
@@ -94,6 +104,23 @@ class InputValidatorTest {
                 arrayOf("abcd", true),
                 arrayOf("abcde", true),
                 arrayOf("abcdef", false),
+            )
+        }
+
+        @JvmStatic
+        fun emailProvider(): Iterable<Array<Any>> {
+            return arrayListOf(
+                arrayOf("", false),
+                arrayOf("a@", false),
+                arrayOf("a@a", false),
+                arrayOf("a@a", false),
+                arrayOf("a@a.", false),
+                arrayOf("a@a.c", false),
+                arrayOf("a@a.co", true),
+                arrayOf("a@a.com", true),
+                arrayOf("a@a,com", false),
+                arrayOf("a@a.commmm", true),
+                arrayOf("a@a.commmmm", false),
             )
         }
     }
