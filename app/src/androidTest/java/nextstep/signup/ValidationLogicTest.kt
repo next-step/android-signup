@@ -10,7 +10,7 @@ class ValidationLogicTest {
     @Test
     fun 사용자_이름이_2에서_5자_사이면_유효하다() {
         assertTrue(ValidateUtils.isValidUsernameLength("김컴"))
-        assertTrue(ValidateUtils.isValidUsernameLength("김컴포즈"))
+        assertTrue(ValidateUtils.isValidUsernameLength("김컴포즈임"))
     }
 
     @Test
