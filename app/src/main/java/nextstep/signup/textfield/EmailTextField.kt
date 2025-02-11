@@ -1,9 +1,6 @@
 package nextstep.signup.textfield
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -15,22 +12,16 @@ import nextstep.signup.ui.theme.SignupTheme
 @Composable
 fun EmailTextField(
     value: String,
+    isValidFormat: Boolean,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val isInvalidFormatError by remember(value) {
-        derivedStateOf {
-            value.isNotEmpty() && !value.matches(Regex(SignUpConst.EMAIL_REGEX))
-        }
-    }
-
     SignUpTextField(
         modifier = modifier,
         value = value,
         onValueChange = onValueChange,
         label = stringResource(R.string.sign_up_email),
-        isError = isInvalidFormatError,
-        supportingText = if (isInvalidFormatError) stringResource(R.string.sign_up_email_invalid_format_error) else ""
+        errorMessage = if (value.isNotEmpty() && isValidFormat.not()) stringResource(R.string.sign_up_email_invalid_format_error) else null
     )
 }
 
@@ -48,6 +39,7 @@ private fun EmailTextFieldPreview(
     SignupTheme {
         EmailTextField(
             value = value,
+            isValidFormat = InputValidator.isValidEmail(value),
             onValueChange = {}
         )
     }

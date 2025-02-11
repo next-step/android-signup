@@ -16,44 +16,39 @@ import nextstep.signup.ui.theme.SignupTheme
 @Composable
 fun PasswordConfirmTextField(
     value: String,
-    password: String,
+    isPasswordMatched: Boolean,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val isNotMatched by remember(value, password) { derivedStateOf { value.isNotEmpty() && value != password } }
-
     SignUpTextField(
         modifier = modifier,
         value = value,
         onValueChange = onValueChange,
         label = stringResource(R.string.sign_up_password_confirm),
-        isError = isNotMatched,
-        supportingText = if (isNotMatched) stringResource(R.string.sign_up_password_confirm_not_matched_error) else "",
+        errorMessage = if (value.isNotEmpty() && isPasswordMatched.not()) stringResource(R.string.sign_up_password_confirm_not_matched_error) else null,
         visualTransformation = PasswordVisualTransformation()
     )
 }
-
 
 
 @Preview(showBackground = true)
 @Composable
 private fun PasswordConfirmTextFieldPreview() {
     SignupTheme {
-        val password = "qwer1234!@#$"
         Column {
             PasswordConfirmTextField(
-                value = password,
-                password = password,
+                value = "",
+                isPasswordMatched = true,
                 onValueChange = {}
             )
             PasswordConfirmTextField(
-                value = "",
-                password = password,
+                value = "qwer1234!@#$",
+                isPasswordMatched = true,
                 onValueChange = {}
             )
             PasswordConfirmTextField(
                 value = "qwerasdf",
-                password = password,
+                isPasswordMatched = false,
                 onValueChange = {}
             )
         }

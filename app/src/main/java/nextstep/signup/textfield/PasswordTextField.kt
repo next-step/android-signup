@@ -13,47 +13,38 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import nextstep.signup.R
-import nextstep.signup.textfield.SignUpConst.PASSWORD_MAX_LENGTH
-import nextstep.signup.textfield.SignUpConst.PASSWORD_MIN_LENGTH
 import nextstep.signup.ui.theme.SignupTheme
 
-private enum class PasswordError {
+enum class PasswordError {
     NONE, LENGTH_ERROR, REQUIRED_CHARACTER_NOT_INCLUDE_ERROR
 }
 
 @Composable
 fun PasswordTextField(
     value: String,
+    error: PasswordError,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val errorType by remember(value) {
-        derivedStateOf {
-            when {
-                value.isEmpty() -> PasswordError.NONE
-                value.length !in PASSWORD_MIN_LENGTH..PASSWORD_MAX_LENGTH -> PasswordError.LENGTH_ERROR
-                !value.matches(Regex(SignUpConst.PASSWORD_REGEX)) -> PasswordError.REQUIRED_CHARACTER_NOT_INCLUDE_ERROR
-                else -> PasswordError.NONE
-            }
-        }
-    }
-
     SignUpTextField(
         modifier = modifier,
         value = value,
         onValueChange = onValueChange,
         label = stringResource(R.string.sign_up_password),
-        isError = errorType != PasswordError.NONE,
-        supportingText = when (errorType) {
-            PasswordError.NONE -> ""
-            PasswordError.LENGTH_ERROR -> stringResource(R.string.sign_up_password_length_error)
-            PasswordError.REQUIRED_CHARACTER_NOT_INCLUDE_ERROR -> stringResource(R.string.sign_up_password_required_character_not_include_error)
+        errorMessage = if (value.isNotEmpty()) {
+            when (error) {
+                PasswordError.NONE -> null
+                PasswordError.LENGTH_ERROR -> stringResource(R.string.sign_up_password_length_error)
+                PasswordError.REQUIRED_CHARACTER_NOT_INCLUDE_ERROR -> stringResource(R.string.sign_up_password_required_character_not_include_error)
+            }
+        } else {
+            null
         },
         visualTransformation = PasswordVisualTransformation()
     )
 }
 
-private class PasswordTextFieldPreviewParameter: PreviewParameterProvider<String> {
+private class PasswordTextFieldPreviewParameter : PreviewParameterProvider<String> {
     override val values: Sequence<String>
         get() = sequenceOf("qwer", "qwer123456", "이건비밀번호입니다", "qwer1234!@#$", "")
 
@@ -67,6 +58,7 @@ private fun PasswordTextFieldPreview(@PreviewParameter(PasswordTextFieldPreviewP
             Text(text = "Password: $value")
             PasswordTextField(
                 value = value,
+                error = InputValidator.validatePassword(value),
                 onValueChange = {}
             )
         }

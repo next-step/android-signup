@@ -10,41 +10,32 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import nextstep.signup.R
-import nextstep.signup.textfield.SignUpConst.USERNAME_MAX_LENGTH
-import nextstep.signup.textfield.SignUpConst.USERNAME_MIN_LENGTH
 import nextstep.signup.ui.theme.SignupTheme
 
-private enum class UsernameError {
+enum class UsernameError {
     NONE, LENGTH_ERROR, INVALID_CHARACTER_ERROR
 }
 
 @Composable
 fun UsernameTextField(
     value: String,
+    error: UsernameError,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val errorType by remember(value) {
-        derivedStateOf {
-            when {
-                value.isEmpty() -> UsernameError.NONE
-                !value.matches(Regex(SignUpConst.USERNAME_REGEX)) -> UsernameError.INVALID_CHARACTER_ERROR
-                value.length !in USERNAME_MIN_LENGTH..USERNAME_MAX_LENGTH -> UsernameError.LENGTH_ERROR
-                else -> UsernameError.NONE
-            }
-        }
-    }
-
     SignUpTextField(
         modifier = modifier,
         value = value,
         onValueChange = onValueChange,
         label = stringResource(R.string.sign_up_user_name),
-        isError = errorType != UsernameError.NONE,
-        supportingText = when (errorType) {
-            UsernameError.LENGTH_ERROR -> stringResource(R.string.sign_up_user_name_length_error)
-            UsernameError.INVALID_CHARACTER_ERROR -> stringResource(R.string.sign_up_user_name_invalid_character_error)
-            UsernameError.NONE -> ""
+        errorMessage = if (value.isNotEmpty()) {
+            when (error) {
+                UsernameError.LENGTH_ERROR -> stringResource(R.string.sign_up_user_name_length_error)
+                UsernameError.INVALID_CHARACTER_ERROR -> stringResource(R.string.sign_up_user_name_invalid_character_error)
+                UsernameError.NONE -> null
+            }
+        } else {
+            null
         }
     )
 }
@@ -61,6 +52,7 @@ private fun UsernameTextFieldPreview(@PreviewParameter(UsernameTextFieldPreviewP
     SignupTheme {
         UsernameTextField(
             value = value,
+            error = InputValidator.validateUsername(value),
             onValueChange = {}
         )
     }
