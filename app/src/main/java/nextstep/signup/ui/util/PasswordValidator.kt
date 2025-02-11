@@ -8,7 +8,7 @@ class PasswordValidator : Validator {
                 ValidationStates.PASSWORD_LENGTH_ERROR,
             )
 
-            !value.matches(Regex(PASSWORD_REGEX)) -> ValidationResult(
+            !value.matches(PASSWORD_REGEX) -> ValidationResult(
                 ValidationStates.PASSWORD_COMPLEXITY_ERROR,
             )
 
@@ -20,6 +20,6 @@ class PasswordValidator : Validator {
         private const val MIN_PASSWORD_LENGTH = 8
         private const val MAX_PASSWORD_LENGTH = 16
 
-        private const val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$"
+        private val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$".toRegex()
     }
 }

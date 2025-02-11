@@ -3,7 +3,7 @@ package nextstep.signup.ui.util
 class EmailValidator : Validator {
 
     override fun validate(value: String): ValidationResult {
-        return if (!value.matches(Regex(EMAIL_REGEX))) {
+        return if (!value.matches(EMAIL_REGEX)) {
             ValidationResult(ValidationStates.EMAIL_FORMAT_ERROR)
         } else {
             ValidationResult(ValidationStates.SUCCESS)
@@ -11,6 +11,6 @@ class EmailValidator : Validator {
     }
 
     companion object {
-        private const val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
+        private val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$".toRegex()
     }
 }

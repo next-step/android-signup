@@ -8,7 +8,7 @@ class NameValidator : Validator {
                 ValidationStates.NAME_LENGTH_ERROR,
             )
 
-            !value.matches(Regex(USERNAME_REGEX)) -> ValidationResult(
+            !value.matches(USERNAME_REGEX) -> ValidationResult(
                 ValidationStates.NAME_INVALID_CHARACTER,
             )
 
@@ -20,6 +20,6 @@ class NameValidator : Validator {
         private const val MIN_NAME_LENGTH = 2
         private const val MAX_NAME_LENGTH = 5
 
-        private const val USERNAME_REGEX = "^[a-zA-Z가-힣]+$"
+        private val USERNAME_REGEX = "^[a-zA-Z가-힣]+$".toRegex()
     }
 }
