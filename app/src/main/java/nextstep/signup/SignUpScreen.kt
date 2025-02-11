@@ -44,6 +44,7 @@ import nextstep.signup.ui.theme.roboto
 @Composable
 fun SignUpScreen(
     paddingValues: PaddingValues = PaddingValues(0.dp),
+    showSnackbar: (String) -> Unit = {},
 ) {
     var state by remember { mutableStateOf(SignUpState()) }
     val context = LocalContext.current
@@ -117,7 +118,11 @@ fun SignUpScreen(
         Spacer(modifier = Modifier.height(42.dp))
 
         Button(
-            onClick = { /*TODO*/ },
+            onClick = {
+                val message = context.getString(R.string.sign_up_success_message)
+                showSnackbar(message)
+                state = SignUpState()
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
@@ -216,7 +221,7 @@ private fun SignUpInputForm(
 @Composable
 private fun SignUpScreenPreview() {
     MaterialTheme {
-        SignUpScreen(PaddingValues())
+        SignUpScreen(paddingValues = PaddingValues(), showSnackbar = {})
     }
 }
 
