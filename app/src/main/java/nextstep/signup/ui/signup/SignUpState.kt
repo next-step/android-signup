@@ -37,6 +37,9 @@ class SignUpState(
         userNameValidation.isValidUsername && emailValidation && passwordValidation.isValidPassword && isPasswordConfirmValid
     }
 
+    var isSignUpSuccess: Boolean? by mutableStateOf(null)
+        private set
+
     fun updateUserName(value: String) {
         userName = value
     }
@@ -51,5 +54,9 @@ class SignUpState(
 
     fun updatePasswordConfirm(value: String) {
         passwordConfirm = value
+    }
+
+    fun updateSignUpResult(result: Boolean?) {
+        isSignUpSuccess = result
     }
 }

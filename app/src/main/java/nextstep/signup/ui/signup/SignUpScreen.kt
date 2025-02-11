@@ -11,9 +11,13 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
@@ -23,6 +27,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
 import nextstep.signup.R
 import nextstep.signup.ui.theme.SignupTheme
 
@@ -50,11 +55,15 @@ fun SignUpScreen(
                 }
 
                 SignUpAction.OnSignUpClick -> {
-
+                    state.updateSignUpResult(true)
                 }
 
                 is SignUpAction.OnUsernameChange -> {
                     state.updateUserName(action.value)
+                }
+
+                SignUpAction.OnSignUpSuccessConsumed -> {
+                    state.updateSignUpResult(null)
                 }
             }
         }
@@ -67,7 +76,22 @@ private fun SignUpScreen(
     onAction: (SignUpAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Scaffold { paddingValues ->
+    val snackbarHostState = remember {
+        SnackbarHostState()
+    }
+
+    LaunchedEffect(state.isSignUpSuccess) {
+        if (state.isSignUpSuccess == true) {
+            snackbarHostState.showSnackbar("회원가입이 완료됐습니다.")
+            onAction(SignUpAction.OnSignUpSuccessConsumed)
+        }
+    }
+
+    Scaffold(
+        snackbarHost = {
+            SnackbarHost(snackbarHostState)
+        }
+    ) { paddingValues ->
         val focusManager = LocalFocusManager.current
 
         LazyColumn(
