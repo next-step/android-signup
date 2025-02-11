@@ -18,14 +18,14 @@ import nextstep.signup.ui.component.SignUpEditFields
 import nextstep.signup.ui.component.SignUpTitle
 import nextstep.signup.ui.model.SignUpInputModel
 import nextstep.signup.ui.theme.SignupTheme
+import nextstep.signup.utils.validator.isEnabled
 
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,
 ) {
-    val isValid by remember { mutableStateOf(true) }
-
     var inputsModel by remember { mutableStateOf(SignUpInputModel()) }
+    val isSignUpButtonValid by remember(inputsModel) { mutableStateOf(inputsModel.isEnabled()) }
 
     Column(
         modifier = modifier
@@ -40,7 +40,7 @@ fun MainScreen(
             inputModel = inputsModel,
             onUpdateModel = { inputsModel = it }
         )
-        SignUpButton(enabled = isValid, onClick = {})
+        SignUpButton(enabled = isSignUpButtonValid, onClick = {})
     }
 }
 
