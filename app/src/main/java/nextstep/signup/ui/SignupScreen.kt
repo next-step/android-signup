@@ -96,7 +96,6 @@ fun SignupScreen() {
                 label = emailLabel,
                 value = email,
                 onValueChange = { email = it },
-                modifier = Modifier,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Email,
                     imeAction = ImeAction.Next
@@ -111,7 +110,6 @@ fun SignupScreen() {
                 value = password,
                 onValueChange = { password = it },
                 visualTransformation = PasswordVisualTransformation(),
-                modifier = Modifier,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Next
@@ -126,7 +124,6 @@ fun SignupScreen() {
                 value = passwordConfirm,
                 onValueChange = { passwordConfirm = it },
                 visualTransformation = PasswordVisualTransformation(),
-                modifier = Modifier,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Done
