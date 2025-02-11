@@ -59,6 +59,46 @@ class InputValidatorTest {
         assertEquals(isValid, actual)
     }
 
+    @ParameterizedTest
+    @MethodSource("passwordLengthProvider")
+    fun `패스워드 길이 테스트`(password: String, isInLength: Boolean) {
+        // when
+        val actual = inputValidator.checkPassword(password)
+
+        // then
+        assertEquals(isInLength, actual.isInLength)
+    }
+
+    @ParameterizedTest
+    @MethodSource("passwordCharacterProvider")
+    fun `패스워드 문자 포함 테스트`(password: String, hasCharacter: Boolean) {
+        // when
+        val actual = inputValidator.checkPassword(password)
+
+        // then
+        assertEquals(hasCharacter, actual.hasCharacter)
+    }
+
+    @ParameterizedTest
+    @MethodSource("passwordNumberProvider")
+    fun `패스워드 숫자 포함 테스트`(password: String, hasNumber: Boolean) {
+        // when
+        val actual = inputValidator.checkPassword(password)
+
+        // then
+        assertEquals(hasNumber, actual.hasNumber)
+    }
+
+    @ParameterizedTest
+    @MethodSource("passwordAllProvider")
+    fun `패스워드 Valid 테스트`(password: String, isValid: Boolean) {
+        // when
+        val actual = inputValidator.checkPassword(password)
+
+        // then
+        assertEquals(isValid, actual.isValidPassword)
+    }
+
     companion object {
         @JvmStatic
         fun usernameLengthProvider(): Iterable<Array<Any>> {
@@ -121,6 +161,53 @@ class InputValidatorTest {
                 arrayOf("a@a,com", false),
                 arrayOf("a@a.commmm", true),
                 arrayOf("a@a.commmmm", false),
+            )
+        }
+
+        @JvmStatic
+        fun passwordLengthProvider(): Iterable<Array<Any>> {
+            return arrayListOf(
+                arrayOf("", false),
+                arrayOf("1", false),
+                arrayOf("1234567", false),
+                arrayOf("12345678", true),
+                arrayOf("1234567890123456", true),
+                arrayOf("12345678901234567", false),
+            )
+        }
+
+        @JvmStatic
+        fun passwordNumberProvider(): Iterable<Array<Any>> {
+            return arrayListOf(
+                arrayOf("", false),
+                arrayOf("1", true),
+                arrayOf("asdfqwer", false),
+                arrayOf("q1w2e3r4", true),
+            )
+        }
+
+        @JvmStatic
+        fun passwordCharacterProvider(): Iterable<Array<Any>> {
+            return arrayListOf(
+                arrayOf("", false),
+                arrayOf("12345678", false),
+                arrayOf("i2e45678", true),
+                arrayOf("a", true),
+                arrayOf("A", true),
+            )
+        }
+
+        @JvmStatic
+        fun passwordAllProvider(): Iterable<Array<Any>> {
+            return arrayListOf(
+                arrayOf("", false),
+                arrayOf("asdfqwer", false),
+                arrayOf("12345678", false),
+                arrayOf("12e45678", true),
+                arrayOf("q1w2e3r4", true),
+                arrayOf("q1w2e3r", false),
+                arrayOf("qwerasdf12341234", true),
+                arrayOf("qwerasdf123412345", false),
             )
         }
     }
