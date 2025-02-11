@@ -12,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.BlueGrey20
 import nextstep.signup.ui.theme.SignupTheme
@@ -47,23 +49,15 @@ fun SignupTextField(
     )
 }
 
-@Composable
-@Preview
-fun SignupTextFieldPreview() {
-    val value = remember { mutableStateOf("") }
-    SignupTheme {
-        SignupTextField(
-            value = value.value,
-            onValueChange = { value.value = it },
-            label = "Username",
-            secure = false,
-        )
-    }
+class SecureParameter : PreviewParameterProvider<Boolean> {
+    override val values: Sequence<Boolean> = sequenceOf(true, false)
 }
 
 @Composable
 @Preview
-fun SignupSecureTextFieldPreview() {
+fun SignupTextFieldPreview(
+    @PreviewParameter(SecureParameter::class) secure: Boolean
+) {
     val value = remember { mutableStateOf("") }
     SignupTheme {
         SignupTextField(
