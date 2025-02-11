@@ -17,10 +17,10 @@ internal fun SignupInputFields(
     onValidation: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val (userName, setUserName) = remember { mutableStateOf("") }
-    val (email, setEmail) = remember { mutableStateOf("") }
-    val (password, setPassword) = remember { mutableStateOf("") }
-    val (passwordConfirm, setPasswordConfirm) = remember { mutableStateOf("") }
+    var userName by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var passwordConfirm by remember { mutableStateOf("") }
 
     var signupValidations by remember { mutableStateOf(SignupValidations()) }
 
@@ -30,7 +30,7 @@ internal fun SignupInputFields(
     ) {
         UserNameTextFiled(
             text = userName,
-            onValueChange = setUserName,
+            onValueChange = { userName = it },
             onValidation = {
                 signupValidations = signupValidations.copy(isUserNamePassed = it)
                 onValidation(signupValidations.isAllValidation())
@@ -38,7 +38,7 @@ internal fun SignupInputFields(
         )
         EmailTextFiled(
             text = email,
-            onValueChange = setEmail,
+            onValueChange = { email = it },
             onValidation = {
                 signupValidations = signupValidations.copy(isEmailPassed = it)
                 onValidation(signupValidations.isAllValidation())
@@ -46,7 +46,7 @@ internal fun SignupInputFields(
         )
         PasswordTextFiled(
             text = password,
-            onValueChange = setPassword,
+            onValueChange = { password = it },
             onValidation = {
                 signupValidations = signupValidations.copy(isPasswordPassed = it)
                 onValidation(signupValidations.isAllValidation())
@@ -55,7 +55,7 @@ internal fun SignupInputFields(
         PasswordConfirmTextFiled(
             text = passwordConfirm,
             password = password,
-            onValueChange = setPasswordConfirm,
+            onValueChange = { passwordConfirm = it },
             onValidation = {
                 signupValidations = signupValidations.copy(isPasswordConfirmPassed = it)
                 onValidation(signupValidations.isAllValidation())
