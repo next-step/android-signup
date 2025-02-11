@@ -24,7 +24,7 @@
 
 ### 4단계
 - 3단계 피드백 반영하기
-  - [ ] State에 action 관련 코드 없애기
+  - [x] State에 action 관련 코드 없애기
   - [ ] InputValidation에 따른 상태를 enum class로 관리하기
   - [x] input state보다 output state의 변화가 적은 state는 derivedStateOf 사용하기
   - [ ] InputValidationTest -> UserNameTextFieldTest로 이름 변경하기

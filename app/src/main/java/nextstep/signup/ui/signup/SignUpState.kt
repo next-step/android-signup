@@ -33,27 +33,19 @@ class SignUpState(
         password == passwordConfirm
     }
 
-    fun onAction(action: SignUpAction) {
-        when (action) {
-            is SignUpAction.OnEmailChange -> {
-                email = action.value
-            }
+    fun updateUserName(value: String) {
+        userName = value
+    }
 
-            is SignUpAction.OnPasswordChange -> {
-                password = action.value
-            }
+    fun updateEmail(value: String) {
+        email = value
+    }
 
-            is SignUpAction.OnPasswordConfirmChange -> {
-                passwordConfirm = action.value
-            }
+    fun updatePassword(value: String) {
+        password = value
+    }
 
-            SignUpAction.OnSignUpClick -> {
-
-            }
-
-            is SignUpAction.OnUsernameChange -> {
-                userName = action.value
-            }
-        }
+    fun updatePasswordConfirm(value: String) {
+        passwordConfirm = value
     }
 }

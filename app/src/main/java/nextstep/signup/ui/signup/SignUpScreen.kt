@@ -14,10 +14,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -29,19 +27,36 @@ import nextstep.signup.R
 import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
-fun SignUpScreen(modifier: Modifier = Modifier) {
-    // Q. state를 remember block으로 감싸야 하는지 궁금합니다.
-    // 내부에서 변경 가능한 state를 관리하고 있기 때문에, state에 변경 사항이 생기면 recomposition이 발생해 매번 초기화가 발생해 TextField에 값을 입력해도 반영되지 않을 것으로 예측했으나
-    // remember block으로 감싸지 않아도 잘 동작합니다. 왜 잘 동작하는지 궁금합니다.
-    val state = remember {
-        SignUpState(InputValidator())
-    }
+fun SignUpScreen(
+    modifier: Modifier = Modifier,
+) {
+    val state = SignUpState(InputValidator())
 
     SignUpScreen(
         modifier = modifier,
         state = state,
         onAction = { action ->
-            state.onAction(action)
+            when (action) {
+                is SignUpAction.OnEmailChange -> {
+                    state.updateEmail(action.value)
+                }
+
+                is SignUpAction.OnPasswordChange -> {
+                    state.updatePassword(action.value)
+                }
+
+                is SignUpAction.OnPasswordConfirmChange -> {
+                    state.updatePasswordConfirm(action.value)
+                }
+
+                SignUpAction.OnSignUpClick -> {
+
+                }
+
+                is SignUpAction.OnUsernameChange -> {
+                    state.updateUserName(action.value)
+                }
+            }
         }
     )
 }
