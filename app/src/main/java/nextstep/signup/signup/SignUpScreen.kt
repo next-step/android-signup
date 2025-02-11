@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import nextstep.signup.R
 import nextstep.signup.signup.component.SignUpContents
 import nextstep.signup.signup.component.SignUpTitle
+import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
 fun SignUpScreen(modifier: Modifier = Modifier) {
@@ -40,5 +41,7 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
 @Preview(showBackground = true, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun SignUpScreenPreview() {
-    SignUpScreen()
+    SignupTheme {
+        SignUpScreen()
+    }
 }
