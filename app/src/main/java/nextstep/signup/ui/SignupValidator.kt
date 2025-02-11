@@ -4,14 +4,14 @@ import android.content.Context
 import nextstep.signup.R
 
 object SignupValidator {
-    private const val USERNAME_REGEX = "^[a-zA-Z가-힣]+$"
-    private const val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
-    private const val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$"
+    private val USERNAME_REGEX = "^[a-zA-Z가-힣]+$".toRegex()
+    private val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$".toRegex()
+    private val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$".toRegex()
 
     fun validateUsername(username: String): ResultType {
         val isEmpty = username.isEmpty()
         val isValidLength = username.length in 2..5
-        val isValidFormat = username.matches(Regex(USERNAME_REGEX))
+        val isValidFormat = username.matches(USERNAME_REGEX)
 
         return when {
             isEmpty -> ResultType.Empty
@@ -23,7 +23,7 @@ object SignupValidator {
 
     fun validateEmail(email: String): ResultType {
         val isEmpty = email.isEmpty()
-        val isValidFormat = email.matches(Regex(EMAIL_REGEX))
+        val isValidFormat = email.matches(EMAIL_REGEX)
 
         return when {
             isEmpty -> ResultType.Empty
@@ -35,7 +35,7 @@ object SignupValidator {
     fun validatePassword(password: String): ResultType {
         val isEmpty = password.isEmpty()
         val isValidLength = password.length in 8..16
-        val isValidFormat = password.matches(Regex(PASSWORD_REGEX))
+        val isValidFormat = password.matches(PASSWORD_REGEX)
 
         return when {
             isEmpty -> ResultType.Empty
