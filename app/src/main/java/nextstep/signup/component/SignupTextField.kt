@@ -35,7 +35,7 @@ internal fun SignupTextField(
     visualTransformation: VisualTransformation,
     modifier: Modifier = Modifier,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    validateResult: SignupInfoValidateResult = SignupInfoValidateResult.SUCCESS,
+    validateResult: SignupInfoValidateResult = SignupInfoValidateResult.Success,
 ) {
     TextField(
         modifier = modifier

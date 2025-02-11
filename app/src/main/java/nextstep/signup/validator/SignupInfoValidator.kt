@@ -15,12 +15,12 @@ sealed interface SignupInfoValidator {
         private val regex by lazy { Regex(USERNAME_REGEX) }
 
         override fun checkCondition(value: String): SignupInfoValidateResult {
-            if (value.isEmpty()) return SignupInfoValidateResult.EMPTY
-            if (value.length !in 2..5) return SignupInfoValidateResult.INVALID_LENGTH_USERNAME
+            if (value.isEmpty()) return SignupInfoValidateResult.Empty
+            if (value.length !in 2..5) return SignupInfoValidateResult.Failure.Username.INVALID_LENGTH_USERNAME
 
             return when (value.matches(regex)) {
-                true -> SignupInfoValidateResult.SUCCESS
-                false -> SignupInfoValidateResult.INVALID_FORMAT_USERNAME
+                true -> SignupInfoValidateResult.Success
+                false -> SignupInfoValidateResult.Failure.Username.INVALID_FORMAT_USERNAME
             }
         }
     }
@@ -31,10 +31,10 @@ sealed interface SignupInfoValidator {
         private val regex by lazy { Regex(EMAIL_REGEX) }
 
         override fun checkCondition(value: String): SignupInfoValidateResult {
-            if (value.isEmpty()) return SignupInfoValidateResult.EMPTY
+            if (value.isEmpty()) return SignupInfoValidateResult.Empty
             return when (value.matches(regex)) {
-                true -> SignupInfoValidateResult.SUCCESS
-                false -> SignupInfoValidateResult.INVALID_FORMAT_EMAIL
+                true -> SignupInfoValidateResult.Success
+                false -> SignupInfoValidateResult.Failure.Email.INVALID_FORMAT_EMAIL
             }
         }
     }
@@ -45,12 +45,12 @@ sealed interface SignupInfoValidator {
         private val regex by lazy { Regex(PASSWORD_REGEX) }
 
         override fun checkCondition(value: String): SignupInfoValidateResult {
-            if (value.isEmpty()) return SignupInfoValidateResult.EMPTY
-            if (value.length !in 8..16) return SignupInfoValidateResult.INVALID_LENGTH_PASSWORD
+            if (value.isEmpty()) return SignupInfoValidateResult.Empty
+            if (value.length !in 8..16) return SignupInfoValidateResult.Failure.Password.INVALID_LENGTH_PASSWORD
 
             return when (value.matches(regex)) {
-                true -> SignupInfoValidateResult.SUCCESS
-                false -> SignupInfoValidateResult.INVALID_FORMAT_PASSWORD
+                true -> SignupInfoValidateResult.Success
+                false -> SignupInfoValidateResult.Failure.Password.INVALID_FORMAT_PASSWORD
             }
         }
     }
@@ -59,10 +59,10 @@ sealed interface SignupInfoValidator {
         private val passwordProvider: () -> String,
     ) : SignupInfoValidator {
         override fun checkCondition(value: String): SignupInfoValidateResult {
-            if (value.isEmpty()) return SignupInfoValidateResult.EMPTY
+            if (value.isEmpty()) return SignupInfoValidateResult.Empty
             return when (passwordProvider() == value) {
-                true -> SignupInfoValidateResult.SUCCESS
-                false -> SignupInfoValidateResult.NOT_MATCH_PASSWORD
+                true -> SignupInfoValidateResult.Success
+                false -> SignupInfoValidateResult.Failure.PasswordConfirm.NOT_MATCH_PASSWORD
             }
         }
     }
