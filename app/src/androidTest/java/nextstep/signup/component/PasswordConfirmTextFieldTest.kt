@@ -12,6 +12,7 @@ import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextInput
+import nextstep.signup.validator.SignupInfoValidator
 import org.junit.Rule
 import org.junit.Test
 
@@ -28,12 +29,10 @@ class PasswordConfirmTextFieldTest {
 
         // when
         composeTestRule.setContent {
-            val (passwordConfirm, setPasswordConfirm) = remember { mutableStateOf("") }
-
             PasswordConfirmTextFiled(
-                text = passwordConfirm,
-                password = passwordConfirm,
-                onValueChange = setPasswordConfirm,
+                text = "passwordConfirm",
+                validator = SignupInfoValidator.PasswordConfirm { "passwordConfirm" },
+                onValueChange = { },
             )
         }
 
@@ -48,7 +47,7 @@ class PasswordConfirmTextFieldTest {
         composeTestRule.setContent {
             PasswordConfirmTextFiled(
                 text = "1q2w3e4r",
-                password = "1q2w3e4r",
+                validator = SignupInfoValidator.PasswordConfirm { "1q2w3e4r" },
                 onValueChange = { },
             )
         }
@@ -80,7 +79,7 @@ class PasswordConfirmTextFieldTest {
 
             PasswordConfirmTextFiled(
                 text = passwordConfirm,
-                password = password,
+                validator = SignupInfoValidator.PasswordConfirm { password },
                 onValueChange = setPasswordConfirm,
                 modifier = Modifier.testTag(confirmTag)
             )
