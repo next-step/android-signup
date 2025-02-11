@@ -40,7 +40,7 @@ private fun SignUpTextFieldPreview() {
 
     SignUpTextField(
         text = previewText,
-        type = SignUpTextFieldType.USERNAME,
+        hintText = "Username",
         onTextChanged = onPreviewTextChanged,
         errorMessage = ""
     )

@@ -10,12 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import nextstep.signup.SignUpTextFieldType
 import nextstep.signup.ui.theme.Blue20
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.Gray50
@@ -25,7 +22,9 @@ import nextstep.signup.ui.theme.Red50
 @Composable
 fun SignUpTextField(
     text: String,
-    type: SignUpTextFieldType,
+    hintText: String,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     modifier: Modifier = Modifier,
     onTextChanged: (String) -> Unit = {},
     errorMessage: String
@@ -35,7 +34,7 @@ fun SignUpTextField(
         onValueChange = onTextChanged,
         label = {
             Text(
-                text = type.hint,
+                text = hintText,
                 fontSize = 16.sp,
                 lineHeight = 24.sp,
                 fontWeight = FontWeight.W400,
@@ -58,22 +57,20 @@ fun SignUpTextField(
             focusedContainerColor = Blue20,
             unfocusedContainerColor = Blue20,
         ),
-        supportingText = {
-            if (errorMessage.isNotEmpty()) {
-                SignUpTextFieldSupportingText(errorMessage)
+        supportingText = if (errorMessage.isNotEmpty()) {
+            {
+                Text(
+                    text = errorMessage,
+                    fontSize = 12.sp,
+                    lineHeight = 16.sp,
+                    fontWeight = FontWeight.W400,
+                )
             }
+        } else {
+            null
         },
-        visualTransformation = when (type) {
-            SignUpTextFieldType.USERNAME, SignUpTextFieldType.EMAIL -> VisualTransformation.None
-            SignUpTextFieldType.PASSWORD, SignUpTextFieldType.PASSWORD_CONFIRM -> PasswordVisualTransformation()
-        },
-        keyboardOptions = KeyboardOptions(
-            keyboardType = when (type) {
-                SignUpTextFieldType.USERNAME -> KeyboardType.Text
-                SignUpTextFieldType.EMAIL -> KeyboardType.Email
-                SignUpTextFieldType.PASSWORD, SignUpTextFieldType.PASSWORD_CONFIRM -> KeyboardType.Password
-            }
-        ),
+        visualTransformation = visualTransformation,
+        keyboardOptions = keyboardOptions,
         modifier = modifier
             .width(296.dp)
             .clip(shape = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp))
