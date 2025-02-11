@@ -5,6 +5,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import nextstep.signup.ui.SignupScreen
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -13,14 +14,17 @@ class SignupTextFieldValidationTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
+    @Before
+    fun setUp() {
+        composeTestRule.setContent {
+            SignupScreen()
+        }
+    }
+
     @Test
     fun 이름은_2에서_5자여야_한다() {
         // given
         val text = "컴포즈"
-
-        composeTestRule.setContent {
-            SignupScreen()
-        }
 
         // when
         composeTestRule
@@ -38,10 +42,6 @@ class SignupTextFieldValidationTest {
         // given
         val text = "컴"
 
-        composeTestRule.setContent {
-            SignupScreen()
-        }
-
         // when
         composeTestRule
             .onNodeWithText(USERNAME_LABEL)
@@ -57,10 +57,6 @@ class SignupTextFieldValidationTest {
     fun 이름이_5자가_넘으면_에러메시지_노출된다() {
         // given
         val text = "컴포즈입니다"
-
-        composeTestRule.setContent {
-            SignupScreen()
-        }
 
         // when
         composeTestRule
@@ -78,10 +74,6 @@ class SignupTextFieldValidationTest {
         // given
         val text = "컴포즈"
 
-        composeTestRule.setContent {
-            SignupScreen()
-        }
-
         // when
         composeTestRule
             .onNodeWithText(USERNAME_LABEL)
@@ -97,10 +89,6 @@ class SignupTextFieldValidationTest {
     fun 이름에_숫자가_포함되면_에러메시지가_노출된다() {
         // given
         val text = "컴포즈1"
-
-        composeTestRule.setContent {
-            SignupScreen()
-        }
 
         // when
         composeTestRule
@@ -118,10 +106,6 @@ class SignupTextFieldValidationTest {
         // given
         val text = "컴포즈#"
 
-        composeTestRule.setContent {
-            SignupScreen()
-        }
-
         // when
         composeTestRule
             .onNodeWithText(USERNAME_LABEL)
@@ -137,10 +121,6 @@ class SignupTextFieldValidationTest {
     fun 이메일_형식이_올바르면_에러메시지_노출되지_않는다() {
         // given
         val text = "compose@gmail.com"
-
-        composeTestRule.setContent {
-            SignupScreen()
-        }
 
         // when
         composeTestRule
@@ -158,10 +138,6 @@ class SignupTextFieldValidationTest {
         // given
         val text = "compose#gmail.com"
 
-        composeTestRule.setContent {
-            SignupScreen()
-        }
-
         // when
         composeTestRule
             .onNodeWithText(EMAIL_LABEL)
@@ -177,10 +153,6 @@ class SignupTextFieldValidationTest {
     fun 비밀번호는_8에서_16자_이어야_한다() {
         // given
         val text = "aaaa1234"
-
-        composeTestRule.setContent {
-            SignupScreen()
-        }
 
         // when
         composeTestRule
@@ -198,10 +170,6 @@ class SignupTextFieldValidationTest {
         // given
         val text = "aaaa123"
 
-        composeTestRule.setContent {
-            SignupScreen()
-        }
-
         // when
         composeTestRule
             .onNodeWithText(PASSWORD_LABEL)
@@ -217,10 +185,6 @@ class SignupTextFieldValidationTest {
     fun 비밀번호가_16자를_넘으면_에러메시지_노출된다() {
         // given
         val text = "aaaabbbbccccdddd0"
-
-        composeTestRule.setContent {
-            SignupScreen()
-        }
 
         // when
         composeTestRule
@@ -238,10 +202,6 @@ class SignupTextFieldValidationTest {
         // given
         val text = "abcdabcd#"
 
-        composeTestRule.setContent {
-            SignupScreen()
-        }
-
         // when
         composeTestRule
             .onNodeWithText(PASSWORD_LABEL)
@@ -257,10 +217,6 @@ class SignupTextFieldValidationTest {
     fun 비밀번호_확인은_8자가_안되면_에러메시지_노출된다() {
         // given
         val text = "aaaa123"
-
-        composeTestRule.setContent {
-            SignupScreen()
-        }
 
         // when
         composeTestRule
@@ -278,10 +234,6 @@ class SignupTextFieldValidationTest {
         // given
         val text = "aaaabbbbccccdddd0"
 
-        composeTestRule.setContent {
-            SignupScreen()
-        }
-
         // when
         composeTestRule
             .onNodeWithText(PASSWORD_CONFIRM_LABEL)
@@ -297,10 +249,6 @@ class SignupTextFieldValidationTest {
     fun 비밀번호_확인은_영문과_숫자가_포함되지_않으면_에러메시지_노출된다() {
         // given
         val text = "abcdabcd##"
-
-        composeTestRule.setContent {
-            SignupScreen()
-        }
 
         // when
         composeTestRule
@@ -318,10 +266,6 @@ class SignupTextFieldValidationTest {
         // given
         val password = "abcd1234"
         val passwordConfirm = "abcd1234"
-
-        composeTestRule.setContent {
-            SignupScreen()
-        }
 
         // when
         composeTestRule
@@ -347,10 +291,6 @@ class SignupTextFieldValidationTest {
         // given
         val password = "abcd1234"
         val passwordConfirm = "abcd1235"
-
-        composeTestRule.setContent {
-            SignupScreen()
-        }
 
         // when
         composeTestRule
