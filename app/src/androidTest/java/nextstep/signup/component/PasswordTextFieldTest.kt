@@ -6,9 +6,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithText
+import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextInput
@@ -58,8 +59,9 @@ class PasswordTextFieldTest {
 
         // then
         composeTestRule
-            .onNodeWithText(password)
-            .assertIsNotDisplayed()
+            .onAllNodesWithText("\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022")
+            .onFirst()
+            .assertIsDisplayed()
     }
 
     @Test

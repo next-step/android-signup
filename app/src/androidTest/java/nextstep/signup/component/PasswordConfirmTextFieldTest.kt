@@ -5,9 +5,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.assertIsNotDisplayed
+import androidx.compose.ui.test.hasSetTextAction
 import androidx.compose.ui.test.isDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithText
+import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextInput
@@ -44,24 +46,20 @@ class PasswordConfirmTextFieldTest {
 
     @Test
     fun `비밀번호_확인은_평문으로_보이지_않는다`() {
-        // given
-        val password = "1q2w3e4r"
-
-        //when
         composeTestRule.setContent {
-            val (passwordConfirm, setPasswordConfirm) = remember { mutableStateOf("") }
-
             PasswordConfirmTextFiled(
-                text = passwordConfirm,
-                password = passwordConfirm,
-                onValueChange = setPasswordConfirm,
+                text = "1q2w3e4r",
+                password = "1q2w3e4r",
+                onValueChange = { },
             )
         }
 
+        hasSetTextAction()
         // then
         composeTestRule
-            .onNodeWithText(password)
-            .assertIsNotDisplayed()
+            .onAllNodesWithText("\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022")
+            .onFirst()
+            .assertIsDisplayed()
     }
 
     @Test
