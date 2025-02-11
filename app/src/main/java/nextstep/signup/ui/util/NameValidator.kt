@@ -1,22 +1,18 @@
 package nextstep.signup.ui.util
 
-import nextstep.signup.R
-
 class NameValidator : Validator {
 
     override fun validate(value: String): ValidationResult {
         return when {
             value.length !in MIN_NAME_LENGTH..MAX_NAME_LENGTH -> ValidationResult(
-                isValid = false,
-                errorMessage = R.string.signup_name_length_error_message
+                ValidationStates.NAME_LENGTH_ERROR,
             )
 
             !value.matches(Regex(USERNAME_REGEX)) -> ValidationResult(
-                isValid = false,
-                errorMessage = R.string.signup_name_invalid_character_error_message
+                ValidationStates.NAME_INVALID_CHARACTER,
             )
 
-            else -> ValidationResult(isValid = true, errorMessage = null)
+            else -> ValidationResult(ValidationStates.SUCCESS)
         }
     }
 

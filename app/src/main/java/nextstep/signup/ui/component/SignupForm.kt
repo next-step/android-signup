@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import nextstep.signup.ui.theme.SignupBlue
 import nextstep.signup.ui.util.ValidationResult
-import nextstep.signup.ui.util.Validator
+import nextstep.signup.ui.util.ValidationStates
 
 @Composable
 fun SignupForm(
@@ -45,11 +45,11 @@ fun SignupForm(
             keyboardType = inputType
         ),
         visualTransformation = if (inputType == KeyboardType.Password) PasswordVisualTransformation() else VisualTransformation.None,
-        isError = validResult.isValid.not(),
+        isError = validResult.isValid().not(),
         supportingText = {
-            if (validResult.isValid.not()) {
+            if (validResult.isValid().not()) {
                 Text(
-                    text = stringResource(validResult.errorMessage!!),
+                    text = stringResource(validResult.getErrorMessage()!!),
                     modifier = Modifier.height(16.dp),
                 )
             }
@@ -59,7 +59,9 @@ fun SignupForm(
 }
 
 class FormPreviewParameterProvider : PreviewParameterProvider<Pair<String, ValidationResult>> {
-    private val successResult = ValidationResult(isValid = true, errorMessage = 0)
+    private val successResult = ValidationResult(
+        validationState = ValidationStates.SUCCESS,
+    )
 
     override val values = sequenceOf(
         Pair("Username", successResult),
