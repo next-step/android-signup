@@ -25,7 +25,9 @@ import androidx.compose.ui.unit.sp
 import nextstep.signup.textfield.EmailTextField
 import nextstep.signup.textfield.InputValidator
 import nextstep.signup.textfield.PasswordConfirmTextField
+import nextstep.signup.textfield.PasswordError
 import nextstep.signup.textfield.PasswordTextField
+import nextstep.signup.textfield.UsernameError
 import nextstep.signup.textfield.UsernameTextField
 import nextstep.signup.ui.theme.SignupTheme
 
@@ -54,6 +56,15 @@ fun SignUpScreen() {
     val isPasswordMatched by remember(key1 = password, key2 = passwordConfirm) {
         derivedStateOf {
             InputValidator.isPasswordMatched(password, passwordConfirm)
+        }
+    }
+
+    val buttonEnabled by remember {
+        derivedStateOf {
+            usernameError == UsernameError.NONE
+                    && passwordError == PasswordError.NONE
+                    && isValidEmailFormat
+                    && isPasswordMatched
         }
     }
 
@@ -102,7 +113,7 @@ fun SignUpScreen() {
 
         SignUpButton(
             text = stringResource(R.string.sign_up),
-            enabled = true,
+            enabled = buttonEnabled,
             onClick = {}
         )
     }
