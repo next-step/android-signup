@@ -15,7 +15,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -40,7 +39,6 @@ fun SignUpScreen(
     val state = rememberSaveable {
         SignUpState(InputValidator())
     }
-    val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
     when (state.registerState) {
@@ -61,43 +59,16 @@ fun SignUpScreen(
     SignUpScreen(
         modifier = modifier,
         state = state,
-        onAction = { action ->
-            when (action) {
-                is SignUpAction.OnEmailChange -> {
-                    state.updateEmail(action.value)
-                }
-
-                is SignUpAction.OnPasswordChange -> {
-                    state.updatePassword(action.value)
-                }
-
-                is SignUpAction.OnPasswordConfirmChange -> {
-                    state.updatePasswordConfirm(action.value)
-                }
-
-                SignUpAction.OnSignUpClick -> {
-                    scope.launch {
-                        // 실제와 같이 회원가입 처리한다고 가정
-                        state.updateRegisterState(RegisterState.Checking)
-                        delay(2000L)
-                        state.updateRegisterState(RegisterState.Success)
-                    }
-                }
-
-                is SignUpAction.OnUsernameChange -> {
-                    state.updateUserName(action.value)
-                }
-            }
-        }
     )
 }
 
 @Composable
 private fun SignUpScreen(
     state: SignUpState,
-    onAction: (SignUpAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val scope = rememberCoroutineScope()
+
     Scaffold { paddingValues ->
         val focusManager = LocalFocusManager.current
 
@@ -126,7 +97,7 @@ private fun SignUpScreen(
                     isUsernameLengthValid = state.userNameValidation.isInLength,
                     isUsernameHasNumberOrSpecialCharacter = state.userNameValidation.hasNumber || state.userNameValidation.hasSpecialCharacter,
                     onUsernameChange = {
-                        onAction(SignUpAction.OnUsernameChange(it))
+                        state.updateUserName(it)
                     },
                 )
             }
@@ -136,7 +107,7 @@ private fun SignUpScreen(
                     modifier = Modifier.fillMaxWidth(),
                     value = state.email,
                     onValueChange = {
-                        onAction(SignUpAction.OnEmailChange(it))
+                        state.updateEmail(it)
                     },
                     textStyle = MaterialTheme.typography.bodyLarge,
                     label = {
@@ -160,7 +131,7 @@ private fun SignUpScreen(
                     modifier = Modifier.fillMaxWidth(),
                     value = state.password,
                     onValueChange = {
-                        onAction(SignUpAction.OnPasswordChange(it))
+                        state.updatePassword(it)
                     },
                     textStyle = MaterialTheme.typography.bodyLarge,
                     label = {
@@ -187,7 +158,7 @@ private fun SignUpScreen(
                     modifier = Modifier.fillMaxWidth(),
                     value = state.passwordConfirm,
                     onValueChange = {
-                        onAction(SignUpAction.OnPasswordConfirmChange(it))
+                        state.updatePasswordConfirm(it)
                     },
                     textStyle = MaterialTheme.typography.bodyLarge,
                     label = {
@@ -223,7 +194,12 @@ private fun SignUpScreen(
                         RegisterState.Fail
                     ) && state.isInputAllValid,
                     onClick = {
-                        onAction(SignUpAction.OnSignUpClick)
+                        scope.launch {
+                            // 실제와 같이 회원가입 처리한다고 가정
+                            state.updateRegisterState(RegisterState.Checking)
+                            delay(2000L)
+                            state.updateRegisterState(RegisterState.Success)
+                        }
                     }
                 ) {
                     Text(
@@ -276,7 +252,6 @@ private fun SignUpScreenPreview() {
     SignupTheme {
         SignUpScreen(
             state = SignUpState(InputValidator()),
-            onAction = {},
         )
     }
 }
