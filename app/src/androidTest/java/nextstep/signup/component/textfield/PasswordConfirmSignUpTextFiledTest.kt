@@ -10,9 +10,10 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.text.input.KeyboardType
 import nextstep.signup.components.SignUpTextField
+import nextstep.signup.domain.Password
 import nextstep.signup.domain.PasswordConfirm
 import nextstep.signup.mapper.toUiState
-import nextstep.signup.state.PasswordConfirmState
+import nextstep.signup.state.InputFieldState
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -21,16 +22,18 @@ class PasswordConfirmSignUpTextFiledTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
-    private val password = "abcd1234"
-    private val passwordConfirm: MutableState<PasswordConfirmState> =
-        mutableStateOf(PasswordConfirmState())
+    private val password = Password("abcd1234")
+    private val passwordConfirm: MutableState<InputFieldState> =
+        mutableStateOf(PasswordConfirm(password.value).toUiState())
 
     @Before
     fun setup() {
         composeTestRule.setContent {
             SignUpTextField(
-                value = passwordConfirm.value.passwordConfirm,
-                onValueChange = { passwordConfirm.value = PasswordConfirm(it).toUiState(password) },
+                value = passwordConfirm.value.input,
+                onValueChange = {
+                    passwordConfirm.value = PasswordConfirm(password.value, it).toUiState()
+                },
                 keyboardType = KeyboardType.Password,
                 isError = passwordConfirm.value.isError,
                 supportingText = passwordConfirm.value.supportingText,
@@ -44,7 +47,7 @@ class PasswordConfirmSignUpTextFiledTest {
     @Test
     fun 비밀번호와_비밀번호_확인이_일치하지_않으면_에러메시지가_표시된다() {
         // when
-        passwordConfirm.value = PasswordConfirm("abcd123").toUiState(password)
+        passwordConfirm.value = PasswordConfirm(password.value, "abcd123").toUiState()
 
         // then
         composeTestRule
@@ -55,7 +58,7 @@ class PasswordConfirmSignUpTextFiledTest {
     @Test
     fun 비밀번호와_비밀번호_확인이_일치하면_에러메시지가_표시되지_않는다() {
         // when
-        passwordConfirm.value = PasswordConfirm("abcd1234").toUiState(password)
+        passwordConfirm.value = PasswordConfirm(password.value, "abcd1234").toUiState()
 
         // then
         composeTestRule

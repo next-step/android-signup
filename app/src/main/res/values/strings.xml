@@ -8,4 +8,5 @@
     <string name="sign_up_password_label">Password</string>
     <string name="sign_up_password_confirm_label">Password Confirm</string>
     <string name="sign_up_sign_up_button_text">Sign Up</string>
+    <string name="sign_up_sign_up_done">가입이 완료되었습니다!</string>
 </resources>

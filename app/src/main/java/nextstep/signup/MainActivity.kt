@@ -7,62 +7,43 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import nextstep.signup.domain.Email
-import nextstep.signup.domain.Password
-import nextstep.signup.domain.PasswordConfirm
-import nextstep.signup.domain.Username
-import nextstep.signup.mapper.toUiState
-import nextstep.signup.state.EmailState
-import nextstep.signup.state.PasswordConfirmState
-import nextstep.signup.state.PasswordState
-import nextstep.signup.state.UsernameState
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import nextstep.signup.ui.theme.SignupTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            var usernameState: UsernameState by remember { mutableStateOf(UsernameState()) }
-            var email by remember { mutableStateOf(EmailState()) }
-            var password by remember { mutableStateOf(PasswordState()) }
-            var passwordConfirm by remember { mutableStateOf(PasswordConfirmState()) }
+            val inputFields: InputFields = remember { InputFields() }
+            val snackBarHostState = remember { SnackbarHostState() }
+            val scope = rememberCoroutineScope()
 
             SignupTheme {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     containerColor = MaterialTheme.colorScheme.background,
+                    snackbarHost = {
+                        val height = LocalConfiguration.current.screenHeightDp
+                        SnackbarHost(
+                            snackBarHostState,
+                            modifier = Modifier.padding(bottom = (height - 148).dp)
+                        )
+                    },
                 ) { paddingValues ->
                     SignUpScreen(
-                        username = usernameState.username,
-                        isUsernameError = usernameState.isError,
-                        usernameSupportingText = usernameState.supportingText,
-                        onUserNameChange = { usernameState = Username(it).toUiState() },
-                        email = email.email,
-                        isEmailError = email.isError,
-                        emailSupportingText = email.supportingText,
-                        onEmailChange = { email = Email(it).toUiState() },
-                        password = password.password,
-                        isPasswordError = password.isError,
-                        passwordSupportingText = password.supportingText,
-                        onPasswordChange = {
-                            password = Password(it).toUiState()
-                            if (passwordConfirm.passwordConfirm.isNotEmpty()) {
-                                passwordConfirm =
-                                    PasswordConfirm(passwordConfirm.passwordConfirm).toUiState(it)
+                        inputFields = inputFields,
+                        onSignUpButtonClick = {
+                            scope.launch {
+                                snackBarHostState.showSnackbar(getString(R.string.sign_up_sign_up_done))
                             }
                         },
-                        passwordConfirm = passwordConfirm.passwordConfirm,
-                        isPasswordConfirmError = passwordConfirm.isError,
-                        passwordConfirmSupportingText = passwordConfirm.supportingText,
-                        onPasswordConfirmChange = {
-                            passwordConfirm = PasswordConfirm(it).toUiState(password.password)
-                        },
-                        onSignUpButtonClick = {},
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(paddingValues)

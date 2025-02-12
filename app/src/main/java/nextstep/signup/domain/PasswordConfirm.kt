@@ -1,20 +1,11 @@
 package nextstep.signup.domain
 
-import nextstep.signup.domain.PasswordConfirmValidationResult.NOT_SAME
-import nextstep.signup.domain.PasswordConfirmValidationResult.VALID
-
-
-@JvmInline
-value class PasswordConfirm(val value: String) {
-    fun validate(password: String) : PasswordConfirmValidationResult {
+data class PasswordConfirm(val password: String = "", val value: String = ""): InputField {
+    override fun validate(): ValidationResult {
         return when {
-            value != password -> NOT_SAME
-            else -> VALID
+            value.isEmpty() -> ValidationResult.EmptyValue
+            value != password -> ValidationResult.PasswordConfirm.NOT_SAME
+            else -> ValidationResult.Valid
         }
     }
-}
-
-enum class PasswordConfirmValidationResult {
-    VALID,
-    NOT_SAME,
 }

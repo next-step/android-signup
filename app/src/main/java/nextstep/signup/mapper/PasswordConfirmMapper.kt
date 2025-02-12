@@ -1,22 +1,24 @@
 package nextstep.signup.mapper
 
+import androidx.compose.ui.text.input.KeyboardType
+import nextstep.signup.R
 import nextstep.signup.domain.PasswordConfirm
-import nextstep.signup.domain.PasswordConfirmValidationResult
-import nextstep.signup.domain.PasswordConfirmValidationResult.VALID
-import nextstep.signup.domain.PasswordConfirmValidationResult.NOT_SAME
-import nextstep.signup.state.PasswordConfirmState
+import nextstep.signup.domain.ValidationResult
+import nextstep.signup.state.InputFieldState
 
-fun PasswordConfirm.toUiState(
-    password: String
-): PasswordConfirmState {
-    val validationResult: PasswordConfirmValidationResult = validate(password)
+fun PasswordConfirm.toUiState(): InputFieldState {
+    val validationResult: ValidationResult = validate()
 
-    return PasswordConfirmState(
-        passwordConfirm = value,
-        isError = validationResult != VALID,
-        supportingText = when (validationResult) {
-            VALID -> ""
-            NOT_SAME -> "비밀번호가 일치하지 않습니다."
-        }
+    return InputFieldState(
+        label = R.string.sign_up_password_confirm_label,
+        input = value,
+        keyboardType = KeyboardType.Password,
+        needHide = true,
+        isError = validationResult is ValidationResult.PasswordConfirm && password.isNotEmpty(),
+        supportingText = if (validationResult is ValidationResult.PasswordConfirm) {
+            when (validationResult) {
+                ValidationResult.PasswordConfirm.NOT_SAME -> "비밀번호가 일치하지 않습니다."
+            }
+        } else "",
     )
 }

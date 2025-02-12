@@ -1,12 +1,13 @@
 package nextstep.signup.domain
 
 @JvmInline
-value class Username(val value: String) {
-    fun validate(): UsernameValidationResult {
+value class Username(val value: String = "") : InputField {
+    override fun validate(): ValidationResult {
         return when {
-            value.length !in MINIMUM_LENGTH..MAXIMUM_LENGTH -> UsernameValidationResult.INVALID_LENGTH
-            !value.matches(usernameRegex) -> UsernameValidationResult.INVALID_CHARACTER
-            else -> UsernameValidationResult.VALID
+            value.isEmpty() -> ValidationResult.EmptyValue
+            value.length !in MINIMUM_LENGTH..MAXIMUM_LENGTH -> ValidationResult.Username.INVALID_LENGTH
+            !value.matches(usernameRegex) -> ValidationResult.Username.INVALID_CHARACTER
+            else -> ValidationResult.Valid
         }
     }
 
@@ -16,10 +17,4 @@ value class Username(val value: String) {
         private const val USERNAME_REGEX = "^[a-zA-Z가-힣]+$"
         private val usernameRegex = Regex(USERNAME_REGEX)
     }
-}
-
-enum class UsernameValidationResult {
-    VALID,
-    INVALID_LENGTH,
-    INVALID_CHARACTER,
 }

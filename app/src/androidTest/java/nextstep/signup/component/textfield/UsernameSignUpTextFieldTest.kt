@@ -11,7 +11,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import nextstep.signup.components.SignUpTextField
 import nextstep.signup.domain.Username
 import nextstep.signup.mapper.toUiState
-import nextstep.signup.state.UsernameState
+import nextstep.signup.state.InputFieldState
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,14 +25,15 @@ class UsernameSignUpTextFieldInvalidLengthTest(
 ) {
     @get:Rule
     val composeTestRule = createComposeRule()
-    private val usernameState: MutableState<UsernameState> = mutableStateOf(UsernameState())
+    private val usernameState: MutableState<InputFieldState> =
+        mutableStateOf(Username().toUiState())
 
     @Test
     fun username의_글자수가_2글자보다_작거나_5글자보다_크면_에러메시지가_표시된다() {
         // given
         composeTestRule.setContent {
             SignUpTextField(
-                value = usernameState.value.username,
+                value = usernameState.value.input,
                 onValueChange = { usernameState.value = Username(it).toUiState() },
                 isError = usernameState.value.isError,
                 supportingText = usernameState.value.supportingText,
@@ -73,14 +74,15 @@ class UsernameSignUpTextFieldInvalidCharacterTest(
 ) {
     @get:Rule
     val composeTestRule = createComposeRule()
-    private val usernameState: MutableState<UsernameState> = mutableStateOf(UsernameState())
+    private val usernameState: MutableState<InputFieldState> =
+        mutableStateOf(Username().toUiState())
 
     @Test
     fun username으로_한글과_알파벳이아닌_다른_문자가_입력되면_에러메시지가_표시된다() {
         // given
         composeTestRule.setContent {
             SignUpTextField(
-                value = usernameState.value.username,
+                value = usernameState.value.input,
                 onValueChange = { usernameState.value = Username(it).toUiState() },
                 isError = usernameState.value.isError,
                 supportingText = usernameState.value.supportingText,

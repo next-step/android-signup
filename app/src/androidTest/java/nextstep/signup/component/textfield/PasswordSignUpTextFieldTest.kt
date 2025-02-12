@@ -11,7 +11,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import nextstep.signup.components.SignUpTextField
 import nextstep.signup.domain.Password
 import nextstep.signup.mapper.toUiState
-import nextstep.signup.state.PasswordState
+import nextstep.signup.state.InputFieldState
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,14 +25,15 @@ class PasswordSignUpTextFieldInvalidLengthTest(
 ) {
     @get:Rule
     val composeTestRule = createComposeRule()
-    private val passwordState: MutableState<PasswordState> = mutableStateOf(PasswordState())
+    private val passwordState: MutableState<InputFieldState> =
+        mutableStateOf(Password().toUiState())
 
     @Test
     fun 비밀번호의_글자수가_8글자보다_작거나_16글자보다_크면_에러메시지가_표시된다() {
         // given
         composeTestRule.setContent {
             SignUpTextField(
-                value = passwordState.value.password,
+                value = passwordState.value.input,
                 onValueChange = { passwordState.value = Password(it).toUiState() },
                 isError = passwordState.value.isError,
                 supportingText = passwordState.value.supportingText,
@@ -73,14 +74,15 @@ class PasswordSignUpTextFieldInvalidCharacterTest(
 ) {
     @get:Rule
     val composeTestRule = createComposeRule()
-    private val passwordState: MutableState<PasswordState> = mutableStateOf(PasswordState())
+    private val passwordState: MutableState<InputFieldState> =
+        mutableStateOf(Password().toUiState())
 
     @Test
     fun 비밀번호에_영문과_숫자가_동시에_포함되지_않았다면_에러메시지가_표시된다() {
         // given
         composeTestRule.setContent {
             SignUpTextField(
-                value = passwordState.value.password,
+                value = passwordState.value.input,
                 onValueChange = { passwordState.value = Password(it).toUiState() },
                 isError = passwordState.value.isError,
                 supportingText = passwordState.value.supportingText,
