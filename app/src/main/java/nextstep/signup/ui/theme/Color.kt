@@ -14,6 +14,7 @@ val White = Color(0xFFFFFFFF)
 
 val BlackDark = Color(0xFF1D1B20)
 val BlackGrey = Color(0xFF49454F)
+val BlackAlpha12 = Color(0x1F1D1B20)
 
 val Blue50 = Color(0xFF2196F3)
 val BlueGrey20 = Color(0xFFE3E8F1)

@@ -1,7 +1,4 @@
-package nextstep.signup.ui
-
-import android.content.Context
-import nextstep.signup.R
+package nextstep.signup.ui.signin
 
 object SignupValidator {
     private val USERNAME_REGEX = "^[a-zA-Z가-힣]+$".toRegex()
@@ -55,26 +52,6 @@ object SignupValidator {
         return when {
             !isMatch -> ResultType.PasswordMismatch
             else -> ResultType.Success
-        }
-    }
-
-    fun getErrorMessage(context: Context, result: ResultType): String {
-        val usernameLength = context.getString(R.string.signup_error_username_length)
-        val usernameInvalidFormat = context.getString(R.string.signup_error_username_invalid_format)
-        val emailInvalidFormat = context.getString(R.string.signup_error_email_invalid_format)
-        val passwordLength = context.getString(R.string.signup_error_password_length)
-        val passwordInvalidFormat = context.getString(R.string.signup_error_password_invalid_format)
-        val passwordMismatch = context.getString(R.string.signup_error_password_mismatch)
-
-        return when (result) {
-            ResultType.Success -> ""
-            ResultType.Empty -> ""
-            ResultType.UsernameLength -> usernameLength
-            ResultType.UsernameInvalidFormat -> usernameInvalidFormat
-            ResultType.EmailInvalidFormat -> emailInvalidFormat
-            ResultType.PasswordLength -> passwordLength
-            ResultType.PasswordInvalidFormat -> passwordInvalidFormat
-            ResultType.PasswordMismatch -> passwordMismatch
         }
     }
 
