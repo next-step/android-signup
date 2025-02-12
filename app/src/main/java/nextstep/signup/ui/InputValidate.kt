@@ -12,7 +12,7 @@ private val passwordRegex = PASSWORD_PATTERN.toRegex()
 
 sealed class ValidationState {
     data class Error(val resourceId: Int) : ValidationState()
-    data object Success : ValidationState()
+    data object None : ValidationState()
 }
 
 fun validateUsername(username: String): ValidationState {
@@ -21,7 +21,7 @@ fun validateUsername(username: String): ValidationState {
     } else if (!username.matches(usernameRegex)) {
         ValidationState.Error(R.string.error_username_format)
     } else {
-        ValidationState.Success
+        ValidationState.None
     }
 }
 
@@ -29,7 +29,7 @@ fun validateEmail(email: String): ValidationState {
     return if (!email.matches(emailRegex)) {
         ValidationState.Error(R.string.error_email_format)
     } else {
-        ValidationState.Success
+        ValidationState.None
     }
 }
 
@@ -39,7 +39,7 @@ fun validatePassword(password: String): ValidationState {
     } else if (!password.matches(passwordRegex)) {
         ValidationState.Error(R.string.error_password_format)
     } else {
-        ValidationState.Success
+        ValidationState.None
     }
 }
 
@@ -47,6 +47,6 @@ fun validatePasswordConfirm(password: String, passwordConfirm: String): Validati
     return if (passwordConfirm != password) {
         ValidationState.Error(R.string.error_password_confirm_not_equal)
     } else {
-        ValidationState.Success
+        ValidationState.None
     }
 }

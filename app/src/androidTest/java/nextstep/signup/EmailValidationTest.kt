@@ -3,7 +3,7 @@ package nextstep.signup
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import nextstep.signup.ui.screen.EmailTextField
+import nextstep.signup.ui.component.textfield.EmailTextField
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

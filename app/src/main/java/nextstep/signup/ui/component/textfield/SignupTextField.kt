@@ -1,4 +1,4 @@
-package nextstep.signup.ui.component
+package nextstep.signup.ui.component.textfield
 
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
@@ -9,11 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import nextstep.signup.ui.ValidationState
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.BlueGrey20
 import nextstep.signup.ui.theme.Red50
@@ -27,7 +29,7 @@ fun SignupTextField(
     modifier: Modifier = Modifier,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     secure: Boolean = false,
-    errorMsg: String? = null
+    validationState: ValidationState = ValidationState.None
 ) {
     TextField(
         modifier = modifier,
@@ -35,9 +37,9 @@ fun SignupTextField(
         label = { Text(label) },
         onValueChange = onValueChange,
         singleLine = true,
-        isError = errorMsg != null,
-        supportingText = if (errorMsg != null) {
-            { Text(errorMsg) }
+        isError = validationState is ValidationState.Error,
+        supportingText = if (validationState is ValidationState.Error) {
+            { Text(stringResource(validationState.resourceId)) }
         } else {
             null
         },
