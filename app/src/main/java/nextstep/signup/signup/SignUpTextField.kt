@@ -9,10 +9,14 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import nextstep.signup.R
+import nextstep.signup.SignUpTextFieldValidation
 import nextstep.signup.ui.theme.Blue20
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.Gray50
@@ -20,20 +24,106 @@ import nextstep.signup.ui.theme.Gray70
 import nextstep.signup.ui.theme.Red50
 
 @Composable
+fun UserNameTextField(
+    text: String,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    onTextChanged: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val supportingMessage = SignUpTextFieldValidation.getUsernameValidationMessage(text)
+
+    SignUpTextField(
+        text = text,
+        label = stringResource(id = R.string.username),
+        onTextChanged = onTextChanged,
+        errorMessage = supportingMessage,
+        keyboardOptions = keyboardOptions,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun EmailTextField(
+    text: String,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    onTextChanged: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val supportingMessage = SignUpTextFieldValidation.getEmailValidationMessage(text)
+
+    SignUpTextField(
+        text = text,
+        label = stringResource(id = R.string.email),
+        onTextChanged = onTextChanged,
+        errorMessage = supportingMessage,
+        keyboardOptions = keyboardOptions,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun PasswordTextField(
+    text: String,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    onTextChanged: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val supportingMessage = SignUpTextFieldValidation.getPasswordValidationMessage(text)
+
+    SignUpTextField(
+        text = text,
+        label = stringResource(id = R.string.password),
+        onTextChanged = onTextChanged,
+        errorMessage = supportingMessage,
+        keyboardOptions = keyboardOptions,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun PasswordConfirmTextField(
+    text: String,
+    password: String,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    onTextChanged: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val supportingMessage =
+        SignUpTextFieldValidation.getPasswordConfirmValidationMessage(password, text)
+
+    SignUpTextField(
+        text = text,
+        label = stringResource(id = R.string.password_confirm),
+        onTextChanged = onTextChanged,
+        errorMessage = supportingMessage,
+        visualTransformation = PasswordVisualTransformation(),
+        keyboardOptions = keyboardOptions,
+        modifier = modifier
+    )
+}
+
+@Composable
 fun SignUpTextField(
     text: String,
-    label: @Composable (() -> Unit)? = null,
+    label: String,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     modifier: Modifier = Modifier,
-    onTextChanged: (String) -> Unit = {},
-    supportingText: @Composable (() -> Unit)? = null,
+    onTextChanged: (String) -> Unit,
     errorMessage: String
 ) {
     TextField(
         value = text,
         onValueChange = onTextChanged,
-        label = label,
+        label = {
+            Text(
+                text = label,
+                fontSize = 16.sp,
+                lineHeight = 24.sp,
+                fontWeight = FontWeight.W400,
+                letterSpacing = 0.5.sp,
+            )
+        },
         isError = errorMessage.isNotEmpty(),
         singleLine = true,
         colors = TextFieldDefaults.colors(
@@ -50,7 +140,18 @@ fun SignUpTextField(
             focusedContainerColor = Blue20,
             unfocusedContainerColor = Blue20,
         ),
-        supportingText = supportingText,
+        supportingText = if (errorMessage.isNotEmpty()) {
+            {
+                Text(
+                    text = errorMessage,
+                    fontSize = 12.sp,
+                    lineHeight = 16.sp,
+                    fontWeight = FontWeight.W400,
+                )
+            }
+        } else {
+            null
+        },
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
         modifier = modifier

@@ -3,7 +3,6 @@ package nextstep.signup
 import org.junit.Test
 
 class SignUpTextFieldValidationTest {
-    private val validation = SignUpTextFieldValidation()
 
     @Test
     fun `유저 이름이 2자 미만일 때 유효성 검사에 실패한다`() {
@@ -11,7 +10,7 @@ class SignUpTextFieldValidationTest {
         val username = "a"
 
         // when
-        val actualValue = validation.getUsernameValidationMessage(username)
+        val actualValue = SignUpTextFieldValidation.getUsernameValidationMessage(username)
 
         // then
         assert(actualValue == "이름은 2~5자여야 합니다.")
@@ -23,7 +22,7 @@ class SignUpTextFieldValidationTest {
         val username = "abcdef"
 
         // when
-        val actualValue = validation.getUsernameValidationMessage(username)
+        val actualValue = SignUpTextFieldValidation.getUsernameValidationMessage(username)
 
         // then
         assert(actualValue == "이름은 2~5자여야 합니다.")
@@ -35,7 +34,7 @@ class SignUpTextFieldValidationTest {
         val username = "a1"
 
         // when
-        val actualValue = validation.getUsernameValidationMessage(username)
+        val actualValue = SignUpTextFieldValidation.getUsernameValidationMessage(username)
 
         // then
         assert(actualValue == "이름에는 숫자나 기호가 포함될 수 없습니다.")
@@ -47,7 +46,7 @@ class SignUpTextFieldValidationTest {
         val username = "a!"
 
         // when
-        val actualValue = validation.getUsernameValidationMessage(username)
+        val actualValue = SignUpTextFieldValidation.getUsernameValidationMessage(username)
 
         // then
         assert(actualValue == "이름에는 숫자나 기호가 포함될 수 없습니다.")
@@ -59,7 +58,7 @@ class SignUpTextFieldValidationTest {
         val username = "a@"
 
         // when
-        val actualValue = validation.getUsernameValidationMessage(username)
+        val actualValue = SignUpTextFieldValidation.getUsernameValidationMessage(username)
 
         // then
         assert(actualValue == "이름에는 숫자나 기호가 포함될 수 없습니다.")
@@ -71,7 +70,7 @@ class SignUpTextFieldValidationTest {
         val email = "a"
 
         // when
-        val actualValue = validation.getEmailValidationMessage(email)
+        val actualValue = SignUpTextFieldValidation.getEmailValidationMessage(email)
 
         // then
         assert(actualValue == "이메일 형식이 올바르지 않습니다.")
@@ -83,7 +82,7 @@ class SignUpTextFieldValidationTest {
         val password = "1234567"
 
         // when
-        val actualValue = validation.getPasswordValidationMessage(password)
+        val actualValue = SignUpTextFieldValidation.getPasswordValidationMessage(password)
 
         // then
         assert(actualValue == "비밀번호는 8~16자여야 합니다.")
@@ -95,7 +94,7 @@ class SignUpTextFieldValidationTest {
         val password = "12345678901234567"
 
         // when
-        val actualValue = validation.getPasswordValidationMessage(password)
+        val actualValue = SignUpTextFieldValidation.getPasswordValidationMessage(password)
 
         // then
         assert(actualValue == "비밀번호는 8~16자여야 합니다.")
@@ -107,7 +106,7 @@ class SignUpTextFieldValidationTest {
         val password = "123456789"
 
         // when
-        val actualValue = validation.getPasswordValidationMessage(password)
+        val actualValue = SignUpTextFieldValidation.getPasswordValidationMessage(password)
 
         // then
         assert(actualValue == "비밀번호는 영문과 숫자를 포함해야 합니다.")
@@ -120,7 +119,7 @@ class SignUpTextFieldValidationTest {
         val passwordConfirm = "123456789"
 
         // when
-        val actualValue = validation.getPasswordConfirmValidationMessage(password, passwordConfirm)
+        val actualValue = SignUpTextFieldValidation.getPasswordConfirmValidationMessage(password, passwordConfirm)
 
         // then
         assert(actualValue == "비밀번호가 일치하지 않습니다.")

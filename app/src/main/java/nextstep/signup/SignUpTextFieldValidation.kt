@@ -1,6 +1,6 @@
 package nextstep.signup
 
-class SignUpTextFieldValidation {
+object SignUpTextFieldValidation {
     private val usernameRegex = "^[a-zA-Z가-힣]+$"
     private val emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
     private val passwordRegex = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$"

@@ -38,28 +38,6 @@ private fun SignUpTitlePreview() {
 
 @Preview(showBackground = true)
 @Composable
-private fun SignUpTextFieldPreview() {
-    var previewText by remember { mutableStateOf("") }
-    val onPreviewTextChanged: (String) -> Unit = { previewText = it }
-
-    SignUpTextField(
-        text = previewText,
-        label = {
-            Text(
-                text = stringResource(id = R.string.username),
-                fontSize = 16.sp,
-                lineHeight = 24.sp,
-                fontWeight = FontWeight.W400,
-                letterSpacing = 0.5.sp
-            )
-        },
-        onTextChanged = onPreviewTextChanged,
-        errorMessage = ""
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
 private fun SignUpButtonPreview() {
     SignUpButton()
 }
