@@ -3,7 +3,6 @@ package nextstep.signup
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import nextstep.signup.userregister.widget.UsernameInputField
-import nextstep.signup.util.ValidationUtil.setUsernameErrorMessage
 import org.junit.Rule
 import org.junit.Test
 
@@ -12,23 +11,18 @@ class UsernameInputValidationTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    private fun setUsernameInputField(userName: String) {
-        composeTestRule.setContent {
-            UsernameInputField(
-                value = userName,
-                errorMessage = setUsernameErrorMessage(userName),
-                onValueChange = {}
-            )
-        }
-    }
-
     @Test
     fun `사용자_이름은_2에서_5자여야_한다`() {
         // given
         val userName = "김컴포즈"
 
         // when
-        setUsernameInputField(userName)
+        composeTestRule.setContent {
+            UsernameInputField(
+                value = userName,
+                onValueChange = {}
+            )
+        }
 
         // then
         composeTestRule
@@ -42,7 +36,12 @@ class UsernameInputValidationTest {
         val userName = "김컴포즈입니다"
 
         // when
-        setUsernameInputField(userName)
+        composeTestRule.setContent {
+            UsernameInputField(
+                value = userName,
+                onValueChange = {}
+            )
+        }
 
         // then
         composeTestRule
@@ -56,7 +55,12 @@ class UsernameInputValidationTest {
         val userName = "김컴포즈"
 
         // when
-        setUsernameInputField(userName)
+        composeTestRule.setContent {
+            UsernameInputField(
+                value = userName,
+                onValueChange = {}
+            )
+        }
 
         // then
         composeTestRule
@@ -70,7 +74,12 @@ class UsernameInputValidationTest {
         val userName = "김컴포즈!"
 
         // when
-        setUsernameInputField(userName)
+        composeTestRule.setContent {
+            UsernameInputField(
+                value = userName,
+                onValueChange = {}
+            )
+        }
 
         // then
         composeTestRule

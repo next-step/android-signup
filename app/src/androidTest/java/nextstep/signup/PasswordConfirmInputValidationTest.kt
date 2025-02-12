@@ -1,10 +1,8 @@
 package nextstep.signup
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import nextstep.signup.userregister.widget.PasswordConfirmInputField
-import nextstep.signup.util.ValidationUtil.setPasswordConfirmErrorMessage
 import org.junit.Rule
 import org.junit.Test
 
@@ -12,21 +10,6 @@ class PasswordConfirmInputValidationTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
-    private val password = mutableStateOf("")
-    private val passwordConfirm = mutableStateOf("")
-
-    fun setPasswordConfirmInputField(
-        password: String,
-        passwordConfirm: String,
-    ) {
-        composeTestRule.setContent {
-            PasswordConfirmInputField(
-                value = passwordConfirm,
-                errorMessage = setPasswordConfirmErrorMessage(password, passwordConfirm),
-                onValueChange = {}
-            )
-        }
-    }
 
     @Test
     fun `비밀번호_확인_입력값과_비밀번호_입력값은_같아야_한다`() {
@@ -35,7 +18,13 @@ class PasswordConfirmInputValidationTest {
         val passwordConfirm = "1234567890"
 
         // when
-        setPasswordConfirmInputField(password, passwordConfirm)
+        composeTestRule.setContent {
+            PasswordConfirmInputField(
+                password = password,
+                passwordConfirm = passwordConfirm,
+                onValueChange = {}
+            )
+        }
 
         // then
         composeTestRule
@@ -50,7 +39,13 @@ class PasswordConfirmInputValidationTest {
         val passwordConfirm = "ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊ"
 
         // when
-        setPasswordConfirmInputField(password, passwordConfirm)
+        composeTestRule.setContent {
+            PasswordConfirmInputField(
+                password = password,
+                passwordConfirm = passwordConfirm,
+                onValueChange = {}
+            )
+        }
 
         // then
         composeTestRule

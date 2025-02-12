@@ -3,7 +3,6 @@ package nextstep.signup
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import nextstep.signup.userregister.widget.PasswordInputField
-import nextstep.signup.util.ValidationUtil.setPasswordErrorMessage
 import org.junit.Rule
 import org.junit.Test
 
@@ -12,23 +11,18 @@ class PasswordInputValidationTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    private fun setPasswordInputField(password: String) {
-        composeTestRule.setContent {
-            PasswordInputField(
-                value = password,
-                errorMessage = setPasswordErrorMessage(password),
-                onValueChange = {}
-            )
-        }
-    }
-
     @Test
     fun `비밀번호는_8에서_16자여야_한다`() {
         // given
         val password = "1234567890"
 
         // when
-        setPasswordInputField(password)
+        composeTestRule.setContent {
+            PasswordInputField(
+                value = password,
+                onValueChange = {}
+            )
+        }
 
         // then
         composeTestRule
@@ -42,7 +36,12 @@ class PasswordInputValidationTest {
         val password = "1234567"
 
         // when
-        setPasswordInputField(password)
+        composeTestRule.setContent {
+            PasswordInputField(
+                value = password,
+                onValueChange = {}
+            )
+        }
 
         // then
         composeTestRule
@@ -56,7 +55,12 @@ class PasswordInputValidationTest {
         val password = "a1234567890"
 
         // when
-        setPasswordInputField(password)
+        composeTestRule.setContent {
+            PasswordInputField(
+                value = password,
+                onValueChange = {}
+            )
+        }
 
         // then
         composeTestRule
@@ -70,7 +74,12 @@ class PasswordInputValidationTest {
         val password = "1234567890"
 
         // when
-        setPasswordInputField(password)
+        composeTestRule.setContent {
+            PasswordInputField(
+                value = password,
+                onValueChange = {}
+            )
+        }
 
         // then
         composeTestRule

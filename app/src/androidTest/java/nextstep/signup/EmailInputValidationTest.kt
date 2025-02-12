@@ -3,7 +3,6 @@ package nextstep.signup
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import nextstep.signup.userregister.widget.EmailInputField
-import nextstep.signup.util.ValidationUtil.setEmailErrorMessage
 import org.junit.Rule
 import org.junit.Test
 
@@ -12,23 +11,18 @@ class EmailInputValidationTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    fun setEmailInputField(email: String) {
-        composeTestRule.setContent {
-            EmailInputField(
-                value = email,
-                errorMessage = setEmailErrorMessage(email),
-                onValueChange = {}
-            )
-        }
-    }
-
     @Test
     fun `입력_값은_이메일_형식이어야_한다`() {
         // given
         val email = "fbghgus123@naver.com"
 
         // when
-        setEmailInputField(email)
+        composeTestRule.setContent {
+            EmailInputField(
+                value = email,
+                onValueChange = {}
+            )
+        }
 
         // then
         composeTestRule
@@ -42,7 +36,12 @@ class EmailInputValidationTest {
         val email = "fbghgus123"
 
         // when
-        setEmailInputField(email)
+        composeTestRule.setContent {
+            EmailInputField(
+                value = email,
+                onValueChange = {}
+            )
+        }
 
         // then
         composeTestRule
