@@ -11,7 +11,7 @@ class InputValidatorTest {
 
     @ParameterizedTest
     @MethodSource("usernameLengthProvider")
-    fun `사용자 닉네임 길이 테스트`(username: String, isInLength: Boolean) {
+    fun `사용자 닉네임은 2~5자여야 한다`(username: String, isInLength: Boolean) {
         // when
         val actual = inputValidator.checkUserName(username)
 
@@ -21,7 +21,7 @@ class InputValidatorTest {
 
     @ParameterizedTest
     @MethodSource("usernameNumberProvider")
-    fun `사용자 닉네임 숫자 테스트`(username: String, hasNumber: Boolean) {
+    fun `사용자 닉네임에 숫자가 포함되면 안 된다`(username: String, hasNumber: Boolean) {
         // when
         val actual = inputValidator.checkUserName(username)
 
@@ -31,7 +31,7 @@ class InputValidatorTest {
 
     @ParameterizedTest
     @MethodSource("usernameSpecialCharacterProvider")
-    fun `사용자 닉네임 특수문자 테스트`(username: String, hasSpecialCharacter: Boolean) {
+    fun `사용자 닉네임에 특수문자가 포함되면 안 된다`(username: String, hasSpecialCharacter: Boolean) {
         // when
         val actual = inputValidator.checkUserName(username)
 
@@ -41,7 +41,7 @@ class InputValidatorTest {
 
     @ParameterizedTest
     @MethodSource("usernameAllProvider")
-    fun `사용자 닉네임 Valid 테스트`(username: String, isValid: Boolean) {
+    fun `사용자 닉네임은 2~5글자이고, 숫자와 특수문자를 포함하면 안 된다`(username: String, isValid: Boolean) {
         // when
         val actual = inputValidator.checkUserName(username)
 
@@ -51,7 +51,7 @@ class InputValidatorTest {
 
     @ParameterizedTest
     @MethodSource("emailProvider")
-    fun `이메일 테스트`(email: String, isValid: Boolean) {
+    fun `이메일은 이메일 포맷에 맞아야 한다`(email: String, isValid: Boolean) {
         // when
         val actual = inputValidator.checkEmail(email)
 
@@ -61,7 +61,7 @@ class InputValidatorTest {
 
     @ParameterizedTest
     @MethodSource("passwordLengthProvider")
-    fun `패스워드 길이 테스트`(password: String, isInLength: Boolean) {
+    fun `패스워드는 8 ~ 16자여야 한다`(password: String, isInLength: Boolean) {
         // when
         val actual = inputValidator.checkPassword(password)
 
@@ -71,7 +71,7 @@ class InputValidatorTest {
 
     @ParameterizedTest
     @MethodSource("passwordCharacterProvider")
-    fun `패스워드 문자 포함 테스트`(password: String, hasCharacter: Boolean) {
+    fun `패스워드에 영문자를 포함해야 한다`(password: String, hasCharacter: Boolean) {
         // when
         val actual = inputValidator.checkPassword(password)
 
@@ -81,7 +81,7 @@ class InputValidatorTest {
 
     @ParameterizedTest
     @MethodSource("passwordNumberProvider")
-    fun `패스워드 숫자 포함 테스트`(password: String, hasNumber: Boolean) {
+    fun `패스워드에 숫자를 포함해야 한다`(password: String, hasNumber: Boolean) {
         // when
         val actual = inputValidator.checkPassword(password)
 
@@ -91,7 +91,7 @@ class InputValidatorTest {
 
     @ParameterizedTest
     @MethodSource("passwordAllProvider")
-    fun `패스워드 Valid 테스트`(password: String, isValid: Boolean) {
+    fun `패스워드는 8~16자로, 영어와 숫자를 포함해야 한다`(password: String, isValid: Boolean) {
         // when
         val actual = inputValidator.checkPassword(password)
 
