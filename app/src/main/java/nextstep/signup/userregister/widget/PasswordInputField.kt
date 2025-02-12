@@ -9,17 +9,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
 import nextstep.signup.component.UserRegisterTextField
+import nextstep.signup.userregister.validation.InputValueValidator
 
 @Composable
 fun PasswordInputField(
     value: String,
-    errorMessage: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     UserRegisterTextField(
         value = value,
-        errorMessage = errorMessage,
+        validationResult = InputValueValidator.Password.checkValue(value),
         onValueChange = onValueChange,
         labelText = stringResource(R.string.user_register_input_password_label),
         visualTransformation = PasswordVisualTransformation(),
@@ -32,7 +32,6 @@ fun PasswordInputField(
 private fun PasswordInputFieldPreview() {
     PasswordInputField(
         value = "",
-        errorMessage = "",
         onValueChange = {},
         modifier = Modifier.width(296.dp)
     )
@@ -43,7 +42,6 @@ private fun PasswordInputFieldPreview() {
 private fun PasswordInputFieldWithValuePreview() {
     PasswordInputField(
         value = "123456789",
-        errorMessage = "",
         onValueChange = {},
         modifier = Modifier.width(296.dp)
     )
@@ -53,8 +51,7 @@ private fun PasswordInputFieldWithValuePreview() {
 @Composable
 private fun PasswordInputFieldWithErrorPreview() {
     PasswordInputField(
-        value = "123456789",
-        errorMessage = "에러",
+        value = "123",
         onValueChange = {},
         modifier = Modifier.width(296.dp)
     )

@@ -8,17 +8,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
 import nextstep.signup.component.UserRegisterTextField
+import nextstep.signup.userregister.validation.InputValueValidator
 
 @Composable
 fun EmailInputField(
     value: String,
-    errorMessage: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     UserRegisterTextField(
         value = value,
-        errorMessage = errorMessage,
+        validationResult = InputValueValidator.Email.checkValue(value),
         onValueChange = onValueChange,
         labelText = stringResource(R.string.user_register_input_email_label),
         modifier = modifier,
@@ -30,7 +30,6 @@ fun EmailInputField(
 private fun EmailInputFieldPreview() {
     EmailInputField(
         value = "",
-        errorMessage = "",
         onValueChange = {},
         modifier = Modifier.width(296.dp)
     )
@@ -41,7 +40,6 @@ private fun EmailInputFieldPreview() {
 private fun EmailInputFieldWithValuePreview() {
     EmailInputField(
         value = "fbghgus123@naver.com",
-        errorMessage = "",
         onValueChange = {},
         modifier = Modifier.width(296.dp)
     )
@@ -52,7 +50,6 @@ private fun EmailInputFieldWithValuePreview() {
 private fun EmailInputFieldWithErrorPreview() {
     EmailInputField(
         value = "fbghgus123@naver.com",
-        errorMessage = "에러",
         onValueChange = {},
         modifier = Modifier.width(296.dp)
     )

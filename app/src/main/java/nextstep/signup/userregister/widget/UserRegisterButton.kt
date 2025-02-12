@@ -5,17 +5,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import nextstep.signup.UserRegisterState
 import nextstep.signup.component.SubmitButton
+import nextstep.signup.userregister.validation.UserRegisterButtonValidator
 
 @Composable
 fun UserRegisterButton(
-    enabled: Boolean,
+    state: UserRegisterState,
     onButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     SubmitButton(
         text = "Sign Up",
-        enabled = enabled,
+        enabled = UserRegisterButtonValidator.checkValidation(state),
         onClickButton = onButtonClick,
         modifier = modifier
     )
@@ -25,8 +27,8 @@ fun UserRegisterButton(
 @Composable
 private fun UserRegisterButtonPreview() {
     UserRegisterButton(
+        state = UserRegisterState(),
         onButtonClick = {},
-        enabled = true,
         modifier = Modifier.width(296.dp)
     )
 }
@@ -35,8 +37,8 @@ private fun UserRegisterButtonPreview() {
 @Composable
 private fun UserRegisterButtonDisabledPreview() {
     UserRegisterButton(
+        state = UserRegisterState(),
         onButtonClick = {},
-        enabled = false,
         modifier = Modifier.width(296.dp)
     )
 }

@@ -9,17 +9,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
 import nextstep.signup.component.UserRegisterTextField
+import nextstep.signup.userregister.validation.InputValueValidator
 
 @Composable
 fun PasswordConfirmInputField(
-    value: String,
-    errorMessage: String,
+    password: String,
+    passwordConfirm: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     UserRegisterTextField(
-        value = value,
-        errorMessage = errorMessage,
+        value = passwordConfirm,
+        validationResult = InputValueValidator.PasswordConfirm.checkValue(password, passwordConfirm),
         onValueChange = onValueChange,
         labelText = stringResource(R.string.user_register_input_password_confirm_label),
         visualTransformation = PasswordVisualTransformation(),
@@ -31,8 +32,8 @@ fun PasswordConfirmInputField(
 @Composable
 private fun PasswordConfirmInputFieldPreview() {
     PasswordConfirmInputField(
-        value = "",
-        errorMessage = "",
+        password = "",
+        passwordConfirm = "",
         onValueChange = {},
         modifier = Modifier.width(296.dp)
     )
@@ -42,8 +43,8 @@ private fun PasswordConfirmInputFieldPreview() {
 @Composable
 private fun PasswordConfirmInputFieldWithValuePreview() {
     PasswordConfirmInputField(
-        value = "123456789",
-        errorMessage = "",
+        password = "12345",
+        passwordConfirm = "12345",
         onValueChange = {},
         modifier = Modifier.width(296.dp)
     )
@@ -53,8 +54,8 @@ private fun PasswordConfirmInputFieldWithValuePreview() {
 @Composable
 private fun PasswordConfirmInputFieldWithErrorPreview() {
     PasswordConfirmInputField(
-        value = "123456789",
-        errorMessage = "에러",
+        password = "12345",
+        passwordConfirm = "1234",
         onValueChange = {},
         modifier = Modifier.width(296.dp)
     )
