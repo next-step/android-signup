@@ -5,6 +5,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.test.platform.app.InstrumentationRegistry
 import nextstep.signup.R
+import nextstep.signup.utils.SignUpValidator
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -23,6 +24,7 @@ class UserNameTextFieldTest {
         composeTestRule.setContent {
             UserNameTextField(
                 userName = username.value,
+                errorType =  SignUpValidator.Username(username.value).validate(),
                 onValueChange = {
                     username.value = it
                 }

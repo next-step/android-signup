@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun SignUpButton(
     text: String,
+    enabled: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -23,7 +24,9 @@ fun SignUpButton(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
             containerColor = Color(0XFF2196F3),
+            disabledContainerColor = Color.Gray,
         ),
+        enabled = enabled,
         modifier = modifier.fillMaxWidth().height(50.dp)
     ) {
         Text(
@@ -41,6 +44,7 @@ fun SignUpButton(
 private fun SignUpButtonPreview() {
     SignUpButton(
         text = "Sign Up",
+        enabled = false,
         onClick = {}
     )
 }
