@@ -138,9 +138,9 @@ private fun SignUpScreen(
                         keyboardType = KeyboardType.Email,
                         imeAction = ImeAction.Next
                     ),
-                    isError = !state.emailValidation,
+                    isError = !state.isEmailValid,
                     supportingText = {
-                        if (!state.emailValidation) {
+                        if (!state.isEmailValid) {
                             Text(stringResource(R.string.email_error_format))
                         }
                     }

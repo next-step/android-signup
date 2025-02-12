@@ -11,30 +11,30 @@ class SignUpState(
 
     var userName by mutableStateOf("")
         private set
-    val userNameValidation by derivedStateOf {
+    val userNameValidation: UserNameValidationState by derivedStateOf {
         inputValidator.checkUserName(userName)
     }
 
     var email by mutableStateOf("")
         private set
-    val emailValidation by derivedStateOf {
+    val isEmailValid: Boolean by derivedStateOf {
         inputValidator.checkEmail(email)
     }
 
     var password by mutableStateOf("")
         private set
-    val passwordValidation by derivedStateOf {
+    val passwordValidation : PasswordValidation by derivedStateOf {
         inputValidator.checkPassword(password)
     }
 
     var passwordConfirm by mutableStateOf("")
         private set
-    val isPasswordConfirmValid by derivedStateOf {
+    val isPasswordConfirmValid: Boolean by derivedStateOf {
         password == passwordConfirm
     }
 
-    val isInputAllValid by derivedStateOf {
-        userNameValidation.isValidUsername && emailValidation && passwordValidation.isValidPassword && isPasswordConfirmValid
+    val isInputAllValid: Boolean by derivedStateOf {
+        userNameValidation.isValidUsername && isEmailValid && passwordValidation.isValidPassword && isPasswordConfirmValid
     }
 
     var isSignUpSuccess: Boolean? by mutableStateOf(null)
