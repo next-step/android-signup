@@ -1,5 +1,6 @@
 package nextstep.signup.ui.signup
 
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -10,50 +11,52 @@ class SignUpState(
 
     var userName by mutableStateOf("")
         private set
-    var userNameValidation by mutableStateOf(UserNameValidationState())
-        private set
+    val userNameValidation: UserNameValidationState by derivedStateOf {
+        inputValidator.checkUserName(userName)
+    }
 
     var email by mutableStateOf("")
         private set
-    var emailValidation by mutableStateOf(false)
-        private set
+    val isEmailValid: Boolean by derivedStateOf {
+        inputValidator.checkEmail(email)
+    }
 
     var password by mutableStateOf("")
         private set
-    var passwordValidation by mutableStateOf(PasswordValidation())
-        private set
+    val passwordValidation : PasswordValidation by derivedStateOf {
+        inputValidator.checkPassword(password)
+    }
 
     var passwordConfirm by mutableStateOf("")
         private set
-    var isPasswordConfirmValid by mutableStateOf(true)
+    val isPasswordConfirmValid: Boolean by derivedStateOf {
+        password == passwordConfirm
+    }
+
+    val isInputAllValid: Boolean by derivedStateOf {
+        userNameValidation.isValidUsername && isEmailValid && passwordValidation.isValidPassword && isPasswordConfirmValid
+    }
+
+    var registerState: RegisterState by mutableStateOf(RegisterState.Registering)
         private set
 
-    fun onAction(action: SignUpAction) {
-        when (action) {
-            is SignUpAction.OnEmailChange -> {
-                email = action.value
-                emailValidation = inputValidator.checkEmail(action.value)
-            }
+    fun updateUserName(value: String) {
+        userName = value
+    }
 
-            is SignUpAction.OnPasswordChange -> {
-                password = action.value
-                passwordValidation = inputValidator.checkPassword(action.value)
-                isPasswordConfirmValid = action.value == passwordConfirm
-            }
+    fun updateEmail(value: String) {
+        email = value
+    }
 
-            is SignUpAction.OnPasswordConfirmChange -> {
-                passwordConfirm = action.value
-                isPasswordConfirmValid = password == action.value
-            }
+    fun updatePassword(value: String) {
+        password = value
+    }
 
-            SignUpAction.OnSignUpClick -> {
+    fun updatePasswordConfirm(value: String) {
+        passwordConfirm = value
+    }
 
-            }
-
-            is SignUpAction.OnUsernameChange -> {
-                userName = action.value
-                userNameValidation = inputValidator.checkUserName(action.value)
-            }
-        }
+    fun updateRegisterState(registerState: RegisterState) {
+        this.registerState = registerState
     }
 }

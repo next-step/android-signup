@@ -1,5 +1,6 @@
 package nextstep.signup.ui.signup
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,10 +15,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -25,33 +27,48 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import nextstep.signup.R
 import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
-fun SignUpScreen(modifier: Modifier = Modifier) {
-    // Q. state를 remember block으로 감싸야 하는지 궁금합니다.
-    // 내부에서 변경 가능한 state를 관리하고 있기 때문에, state에 변경 사항이 생기면 recomposition이 발생해 매번 초기화가 발생해 TextField에 값을 입력해도 반영되지 않을 것으로 예측했으나
-    // remember block으로 감싸지 않아도 잘 동작합니다. 왜 잘 동작하는지 궁금합니다.
-    val state = remember {
+fun SignUpScreen(
+    modifier: Modifier = Modifier,
+) {
+    val state = rememberSaveable {
         SignUpState(InputValidator())
+    }
+    val context = LocalContext.current
+
+    when (state.registerState) {
+        RegisterState.Checking -> {}
+        RegisterState.Success -> {
+            Toast.makeText(context, stringResource(R.string.sign_up_success), Toast.LENGTH_SHORT)
+                .show()
+        }
+
+        RegisterState.Fail -> {
+            Toast.makeText(context, stringResource(R.string.sign_up_fail), Toast.LENGTH_SHORT)
+                .show()
+        }
+
+        RegisterState.Registering -> {}
     }
 
     SignUpScreen(
         modifier = modifier,
         state = state,
-        onAction = { action ->
-            state.onAction(action)
-        }
     )
 }
 
 @Composable
 private fun SignUpScreen(
     state: SignUpState,
-    onAction: (SignUpAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val scope = rememberCoroutineScope()
+
     Scaffold { paddingValues ->
         val focusManager = LocalFocusManager.current
 
@@ -80,11 +97,8 @@ private fun SignUpScreen(
                     isUsernameLengthValid = state.userNameValidation.isInLength,
                     isUsernameHasNumberOrSpecialCharacter = state.userNameValidation.hasNumber || state.userNameValidation.hasSpecialCharacter,
                     onUsernameChange = {
-                        onAction(SignUpAction.OnUsernameChange(it))
+                        state.updateUserName(it)
                     },
-                    onImeClick = {
-                        focusManager.moveFocus(FocusDirection.Next)
-                    }
                 )
             }
 
@@ -93,24 +107,19 @@ private fun SignUpScreen(
                     modifier = Modifier.fillMaxWidth(),
                     value = state.email,
                     onValueChange = {
-                        onAction(SignUpAction.OnEmailChange(it))
+                        state.updateEmail(it)
                     },
                     textStyle = MaterialTheme.typography.bodyLarge,
                     label = {
                         Text(stringResource(R.string.email_label))
                     },
-                    keyboardActions = KeyboardActions(
-                        onNext = {
-                            focusManager.moveFocus(FocusDirection.Next)
-                        }
-                    ),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Email,
                         imeAction = ImeAction.Next
                     ),
-                    isError = !state.emailValidation,
+                    isError = !state.isEmailValid,
                     supportingText = {
-                        if (!state.emailValidation) {
+                        if (!state.isEmailValid) {
                             Text(stringResource(R.string.email_error_format))
                         }
                     }
@@ -122,18 +131,13 @@ private fun SignUpScreen(
                     modifier = Modifier.fillMaxWidth(),
                     value = state.password,
                     onValueChange = {
-                        onAction(SignUpAction.OnPasswordChange(it))
+                        state.updatePassword(it)
                     },
                     textStyle = MaterialTheme.typography.bodyLarge,
                     label = {
                         Text(stringResource(R.string.password_label))
                     },
                     visualTransformation = PasswordVisualTransformation(),
-                    keyboardActions = KeyboardActions(
-                        onNext = {
-                            focusManager.moveFocus(FocusDirection.Next)
-                        }
-                    ),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Password,
                         imeAction = ImeAction.Next
@@ -154,7 +158,7 @@ private fun SignUpScreen(
                     modifier = Modifier.fillMaxWidth(),
                     value = state.passwordConfirm,
                     onValueChange = {
-                        onAction(SignUpAction.OnPasswordConfirmChange(it))
+                        state.updatePasswordConfirm(it)
                     },
                     textStyle = MaterialTheme.typography.bodyLarge,
                     label = {
@@ -185,8 +189,17 @@ private fun SignUpScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 6.dp),
+                    enabled = state.registerState in listOf(
+                        RegisterState.Registering,
+                        RegisterState.Fail
+                    ) && state.isInputAllValid,
                     onClick = {
-                        onAction(SignUpAction.OnSignUpClick)
+                        scope.launch {
+                            // 실제와 같이 회원가입 처리한다고 가정
+                            state.updateRegisterState(RegisterState.Checking)
+                            delay(2000L)
+                            state.updateRegisterState(RegisterState.Success)
+                        }
                     }
                 ) {
                     Text(
@@ -207,7 +220,6 @@ internal fun UsernameTextField(
     isUsernameLengthValid: Boolean,
     isUsernameHasNumberOrSpecialCharacter: Boolean,
     onUsernameChange: (String) -> Unit,
-    onImeClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     TextField(
@@ -220,11 +232,6 @@ internal fun UsernameTextField(
         label = {
             Text(stringResource(R.string.username_label))
         },
-        keyboardActions = KeyboardActions(
-            onNext = {
-                onImeClick()
-            }
-        ),
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Next
         ),
@@ -245,7 +252,6 @@ private fun SignUpScreenPreview() {
     SignupTheme {
         SignUpScreen(
             state = SignUpState(InputValidator()),
-            onAction = {},
         )
     }
 }

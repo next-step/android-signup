@@ -21,3 +21,17 @@
 - [x] 유효성 검사 기능을 담당하는 Class를 만든다. Composable에서는 람다로 class의 함수를 넘겨 받는다.
 - [X] 유효성 검사를 통과하지 못하면 하단에 hint를 추가하고, error 처리한다.
 - [x] UI 테스트를 작성한다.
+
+### 4단계
+- 3단계 피드백 반영하기
+  - [x] State에 action 관련 코드 없애기
+  - [ ] InputValidation에 따른 상태를 enum class로 관리하기
+  - [x] input state보다 output state의 변화가 적은 state는 derivedStateOf 사용하기
+  - [x] InputValidationTest -> UserNameTextFieldTest로 이름 변경하기
+  - [ ] 다른 Composable에 대한 UI 테스트 코드 작성하기
+  - [x] 유효성 검사 단위 테스트 코드 만들기. UI 테스트에서 유효성 단위 검사 로직은 제외하기(mock?)
+  - [x] 불필요한 focus 조작 코드 삭제하기
+- [x] 모든 필드가 에러 없이 채워진 경우에만 Sign up 버튼을 활성화
+- [x] Sign up 버튼을 클릭하면 회원가입 완료 스낵바 노출
+- [x] 유효성 검사 로직과 뷰 로직을 나누어 관심사를 분리
+- [x] 모든 로직에 테스트 코드를 추가
