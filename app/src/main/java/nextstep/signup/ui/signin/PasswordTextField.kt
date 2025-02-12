@@ -10,7 +10,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import nextstep.signup.R
-import nextstep.signup.ui.SignupValidator.ResultType
+import nextstep.signup.ui.signin.SignupValidator.ResultType
 import nextstep.signup.ui.component.SignupTextField
 
 @Composable

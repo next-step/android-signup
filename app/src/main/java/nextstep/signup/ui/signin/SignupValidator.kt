@@ -1,4 +1,4 @@
-package nextstep.signup.ui
+package nextstep.signup.ui.signin
 
 object SignupValidator {
     private val USERNAME_REGEX = "^[a-zA-Z가-힣]+$".toRegex()

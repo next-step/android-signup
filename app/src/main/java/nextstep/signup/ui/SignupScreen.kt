@@ -32,6 +32,7 @@ import nextstep.signup.ui.component.SignupButton
 import nextstep.signup.ui.component.SignupSnackbar
 import nextstep.signup.ui.signin.EmailTextField
 import nextstep.signup.ui.signin.PasswordTextField
+import nextstep.signup.ui.signin.SignupValidator
 import nextstep.signup.ui.signin.UserNameTextField
 import nextstep.signup.ui.theme.SignupTheme
 
