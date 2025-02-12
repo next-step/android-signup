@@ -37,7 +37,7 @@ class SignUpState(
         userNameValidation.isValidUsername && isEmailValid && passwordValidation.isValidPassword && isPasswordConfirmValid
     }
 
-    var isSignUpSuccess: Boolean? by mutableStateOf(null)
+    var registerState: RegisterState by mutableStateOf(RegisterState.Registering)
         private set
 
     fun updateUserName(value: String) {
@@ -56,7 +56,7 @@ class SignUpState(
         passwordConfirm = value
     }
 
-    fun updateSignUpResult(result: Boolean?) {
-        isSignUpSuccess = result
+    fun updateRegisterState(registerState: RegisterState) {
+        this.registerState = registerState
     }
 }

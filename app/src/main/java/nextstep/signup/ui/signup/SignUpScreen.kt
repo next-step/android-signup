@@ -1,5 +1,6 @@
 package nextstep.signup.ui.signup
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,15 +12,13 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -27,6 +26,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import nextstep.signup.R
 import nextstep.signup.ui.theme.SignupTheme
 
@@ -35,6 +36,23 @@ fun SignUpScreen(
     modifier: Modifier = Modifier,
 ) {
     val state = SignUpState(InputValidator())
+    val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+
+    when (state.registerState) {
+        RegisterState.Checking -> {}
+        RegisterState.Success -> {
+            Toast.makeText(context, stringResource(R.string.sign_up_success), Toast.LENGTH_SHORT)
+                .show()
+        }
+
+        RegisterState.Fail -> {
+            Toast.makeText(context, stringResource(R.string.sign_up_fail), Toast.LENGTH_SHORT)
+                .show()
+        }
+
+        RegisterState.Registering -> {}
+    }
 
     SignUpScreen(
         modifier = modifier,
@@ -54,15 +72,16 @@ fun SignUpScreen(
                 }
 
                 SignUpAction.OnSignUpClick -> {
-                    state.updateSignUpResult(true)
+                    scope.launch {
+                        // 실제와 같이 회원가입 처리한다고 가정
+                        state.updateRegisterState(RegisterState.Checking)
+                        delay(2000L)
+                        state.updateRegisterState(RegisterState.Success)
+                    }
                 }
 
                 is SignUpAction.OnUsernameChange -> {
                     state.updateUserName(action.value)
-                }
-
-                SignUpAction.OnSignUpSuccessConsumed -> {
-                    state.updateSignUpResult(null)
                 }
             }
         }
@@ -75,22 +94,7 @@ private fun SignUpScreen(
     onAction: (SignUpAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val snackbarHostState = remember {
-        SnackbarHostState()
-    }
-
-    LaunchedEffect(state.isSignUpSuccess) {
-        if (state.isSignUpSuccess == true) {
-            snackbarHostState.showSnackbar("회원가입이 완료됐습니다.")
-            onAction(SignUpAction.OnSignUpSuccessConsumed)
-        }
-    }
-
-    Scaffold(
-        snackbarHost = {
-            SnackbarHost(snackbarHostState)
-        }
-    ) { paddingValues ->
+    Scaffold { paddingValues ->
         val focusManager = LocalFocusManager.current
 
         LazyColumn(
@@ -210,7 +214,10 @@ private fun SignUpScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 6.dp),
-                    enabled = state.isInputAllValid,
+                    enabled = state.registerState in listOf(
+                        RegisterState.Registering,
+                        RegisterState.Fail
+                    ) && state.isInputAllValid,
                     onClick = {
                         onAction(SignUpAction.OnSignUpClick)
                     }
