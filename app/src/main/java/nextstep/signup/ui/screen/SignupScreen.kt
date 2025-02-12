@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.R
+import nextstep.signup.ui.ValidationState
 import nextstep.signup.ui.component.SignupButton
 import nextstep.signup.ui.component.SignupTextField
 import nextstep.signup.ui.theme.SignupTheme
@@ -123,7 +124,11 @@ fun UsernameTextField(
         value = username,
         onValueChange = onUsernameChange,
         label = stringResource(R.string.username),
-        errorMsg = if (errorMsg != null) stringResource(errorMsg) else null,
+        errorMsg = if (errorMsg is ValidationState.Error) {
+            stringResource(errorMsg.resourceId)
+        } else {
+            null
+        },
         modifier = Modifier.fillMaxWidth()
     )
 }
@@ -143,7 +148,11 @@ fun EmailTextField(
             autoCorrectEnabled = false,
             keyboardType = KeyboardType.Email
         ),
-        errorMsg = if (errorMsg != null) stringResource(errorMsg) else null,
+        errorMsg = if (errorMsg is ValidationState.Error) {
+            stringResource(errorMsg.resourceId)
+        } else {
+            null
+        },
         modifier = Modifier.fillMaxWidth()
     )
 }
@@ -164,7 +173,11 @@ fun PasswordTextField(
             keyboardType = KeyboardType.Password
         ),
         secure = true,
-        errorMsg = if (errorMsg != null) stringResource(errorMsg) else null,
+        errorMsg = if (errorMsg is ValidationState.Error) {
+            stringResource(errorMsg.resourceId)
+        } else {
+            null
+        },
         modifier = Modifier.fillMaxWidth()
     )
 }
@@ -186,7 +199,11 @@ fun PasswordConfirmTextField(
             keyboardType = KeyboardType.Password
         ),
         secure = true,
-        errorMsg = if (errorMsg != null) stringResource(errorMsg) else null,
+        errorMsg = if (errorMsg is ValidationState.Error) {
+            stringResource(errorMsg.resourceId)
+        } else {
+            null
+        },
         modifier = Modifier.fillMaxWidth()
     )
 }
