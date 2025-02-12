@@ -19,7 +19,10 @@ class SignUpCompleteSnackBarTest {
         composeTestRule.setContent {
             val snackBarHostState = SnackbarHostState()
             SnackbarHost(hostState = snackBarHostState)
-            SignUpSnackBar(snackBarHostState)
+            SignUpSnackBar(
+                snackBarHostState = snackBarHostState,
+                onDismissSnackBar = {}
+            )
         }
 
         // then

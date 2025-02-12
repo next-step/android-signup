@@ -27,14 +27,15 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
-                    floatingActionButton = {
-                        if (showSnackBar) SignUpSnackBar(snackBarHostState)
-                    }
                 ) { innerPadding ->
 
                     MainScreen(
                         modifier = Modifier.padding(innerPadding),
-                        onShowSnackBar = { show -> showSnackBar = show }
+                        onShowSnackBar = { showSnackBar = true }
+                    )
+                    if (showSnackBar) SignUpSnackBar(
+                        snackBarHostState = snackBarHostState,
+                        onDismissSnackBar = { showSnackBar = false }
                     )
                 }
             }
