@@ -1,8 +1,8 @@
 package nextstep.signup
 
-import nextstep.signup.util.ValidationUtil.checkIsAllPassValidation
-import nextstep.signup.util.ValidationUtil.setEmailErrorMessage
-import nextstep.signup.util.ValidationUtil.setUsernameErrorMessage
+import nextstep.signup.userregister.validation.InputValueValidationResult
+import nextstep.signup.userregister.validation.InputValueValidator
+import nextstep.signup.userregister.validation.UserRegisterButtonValidator
 import org.junit.Assert
 import org.junit.Test
 
@@ -14,10 +14,10 @@ class ValidationUnitTest {
         val userName = "abcde"
 
         // when
-        val isValid = setUsernameErrorMessage(userName).isBlank()
+        val result = InputValueValidator.UserName.checkValue(userName)
 
         // then
-        Assert.assertTrue(isValid)
+        Assert.assertTrue(result == InputValueValidationResult.Success)
     }
 
     @Test
@@ -26,10 +26,10 @@ class ValidationUnitTest {
         val userName = "abcdefghijk"
 
         // when
-        val isValid = setUsernameErrorMessage(userName).isBlank()
+        val result = InputValueValidator.UserName.checkValue(userName)
 
         // then
-        Assert.assertFalse(isValid)
+        Assert.assertTrue(result == InputValueValidationResult.Failure("이름은 2~5자여야 합니다."))
     }
 
     @Test
@@ -38,10 +38,10 @@ class ValidationUnitTest {
         val userName = "abcd!"
 
         // when
-        val isValid = setUsernameErrorMessage(userName).isBlank()
+        val result = InputValueValidator.UserName.checkValue(userName)
 
         // then
-        Assert.assertFalse(isValid)
+        Assert.assertTrue(result == InputValueValidationResult.Failure("이름에 특수문자가 들어갈 수 없습니다."))
     }
 
     @Test
@@ -50,10 +50,10 @@ class ValidationUnitTest {
         val email = "abcde@naver.com"
 
         // when
-        val isValid = setEmailErrorMessage(email).isBlank()
+        val result = InputValueValidator.Email.checkValue(email)
 
         // then
-        Assert.assertTrue(isValid)
+        Assert.assertTrue(result == InputValueValidationResult.Success)
     }
 
     @Test
@@ -62,22 +62,24 @@ class ValidationUnitTest {
         val email = "abcde@naver"
 
         // when
-        val isValid = setEmailErrorMessage(email).isBlank()
+        val result = InputValueValidator.Email.checkValue(email)
 
         // then
-        Assert.assertFalse(isValid)
+        Assert.assertTrue(result == InputValueValidationResult.Failure("이메일 형식이 올바르지 않습니다."))
     }
 
     @Test
     fun `입력한_데이터가_모두_유효한_경우_유효성_검사_테스트`() {
         //given
-        val userName = "abc"
-        val email = "abcde@naver.com"
-        val password = "abc12345"
-        val passwordConfirm = "abc12345"
+        val state = UserRegisterState(
+            userName = "abc",
+            email = "abcde@naver.com",
+            password = "abc12345",
+            passwordConfirm = "abc12345",
+        )
 
         // when
-        val isPassed = checkIsAllPassValidation(userName, email, password, passwordConfirm)
+        val isPassed = UserRegisterButtonValidator.checkValidation(state)
 
         // then
         Assert.assertTrue(isPassed)
@@ -86,13 +88,15 @@ class ValidationUnitTest {
     @Test
     fun `입력한_데이터가_하나라도_비어있는_경우_유효성_검사_테스트`() {
         //given
-        val userName = ""
-        val email = "abcde@naver.com"
-        val password = "abc12345"
-        val passwordConfirm = "abc12345"
+        val state = UserRegisterState(
+            userName = "",
+            email = "abcde@naver.com",
+            password = "abc12345",
+            passwordConfirm = "abc12345",
+        )
 
         // when
-        val isPassed = checkIsAllPassValidation(userName, email, password, passwordConfirm)
+        val isPassed = UserRegisterButtonValidator.checkValidation(state)
 
         // then
         Assert.assertFalse(isPassed)
@@ -101,13 +105,15 @@ class ValidationUnitTest {
     @Test
     fun `입력한_데이터가_하나라도_유효하지_않은_경우_유효성_검사_테스트`() {
         //given
-        val userName = "!!"
-        val email = "abcde@naver.com"
-        val password = "abc12345"
-        val passwordConfirm = "abc12345"
+        val state = UserRegisterState(
+            userName = "!!",
+            email = "abcde@naver.com",
+            password = "abc12345",
+            passwordConfirm = "abc12345",
+        )
 
         // when
-        val isPassed = checkIsAllPassValidation(userName, email, password, passwordConfirm)
+        val isPassed = UserRegisterButtonValidator.checkValidation(state)
 
         // then
         Assert.assertFalse(isPassed)
