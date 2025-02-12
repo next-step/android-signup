@@ -1,25 +1,15 @@
 package nextstep.signup.component.button
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextInput
-import nextstep.signup.InputFieldChangeListener
-import nextstep.signup.InputFieldKey
+import nextstep.signup.InputFields
 import nextstep.signup.SignUpScreen
-import nextstep.signup.domain.Email
-import nextstep.signup.domain.Password
-import nextstep.signup.domain.PasswordConfirm
-import nextstep.signup.domain.Username
-import nextstep.signup.mapper.toUiState
-import nextstep.signup.state.InputFieldState
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -32,57 +22,12 @@ class SignUpButtonTest {
     fun setUp() {
         // given
         composeTestRule.setContent {
-            var inputFields: Map<InputFieldKey, InputFieldState> by remember {
-                mutableStateOf(
-                    mapOf(
-                        InputFieldKey.USERNAME to Username().toUiState(),
-                        InputFieldKey.EMAIL to Email().toUiState(),
-                        InputFieldKey.PASSWORD to Password().toUiState(),
-                        InputFieldKey.PASSWORD_CONFIRM to PasswordConfirm().toUiState()
-                    )
-                )
-            }
-            val inputFieldChangeListeners: Map<InputFieldKey, InputFieldChangeListener> by remember {
-                mutableStateOf(
-                    mapOf(
-                        InputFieldKey.USERNAME to InputFieldChangeListener { username: String ->
-                            inputFields = inputFields.toMutableMap().apply {
-                                this[InputFieldKey.USERNAME] = Username(username).toUiState()
-                            }
-                        },
-                        InputFieldKey.EMAIL to InputFieldChangeListener { it: String ->
-                            inputFields = inputFields.toMutableMap().apply {
-                                this[InputFieldKey.EMAIL] = Email(it).toUiState()
-                            }
-                        },
-                        InputFieldKey.PASSWORD to InputFieldChangeListener { it: String ->
-                            inputFields = inputFields.toMutableMap().apply {
-                                this[InputFieldKey.PASSWORD] = Password(it).toUiState()
-                                this[InputFieldKey.PASSWORD_CONFIRM] = PasswordConfirm(
-                                    it,
-                                    this[InputFieldKey.PASSWORD_CONFIRM]?.input ?: ""
-                                ).toUiState()
-                            }
-                        },
-                        InputFieldKey.PASSWORD_CONFIRM to InputFieldChangeListener { it: String ->
-                            inputFields = inputFields.toMutableMap().apply {
-                                this[InputFieldKey.PASSWORD_CONFIRM] =
-                                    PasswordConfirm(
-                                        this[InputFieldKey.PASSWORD]?.input ?: "",
-                                        it
-                                    ).toUiState()
-                            }
-                        },
-                    )
-                )
-            }
+            val inputFields: InputFields = remember { InputFields() }
 
             SignUpScreen(
                 inputFields = inputFields,
-                inputFieldChangeListeners = inputFieldChangeListeners,
                 onSignUpButtonClick = {},
-                modifier = Modifier
-                    .fillMaxSize()
+                modifier = Modifier.fillMaxSize()
             )
         }
     }
