@@ -15,7 +15,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -35,7 +37,9 @@ import nextstep.signup.ui.theme.SignupTheme
 fun SignUpScreen(
     modifier: Modifier = Modifier,
 ) {
-    val state = SignUpState(InputValidator())
+    val state = rememberSaveable {
+        SignUpState(InputValidator())
+    }
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
