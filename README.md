@@ -22,12 +22,12 @@
 - [x] 유효성 검사 로직 테스트 코드 작성
 
 ## 🚀 4단계 - 회원가입(리팩터링)
-- [ ] SignUp 버튼 디자인 추가 (활성화, 비활성화)
-- [ ] 모든 필드가 에러 없이 채워진 경우만 버튼 활성화 되도록 처리
-- [ ] 스낵바 컴포넌트 추가
-- [ ] 활성화 된 SignUp 버튼 클릭시 스낵바 호출
-- [ ] SignupValidator 단위 테스트 추가
+- [x] SignUp 버튼 디자인 추가 (활성화, 비활성화)
+- [x] 모든 필드가 에러 없이 채워진 경우만 버튼 활성화 되도록 처리
+- [x] 스낵바 컴포넌트 추가
+- [x] 활성화 된 SignUp 버튼 클릭시 스낵바 호출
+- [x] SignupValidator 단위 테스트 추가
 - [ ] 3단계 코드리뷰 항목
-  - [ ] SignupTextField 관심사 분리
-  - [ ] SignupValidator 관심사 분리
+  - [x] SignupTextField 관심사 분리
+  - [x] SignupValidator 관심사 분리
   - [ ] 컴포넌트 및 Validator 변경에 따른 UI 테스트 코드 수정
