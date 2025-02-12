@@ -65,7 +65,13 @@ fun SignupScreen(
             onPasswordConfirmChange = onPasswordConfirmChange
         )
         Spacer(modifier = Modifier.height(39.dp))
-        ButtonContent()
+        SignupButton(
+            label = stringResource(R.string.signup),
+            onClick = {},
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+        )
     }
 }
 
@@ -89,8 +95,10 @@ private fun TextFieldsContent(
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onPasswordConfirmChange: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Column(
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(33.dp)
     ) {
         UsernameTextField(
@@ -117,6 +125,7 @@ private fun TextFieldsContent(
 fun UsernameTextField(
     username: String,
     onUsernameChange: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val errorMsg = validateUsername(username)
 
@@ -129,7 +138,7 @@ fun UsernameTextField(
         } else {
             null
         },
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     )
 }
 
@@ -137,6 +146,7 @@ fun UsernameTextField(
 fun EmailTextField(
     email: String,
     onEmailChange: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val errorMsg = validateEmail(email)
 
@@ -153,7 +163,7 @@ fun EmailTextField(
         } else {
             null
         },
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     )
 }
 
@@ -161,6 +171,7 @@ fun EmailTextField(
 fun PasswordTextField(
     password: String,
     onPasswordChange: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val errorMsg = validatePassword(password)
 
@@ -178,7 +189,7 @@ fun PasswordTextField(
         } else {
             null
         },
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     )
 }
 
@@ -187,6 +198,7 @@ fun PasswordConfirmTextField(
     password: String,
     passwordConfirm: String,
     onPasswordConfirmChange: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val errorMsg = validatePasswordConfirm(password, passwordConfirm)
 
@@ -204,18 +216,7 @@ fun PasswordConfirmTextField(
         } else {
             null
         },
-        modifier = Modifier.fillMaxWidth()
-    )
-}
-
-@Composable
-private fun ButtonContent() {
-    SignupButton(
-        label = stringResource(R.string.signup),
-        onClick = {},
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(50.dp)
+        modifier = modifier.fillMaxWidth()
     )
 }
 
