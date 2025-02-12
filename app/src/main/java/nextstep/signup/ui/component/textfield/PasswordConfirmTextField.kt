@@ -17,8 +17,9 @@ fun PasswordConfirmTextField(
     onPasswordConfirmChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val validationState =
-        remember { derivedStateOf { validatePasswordConfirm(password, passwordConfirm) } }
+    val validationState = remember(password, passwordConfirm) {
+        derivedStateOf { validatePasswordConfirm(password, passwordConfirm) }
+    }
 
     SignupTextField(
         value = passwordConfirm,

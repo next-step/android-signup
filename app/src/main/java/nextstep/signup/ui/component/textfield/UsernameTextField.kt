@@ -14,7 +14,7 @@ fun UsernameTextField(
     onUsernameChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val validationState = remember { derivedStateOf { validateUsername(username) } }
+    val validationState = remember(username) { derivedStateOf { validateUsername(username) } }
 
     SignupTextField(
         value = username,

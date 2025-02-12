@@ -1,5 +1,6 @@
 package nextstep.signup.ui.component.textfield
 
+import android.util.Log
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -16,7 +17,7 @@ fun EmailTextField(
     onEmailChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val validationState = remember { derivedStateOf { validateEmail(email) } }
+    val validationState = remember(email) { derivedStateOf { validateEmail(email) } }
 
     SignupTextField(
         value = email,
