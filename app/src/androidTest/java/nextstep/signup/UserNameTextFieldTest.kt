@@ -46,7 +46,7 @@ class UserNameTextFieldTest {
     }
 
     @Test
-    fun 사용자_이름이_2에서_5자가_아니면_에러메시지가_노출된다() {
+    fun 사용자_이름이_허용된_길이가_아니면_에러메시지가_노출된다() {
         // when
         username = "김컴포즈입니다"
         usernameValidation = UserNameValidationState(
