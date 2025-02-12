@@ -1,4 +1,4 @@
-package nextstep.signup.ui
+package nextstep.signup.ui.component
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
