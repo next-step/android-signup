@@ -1,14 +1,13 @@
 package nextstep.signup.ui
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import android.widget.Toast
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,10 +15,12 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -29,13 +30,17 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
 import nextstep.signup.R
+import nextstep.signup.ui.component.SignupSnackbar
 import nextstep.signup.ui.theme.SignupTheme
-import nextstep.signup.ui.theme.White
 
 @Composable
 fun SignupScreen() {
     val context = LocalContext.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val hostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
 
     // String Resources
     val title = stringResource(R.string.signup_title)
@@ -73,8 +78,7 @@ fun SignupScreen() {
             usernameValidation == SignupValidator.ResultType.Success &&
                     emailValidation == SignupValidator.ResultType.Success &&
                     passwordValidation == SignupValidator.ResultType.Success &&
-                    passwordConfirmValidation == SignupValidator.ResultType.Success &&
-                    isPasswordMatch == SignupValidator.ResultType.Success
+                    passwordConfirmValidation == SignupValidator.ResultType.Success
         }
     }
 
@@ -95,14 +99,13 @@ fun SignupScreen() {
         derivedStateOf { SignupValidator.getErrorMessage(context, isPasswordMatch) }
     }
 
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
-    ) {
+    Scaffold(
+        snackbarHost = { SignupSnackbar(hostState = hostState) }
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(White)
+                .padding(paddingValues)
                 .padding(horizontal = 33.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -171,8 +174,11 @@ fun SignupScreen() {
             SignupButton(
                 text = signUpButton,
                 onClick = {
-                    if (isPasswordMatch != SignupValidator.ResultType.Success) {
-                        Toast.makeText(context, passwordMismatchError, Toast.LENGTH_SHORT).show()
+                    keyboardController?.hide()
+                    coroutineScope.launch {
+                        hostState.showSnackbar(
+                            message = if (isPasswordMatch == SignupValidator.ResultType.Success) "회원가입 완료" else passwordMismatchError
+                        )
                     }
                 },
                 modifier = Modifier.padding(top = 3.dp),
