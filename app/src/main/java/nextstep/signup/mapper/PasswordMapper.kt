@@ -14,12 +14,12 @@ fun Password.toUiState(): InputFieldState {
         input = value,
         keyboardType = KeyboardType.Password,
         needHide = true,
-        isError = validationResult != ValidationResult.VALID && validationResult != ValidationResult.EMPTY_VALUE,
-        supportingText = when (validationResult) {
-            ValidationResult.VALID -> ""
-            ValidationResult.INVALID_LENGTH -> "비밀번호는 8~16자여야 합니다."
-            ValidationResult.INVALID_CHARACTER -> "비밀번호는 영문과 숫자를 포함해야 합니다."
-            else -> ""
-        }
+        isError = validationResult is ValidationResult.Password,
+        supportingText = if (validationResult is ValidationResult.Password) {
+            when (validationResult) {
+                ValidationResult.Password.INVALID_LENGTH -> "비밀번호는 8~16자여야 합니다."
+                ValidationResult.Password.INVALID_CHARACTER -> "비밀번호는 영문과 숫자를 포함해야 합니다."
+            }
+        } else "",
     )
 }

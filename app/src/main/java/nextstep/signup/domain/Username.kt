@@ -4,10 +4,10 @@ package nextstep.signup.domain
 value class Username(val value: String = "") : InputField {
     override fun validate(): ValidationResult {
         return when {
-            value.isEmpty() -> ValidationResult.EMPTY_VALUE
-            value.length !in MINIMUM_LENGTH..MAXIMUM_LENGTH -> ValidationResult.INVALID_LENGTH
-            !value.matches(usernameRegex) -> ValidationResult.INVALID_CHARACTER
-            else -> ValidationResult.VALID
+            value.isEmpty() -> ValidationResult.EmptyValue
+            value.length !in MINIMUM_LENGTH..MAXIMUM_LENGTH -> ValidationResult.Username.INVALID_LENGTH
+            !value.matches(usernameRegex) -> ValidationResult.Username.INVALID_CHARACTER
+            else -> ValidationResult.Valid
         }
     }
 

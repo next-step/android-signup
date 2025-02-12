@@ -1,10 +1,24 @@
 package nextstep.signup.domain
 
-enum class ValidationResult {
-    VALID,
-    INVALID_FORM,
-    INVALID_LENGTH,
-    INVALID_CHARACTER,
-    NOT_SAME,
-    EMPTY_VALUE,
+sealed interface ValidationResult {
+    data object Valid: ValidationResult
+    data object EmptyValue: ValidationResult
+
+    enum class Username: ValidationResult {
+        INVALID_LENGTH,
+        INVALID_CHARACTER,
+    }
+
+    enum class Email: ValidationResult {
+        INVALID_FORM,
+    }
+
+    enum class Password: ValidationResult {
+        INVALID_LENGTH,
+        INVALID_CHARACTER,
+    }
+
+    enum class PasswordConfirm: ValidationResult {
+        NOT_SAME,
+    }
 }

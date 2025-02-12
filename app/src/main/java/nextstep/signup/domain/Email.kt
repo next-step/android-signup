@@ -5,9 +5,9 @@ package nextstep.signup.domain
 value class Email(val value: String = ""): InputField {
     override fun validate(): ValidationResult {
         return when {
-            value.isEmpty() -> ValidationResult.EMPTY_VALUE
-            !value.matches(emailRegex) -> ValidationResult.INVALID_FORM
-            else -> ValidationResult.VALID
+            value.isEmpty() -> ValidationResult.EmptyValue
+            !value.matches(emailRegex) -> ValidationResult.Email.INVALID_FORM
+            else -> ValidationResult.Valid
         }
     }
 
