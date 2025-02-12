@@ -62,7 +62,7 @@ class SignUpViewTest {
             InputField(
                 label = stringResource(R.string.test_input),
                 value = input,
-                errorMsg = null,
+                errorMsg = "",
                 onValueChange = { input = it },
                 modifier = Modifier.testTag("inputField")
             )
@@ -70,7 +70,7 @@ class SignUpViewTest {
             InputField(
                 label = stringResource(R.string.test_input_password),
                 value = input,
-                errorMsg = null,
+                errorMsg = "",
                 onValueChange = { input = it },
                 inputType = KeyboardType.Password,
                 modifier = Modifier.testTag("passwordField")
@@ -115,8 +115,8 @@ class SignUpViewTest {
         var clicked = false
         composeTestRule.setContent {
             SignUpButton(
-                buttonText = stringResource(R.string.sign_up_button),
                 modifier = Modifier.testTag(buttonTag),
+                isEnabled = true
             ) {
                 clicked = true
             }

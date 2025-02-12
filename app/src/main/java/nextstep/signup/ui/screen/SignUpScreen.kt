@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -17,10 +19,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -30,20 +34,31 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
 import nextstep.signup.R
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.BlueGrey50
 import nextstep.signup.ui.theme.RedError
+import nextstep.signup.ui.utils.MessageUtils
+import nextstep.signup.ui.utils.ValidateUtils
 
 @Composable
-fun SignUpScreen(modifier: Modifier) {
+fun SignUpScreen(
+    modifier: Modifier,
+    snackbarHostState: SnackbarHostState,
+) {
     Surface(
         modifier = modifier.background(Color.White),
     ) {
-        var userName by remember { mutableStateOf<String?>(null) }
-        var email by remember { mutableStateOf<String?>(null) }
-        var password by remember { mutableStateOf<String?>(null) }
-        var confirmPassword by remember { mutableStateOf<String?>(null) }
+        val context = LocalContext.current
+        val coroutineScope = rememberCoroutineScope()
+
+        var userName by remember { mutableStateOf("") }
+        var email by remember { mutableStateOf("") }
+        var password by remember { mutableStateOf("") }
+        var confirmPassword by remember { mutableStateOf("") }
+
+        val signUpCompleteMsg = remember { MessageUtils.getSignUpCompleteMessage(context) }
 
         Column(
             modifier = Modifier
@@ -85,9 +100,16 @@ fun SignUpScreen(modifier: Modifier) {
                 modifier = Modifier.padding(top = 32.dp)
             )
             SignUpButton(
-                buttonText = stringResource(R.string.sign_up_button),
+                isEnabled = ValidateUtils.isValidAll(userName, email, password, confirmPassword),
                 modifier = Modifier.padding(top = 42.dp)
-            )
+            ) {
+                coroutineScope.launch {
+                    snackbarHostState.showSnackbar(
+                        message = signUpCompleteMsg,
+                        duration = SnackbarDuration.Short
+                    )
+                }
+            }
         }
     }
 }
@@ -107,16 +129,12 @@ fun TitleText(
 
 @Composable
 fun UsernameTextField(
-    userName: String?,
+    userName: String,
     onUsernameChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val errorMsg = when {
-        userName == null -> null
-        userName.length !in 2..5 -> stringResource(R.string.user_name_error_length)
-        !userName.matches(Regex(RegexPattern.USERNAME_REGEX)) -> stringResource(R.string.user_name_error_invalid)
-        else -> null
-    }
+    val context = LocalContext.current
+    val errorMsg = MessageUtils.getUserNameErorrMessage(context, userName)
 
     InputField(
         label = stringResource(R.string.user_name),
@@ -129,15 +147,12 @@ fun UsernameTextField(
 
 @Composable
 fun EmailTextField(
-    email: String?,
+    email: String,
     onEmailChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val errorMsg = when {
-        email == null -> null
-        !email.matches(Regex(RegexPattern.EMAIL_REGEX)) -> stringResource(R.string.email_error_invalid)
-        else -> null
-    }
+    val context = LocalContext.current
+    val errorMsg = MessageUtils.getEmailErrorMessage(context, email)
 
     InputField(
         label = stringResource(R.string.email),
@@ -150,16 +165,12 @@ fun EmailTextField(
 
 @Composable
 fun PasswordTextField(
-    password: String?,
+    password: String,
     onPasswordChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    val errorMsg = when {
-        password == null -> null
-        password.length !in 8..16 -> stringResource(R.string.password_error_length)
-        !password.matches(Regex(RegexPattern.PASSWORD_REGEX)) -> stringResource(R.string.password_error_invalid)
-        else -> null
-    }
+    val context = LocalContext.current
+    val errorMsg = MessageUtils.getPasswordErrorMessage(context, password)
 
     InputField(
         label = stringResource(R.string.password),
@@ -173,16 +184,13 @@ fun PasswordTextField(
 
 @Composable
 fun PasswordConfirmTextField(
-    password: String?,
-    confirmPassword: String?,
+    password: String,
+    confirmPassword: String,
     onPasswordChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    val errorMsg = when {
-        confirmPassword == null -> null
-        confirmPassword != password -> stringResource(R.string.password_confirm_error_invalid)
-        else -> null
-    }
+    val context = LocalContext.current
+    val errorMsg = MessageUtils.getPasswordConfirmErrorMessage(context, password, confirmPassword)
 
     InputField(
         label = stringResource(R.string.password_confirm),
@@ -197,24 +205,22 @@ fun PasswordConfirmTextField(
 @Composable
 fun InputField(
     label: String,
-    value: String?,
-    errorMsg: String?,
+    value: String,
+    errorMsg: String,
     inputType: KeyboardType = KeyboardType.Text,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     TextField(
-        value = value?:"",
+        value = value,
         onValueChange = onValueChange,
-        isError = errorMsg != null,
+        isError = errorMsg.isNotEmpty(),
         supportingText = {
-            errorMsg?.let {
-                Text(
-                    text = it,
-                    color = RedError,
-                    fontSize = 12.sp,
-                )
-            }
+            Text(
+                text = errorMsg,
+                color = RedError,
+                fontSize = 12.sp,
+            )
         },
         keyboardOptions = KeyboardOptions.Default.copy(
             imeAction = ImeAction.Done,
@@ -245,7 +251,7 @@ fun InputField(
 
 @Composable
 fun SignUpButton(
-    buttonText: String,
+    isEnabled: Boolean,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
 ) {
@@ -255,11 +261,12 @@ fun SignUpButton(
         colors = ButtonDefaults.buttonColors(
             containerColor = Blue50,
         ),
+        enabled = isEnabled,
         onClick = onClick,
         contentPadding = PaddingValues(vertical = 15.dp),
     ) {
         Text(
-            text = buttonText,
+            text = stringResource(R.string.sign_up_button),
             fontSize = 14.sp,
             fontWeight = FontWeight.W500,
         )
@@ -280,7 +287,7 @@ private fun InputFieldPreView() {
     InputField(
         label = "홀리몰리 입력필드",
         value = "홀리몰리",
-        errorMsg = null,
+        errorMsg = "",
         onValueChange = { }
     )
 }
@@ -289,13 +296,6 @@ private fun InputFieldPreView() {
 @Composable
 private fun SignUpButtonPreView() {
     SignUpButton(
-        buttonText = "SingUp"
+        isEnabled = true
     )
 }
-
-object RegexPattern {
-    const val USERNAME_REGEX = "^[a-zA-Z가-힣]+$"
-    const val EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
-    const val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$"
-}
-
