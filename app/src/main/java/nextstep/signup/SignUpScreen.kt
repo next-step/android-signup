@@ -30,8 +30,8 @@ import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
 internal fun SignUpScreen(
-    inputFields: Map<String, InputFieldState>,
-    inputFieldChangeListeners: Map<String, InputFieldChangeListener>,
+    inputFields: Map<InputFieldKey, InputFieldState>,
+    inputFieldChangeListeners: Map<InputFieldKey, InputFieldChangeListener>,
     onSignUpButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -72,42 +72,45 @@ internal fun SignUpScreen(
 @Composable
 private fun SignUpScreenPreview() {
     SignupTheme {
-        var inputFields: Map<String, InputFieldState> by remember {
+        var inputFields: Map<InputFieldKey, InputFieldState> by remember {
             mutableStateOf(
                 mapOf(
-                    "username" to Username("김컴포즈").toUiState(),
-                    "email" to Email("compose12@gmail.com").toUiState(),
-                    "password" to Password("asdf1234").toUiState(),
-                    "passwordConfirm" to PasswordConfirm("asdf1234", "asdf1234").toUiState()
+                    InputFieldKey.USERNAME to Username("김컴포즈").toUiState(),
+                    InputFieldKey.EMAIL to Email("kim@gmail.com").toUiState(),
+                    InputFieldKey.PASSWORD to Password("asdf1234").toUiState(),
+                    InputFieldKey.PASSWORD_CONFIRM to PasswordConfirm("asdf1234").toUiState()
                 )
             )
         }
-        val inputFieldChangeListeners: Map<String, InputFieldChangeListener> by remember {
+        val inputFieldChangeListeners: Map<InputFieldKey, InputFieldChangeListener> by remember {
             mutableStateOf(
                 mapOf(
-                    "username" to InputFieldChangeListener { username: String ->
+                    InputFieldKey.USERNAME to InputFieldChangeListener { username: String ->
                         inputFields = inputFields.toMutableMap().apply {
-                            this["username"] = Username(username).toUiState()
+                            this[InputFieldKey.USERNAME] = Username(username).toUiState()
                         }
                     },
-                    "email" to InputFieldChangeListener { it: String ->
+                    InputFieldKey.EMAIL to InputFieldChangeListener { it: String ->
                         inputFields = inputFields.toMutableMap().apply {
-                            this["email"] = Email(it).toUiState()
+                            this[InputFieldKey.EMAIL] = Email(it).toUiState()
                         }
                     },
-                    "password" to InputFieldChangeListener { it: String ->
+                    InputFieldKey.PASSWORD to InputFieldChangeListener { it: String ->
                         inputFields = inputFields.toMutableMap().apply {
-                            this["password"] = Password(it).toUiState()
-                            this["passwordConfirm"] = PasswordConfirm(
+                            this[InputFieldKey.PASSWORD] = Password(it).toUiState()
+                            this[InputFieldKey.PASSWORD_CONFIRM] = PasswordConfirm(
                                 it,
-                                this["passwordConfirm"]?.input ?: ""
+                                this[InputFieldKey.PASSWORD_CONFIRM]?.input ?: ""
                             ).toUiState()
                         }
                     },
-                    "passwordConfirm" to InputFieldChangeListener { it: String ->
+                    InputFieldKey.PASSWORD_CONFIRM to InputFieldChangeListener { it: String ->
                         inputFields = inputFields.toMutableMap().apply {
-                            this["passwordConfirm"] =
-                                PasswordConfirm(this["password"]?.input ?: "", it).toUiState()
+                            this[InputFieldKey.PASSWORD_CONFIRM] =
+                                PasswordConfirm(
+                                    this[InputFieldKey.PASSWORD]?.input ?: "",
+                                    it
+                                ).toUiState()
                         }
                     },
                 )

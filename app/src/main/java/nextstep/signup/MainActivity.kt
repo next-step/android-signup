@@ -31,43 +31,43 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            var inputFields: Map<String, InputFieldState> by remember {
+            var inputFields: Map<InputFieldKey, InputFieldState> by remember {
                 mutableStateOf(
                     mapOf(
-                        INPUT_FIELD_KEY_USERNAME to Username().toUiState(),
-                        INPUT_FIELD_KEY_EMAIL to Email().toUiState(),
-                        INPUT_FIELD_KEY_PASSWORD to Password().toUiState(),
-                        INPUT_FIELD_KEY_PASSWORD_CONFIRM to PasswordConfirm().toUiState()
+                        InputFieldKey.USERNAME to Username().toUiState(),
+                        InputFieldKey.EMAIL to Email().toUiState(),
+                        InputFieldKey.PASSWORD to Password().toUiState(),
+                        InputFieldKey.PASSWORD_CONFIRM to PasswordConfirm().toUiState()
                     )
                 )
             }
-            val inputFieldChangeListeners: Map<String, InputFieldChangeListener> by remember {
+            val inputFieldChangeListeners: Map<InputFieldKey, InputFieldChangeListener> by remember {
                 mutableStateOf(
                     mapOf(
-                        INPUT_FIELD_KEY_USERNAME to InputFieldChangeListener { username: String ->
+                        InputFieldKey.USERNAME to InputFieldChangeListener { username: String ->
                             inputFields = inputFields.toMutableMap().apply {
-                                this[INPUT_FIELD_KEY_USERNAME] = Username(username).toUiState()
+                                this[InputFieldKey.USERNAME] = Username(username).toUiState()
                             }
                         },
-                        INPUT_FIELD_KEY_EMAIL to InputFieldChangeListener { it: String ->
+                        InputFieldKey.EMAIL to InputFieldChangeListener { it: String ->
                             inputFields = inputFields.toMutableMap().apply {
-                                this[INPUT_FIELD_KEY_EMAIL] = Email(it).toUiState()
+                                this[InputFieldKey.EMAIL] = Email(it).toUiState()
                             }
                         },
-                        INPUT_FIELD_KEY_PASSWORD to InputFieldChangeListener { it: String ->
+                        InputFieldKey.PASSWORD to InputFieldChangeListener { it: String ->
                             inputFields = inputFields.toMutableMap().apply {
-                                this[INPUT_FIELD_KEY_PASSWORD] = Password(it).toUiState()
-                                this[INPUT_FIELD_KEY_PASSWORD_CONFIRM] = PasswordConfirm(
+                                this[InputFieldKey.PASSWORD] = Password(it).toUiState()
+                                this[InputFieldKey.PASSWORD_CONFIRM] = PasswordConfirm(
                                     it,
-                                    this[INPUT_FIELD_KEY_PASSWORD_CONFIRM]?.input ?: ""
+                                    this[InputFieldKey.PASSWORD_CONFIRM]?.input ?: ""
                                 ).toUiState()
                             }
                         },
-                        INPUT_FIELD_KEY_PASSWORD_CONFIRM to InputFieldChangeListener { it: String ->
+                        InputFieldKey.PASSWORD_CONFIRM to InputFieldChangeListener { it: String ->
                             inputFields = inputFields.toMutableMap().apply {
-                                this[INPUT_FIELD_KEY_PASSWORD_CONFIRM] =
+                                this[InputFieldKey.PASSWORD_CONFIRM] =
                                     PasswordConfirm(
-                                        this[INPUT_FIELD_KEY_PASSWORD]?.input ?: "",
+                                        this[InputFieldKey.PASSWORD]?.input ?: "",
                                         it
                                     ).toUiState()
                             }
@@ -106,12 +106,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-
-    companion object {
-        private const val INPUT_FIELD_KEY_USERNAME = "username"
-        private const val INPUT_FIELD_KEY_EMAIL = "email"
-        private const val INPUT_FIELD_KEY_PASSWORD = "password"
-        private const val INPUT_FIELD_KEY_PASSWORD_CONFIRM = "passwordConfirm"
     }
 }
