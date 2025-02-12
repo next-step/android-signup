@@ -44,7 +44,11 @@ import nextstep.signup.ui.theme.roboto
 @Composable
 fun SignUpScreen(
     paddingValues: PaddingValues = PaddingValues(0.dp),
+    showSnackbar: (String) -> Unit = {},
 ) {
+    var state by remember { mutableStateOf(SignUpState()) }
+    val context = LocalContext.current
+
     Column(
         Modifier
             .fillMaxSize()
@@ -63,18 +67,69 @@ fun SignUpScreen(
 
         Spacer(modifier = Modifier.height(40.dp))
 
-        InputFormContent()
+        InputFormContent(
+            state = state,
+            onUsernameChange = { value ->
+                state = state.copy(
+                    username = value, userNameErrorMessage = getErrorMessage(
+                        context = context,
+                        input = value,
+                        validSignUp = SignUpValidUsername()
+                    )
+                )
+            },
+            onEmailChange = { value ->
+                state = state.copy(
+                    email = value,
+                    emailErrorMessage = getErrorMessage(
+                        context = context,
+                        input = value,
+                        validSignUp = SignUpValidEmail(),
+                    )
+                )
+            },
+            onPasswordChange = { value ->
+                state = state.copy(
+                    password = value,
+                    passwordConfirmErrorMessage = getErrorMessage(
+                        context = context,
+                        input = value,
+                        validSignUp = SignUpValidPasswordConfirm(state.passwordConfirm)
+                    ),
+                    passwordErrorMessage = getErrorMessage(
+                        context = context,
+                        input = value,
+                        validSignUp = SignUpValidPassword()
+                    )
+                )
+            },
+            onPasswordConfirmChange = { value ->
+                state = state.copy(
+                    passwordConfirm = value,
+                    passwordConfirmErrorMessage = getErrorMessage(
+                        context = context,
+                        input = value,
+                        validSignUp = SignUpValidPasswordConfirm(state.password)
+                    )
+                )
+            },
+        )
 
         Spacer(modifier = Modifier.height(42.dp))
 
         Button(
-            onClick = { /*TODO*/ },
+            onClick = {
+                val message = context.getString(R.string.sign_up_success_message)
+                showSnackbar(message)
+                state = SignUpState()
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
+            enabled = state.isSignUpEnabled,
             colors = ButtonDefaults.buttonColors(
                 containerColor = Blue50,
-            )
+            ),
         ) {
             Text(stringResource(R.string.btn_sign_up))
         }
@@ -82,80 +137,42 @@ fun SignUpScreen(
 }
 
 @Composable
-private fun InputFormContent(modifier: Modifier = Modifier) {
-    var username by remember { mutableStateOf("") }
-    var userNameErrorMessage by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var emailErrorMessage by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var passwordErrorMessage by remember { mutableStateOf("") }
-    var passwordConfirm by remember { mutableStateOf("") }
-    var passwordConfirmErrorMessage by remember { mutableStateOf("") }
-
-    val context = LocalContext.current
-
+private fun InputFormContent(
+    state: SignUpState,
+    onUsernameChange: (String) -> Unit,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onPasswordConfirmChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier,
     ) {
         SignUpInputForm(
-            input = username,
+            input = state.username,
             label = stringResource(R.string.sign_up_user_name_label),
-            onInputChange = { value ->
-                username = value
-                userNameErrorMessage = getErrorMessage(
-                    context = context,
-                    input = value,
-                    validSignUp = SignUpValidUsername()
-                )
-            },
-            errorMessage = userNameErrorMessage,
+            errorMessage = state.userNameErrorMessage,
+            onInputChange = onUsernameChange,
         )
         SignUpInputForm(
-            input = email,
+            input = state.email,
             label = stringResource(R.string.sign_up_email_label),
-            onInputChange = { value ->
-                email = value
-                emailErrorMessage = getErrorMessage(
-                    context = context,
-                    input = value,
-                    validSignUp = SignUpValidEmail(),
-                )
-            },
-            errorMessage = emailErrorMessage,
+            errorMessage = state.emailErrorMessage,
+            onInputChange = onEmailChange
         )
         SignUpInputForm(
-            input = password,
+            input = state.password,
             label = stringResource(R.string.sign_up_password_label),
-            onInputChange = { value ->
-                password = value
-                passwordConfirmErrorMessage = getErrorMessage(
-                    context = context,
-                    input = value,
-                    validSignUp = SignUpValidPasswordConfirm(passwordConfirm)
-                )
-                passwordErrorMessage = getErrorMessage(
-                    context = context,
-                    input = value,
-                    validSignUp = SignUpValidPassword()
-                )
-            },
-            errorMessage = passwordErrorMessage,
+            onInputChange = onPasswordChange,
+            errorMessage = state.passwordErrorMessage,
             visualTransformation = PasswordVisualTransformation(),
         )
         SignUpInputForm(
-            input = passwordConfirm,
+            input = state.passwordConfirm,
             label = stringResource(R.string.sign_up_password_confirm_label),
-            onInputChange = { value ->
-                passwordConfirm = value
-                passwordConfirmErrorMessage = getErrorMessage(
-                    context = context,
-                    input = value,
-                    validSignUp = SignUpValidPasswordConfirm(password)
-                )
-
-            },
-            errorMessage = passwordConfirmErrorMessage,
+            onInputChange = onPasswordConfirmChange,
+            errorMessage = state.passwordConfirmErrorMessage,
             visualTransformation = PasswordVisualTransformation(),
         )
     }
@@ -204,7 +221,7 @@ private fun SignUpInputForm(
 @Composable
 private fun SignUpScreenPreview() {
     MaterialTheme {
-        SignUpScreen(PaddingValues())
+        SignUpScreen(paddingValues = PaddingValues(), showSnackbar = {})
     }
 }
 

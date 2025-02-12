@@ -84,9 +84,8 @@ class SignUpScreenUsernameTest {
     @Test
     fun 회원_이름_길이가_3이면_이름_유효성_검사_실패_메세지가_보이지_않는다() {
         // given
-        val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
         val username = "최성훈" // 길이 3
-        val invalidSupportingText = context.getString(R.string.sign_up_invalid_user_name_length)
+        val invalidSupportingText = "이름은 2~5자여야 합니다."
 
         composeTestRule.setContent {
             MaterialTheme {
