@@ -68,6 +68,16 @@ fun SignupScreen() {
         derivedStateOf { SignupValidator.validatePasswordMatch(password, passwordConfirm) }
     }
 
+    val enabled by remember {
+        derivedStateOf {
+            usernameValidation == SignupValidator.ResultType.Success &&
+                    emailValidation == SignupValidator.ResultType.Success &&
+                    passwordValidation == SignupValidator.ResultType.Success &&
+                    passwordConfirmValidation == SignupValidator.ResultType.Success &&
+                    isPasswordMatch == SignupValidator.ResultType.Success
+        }
+    }
+
     // Error Messages
     val usernameError by remember {
         derivedStateOf { SignupValidator.getErrorMessage(context, usernameValidation) }
@@ -166,6 +176,7 @@ fun SignupScreen() {
                     }
                 },
                 modifier = Modifier.padding(top = 3.dp),
+                enabled = enabled,
             )
         }
     }
