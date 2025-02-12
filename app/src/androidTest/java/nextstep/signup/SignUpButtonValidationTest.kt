@@ -42,6 +42,7 @@ class SignUpButtonValidationTest {
                 snackbarHost = {
                     SnackbarHost(
                         hostState = snackbarHostState,
+                        modifier = Modifier.testTag(SNACKBAR_TEST_TAG)
                     )
                 },
             ) {
@@ -100,11 +101,13 @@ class SignUpButtonValidationTest {
 
         // then
         composeTestRule.onNodeWithTag(BUTTON_TEST_TAG).performClick()
+        composeTestRule.onNodeWithTag(SNACKBAR_TEST_TAG).assertIsDisplayed()
         composeTestRule.onNodeWithText(SNACKBAR_MESSAGE).assertIsDisplayed()
     }
 
     companion object {
         const val BUTTON_TEST_TAG = "SignUpButton"
+        const val SNACKBAR_TEST_TAG = "Snackbar"
 
         const val SNACKBAR_MESSAGE = "회원가입 완료"
     }
