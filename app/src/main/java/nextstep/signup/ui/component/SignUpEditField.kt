@@ -71,8 +71,7 @@ private fun SignUpEditField(
     modifier: Modifier = Modifier,
 ) {
 
-    val isError = type.isError(inputModel)
-    val errorMessageResId = type.errorMessageResId(inputModel)
+    val isError = type.hasError(inputModel)
 
     TextField(
         modifier = modifier.fillMaxWidth(),
@@ -82,7 +81,10 @@ private fun SignUpEditField(
         onValueChange = onValueChanged,
         isError = isError,
         supportingText = {
-            if (isError) ErrorMessageText(resId = errorMessageResId)
+            if (isError) {
+                val errorMessageResId = type.errorMessageResId(inputModel)
+                ErrorMessageText(resId = errorMessageResId)
+            }
         },
         label = { Text(text = stringResource(type.labelResId)) },
         visualTransformation = if (type.keyboardType == KeyboardType.Password) PasswordVisualTransformation() else VisualTransformation.None,
