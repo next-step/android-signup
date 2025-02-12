@@ -2,25 +2,19 @@ package nextstep.signup.ui.component.textfield
 
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import nextstep.signup.R
-import nextstep.signup.ui.validatePasswordConfirm
+import nextstep.signup.ui.ValidationState
 
 @Composable
 fun PasswordConfirmTextField(
-    password: String,
     passwordConfirm: String,
     onPasswordConfirmChange: (String) -> Unit,
+    passwordConfirmValidationState: ValidationState,
     modifier: Modifier = Modifier
 ) {
-    val validationState = remember(password, passwordConfirm) {
-        derivedStateOf { validatePasswordConfirm(password, passwordConfirm) }
-    }
-
     SignupTextField(
         value = passwordConfirm,
         onValueChange = onPasswordConfirmChange,
@@ -30,7 +24,7 @@ fun PasswordConfirmTextField(
             keyboardType = KeyboardType.Password
         ),
         secure = true,
-        validationState = validationState.value,
+        validationState = passwordConfirmValidationState,
         modifier = modifier
     )
 }

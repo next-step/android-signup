@@ -14,11 +14,13 @@ import nextstep.signup.ui.theme.SignupTheme
 fun SignupButton(
     label: String,
     onClick: () -> Unit,
+    enabled: Boolean,
     modifier: Modifier = Modifier
 ) {
     Button(
         modifier = modifier,
         onClick = onClick,
+        enabled = enabled,
         content = {
             Text(
                 text = label,
@@ -37,6 +39,7 @@ private fun SignupButtonPreview() {
     SignupTheme {
         SignupButton(
             label = "text",
+            enabled = true,
             onClick = {}
         )
     }

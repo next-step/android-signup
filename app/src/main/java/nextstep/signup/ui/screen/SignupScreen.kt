@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -20,12 +21,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.R
+import nextstep.signup.ui.ValidationState
 import nextstep.signup.ui.component.SignupButton
 import nextstep.signup.ui.component.textfield.EmailTextField
 import nextstep.signup.ui.component.textfield.PasswordConfirmTextField
 import nextstep.signup.ui.component.textfield.PasswordTextField
 import nextstep.signup.ui.component.textfield.UsernameTextField
 import nextstep.signup.ui.theme.SignupTheme
+import nextstep.signup.ui.validateEmail
+import nextstep.signup.ui.validatePassword
+import nextstep.signup.ui.validatePasswordConfirm
+import nextstep.signup.ui.validateUsername
 
 @Composable
 fun SignupScreen(
@@ -39,6 +45,29 @@ fun SignupScreen(
     onPasswordConfirmChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val usernameValidation = remember(username) { derivedStateOf { validateUsername(username) } }
+    val emailValidation = remember(email) { derivedStateOf { validateEmail(email) } }
+    val passwordValidation = remember(password) { derivedStateOf { validatePassword(password) } }
+    val passwordConfirmValidation = remember(password, passwordConfirm) {
+        derivedStateOf {
+            validatePasswordConfirm(password, passwordConfirm)
+        }
+    }
+
+    val isAllValidationPass = remember(
+        usernameValidation.value,
+        emailValidation.value,
+        passwordValidation.value,
+        passwordConfirmValidation.value
+    ) {
+        derivedStateOf {
+            usernameValidation.value is ValidationState.None &&
+            emailValidation.value is ValidationState.None &&
+            passwordValidation.value is ValidationState.None &&
+            passwordConfirmValidation.value is ValidationState.None
+        }
+    }
+
     Column(
         modifier = modifier
             .padding(
@@ -63,12 +92,17 @@ fun SignupScreen(
             onUsernameChange = onUsernameChange,
             onEmailChange = onEmailChange,
             onPasswordChange = onPasswordChange,
-            onPasswordConfirmChange = onPasswordConfirmChange
+            onPasswordConfirmChange = onPasswordConfirmChange,
+            usernameValidationState = usernameValidation.value,
+            emailValidationState = emailValidation.value,
+            passwordValidationState = passwordValidation.value,
+            passwordConfirmValidationState = passwordConfirmValidation.value
         )
         Spacer(modifier = Modifier.height(39.dp))
         SignupButton(
             label = stringResource(R.string.signup),
             onClick = {},
+            enabled = isAllValidationPass.value,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)
@@ -86,6 +120,10 @@ private fun TextFieldsContent(
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onPasswordConfirmChange: (String) -> Unit,
+    usernameValidationState: ValidationState,
+    emailValidationState: ValidationState,
+    passwordValidationState: ValidationState,
+    passwordConfirmValidationState: ValidationState,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -95,23 +133,26 @@ private fun TextFieldsContent(
         UsernameTextField(
             modifier = Modifier.fillMaxWidth(),
             username = username,
-            onUsernameChange = onUsernameChange
+            onUsernameChange = onUsernameChange,
+            validationState = usernameValidationState
         )
         EmailTextField(
             modifier = Modifier.fillMaxWidth(),
             email = email,
-            onEmailChange = onEmailChange
+            onEmailChange = onEmailChange,
+            validationState = emailValidationState
         )
         PasswordTextField(
             modifier = Modifier.fillMaxWidth(),
             password = password,
-            onPasswordChange = onPasswordChange
+            onPasswordChange = onPasswordChange,
+            validationState = passwordValidationState
         )
         PasswordConfirmTextField(
             modifier = Modifier.fillMaxWidth(),
-            password = password,
             passwordConfirm = passwordConfirm,
-            onPasswordConfirmChange = onPasswordConfirmChange
+            onPasswordConfirmChange = onPasswordConfirmChange,
+            passwordConfirmValidationState = passwordConfirmValidationState
         )
     }
 }

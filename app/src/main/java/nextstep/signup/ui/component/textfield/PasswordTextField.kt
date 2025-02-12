@@ -8,16 +8,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import nextstep.signup.R
-import nextstep.signup.ui.validatePassword
+import nextstep.signup.ui.ValidationState
 
 @Composable
 fun PasswordTextField(
     password: String,
     onPasswordChange: (String) -> Unit,
+    validationState: ValidationState,
     modifier: Modifier = Modifier
 ) {
-    val validationState = remember(password) { derivedStateOf { validatePassword(password) } }
-
     SignupTextField(
         value = password,
         onValueChange = onPasswordChange,
@@ -27,7 +26,7 @@ fun PasswordTextField(
             keyboardType = KeyboardType.Password
         ),
         secure = true,
-        validationState = validationState.value,
+        validationState = validationState,
         modifier = modifier
     )
 }

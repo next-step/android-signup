@@ -9,16 +9,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import nextstep.signup.R
+import nextstep.signup.ui.ValidationState
 import nextstep.signup.ui.validateEmail
 
 @Composable
 fun EmailTextField(
     email: String,
     onEmailChange: (String) -> Unit,
+    validationState: ValidationState,
     modifier: Modifier = Modifier
 ) {
-    val validationState = remember(email) { derivedStateOf { validateEmail(email) } }
-
     SignupTextField(
         value = email,
         onValueChange = onEmailChange,
@@ -27,7 +27,7 @@ fun EmailTextField(
             autoCorrectEnabled = false,
             keyboardType = KeyboardType.Email
         ),
-        validationState = validationState.value,
+        validationState = validationState,
         modifier = modifier
     )
 }
