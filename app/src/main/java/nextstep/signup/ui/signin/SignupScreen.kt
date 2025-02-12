@@ -1,4 +1,4 @@
-package nextstep.signup.ui
+package nextstep.signup.ui.signin
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.Arrangement
@@ -30,10 +30,6 @@ import kotlinx.coroutines.launch
 import nextstep.signup.R
 import nextstep.signup.ui.component.SignupButton
 import nextstep.signup.ui.component.SignupSnackbar
-import nextstep.signup.ui.signin.EmailTextField
-import nextstep.signup.ui.signin.PasswordTextField
-import nextstep.signup.ui.signin.SignupValidator
-import nextstep.signup.ui.signin.UserNameTextField
 import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
