@@ -19,7 +19,6 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import nextstep.signup.ui.theme.SignupBlue
 import nextstep.signup.ui.util.ValidationResult
-import nextstep.signup.ui.util.ValidationStates
 
 @Composable
 fun SignupForm(
@@ -45,11 +44,11 @@ fun SignupForm(
             keyboardType = inputType
         ),
         visualTransformation = if (inputType == KeyboardType.Password) PasswordVisualTransformation() else VisualTransformation.None,
-        isError = validResult.isValid().not(),
+        isError = validResult is ValidationResult.Invalid,
         supportingText = {
-            if (validResult.isValid().not()) {
+            if (validResult is ValidationResult.Invalid) {
                 Text(
-                    text = stringResource(validResult.getErrorMessage()!!),
+                    text = stringResource(validResult.messageRes),
                     modifier = Modifier.height(16.dp),
                 )
             }
@@ -59,22 +58,23 @@ fun SignupForm(
 }
 
 class FormPreviewParameterProvider : PreviewParameterProvider<Pair<String, ValidationResult>> {
-    private val successResult = ValidationResult(
-        validationState = ValidationStates.SUCCESS,
-    )
+    private val correctResult = ValidationResult.Correct
 
     override val values = sequenceOf(
-        Pair("Username", successResult),
-        Pair("Email", successResult),
-        Pair("Password", successResult),
-        Pair("Password Confirm", successResult),
+        Pair("Username", correctResult),
+        Pair("Email", correctResult),
+        Pair("Password", correctResult),
+        Pair("Password Confirm", correctResult),
     )
 }
 
 @Preview
 @Composable
 fun SignupFormPreview(
-    @PreviewParameter(FormPreviewParameterProvider::class, limit = 4) type: Pair<String, ValidationResult>
+    @PreviewParameter(
+        FormPreviewParameterProvider::class,
+        limit = 4
+    ) type: Pair<String, ValidationResult>
 ) {
     SignupForm(
         label = type.first,

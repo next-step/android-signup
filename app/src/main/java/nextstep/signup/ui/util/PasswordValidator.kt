@@ -1,18 +1,20 @@
 package nextstep.signup.ui.util
 
+import nextstep.signup.R
+
 class PasswordValidator : Validator {
 
     override fun validate(value: String): ValidationResult {
         return when {
-            value.length !in MIN_PASSWORD_LENGTH..MAX_PASSWORD_LENGTH -> ValidationResult(
-                ValidationStates.PASSWORD_LENGTH_ERROR,
+            value.length !in MIN_PASSWORD_LENGTH..MAX_PASSWORD_LENGTH -> ValidationResult.Invalid(
+                R.string.signup_password_length_error_message,
             )
 
-            !value.matches(PASSWORD_REGEX) -> ValidationResult(
-                ValidationStates.PASSWORD_COMPLEXITY_ERROR,
+            !value.matches(PASSWORD_REGEX) -> ValidationResult.Invalid(
+                R.string.signup_password_complexity_error_message,
             )
 
-            else -> ValidationResult(ValidationStates.SUCCESS)
+            else -> ValidationResult.Correct
         }
     }
 
