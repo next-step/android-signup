@@ -1,10 +1,11 @@
-package nextstep.signup.ui.component.textfield
+package nextstep.signup.ui.screen.signup.component
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import nextstep.signup.R
 import nextstep.signup.ui.ValidationState
+import nextstep.signup.ui.component.SignupTextField
 
 @Composable
 fun UsernameTextField(

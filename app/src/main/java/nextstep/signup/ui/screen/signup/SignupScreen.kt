@@ -1,4 +1,4 @@
-package nextstep.signup.ui.screen
+package nextstep.signup.ui.screen.signup
 
 import android.graphics.Color
 import androidx.compose.foundation.layout.Arrangement
@@ -23,10 +23,10 @@ import androidx.compose.ui.unit.sp
 import nextstep.signup.R
 import nextstep.signup.ui.ValidationState
 import nextstep.signup.ui.component.SignupButton
-import nextstep.signup.ui.component.textfield.EmailTextField
-import nextstep.signup.ui.component.textfield.PasswordConfirmTextField
-import nextstep.signup.ui.component.textfield.PasswordTextField
-import nextstep.signup.ui.component.textfield.UsernameTextField
+import nextstep.signup.ui.screen.signup.component.EmailTextField
+import nextstep.signup.ui.screen.signup.component.PasswordConfirmTextField
+import nextstep.signup.ui.screen.signup.component.PasswordTextField
+import nextstep.signup.ui.screen.signup.component.UsernameTextField
 import nextstep.signup.ui.theme.SignupTheme
 import nextstep.signup.ui.validateEmail
 import nextstep.signup.ui.validatePassword
