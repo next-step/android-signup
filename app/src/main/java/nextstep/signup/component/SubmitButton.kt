@@ -11,11 +11,13 @@ import androidx.compose.ui.tooling.preview.Preview
 @Composable
 fun SubmitButton(
     text: String,
+    enabled: Boolean,
     onClickButton: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Button(
         modifier = modifier,
+        enabled = enabled,
         onClick = onClickButton,
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Blue,
@@ -30,6 +32,17 @@ fun SubmitButton(
 private fun SubmitButtonPreview() {
     SubmitButton(
         text = "버튼",
+        enabled = true,
+        onClickButton = {},
+    )
+}
+
+@Preview
+@Composable
+private fun SubmitButtonDisabledPreview() {
+    SubmitButton(
+        text = "버튼",
+        enabled = false,
         onClickButton = {},
     )
 }
