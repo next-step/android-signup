@@ -3,7 +3,6 @@ package nextstep.signup.ui.component.textfield
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import nextstep.signup.ui.component.SignupForm
 import nextstep.signup.ui.util.PasswordValidator
 import org.junit.Before
 import org.junit.Rule
@@ -14,15 +13,14 @@ class PasswordTextFieldValidationTest {
     @get:Rule
     val composeTestRule = createComposeRule()
     private val password = mutableStateOf("")
-    private val passwordValidator = PasswordValidator()
 
     @Before
     fun setup() {
         composeTestRule.setContent {
-            SignupForm(
+            PasswordTextField(
                 inputValue = password.value,
                 onInputChange = { password.value = it },
-                validResult = passwordValidator.validate(password.value),
+                validResult = PasswordValidator.validate(password.value),
             )
         }
     }

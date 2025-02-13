@@ -1,25 +1,25 @@
 package nextstep.signup.ui.util
 
-class NameValidator : Validator {
+import nextstep.signup.R
+
+object NameValidator : Validator {
 
     override fun validate(value: String): ValidationResult {
         return when {
-            value.length !in MIN_NAME_LENGTH..MAX_NAME_LENGTH -> ValidationResult(
-                ValidationStates.NAME_LENGTH_ERROR,
+            value.length !in MIN_NAME_LENGTH..MAX_NAME_LENGTH -> ValidationResult.Invalid(
+                R.string.signup_name_length_error_message,
             )
 
-            !value.matches(USERNAME_REGEX) -> ValidationResult(
-                ValidationStates.NAME_INVALID_CHARACTER,
+            !value.matches(USERNAME_REGEX) -> ValidationResult.Invalid(
+                R.string.signup_name_invalid_character_error_message,
             )
 
-            else -> ValidationResult(ValidationStates.SUCCESS)
+            else -> ValidationResult.Correct
         }
     }
-
-    companion object {
-        private const val MIN_NAME_LENGTH = 2
-        private const val MAX_NAME_LENGTH = 5
-
-        private val USERNAME_REGEX = "^[a-zA-Z가-힣]+$".toRegex()
-    }
 }
+
+private const val MIN_NAME_LENGTH = 2
+private const val MAX_NAME_LENGTH = 5
+
+private val USERNAME_REGEX = "^[a-zA-Z가-힣]+$".toRegex()
