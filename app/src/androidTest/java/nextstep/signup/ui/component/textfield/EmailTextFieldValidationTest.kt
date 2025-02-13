@@ -3,7 +3,6 @@ package nextstep.signup.ui.component.textfield
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import nextstep.signup.ui.component.SignupForm
 import nextstep.signup.ui.util.EmailValidator
 import org.junit.Before
 import org.junit.Rule
@@ -19,7 +18,7 @@ class EmailTextFieldValidationTest {
     @Before
     fun setup() {
         composeTestRule.setContent {
-            SignupForm(
+            EmailTextField(
                 inputValue = email.value,
                 onInputChange = { email.value = it },
                 validResult = emailValidator.validate(email.value),

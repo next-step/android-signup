@@ -17,6 +17,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nextstep.signup.R
+import nextstep.signup.ui.component.textfield.EmailTextField
+import nextstep.signup.ui.component.textfield.PasswordTextField
+import nextstep.signup.ui.component.textfield.UsernameTextField
 import nextstep.signup.ui.util.EmailValidator
 import nextstep.signup.ui.util.NameValidator
 import nextstep.signup.ui.util.PasswordMatchValidator
@@ -45,31 +48,26 @@ fun SignupScreen() {
             val passwordMatchValidator = PasswordMatchValidator(getEnteredPassword = { password })
 
             SignupTitle()
-            SignupForm(
-                label = stringResource(R.string.signup_field_label_username),
+            UsernameTextField(
                 inputValue = username,
                 onInputChange = { username = it },
                 validResult = nameValidator.validate(username),
             )
-            SignupForm(
-                label = stringResource(R.string.signup_field_label_email),
+            EmailTextField(
                 inputValue = email,
                 onInputChange = { email = it },
-                inputType = KeyboardType.Email,
                 validResult = emailValidator.validate(email),
             )
-            SignupForm(
+            PasswordTextField(
                 label = stringResource(R.string.signup_field_label_password),
                 inputValue = password,
                 onInputChange = { password = it },
-                inputType = KeyboardType.Password,
                 validResult = passwordValidator.validate(password),
             )
-            SignupForm(
+            PasswordTextField(
                 label = stringResource(R.string.signup_field_label_password_confirm),
                 inputValue = passwordConfirm,
                 onInputChange = { passwordConfirm = it },
-                inputType = KeyboardType.Password,
                 validResult = passwordMatchValidator.validate(passwordConfirm),
             )
             SubmitButton()

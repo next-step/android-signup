@@ -1,31 +1,26 @@
-package nextstep.signup.ui.component
+package nextstep.signup.ui.component.textfield
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import nextstep.signup.ui.theme.SignupBlue
+import nextstep.signup.R
 import nextstep.signup.ui.util.ValidationResult
 
 @Composable
-fun SignupForm(
+fun PasswordTextField(
     label: String = "",
     inputValue: String = "",
     onInputChange: (String) -> Unit = {},
-    inputType: KeyboardType = KeyboardType.Text,
     validResult: ValidationResult,
     modifier: Modifier = Modifier,
 ) {
@@ -33,17 +28,11 @@ fun SignupForm(
         value = inputValue,
         onValueChange = { newText -> onInputChange(newText) },
         label = { Text(text = label) },
-        colors = TextFieldDefaults.colors(
-            focusedIndicatorColor = SignupBlue,
-            unfocusedIndicatorColor = Color.Black,
-            focusedLabelColor = SignupBlue,
-            unfocusedLabelColor = Color.Black,
-            cursorColor = SignupBlue,
-        ),
+        colors = commonTextFieldColors(),
         keyboardOptions = KeyboardOptions(
-            keyboardType = inputType
+            keyboardType = KeyboardType.Password,
         ),
-        visualTransformation = if (inputType == KeyboardType.Password) PasswordVisualTransformation() else VisualTransformation.None,
+        visualTransformation = PasswordVisualTransformation(),
         isError = validResult is ValidationResult.Invalid,
         supportingText = {
             if (validResult is ValidationResult.Invalid) {
@@ -57,27 +46,12 @@ fun SignupForm(
     )
 }
 
-class FormPreviewParameterProvider : PreviewParameterProvider<Pair<String, ValidationResult>> {
-    private val correctResult = ValidationResult.Correct
-
-    override val values = sequenceOf(
-        Pair("Username", correctResult),
-        Pair("Email", correctResult),
-        Pair("Password", correctResult),
-        Pair("Password Confirm", correctResult),
-    )
-}
-
 @Preview
 @Composable
-fun SignupFormPreview(
-    @PreviewParameter(
-        FormPreviewParameterProvider::class,
-        limit = 4
-    ) type: Pair<String, ValidationResult>
-) {
-    SignupForm(
-        label = type.first,
-        validResult = type.second,
+fun PasswordTextFieldPreview() {
+    PasswordTextField(
+        label = "Password",
+        inputValue = "sample",
+        validResult = ValidationResult.Correct,
     )
 }
