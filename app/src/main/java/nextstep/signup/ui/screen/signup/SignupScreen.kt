@@ -43,6 +43,7 @@ fun SignupScreen(
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onPasswordConfirmChange: (String) -> Unit,
+    showCompleteSnackbar: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val usernameValidation = remember(username) { derivedStateOf { validateUsername(username) } }
@@ -58,7 +59,7 @@ fun SignupScreen(
         usernameValidation.value,
         emailValidation.value,
         passwordValidation.value,
-        passwordConfirmValidation.value
+        passwordConfirmValidation.value,
     ) {
         derivedStateOf {
             usernameValidation.value is ValidationState.None &&
@@ -101,7 +102,7 @@ fun SignupScreen(
         Spacer(modifier = Modifier.height(39.dp))
         SignupButton(
             label = stringResource(R.string.signup),
-            onClick = {},
+            onClick = showCompleteSnackbar,
             enabled = isAllValidationPass.value,
             modifier = Modifier
                 .fillMaxWidth()
@@ -186,7 +187,8 @@ private fun SignupScreenPreview() {
             },
             onPasswordConfirmChange = {
                 passwordConfirm.value = it
-            }
+            },
+            showCompleteSnackbar = {}
         )
     }
 }
