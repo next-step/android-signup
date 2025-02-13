@@ -13,7 +13,6 @@ class PasswordTextFieldValidationTest {
     @get:Rule
     val composeTestRule = createComposeRule()
     private val password = mutableStateOf("")
-    private val passwordValidator = PasswordValidator()
 
     @Before
     fun setup() {
@@ -21,7 +20,7 @@ class PasswordTextFieldValidationTest {
             PasswordTextField(
                 inputValue = password.value,
                 onInputChange = { password.value = it },
-                validResult = passwordValidator.validate(password.value),
+                validResult = PasswordValidator.validate(password.value),
             )
         }
     }

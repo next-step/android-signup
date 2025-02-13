@@ -2,7 +2,7 @@ package nextstep.signup.ui.util
 
 import nextstep.signup.R
 
-class PasswordValidator : Validator {
+object PasswordValidator : Validator {
 
     override fun validate(value: String): ValidationResult {
         return when {
@@ -17,11 +17,9 @@ class PasswordValidator : Validator {
             else -> ValidationResult.Correct
         }
     }
-
-    companion object {
-        private const val MIN_PASSWORD_LENGTH = 8
-        private const val MAX_PASSWORD_LENGTH = 16
-
-        private val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$".toRegex()
-    }
 }
+
+private const val MIN_PASSWORD_LENGTH = 8
+private const val MAX_PASSWORD_LENGTH = 16
+
+private val PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$".toRegex()

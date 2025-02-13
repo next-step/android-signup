@@ -13,11 +13,7 @@ class PasswordMatchTextFieldValidationTest {
     @get:Rule
     val composeTestRule = createComposeRule()
     private val enteredPassword = "password1"
-
     private val passwordMatch = mutableStateOf("")
-    private val passwordMatchValidator = PasswordMatchValidator(
-        getEnteredPassword = { enteredPassword }
-    )
 
     @Before
     fun setup() {
@@ -25,7 +21,7 @@ class PasswordMatchTextFieldValidationTest {
             PasswordTextField(
                 inputValue = passwordMatch.value,
                 onInputChange = { passwordMatch.value = it },
-                validResult = passwordMatchValidator.validate(passwordMatch.value),
+                validResult = PasswordMatchValidator.validate(enteredPassword, passwordMatch.value),
             )
         }
     }

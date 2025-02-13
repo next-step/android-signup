@@ -13,7 +13,6 @@ class EmailTextFieldValidationTest {
     @get:Rule
     val composeTestRule = createComposeRule()
     private val email = mutableStateOf("")
-    private val emailValidator = EmailValidator()
 
     @Before
     fun setup() {
@@ -21,7 +20,7 @@ class EmailTextFieldValidationTest {
             EmailTextField(
                 inputValue = email.value,
                 onInputChange = { email.value = it },
-                validResult = emailValidator.validate(email.value),
+                validResult = EmailValidator.validate(email.value),
             )
         }
     }

@@ -2,7 +2,7 @@ package nextstep.signup.ui.util
 
 import nextstep.signup.R
 
-class NameValidator : Validator {
+object NameValidator : Validator {
 
     override fun validate(value: String): ValidationResult {
         return when {
@@ -17,11 +17,9 @@ class NameValidator : Validator {
             else -> ValidationResult.Correct
         }
     }
-
-    companion object {
-        private const val MIN_NAME_LENGTH = 2
-        private const val MAX_NAME_LENGTH = 5
-
-        private val USERNAME_REGEX = "^[a-zA-Z가-힣]+$".toRegex()
-    }
 }
+
+private const val MIN_NAME_LENGTH = 2
+private const val MAX_NAME_LENGTH = 5
+
+private val USERNAME_REGEX = "^[a-zA-Z가-힣]+$".toRegex()
