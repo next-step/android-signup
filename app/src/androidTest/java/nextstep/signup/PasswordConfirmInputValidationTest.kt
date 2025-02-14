@@ -13,20 +13,21 @@ class PasswordConfirmInputValidationTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
-    private val password = UUID.randomUUID().toString()
     private val passwordConfirm = mutableStateOf("")
+    private val isPasswordMatched = mutableStateOf(true)
 
     @Before
     fun setup() {
         composeTestRule.setContent {
-            PasswordConfirmTextField(value = passwordConfirm.value, password = password, onValueChange = {})
+            PasswordConfirmTextField(value = passwordConfirm.value, isPasswordMatched = isPasswordMatched.value, onValueChange = {})
         }
     }
 
     @Test
-    fun 비밀번호와_비밀번호_확인은_일치해야한다() {
+    fun 비밀번호_확인이_빈문자열이_아니고_비밀번호와_일치하면_에러메세지가_노출되지_않는다() {
         // when
-        passwordConfirm.value = password
+        passwordConfirm.value = UUID.randomUUID().toString()
+        isPasswordMatched.value = true
 
         // then
         composeTestRule
@@ -35,9 +36,10 @@ class PasswordConfirmInputValidationTest {
     }
 
     @Test
-    fun 비밀번호와_비밀번호_확인이_일치하지_않으면_에러메세지가_노출된다() {
+    fun 비밀번호_확인이_빈문자열이_아니고_비밀번호와_일치하지_않으면_에러메세지가_노출된다() {
         // when
         passwordConfirm.value = "qwer123"
+        isPasswordMatched.value = false
 
         // then
         composeTestRule

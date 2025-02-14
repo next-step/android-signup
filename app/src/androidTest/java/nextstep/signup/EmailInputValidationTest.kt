@@ -14,18 +14,20 @@ class EmailInputValidationTest {
     @get:Rule
     val composeTestRule = createComposeRule()
     private val email = mutableStateOf("")
+    private val isEmailValid = mutableStateOf(true)
 
     @Before
     fun setup() {
         composeTestRule.setContent {
-            EmailTextField(value = email.value, onValueChange = {})
+            EmailTextField(value = email.value, isValidFormat = isEmailValid.value, onValueChange = {})
         }
     }
 
     @Test
-    fun 이메일_형식이_맞으면_에러메세지가_노출되지_않는다() {
+    fun 이메일이_빈문자열이_아니고_유효성이_true면_에러메세지가_노출되지_않는다() {
         // when
         email.value = "test@gmail.com"
+        isEmailValid.value = true
 
         // then
         composeTestRule
@@ -34,9 +36,10 @@ class EmailInputValidationTest {
     }
 
     @Test
-    fun 이메일_형식에_골뱅이표가_없으면_에러메세지가_노출된다() {
+    fun 이메일이_빈문자열이_아니고_유효성이_false면_에러메세지가_노출된다() {
         // when
         email.value = "testgmail.com"
+        isEmailValid.value = false
 
         // then
         composeTestRule
@@ -45,31 +48,10 @@ class EmailInputValidationTest {
     }
 
     @Test
-    fun 이메일_형식에_점이_없으면_에러메세지가_노출된다() {
-        // when
-        email.value = "test@gmailcom"
-
-        // then
-        composeTestRule
-            .onNodeWithText(EMAIL_INVALID_FORMAT_ERROR)
-            .assertExists()
-    }
-
-    @Test
-    fun 이메일_형식에_골뱅이표와_점_사이에_문자가_없으면_에러메세지가_노출된다() {
-        // when
-        email.value = "test@.com"
-
-        // then
-        composeTestRule
-            .onNodeWithText(EMAIL_INVALID_FORMAT_ERROR)
-            .assertExists()
-    }
-
-    @Test
-    fun 이메일_형식에_빈문자열이면_에러메세지가_노출되지_않는다() {
+    fun 이메일이_빈문자열이면_에러메세지가_노출되지_않는다() {
         // when
         email.value = ""
+        isEmailValid.value = false
 
         // then
         composeTestRule

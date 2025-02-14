@@ -3,6 +3,7 @@ package nextstep.signup
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import nextstep.signup.textfield.PasswordError
 import nextstep.signup.textfield.PasswordTextField
 import nextstep.signup.textfield.UsernameTextField
 import org.junit.Before
@@ -14,18 +15,23 @@ class PasswordInputValidationTest {
     @get:Rule
     val composeTestRule = createComposeRule()
     private val password = mutableStateOf("")
+    private val passwordError = mutableStateOf(PasswordError.NONE)
 
     @Before
     fun setup() {
         composeTestRule.setContent {
-            PasswordTextField(value = password.value, onValueChange = { password.value = it })
+            PasswordTextField(
+                value = password.value,
+                error = passwordError.value,
+                onValueChange = { password.value = it })
         }
     }
 
     @Test
-    fun 비밀번호_형식이_맞으면_에러메세지가_노출되지_않는다() {
+    fun 비밀번호가_빈문자열이_아니고_형식이_맞으면_에러메세지가_노출되지_않는다() {
         // when
         password.value = "qwer1234!@#$"
+        passwordError.value = PasswordError.NONE
 
         // then
         composeTestRule
@@ -37,20 +43,10 @@ class PasswordInputValidationTest {
     }
 
     @Test
-    fun 비밀번호_길이가_8자_미만이면_에러메세지가_노출된다() {
-        // when
-        password.value = "qwer123"
-
-        // then
-        composeTestRule
-            .onNodeWithText(PASSWORD_LENGTH_ERROR)
-            .assertExists()
-    }
-
-    @Test
-    fun 비밀번호_길이가_16자_초과이면_에러메세지가_노출된다() {
+    fun 비밀번호가_빈문자열이_아니고_오류가_LENGTH_ERROR면_길이_에러메세지가_노출된다() {
         // when
         password.value = "qwer1234!@#\$qwer1234!@#$"
+        passwordError.value = PasswordError.LENGTH_ERROR
 
         // then
         composeTestRule
@@ -59,20 +55,10 @@ class PasswordInputValidationTest {
     }
 
     @Test
-    fun 비밀번호에_영문자가_없으면_에러메세지가_노출된다() {
-        // when
-        password.value = "1234!@#$"
-
-        // then
-        composeTestRule
-            .onNodeWithText(PASSWORD_REQUIRED_CHARACTER_NOT_INCLUDE_ERROR)
-            .assertExists()
-    }
-
-    @Test
-    fun 비밀번호에_숫자가_없으면_에러메세지가_노출된다() {
+    fun 비밀번호가_빈문자열이_아니고_오류가_REQUIRED_CHARACTER_NOT_INCLUDE_ERROR면_문자_에러메세지가_노출된다() {
         // when
         password.value = "qwer!@#$"
+        passwordError.value = PasswordError.REQUIRED_CHARACTER_NOT_INCLUDE_ERROR
 
         // then
         composeTestRule
@@ -84,6 +70,7 @@ class PasswordInputValidationTest {
     fun 비밀번호가_빈문자열이면_에러메세지가_노출되지_않는다() {
         // when
         password.value = ""
+        passwordError.value = PasswordError.LENGTH_ERROR
 
         // then
         composeTestRule

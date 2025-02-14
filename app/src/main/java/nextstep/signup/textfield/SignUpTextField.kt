@@ -27,8 +27,7 @@ fun SignUpTextField(
     label: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    supportingText: String = "",
-    isError: Boolean = false,
+    errorMessage: String? = null,
     textStyle: TextStyle = MaterialTheme.typography.bodyLarge,
     visualTransformation: VisualTransformation = VisualTransformation.None,
 ) {
@@ -37,15 +36,15 @@ fun SignUpTextField(
             .fillMaxWidth()
             .heightIn(min = 56.dp),
         value = value,
-        isError = isError,
+        isError = errorMessage != null,
         onValueChange = onValueChange,
         textStyle = textStyle,
         label = {
             Text(text = label)
         },
         supportingText = {
-            if (isError) {
-                Text(text = supportingText)
+            if (errorMessage != null) {
+                Text(text = errorMessage)
             }
         },
         colors = TextFieldDefaults.colors(

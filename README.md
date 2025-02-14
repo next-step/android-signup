@@ -12,3 +12,10 @@
     - SignUpTextField 텍스트가 여러 줄인 경우 대응
 - SignUpTextField 유효성 검사 로직 추가
 - 테스트 코드 추가
+
+🚀 4단계 - 회원가입(리팩터링)
+- 유효성 검사 로직, 뷰 로직 관심사 분리
+- UI 테스트 코드 수정
+- 유효성 검사 단위 테스트 작성
+- SignUpButton UI 테스트 코드 작성
+- 조건에 따라 SignUpButton 활성화
