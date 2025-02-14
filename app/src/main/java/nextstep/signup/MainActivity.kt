@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -24,8 +26,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -52,6 +58,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun SignUpScreen() {
+    val focusManager = LocalFocusManager.current
     Column(
         modifier = Modifier
             .padding(horizontal = 16.dp)
@@ -65,10 +72,10 @@ fun SignUpScreen() {
         )
         Spacer(modifier = Modifier.padding(vertical = 14.dp))
 
-        UserInputTextField("Username", 12.dp)
-        UserInputTextField("Email", 12.dp)
-        UserInputTextField("Password", 12.dp)
-        UserInputTextField("Password Confirmation", 13.dp)
+        UserInputTextField("Username", 12.dp, focusManager, ImeAction.Next)
+        UserInputTextField("Email", 12.dp, focusManager, ImeAction.Next)
+        UserInputTextField("Password", 12.dp, focusManager, ImeAction.Next)
+        UserInputTextField("Password Confirmation", 13.dp, focusManager, ImeAction.Done)
 
         Button(
             modifier = Modifier
@@ -88,7 +95,7 @@ fun SignUpScreen() {
 }
 
 @Composable
-fun UserInputTextField(label: String, bottomPadding: Dp) {
+fun UserInputTextField(label: String, bottomPadding: Dp, focusManager: FocusManager, imeAction: ImeAction) {
     var text by remember { mutableStateOf("") }
 
     TextField(
@@ -97,6 +104,16 @@ fun UserInputTextField(label: String, bottomPadding: Dp) {
         onValueChange = {
             text = it
         },
+        keyboardOptions = KeyboardOptions(imeAction = imeAction),
+        keyboardActions = KeyboardActions(
+            onNext = {
+                focusManager.moveFocus(FocusDirection.Down)
+            },
+            onDone = {
+                focusManager.clearFocus()
+            }
+        ),
+        singleLine = true,
         colors = TextFieldDefaults.colors(
             focusedContainerColor = BlueGrey20,
             unfocusedContainerColor = BlueGrey20,
@@ -105,7 +122,8 @@ fun UserInputTextField(label: String, bottomPadding: Dp) {
             focusedIndicatorColor = Blue50,
             focusedTextColor = Color.Black
         ),
-        modifier = Modifier.fillMaxWidth())
+        modifier = Modifier.fillMaxWidth()
+    )
     Spacer(modifier = Modifier.padding(vertical = bottomPadding))
 }
 
