@@ -16,8 +16,8 @@ import nextstep.signup.ui.util.ValidationResult
 
 @Composable
 fun UsernameTextField(
-    inputValue: String = "",
-    onInputChange: (String) -> Unit = {},
+    inputValue: String,
+    onInputChange: (String) -> Unit,
     validResult: ValidationResult,
     modifier: Modifier = Modifier,
 ) {
@@ -47,6 +47,7 @@ fun UsernameTextField(
 fun UsernameTextFieldPreview() {
     UsernameTextField(
         inputValue = "name",
+        onInputChange = {},
         validResult = ValidationResult.Correct,
     )
 }

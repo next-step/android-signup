@@ -16,7 +16,7 @@ import nextstep.signup.ui.theme.SignupBlue
 @Composable
 fun SubmitButton(
     onClick: () -> Unit = {},
-    enabled: Boolean = true,
+    enabled: Boolean = false,
     modifier: Modifier = Modifier
 ) {
     Button(

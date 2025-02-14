@@ -16,8 +16,8 @@ import nextstep.signup.ui.util.ValidationResult
 
 @Composable
 fun EmailTextField(
-    inputValue: String = "",
-    onInputChange: (String) -> Unit = {},
+    inputValue: String,
+    onInputChange: (String) -> Unit,
     validResult: ValidationResult,
     modifier: Modifier = Modifier,
 ) {
@@ -47,6 +47,7 @@ fun EmailTextField(
 fun EmailTextFieldPreview() {
     EmailTextField(
         inputValue = "user@domain.com",
+        onInputChange = {},
         validResult = ValidationResult.Correct,
     )
 }

@@ -15,7 +15,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,6 +37,7 @@ import nextstep.signup.ui.util.ValidationResult
 @Composable
 fun SignupScreen(
     modifier: Modifier = Modifier,
+    onSignupComplete: () -> Unit = {},
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -86,27 +86,12 @@ fun SignupScreen(
             onInputChange = { passwordConfirm = it },
             validResult = validationResults.getOrElse(PASSWORD_CONFIRM) { ValidationResult.Correct },
         )
-        val message = stringResource(R.string.signup_complete_snackbar_message)
-
         SubmitButton(
             enabled = validationResults.values.all { it == ValidationResult.Correct },
             onClick = {
                 keyboardController?.hide()
 
-                scope.launch {
-                    snackBarHostState.showSnackbar(
-                        message = message,
-                    )
-                }
-            }
-        )
-        SnackbarHost(
-            hostState = snackBarHostState,
-            snackbar = { data ->
-                Snackbar(
-                    snackbarData = data,
-                    actionColor = Color.Red
-                )
+                onSignupComplete()
             }
         )
     }

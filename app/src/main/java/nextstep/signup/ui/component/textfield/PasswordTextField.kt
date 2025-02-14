@@ -18,9 +18,9 @@ import nextstep.signup.ui.util.ValidationResult
 
 @Composable
 fun PasswordTextField(
-    label: String = "",
-    inputValue: String = "",
-    onInputChange: (String) -> Unit = {},
+    label: String,
+    inputValue: String,
+    onInputChange: (String) -> Unit,
     validResult: ValidationResult,
     modifier: Modifier = Modifier,
 ) {
@@ -52,6 +52,7 @@ fun PasswordTextFieldPreview() {
     PasswordTextField(
         label = "Password",
         inputValue = "sample",
+        onInputChange = {},
         validResult = ValidationResult.Correct,
     )
 }
