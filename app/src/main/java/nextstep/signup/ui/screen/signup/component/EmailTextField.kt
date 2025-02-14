@@ -24,7 +24,10 @@ fun EmailTextField(
             autoCorrectEnabled = false,
             keyboardType = KeyboardType.Email
         ),
-        validationState = validationState,
+        errorMessage = when (validationState) {
+            is ValidationState.Error -> stringResource(validationState.resourceId)
+            ValidationState.None -> null
+        },
         modifier = modifier
     )
 }

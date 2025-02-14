@@ -25,7 +25,10 @@ fun PasswordConfirmTextField(
             keyboardType = KeyboardType.Password
         ),
         secure = true,
-        validationState = passwordConfirmValidationState,
+        errorMessage = when (passwordConfirmValidationState) {
+            is ValidationState.Error -> stringResource(passwordConfirmValidationState.resourceId)
+            ValidationState.None -> null
+        },
         modifier = modifier
     )
 }

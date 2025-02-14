@@ -18,7 +18,10 @@ fun UsernameTextField(
         value = username,
         onValueChange = onUsernameChange,
         label = stringResource(R.string.username),
-        validationState = validationState,
+        errorMessage = when (validationState) {
+            is ValidationState.Error -> stringResource(validationState.resourceId)
+            ValidationState.None -> null
+        },
         modifier = modifier
     )
 }

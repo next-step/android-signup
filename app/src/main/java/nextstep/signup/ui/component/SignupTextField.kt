@@ -29,7 +29,7 @@ fun SignupTextField(
     modifier: Modifier = Modifier,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     secure: Boolean = false,
-    validationState: ValidationState = ValidationState.None
+    errorMessage: String? = null
 ) {
     TextField(
         modifier = modifier,
@@ -37,9 +37,9 @@ fun SignupTextField(
         label = { Text(label) },
         onValueChange = onValueChange,
         singleLine = true,
-        isError = validationState is ValidationState.Error,
-        supportingText = if (validationState is ValidationState.Error) {
-            { Text(stringResource(validationState.resourceId)) }
+        isError = errorMessage != null,
+        supportingText = if (!errorMessage.isNullOrEmpty()) {
+            { Text(errorMessage) }
         } else {
             null
         },
@@ -76,7 +76,7 @@ fun SignupTextFieldPreview(
             value = value.value,
             onValueChange = { value.value = it },
             label = "Username",
-            secure = true,
+            secure = secure,
         )
     }
 }

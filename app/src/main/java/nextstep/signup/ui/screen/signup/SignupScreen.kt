@@ -43,32 +43,14 @@ fun SignupScreen(
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onPasswordConfirmChange: (String) -> Unit,
+    usernameValidationState: ValidationState,
+    emailValidationState: ValidationState,
+    passwordValidationState: ValidationState,
+    passwordConfirmValidationState: ValidationState,
+    isAllValidationPass: Boolean,
     showCompleteSnackbar: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val usernameValidation = remember(username) { derivedStateOf { validateUsername(username) } }
-    val emailValidation = remember(email) { derivedStateOf { validateEmail(email) } }
-    val passwordValidation = remember(password) { derivedStateOf { validatePassword(password) } }
-    val passwordConfirmValidation = remember(password, passwordConfirm) {
-        derivedStateOf {
-            validatePasswordConfirm(password, passwordConfirm)
-        }
-    }
-
-    val isAllValidationPass = remember(
-        usernameValidation.value,
-        emailValidation.value,
-        passwordValidation.value,
-        passwordConfirmValidation.value,
-    ) {
-        derivedStateOf {
-            usernameValidation.value is ValidationState.None &&
-            emailValidation.value is ValidationState.None &&
-            passwordValidation.value is ValidationState.None &&
-            passwordConfirmValidation.value is ValidationState.None
-        }
-    }
-
     Column(
         modifier = modifier
             .padding(
@@ -94,16 +76,16 @@ fun SignupScreen(
             onEmailChange = onEmailChange,
             onPasswordChange = onPasswordChange,
             onPasswordConfirmChange = onPasswordConfirmChange,
-            usernameValidationState = usernameValidation.value,
-            emailValidationState = emailValidation.value,
-            passwordValidationState = passwordValidation.value,
-            passwordConfirmValidationState = passwordConfirmValidation.value
+            usernameValidationState = usernameValidationState,
+            emailValidationState = emailValidationState,
+            passwordValidationState = passwordValidationState,
+            passwordConfirmValidationState = passwordConfirmValidationState
         )
         Spacer(modifier = Modifier.height(39.dp))
         SignupButton(
             label = stringResource(R.string.signup),
             onClick = showCompleteSnackbar,
-            enabled = isAllValidationPass.value,
+            enabled = isAllValidationPass,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)
@@ -170,6 +152,32 @@ private fun SignupScreenPreview() {
         val password = remember { mutableStateOf("") }
         val passwordConfirm = remember { mutableStateOf("") }
 
+        val usernameValidation =
+            remember(username) { derivedStateOf { validateUsername(username.value) } }
+        val emailValidation =
+            remember(email) { derivedStateOf { validateEmail(email.value) } }
+        val passwordValidation =
+            remember(password) { derivedStateOf { validatePassword(password.value) } }
+        val passwordConfirmValidation = remember(password, passwordConfirm) {
+            derivedStateOf {
+                validatePasswordConfirm(password.value, passwordConfirm.value)
+            }
+        }
+
+        val isAllValidationPass = remember(
+            usernameValidation.value,
+            emailValidation.value,
+            passwordValidation.value,
+            passwordConfirmValidation.value,
+        ) {
+            derivedStateOf {
+                usernameValidation.value is ValidationState.None &&
+                        emailValidation.value is ValidationState.None &&
+                        passwordValidation.value is ValidationState.None &&
+                        passwordConfirmValidation.value is ValidationState.None
+            }
+        }
+
         SignupScreen(
             modifier = Modifier.fillMaxSize(),
             username = username.value,
@@ -188,7 +196,12 @@ private fun SignupScreenPreview() {
             onPasswordConfirmChange = {
                 passwordConfirm.value = it
             },
-            showCompleteSnackbar = {}
+            showCompleteSnackbar = {},
+            usernameValidationState = usernameValidation.value,
+            emailValidationState = emailValidation.value,
+            passwordValidationState = passwordValidation.value,
+            passwordConfirmValidationState = passwordConfirmValidation.value,
+            isAllValidationPass = isAllValidationPass.value
         )
     }
 }
