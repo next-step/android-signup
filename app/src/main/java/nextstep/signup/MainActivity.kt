@@ -58,21 +58,6 @@ class MainActivity : ComponentActivity() {
                         }
                     }
 
-                    val isAllValidationPass = remember(
-                        usernameValidation.value,
-                        emailValidation.value,
-                        passwordValidation.value,
-                        passwordConfirmValidation.value,
-                    ) {
-                        derivedStateOf {
-                            usernameValidation.value is ValidationState.None &&
-                                    emailValidation.value is ValidationState.None &&
-                                    passwordValidation.value is ValidationState.None &&
-                                    passwordConfirmValidation.value is ValidationState.None
-                        }
-                    }
-
-
                     val context = LocalContext.current
 
                     SignupScreen(
@@ -104,7 +89,6 @@ class MainActivity : ComponentActivity() {
                         emailValidationState = emailValidation.value,
                         passwordValidationState = passwordValidation.value,
                         passwordConfirmValidationState = passwordConfirmValidation.value,
-                        isAllValidationPass = isAllValidationPass.value
                     )
                 }
             }

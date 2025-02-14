@@ -47,10 +47,23 @@ fun SignupScreen(
     emailValidationState: ValidationState,
     passwordValidationState: ValidationState,
     passwordConfirmValidationState: ValidationState,
-    isAllValidationPass: Boolean,
     showCompleteSnackbar: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val isButtonEnabled = remember(
+        usernameValidationState,
+        emailValidationState,
+        passwordValidationState,
+        passwordConfirmValidationState
+    ) {
+        derivedStateOf {
+                usernameValidationState is ValidationState.None &&
+                emailValidationState is ValidationState.None &&
+                passwordValidationState is ValidationState.None &&
+                passwordConfirmValidationState is ValidationState.None
+        }
+    }
+
     Column(
         modifier = modifier
             .padding(
@@ -85,7 +98,7 @@ fun SignupScreen(
         SignupButton(
             label = stringResource(R.string.signup),
             onClick = showCompleteSnackbar,
-            enabled = isAllValidationPass,
+            enabled = isButtonEnabled.value,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)
@@ -164,20 +177,6 @@ private fun SignupScreenPreview() {
             }
         }
 
-        val isAllValidationPass = remember(
-            usernameValidation.value,
-            emailValidation.value,
-            passwordValidation.value,
-            passwordConfirmValidation.value,
-        ) {
-            derivedStateOf {
-                usernameValidation.value is ValidationState.None &&
-                        emailValidation.value is ValidationState.None &&
-                        passwordValidation.value is ValidationState.None &&
-                        passwordConfirmValidation.value is ValidationState.None
-            }
-        }
-
         SignupScreen(
             modifier = Modifier.fillMaxSize(),
             username = username.value,
@@ -201,7 +200,6 @@ private fun SignupScreenPreview() {
             emailValidationState = emailValidation.value,
             passwordValidationState = passwordValidation.value,
             passwordConfirmValidationState = passwordConfirmValidation.value,
-            isAllValidationPass = isAllValidationPass.value
         )
     }
 }
