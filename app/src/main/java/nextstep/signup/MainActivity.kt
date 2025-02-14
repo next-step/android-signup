@@ -2,7 +2,6 @@ package nextstep.signup
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -18,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.launch
-import nextstep.signup.ui.ValidationState
 import nextstep.signup.ui.screen.signup.SignupScreen
 import nextstep.signup.ui.theme.SignupTheme
 import nextstep.signup.ui.validateEmail
