@@ -13,7 +13,7 @@ import nextstep.signup.ui.component.SignupTextField
 fun PasswordConfirmTextField(
     passwordConfirm: String,
     onPasswordConfirmChange: (String) -> Unit,
-    passwordConfirmValidationState: ValidationState,
+    validationState: ValidationState,
     modifier: Modifier = Modifier
 ) {
     SignupTextField(
@@ -25,9 +25,9 @@ fun PasswordConfirmTextField(
             keyboardType = KeyboardType.Password
         ),
         secure = true,
-        errorMessage = when (passwordConfirmValidationState) {
-            is ValidationState.Error -> stringResource(passwordConfirmValidationState.resourceId)
-            ValidationState.None -> null
+        errorMessage = when (validationState) {
+            is ValidationState.Error -> stringResource(validationState.resourceId)
+            ValidationState.Success -> null
         },
         modifier = modifier
     )

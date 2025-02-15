@@ -13,7 +13,7 @@ class PasswordConfirmValidateTest {
         // when
         val result = validatePasswordConfirm(password, passwordConfirm)
         // then
-        Assert.assertTrue(result is ValidationState.None)
+        Assert.assertTrue(result is ValidationState.Success)
     }
 
     @Test

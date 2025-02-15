@@ -26,7 +26,7 @@ fun EmailTextField(
         ),
         errorMessage = when (validationState) {
             is ValidationState.Error -> stringResource(validationState.resourceId)
-            ValidationState.None -> null
+            ValidationState.Success -> null
         },
         modifier = modifier
     )

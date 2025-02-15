@@ -12,7 +12,7 @@ class EmailValidateTest {
         // when
         val result = validateEmail(email)
         // then
-        Assert.assertTrue(result is ValidationState.None)
+        Assert.assertTrue(result is ValidationState.Success)
     }
 
     @Test

@@ -12,7 +12,7 @@ class UsernameValidateTest {
         // when
         val result = validateUsername(username)
         // then
-        Assert.assertTrue(result is ValidationState.None)
+        Assert.assertTrue(result is ValidationState.Success)
     }
 
     @Test
