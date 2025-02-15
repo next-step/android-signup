@@ -1,4 +1,4 @@
-package nextstep.signup.ui.screen
+package nextstep.signup.ui.screen.signup
 
 import android.graphics.Color
 import androidx.compose.foundation.layout.Arrangement
@@ -8,22 +8,26 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.R
+import nextstep.signup.ui.ValidationState
 import nextstep.signup.ui.component.SignupButton
-import nextstep.signup.ui.component.SignupTextField
+import nextstep.signup.ui.screen.signup.component.EmailTextField
+import nextstep.signup.ui.screen.signup.component.PasswordConfirmTextField
+import nextstep.signup.ui.screen.signup.component.PasswordTextField
+import nextstep.signup.ui.screen.signup.component.UsernameTextField
 import nextstep.signup.ui.theme.SignupTheme
 import nextstep.signup.ui.validateEmail
 import nextstep.signup.ui.validatePassword
@@ -40,6 +44,12 @@ fun SignupScreen(
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onPasswordConfirmChange: (String) -> Unit,
+    usernameValidationState: ValidationState,
+    emailValidationState: ValidationState,
+    passwordValidationState: ValidationState,
+    passwordConfirmValidationState: ValidationState,
+    buttonEnabled: Boolean,
+    showSnackbar: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -51,7 +61,12 @@ fun SignupScreen(
             ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TitleContent()
+        Text(
+            text = stringResource(R.string.welcome_to_compose),
+            fontWeight = FontWeight.W700,
+            fontSize = 26.sp,
+            lineHeight = 20.sp,
+        )
         Spacer(modifier = Modifier.height(42.dp))
         TextFieldsContent(
             username = username,
@@ -61,21 +76,23 @@ fun SignupScreen(
             onUsernameChange = onUsernameChange,
             onEmailChange = onEmailChange,
             onPasswordChange = onPasswordChange,
-            onPasswordConfirmChange = onPasswordConfirmChange
+            onPasswordConfirmChange = onPasswordConfirmChange,
+            usernameValidationState = usernameValidationState,
+            emailValidationState = emailValidationState,
+            passwordValidationState = passwordValidationState,
+            passwordConfirmValidationState = passwordConfirmValidationState
         )
         Spacer(modifier = Modifier.height(39.dp))
-        ButtonContent()
+        SignupButton(
+            label = stringResource(R.string.signup),
+            onClick = showSnackbar,
+            enabled = buttonEnabled,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+                .testTag("SignupButton")
+        )
     }
-}
-
-@Composable
-private fun TitleContent() {
-    Text(
-        text = stringResource(R.string.welcome_to_compose),
-        fontWeight = FontWeight.W700,
-        fontSize = 26.sp,
-        lineHeight = 20.sp,
-    )
 }
 
 @Composable
@@ -88,118 +105,41 @@ private fun TextFieldsContent(
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onPasswordConfirmChange: (String) -> Unit,
+    usernameValidationState: ValidationState,
+    emailValidationState: ValidationState,
+    passwordValidationState: ValidationState,
+    passwordConfirmValidationState: ValidationState,
+    modifier: Modifier = Modifier
 ) {
     Column(
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(33.dp)
     ) {
         UsernameTextField(
+            modifier = Modifier.fillMaxWidth(),
             username = username,
-            onUsernameChange = onUsernameChange
+            onUsernameChange = onUsernameChange,
+            validationState = usernameValidationState
         )
         EmailTextField(
+            modifier = Modifier.fillMaxWidth(),
             email = email,
-            onEmailChange = onEmailChange
+            onEmailChange = onEmailChange,
+            validationState = emailValidationState
         )
         PasswordTextField(
+            modifier = Modifier.fillMaxWidth(),
             password = password,
-            onPasswordChange = onPasswordChange
+            onPasswordChange = onPasswordChange,
+            validationState = passwordValidationState
         )
         PasswordConfirmTextField(
-            password = password,
+            modifier = Modifier.fillMaxWidth(),
             passwordConfirm = passwordConfirm,
-            onPasswordConfirmChange = onPasswordConfirmChange
+            onPasswordConfirmChange = onPasswordConfirmChange,
+            validationState = passwordConfirmValidationState
         )
     }
-}
-
-@Composable
-fun UsernameTextField(
-    username: String,
-    onUsernameChange: (String) -> Unit,
-) {
-    val errorMsg = validateUsername(username)
-
-    SignupTextField(
-        value = username,
-        onValueChange = onUsernameChange,
-        label = stringResource(R.string.username),
-        errorMsg = if (errorMsg != null) stringResource(errorMsg) else null,
-        modifier = Modifier.fillMaxWidth()
-    )
-}
-
-@Composable
-fun EmailTextField(
-    email: String,
-    onEmailChange: (String) -> Unit,
-) {
-    val errorMsg = validateEmail(email)
-
-    SignupTextField(
-        value = email,
-        onValueChange = onEmailChange,
-        label = stringResource(R.string.email),
-        keyboardOptions = KeyboardOptions(
-            autoCorrectEnabled = false,
-            keyboardType = KeyboardType.Email
-        ),
-        errorMsg = if (errorMsg != null) stringResource(errorMsg) else null,
-        modifier = Modifier.fillMaxWidth()
-    )
-}
-
-@Composable
-fun PasswordTextField(
-    password: String,
-    onPasswordChange: (String) -> Unit,
-) {
-    val errorMsg = validatePassword(password)
-
-    SignupTextField(
-        value = password,
-        onValueChange = onPasswordChange,
-        label = stringResource(R.string.password),
-        keyboardOptions = KeyboardOptions(
-            autoCorrectEnabled = false,
-            keyboardType = KeyboardType.Password
-        ),
-        secure = true,
-        errorMsg = if (errorMsg != null) stringResource(errorMsg) else null,
-        modifier = Modifier.fillMaxWidth()
-    )
-}
-
-@Composable
-fun PasswordConfirmTextField(
-    password: String,
-    passwordConfirm: String,
-    onPasswordConfirmChange: (String) -> Unit,
-) {
-    val errorMsg = validatePasswordConfirm(password, passwordConfirm)
-
-    SignupTextField(
-        value = passwordConfirm,
-        onValueChange = onPasswordConfirmChange,
-        label = stringResource(R.string.password_confirm),
-        keyboardOptions = KeyboardOptions(
-            autoCorrectEnabled = false,
-            keyboardType = KeyboardType.Password
-        ),
-        secure = true,
-        errorMsg = if (errorMsg != null) stringResource(errorMsg) else null,
-        modifier = Modifier.fillMaxWidth()
-    )
-}
-
-@Composable
-private fun ButtonContent() {
-    SignupButton(
-        label = stringResource(R.string.signup),
-        onClick = {},
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(50.dp)
-    )
 }
 
 @Preview(
@@ -213,6 +153,18 @@ private fun SignupScreenPreview() {
         val email = remember { mutableStateOf("") }
         val password = remember { mutableStateOf("") }
         val passwordConfirm = remember { mutableStateOf("") }
+
+        val usernameValidation =
+            remember(username) { derivedStateOf { validateUsername(username.value) } }
+        val emailValidation =
+            remember(email) { derivedStateOf { validateEmail(email.value) } }
+        val passwordValidation =
+            remember(password) { derivedStateOf { validatePassword(password.value) } }
+        val passwordConfirmValidation = remember(password, passwordConfirm) {
+            derivedStateOf {
+                validatePasswordConfirm(password.value, passwordConfirm.value)
+            }
+        }
 
         SignupScreen(
             modifier = Modifier.fillMaxSize(),
@@ -231,7 +183,13 @@ private fun SignupScreenPreview() {
             },
             onPasswordConfirmChange = {
                 passwordConfirm.value = it
-            }
+            },
+            showSnackbar = {},
+            usernameValidationState = usernameValidation.value,
+            emailValidationState = emailValidation.value,
+            passwordValidationState = passwordValidation.value,
+            passwordConfirmValidationState = passwordConfirmValidation.value,
+            buttonEnabled = false,
         )
     }
 }

@@ -3,42 +3,45 @@ package nextstep.signup
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import nextstep.signup.ui.screen.EmailTextField
+import nextstep.signup.ui.ValidationState
+import nextstep.signup.ui.screen.signup.component.EmailTextField
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class EmailValidationTest {
+class EmailTextFieldTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
-    private val email = mutableStateOf("")
+    private val validationState = mutableStateOf<ValidationState>(ValidationState.Success)
 
     @Before
     fun setup() {
         composeTestRule.setContent {
-            EmailTextField (
-                email = email.value,
-                onEmailChange = {}
+            EmailTextField(
+                email = "hyemdooly@gmail.com",
+                onEmailChange = {},
+                validationState = validationState.value
             )
         }
     }
 
     @Test
-    fun 이메일_형식을_지켜야_한다() { // abc@abc.de
+    fun 이메일_형식에_대한_검증_성공_값이_들어온다면_에러메시지를_노출하지_않는다() {
         // when
-        email.value = "hyemdooly@gmail.com"
+        validationState.value = ValidationState.Success
 
         // then
         composeTestRule
             .onNodeWithText(EMAIL_FORMAT_ERROR)
             .assertDoesNotExist()
+
     }
 
     @Test
-    fun 이메일_형식을_지키지_않으면_에러메시지가_노출된다() {
+    fun 이메일_형식에_대한_검증_오류_값이_들어온다면_형식에_대한_에러메시지를_노출한다() {
         // when
-        email.value = "hyemdooly_gmailcom"
+        validationState.value = ValidationState.Error(R.string.error_email_format)
 
         // then
         composeTestRule
