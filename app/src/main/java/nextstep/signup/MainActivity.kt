@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.launch
+import nextstep.signup.ui.ValidationState
 import nextstep.signup.ui.screen.signup.SignupScreen
 import nextstep.signup.ui.theme.SignupTheme
 import nextstep.signup.ui.validateEmail
@@ -56,6 +57,20 @@ class MainActivity : ComponentActivity() {
                         }
                     }
 
+                    val isButtonEnabled = remember(
+                        usernameValidation.value,
+                        emailValidation.value,
+                        passwordValidation.value,
+                        passwordConfirmValidation.value
+                    ) {
+                        derivedStateOf {
+                            usernameValidation.value is ValidationState.Success &&
+                                    emailValidation.value is ValidationState.Success &&
+                                    passwordValidation.value is ValidationState.Success &&
+                                    passwordConfirmValidation.value is ValidationState.Success
+                        }
+                    }
+
                     val context = LocalContext.current
 
                     SignupScreen(
@@ -87,6 +102,7 @@ class MainActivity : ComponentActivity() {
                         emailValidationState = emailValidation.value,
                         passwordValidationState = passwordValidation.value,
                         passwordConfirmValidationState = passwordConfirmValidation.value,
+                        buttonEnabled = isButtonEnabled.value,
                     )
                 }
             }

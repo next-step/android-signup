@@ -48,23 +48,10 @@ fun SignupScreen(
     emailValidationState: ValidationState,
     passwordValidationState: ValidationState,
     passwordConfirmValidationState: ValidationState,
+    buttonEnabled: Boolean,
     showSnackbar: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val isButtonEnabled = remember(
-        usernameValidationState,
-        emailValidationState,
-        passwordValidationState,
-        passwordConfirmValidationState
-    ) {
-        derivedStateOf {
-                usernameValidationState is ValidationState.Success &&
-                emailValidationState is ValidationState.Success &&
-                passwordValidationState is ValidationState.Success &&
-                passwordConfirmValidationState is ValidationState.Success
-        }
-    }
-
     Column(
         modifier = modifier
             .padding(
@@ -99,7 +86,7 @@ fun SignupScreen(
         SignupButton(
             label = stringResource(R.string.signup),
             onClick = showSnackbar,
-            enabled = isButtonEnabled.value,
+            enabled = buttonEnabled,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)
@@ -202,6 +189,7 @@ private fun SignupScreenPreview() {
             emailValidationState = emailValidation.value,
             passwordValidationState = passwordValidation.value,
             passwordConfirmValidationState = passwordConfirmValidation.value,
+            buttonEnabled = false,
         )
     }
 }

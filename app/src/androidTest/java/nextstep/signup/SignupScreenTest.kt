@@ -4,23 +4,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import nextstep.signup.ui.ValidationState
 import nextstep.signup.ui.screen.signup.SignupScreen
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 
-@RunWith(Parameterized::class)
-class SignupScreenTest(
-    private val usernameValidation: ValidationState,
-    private val emailValidation: ValidationState,
-    private val passwordValidation: ValidationState,
-    private val passwordConfirmValidation: ValidationState,
-    private val buttonEnabled: Boolean,
-) {
+class SignupScreenTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -30,6 +24,7 @@ class SignupScreenTest(
     private val passwordValidationState = mutableStateOf<ValidationState>(ValidationState.Success)
     private val passwordConfirmValidationState =
         mutableStateOf<ValidationState>(ValidationState.Success)
+    private val buttonEnabled = mutableStateOf(true)
 
     @Before
     fun setup() {
@@ -47,52 +42,31 @@ class SignupScreenTest(
                 emailValidationState = emailValidationState.value,
                 passwordValidationState = passwordValidationState.value,
                 passwordConfirmValidationState = passwordConfirmValidationState.value,
+                buttonEnabled = buttonEnabled.value,
                 showSnackbar = {}
             )
         }
     }
 
     @Test
-    fun 하나라도_결과가_실패이면_버튼이_활성화되지_않고_모두_성공일_때_활성화한다() {
+    fun 버튼_상태_값이_true면_누를_수_있는_상태이다() {
         // when
-        usernameValidationState.value = usernameValidation
-        emailValidationState.value = emailValidation
-        passwordValidationState.value = passwordValidation
-        passwordConfirmValidationState.value = passwordConfirmValidation
+        buttonEnabled.value = true
 
         // then
-        if (buttonEnabled) {
-            composeTestRule
-                .onNodeWithTag("SignupButton")
-                .assertIsEnabled()
-        } else {
-            composeTestRule
-                .onNodeWithTag("SignupButton")
-                .assertIsNotEnabled()
-        }
+        composeTestRule
+            .onNodeWithTag("SignupButton")
+            .assertIsEnabled()
     }
 
-    companion object {
-        @JvmStatic
-        @Parameterized.Parameters(name = "username: {0}, email: {1}, password: {2}, confirm: {3}")
-        fun data(): Collection<Array<Any>> {
-            val success = ValidationState.Success
-            val usernameError = ValidationState.Error(R.string.error_username_format)
-            val emailError = ValidationState.Error(R.string.error_email_format)
-            val passwordError = ValidationState.Error(R.string.error_password_length)
-            val passwordConfirmError =
-                ValidationState.Error(R.string.error_password_confirm_not_equal)
+    @Test
+    fun 버튼_상태_값이_false면__누를_수_없는_상태이다() {
+        // when
+        buttonEnabled.value = false
 
-            return listOf(
-                // 기대값 : 버튼 활성화
-                arrayOf(success, success, success, success, true),
-                // 기대값 : 버튼 비활성화
-                arrayOf(usernameError, success, success, success, false),
-                arrayOf(success, emailError, success, success, false),
-                arrayOf(success, success, passwordError, success, false),
-                arrayOf(success, success, success, passwordConfirmError, false),
-                arrayOf(usernameError, emailError, passwordError, passwordConfirmError, false)
-            )
-        }
+        // then
+        composeTestRule
+            .onNodeWithTag("SignupButton")
+            .assertIsNotEnabled()
     }
 }

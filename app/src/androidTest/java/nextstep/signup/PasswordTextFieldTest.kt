@@ -8,7 +8,6 @@ import nextstep.signup.ui.screen.signup.component.PasswordTextField
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.ErrorCollector
 
 class PasswordTextFieldTest {
 
