@@ -15,6 +15,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -57,10 +58,10 @@ fun SignupScreen(
         passwordConfirmValidationState
     ) {
         derivedStateOf {
-                usernameValidationState is ValidationState.None &&
-                emailValidationState is ValidationState.None &&
-                passwordValidationState is ValidationState.None &&
-                passwordConfirmValidationState is ValidationState.None
+                usernameValidationState is ValidationState.Success &&
+                emailValidationState is ValidationState.Success &&
+                passwordValidationState is ValidationState.Success &&
+                passwordConfirmValidationState is ValidationState.Success
         }
     }
 
@@ -102,6 +103,7 @@ fun SignupScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)
+                .testTag("SignupButton")
         )
     }
 }
@@ -148,7 +150,7 @@ private fun TextFieldsContent(
             modifier = Modifier.fillMaxWidth(),
             passwordConfirm = passwordConfirm,
             onPasswordConfirmChange = onPasswordConfirmChange,
-            passwordConfirmValidationState = passwordConfirmValidationState
+            validationState = passwordConfirmValidationState
         )
     }
 }
