@@ -47,7 +47,7 @@ class SignupScreenTest(
                 emailValidationState = emailValidationState.value,
                 passwordValidationState = passwordValidationState.value,
                 passwordConfirmValidationState = passwordConfirmValidationState.value,
-                showCompleteSnackbar = {}
+                showSnackbar = {}
             )
         }
     }

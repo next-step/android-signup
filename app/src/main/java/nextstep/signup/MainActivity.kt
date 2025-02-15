@@ -76,7 +76,7 @@ class MainActivity : ComponentActivity() {
                         onPasswordConfirmChange = {
                             passwordConfirm.value = it
                         },
-                        showCompleteSnackbar = {
+                        showSnackbar = {
                             coroutineScope.launch {
                                 snackbarHostState.showSnackbar(
                                     message = context.getString(R.string.toast_signup_complete_message)

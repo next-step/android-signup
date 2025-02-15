@@ -48,7 +48,7 @@ fun SignupScreen(
     emailValidationState: ValidationState,
     passwordValidationState: ValidationState,
     passwordConfirmValidationState: ValidationState,
-    showCompleteSnackbar: () -> Unit,
+    showSnackbar: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val isButtonEnabled = remember(
@@ -98,7 +98,7 @@ fun SignupScreen(
         Spacer(modifier = Modifier.height(39.dp))
         SignupButton(
             label = stringResource(R.string.signup),
-            onClick = showCompleteSnackbar,
+            onClick = showSnackbar,
             enabled = isButtonEnabled.value,
             modifier = Modifier
                 .fillMaxWidth()
@@ -197,7 +197,7 @@ private fun SignupScreenPreview() {
             onPasswordConfirmChange = {
                 passwordConfirm.value = it
             },
-            showCompleteSnackbar = {},
+            showSnackbar = {},
             usernameValidationState = usernameValidation.value,
             emailValidationState = emailValidation.value,
             passwordValidationState = passwordValidation.value,
