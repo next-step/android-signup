@@ -8,9 +8,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
-fun SignUpTitle(modifier: Modifier = Modifier, title: String) {
+fun SignUpTitle(title: String, modifier: Modifier = Modifier) {
     Text(
         text = title,
         modifier = modifier,
@@ -26,5 +27,7 @@ fun SignUpTitle(modifier: Modifier = Modifier, title: String) {
 @Preview(showBackground = true)
 @Composable
 private fun SignUpTitlePreview() {
-    SignUpTitle(title = "Welcome to Compose \uD83D\uDE80")
+    SignupTheme {
+        SignUpTitle(title = "Welcome to Compose \uD83D\uDE80")
+    }
 }

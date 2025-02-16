@@ -6,4 +6,13 @@
     <string name="signup_main_input_password">Password</string>
     <string name="signup_main_input_password_confirm">Password Confirm</string>
     <string name="signup_main_signtup_button">Sign UP</string>
+
+    <string name="error_username_length">이름은 2~5자여야 합니다.</string>
+    <string name="error_username_format">이름에는 숫자나 기호가 포함될 수 없습니다.</string>
+    <string name="error_email_format">이메일 형식이 올바르지 않습니다.</string>
+    <string name="error_password_length">비밀번호는 8~16자여야 합니다.</string>
+    <string name="error_password_format">비밀번호는 영문과 숫자를 포함해야 합니다.</string>
+    <string name="error_password_mismatch">비밀번호가 일치하지 않습니다.</string>
+    <string name="signup_finish">회원가입 완료</string>
+
 </resources>

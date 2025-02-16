@@ -1,18 +1,17 @@
 package nextstep.signup
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
+import androidx.test.platform.app.InstrumentationRegistry
+import nextstep.signup.signup.component.SignUpContents
 import nextstep.signup.signup.component.SignUpInputForm
-import nextstep.signup.signup.util.ValidationUtil.PASSWORD_FORMAT_ERROR
-import nextstep.signup.signup.util.ValidationUtil.USERNAME_LENGTH_ERROR
-import nextstep.signup.signup.util.ValidationUtil.USERNAME_FORMAT_ERROR
-import nextstep.signup.signup.util.ValidationUtil.EMAIL_FORMAT_ERROR
-import nextstep.signup.signup.util.ValidationUtil.PASSWORD_LENGTH_ERROR
+import nextstep.signup.signup.getSignUpInputFieldErrorMessage
 import nextstep.signup.signup.util.ValidationUtil.isEmailValid
 import nextstep.signup.signup.util.ValidationUtil.isNameValid
 import nextstep.signup.signup.util.ValidationUtil.isPasswordValid
@@ -20,6 +19,7 @@ import org.junit.Rule
 import org.junit.Test
 
 class InputValidationTest {
+    private val context = InstrumentationRegistry.getInstrumentation().targetContext
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -27,150 +27,314 @@ class InputValidationTest {
     @Test
     fun 사용자_이름은_2에서_5자여야_한다() {
         // given
-        val nameFieldValue = mutableStateOf(TextFieldValue("김컴포즈"))
+        val nameFieldValue = mutableStateOf("김컴포즈")
         val nameErrorMessage = mutableStateOf("")
 
         composeTestRule.setContent {
-            Column {
-                SignUpInputForm(
-                    placeHolderText = stringResource(R.string.signup_main_input_name),
-                    keyboardType = KeyboardType.Text,
-                    textFieldValue = nameFieldValue.value,
-                    onValueChange = {},
-                    errorMessage = nameErrorMessage.value
-                )
-            }
+
+            SignUpInputForm(
+                placeHolderText = stringResource(R.string.signup_main_input_name),
+                keyboardType = KeyboardType.Text,
+                inputText = nameFieldValue.value,
+                onValueChange = {},
+                errorMessage = nameErrorMessage.value,
+            )
+
         }
         // when
-        nameErrorMessage.value = isNameValid(nameFieldValue.value.text)
+        composeTestRule.onNodeWithTag(testTag = "TEXT_FIELD")
+            .performTextInput("김컴포즈")
+        composeTestRule.waitForIdle()
         // then
         composeTestRule
-            .onNodeWithText(USERNAME_LENGTH_ERROR)
+            .onNodeWithText(context.getString(R.string.error_username_format))
             .assertDoesNotExist()
     }
 
     @Test
     fun 사용자_이름이_2에서_5자가_아니면_에러메시지가_노출된다() {
         // given
-        val nameFieldValue = mutableStateOf(TextFieldValue("김컴포즈입니다"))
+        val nameFieldValue = mutableStateOf("김컴포즈입니다다")
         val nameErrorMessage = mutableStateOf("")
 
         composeTestRule.setContent {
-            Column {
-                SignUpInputForm(
-                    placeHolderText = stringResource(R.string.signup_main_input_name),
-                    keyboardType = KeyboardType.Text,
-                    textFieldValue = nameFieldValue.value,
-                    onValueChange = {},
-                    errorMessage = nameErrorMessage.value
-                )
-            }
+
+            SignUpInputForm(
+                placeHolderText = stringResource(R.string.signup_main_input_name),
+                keyboardType = KeyboardType.Text,
+                inputText = nameFieldValue.value,
+                onValueChange = {
+                    nameErrorMessage.value = getSignUpInputFieldErrorMessage(
+                        context,
+                        isNameValid(nameFieldValue.value)
+                    )
+                },
+                errorMessage = nameErrorMessage.value,
+            )
+
         }
         // when
-        nameErrorMessage.value = isNameValid(nameFieldValue.value.text)
+        composeTestRule.onNodeWithTag(testTag = "TEXT_FIELD")
+            .performTextInput("김컴포즈입니다다")
+
         // then
+        composeTestRule.waitForIdle()
         composeTestRule
-            .onNodeWithText(USERNAME_LENGTH_ERROR)
+            .onNodeWithText(context.getString(R.string.error_username_length))
             .assertExists()
     }
 
     @Test
     fun 사용자_이름에_숫자나_기호가_포함되면_에러메시지가_노출된다() {
         // given
-        val nameFieldValue = mutableStateOf(TextFieldValue("김무1무"))
+        val nameFieldValue = mutableStateOf("")
         val nameErrorMessage = mutableStateOf("")
 
         composeTestRule.setContent {
-            Column {
-                SignUpInputForm(
-                    placeHolderText = stringResource(R.string.signup_main_input_name),
-                    keyboardType = KeyboardType.Text,
-                    textFieldValue = nameFieldValue.value,
-                    onValueChange = {},
-                    errorMessage = nameErrorMessage.value
-                )
-            }
+
+            SignUpInputForm(
+                placeHolderText = stringResource(R.string.signup_main_input_name),
+                keyboardType = KeyboardType.Text,
+                inputText = nameFieldValue.value,
+                onValueChange = {
+                    nameFieldValue.value = it
+                    nameErrorMessage.value = getSignUpInputFieldErrorMessage(
+                        context,
+                        isNameValid(nameFieldValue.value)
+                    )
+                },
+                errorMessage = nameErrorMessage.value,
+            )
         }
         // when
-        nameErrorMessage.value = isNameValid(nameFieldValue.value.text)
+        composeTestRule.onNodeWithTag(testTag = "TEXT_FIELD")
+            .performTextInput("김무1무")
+
         // then
         composeTestRule
-            .onNodeWithText(USERNAME_FORMAT_ERROR)
+            .onNodeWithText(context.getString(R.string.error_username_format))
             .assertExists()
     }
 
     @Test
     fun 이메일이_올바른_형식이_아니면_에러메시지가_노출된다() {
         // given
-        val emailFieldValue = mutableStateOf(TextFieldValue("testasd"))
+        val emailFieldValue = mutableStateOf("")
         val emailErrorMessage = mutableStateOf("")
 
         composeTestRule.setContent {
-            Column {
-                SignUpInputForm(
-                    placeHolderText = stringResource(R.string.signup_main_input_email),
-                    keyboardType = KeyboardType.Text,
-                    textFieldValue = emailFieldValue.value,
-                    onValueChange = {},
-                    errorMessage = emailErrorMessage.value
-                )
-            }
+            SignUpInputForm(
+                placeHolderText = stringResource(R.string.signup_main_input_email),
+                keyboardType = KeyboardType.Text,
+                inputText = emailFieldValue.value,
+                onValueChange = {
+                    emailFieldValue.value = it
+                    emailErrorMessage.value = getSignUpInputFieldErrorMessage(
+                        context,
+                        isEmailValid(emailFieldValue.value)
+                    )
+                },
+                errorMessage = emailErrorMessage.value,
+            )
         }
         // when
-        emailErrorMessage.value = isEmailValid(emailFieldValue.value.text)
+
+        composeTestRule.onNodeWithTag(testTag = "TEXT_FIELD")
+            .performTextInput("testasd")
         // then
         composeTestRule
-            .onNodeWithText(EMAIL_FORMAT_ERROR)
+            .onNodeWithText(context.getString(R.string.error_email_format))
             .assertExists()
     }
 
     @Test
     fun 비밀번호가_8에서_16자가_아니면_에러메시지가_노출된다() {
         // given
-        val passwordFieldValue = mutableStateOf(TextFieldValue("12das34"))
+        val passwordFieldValue = mutableStateOf("")
         val passwordErrorMessage = mutableStateOf("")
 
         composeTestRule.setContent {
-            Column {
-                SignUpInputForm(
-                    placeHolderText = stringResource(R.string.signup_main_input_password),
-                    keyboardType = KeyboardType.Text,
-                    textFieldValue = passwordFieldValue.value,
-                    onValueChange = {},
-                    errorMessage = passwordErrorMessage.value
-                )
-            }
+            SignUpInputForm(
+                placeHolderText = stringResource(R.string.signup_main_input_password),
+                keyboardType = KeyboardType.Text,
+                inputText = passwordFieldValue.value,
+                onValueChange = {
+                    passwordFieldValue.value = it
+                    passwordErrorMessage.value = getSignUpInputFieldErrorMessage(
+                        context,
+                        isPasswordValid(passwordFieldValue.value)
+                    )
+                },
+                errorMessage = passwordErrorMessage.value,
+            )
         }
         // when
-        passwordErrorMessage.value = isPasswordValid(passwordFieldValue.value.text)
+
+        composeTestRule.onNodeWithTag(testTag = "TEXT_FIELD")
+            .performTextInput("12das34")
         // then
         composeTestRule
-            .onNodeWithText(PASSWORD_LENGTH_ERROR)
+            .onNodeWithText(context.getString(R.string.error_password_length))
             .assertExists()
     }
 
     @Test
     fun 비밀번호가_영문과_숫자를_포함하지_않으면_에러메시지가_노출된다() {
         // given
-        val passwordFieldValue = mutableStateOf(TextFieldValue("123456789"))
+        val passwordFieldValue = mutableStateOf("")
         val passwordErrorMessage = mutableStateOf("")
-
         composeTestRule.setContent {
-            Column {
-                SignUpInputForm(
-                    placeHolderText = stringResource(R.string.signup_main_input_password),
-                    keyboardType = KeyboardType.Text,
-                    textFieldValue = passwordFieldValue.value,
-                    onValueChange = {},
-                    errorMessage = passwordErrorMessage.value
-                )
-            }
+            SignUpInputForm(
+                placeHolderText = stringResource(R.string.signup_main_input_password),
+                keyboardType = KeyboardType.Text,
+                inputText = passwordFieldValue.value,
+                onValueChange = {
+                    passwordFieldValue.value = it
+                    passwordErrorMessage.value = getSignUpInputFieldErrorMessage(
+                        context,
+                        isPasswordValid(passwordFieldValue.value)
+                    )
+                },
+                errorMessage = passwordErrorMessage.value,
+            )
         }
         // when
-        passwordErrorMessage.value = isPasswordValid(passwordFieldValue.value.text)
+        composeTestRule.onNodeWithTag(testTag = "TEXT_FIELD")
+            .performTextInput("123456789")
         // then
         composeTestRule
-            .onNodeWithText(PASSWORD_FORMAT_ERROR)
+            .onNodeWithText(context.getString(R.string.error_password_format))
             .assertExists()
+    }
+
+    @Test
+    fun 입력_폼에_오류메시지입니다_라는_값이_들어가면_오류메시지입니다가_보여야_한다() {
+        // given
+        val inputText = mutableStateOf("")
+
+        composeTestRule.setContent {
+            SignUpInputForm(
+                placeHolderText = "",
+                keyboardType = KeyboardType.Text,
+                inputText = inputText.value,
+                onValueChange = {
+                    inputText.value = it
+                },
+                errorMessage = "",
+            )
+        }
+        // when
+        composeTestRule.onNodeWithTag(testTag = "TEXT_FIELD")
+            .performTextInput("오류메세지입니다")
+        // then
+        composeTestRule
+            .onNodeWithText("오류메세지입니다")
+            .assertExists()
+    }
+
+
+    @Test
+    fun 비밀번호_인풋_비어있을때_버튼_비활성화_확인() {
+        // given when
+        composeTestRule.setContent {
+            SignUpContents(
+                nameInputText = "Philip Vincent",
+                nameErrorMessage = "Sherri Walsh",
+                emailInputText = "calvin.allen@example.com",
+                emailErrorMessage = "",
+                passwordInputText = "voluptaria",
+                passwordErrorMessage = "",
+                passwordConfirmInputText = "",
+                passwordConfirmErrorMessage = "",
+                buttonIsEnabled = false,
+                onShowSnackbar = {},
+                onNameValueChange = {},
+                onEmailValueChange = {},
+                onPasswordValueChange = {},
+                onPasswordConfirmValueChange = {}
+            )
+        }
+
+
+        // then
+        composeTestRule.onNodeWithText("Sign UP").assertIsNotEnabled()
+    }
+
+    @Test
+    fun 이메일_형식_안맞을때_버튼_비활성화_확인() {
+        // given when
+        composeTestRule.setContent {
+            SignUpContents(
+                nameInputText = "Philip Vincent",
+                nameErrorMessage = "",
+                emailInputText = "calvin.allen",
+                emailErrorMessage = "",
+                passwordInputText = "voluptaria",
+                passwordErrorMessage = "",
+                passwordConfirmInputText = "",
+                passwordConfirmErrorMessage = "",
+                buttonIsEnabled = false,
+                onShowSnackbar = {},
+                onNameValueChange = {},
+                onEmailValueChange = {},
+                onPasswordValueChange = {},
+                onPasswordConfirmValueChange = {}
+            )
+        }
+
+        // then
+        composeTestRule.onNodeWithText("Sign UP").assertIsNotEnabled()
+    }
+
+    @Test
+    fun 패스워드_매치_안될때_버튼_비활성화_확인() {
+        // given when
+        composeTestRule.setContent {
+            SignUpContents(
+                nameInputText = "Philip Vincent",
+                nameErrorMessage = "",
+                emailInputText = "calvin.allen",
+                emailErrorMessage = "",
+                passwordInputText = "12345678",
+                passwordErrorMessage = "",
+                passwordConfirmInputText = "123456789",
+                passwordConfirmErrorMessage = "",
+                buttonIsEnabled = false,
+                onShowSnackbar = {},
+                onNameValueChange = {},
+                onEmailValueChange = {},
+                onPasswordValueChange = {},
+                onPasswordConfirmValueChange = {}
+            )
+        }
+
+        // then
+        composeTestRule.onNodeWithText("Sign UP").assertIsNotEnabled()
+    }
+
+    @Test
+    fun 모든_입력필드_정상입력시_버튼_활성화_확인() {
+        // given when
+        composeTestRule.setContent {
+            SignUpContents(
+                nameInputText = "김무현",
+                nameErrorMessage = "",
+                emailInputText = "dlfb7@naver.com",
+                emailErrorMessage = "",
+                passwordInputText = "12345678",
+                passwordErrorMessage = "",
+                passwordConfirmInputText = "12345678",
+                passwordConfirmErrorMessage = "",
+                buttonIsEnabled = false,
+                onShowSnackbar = {},
+                onNameValueChange = {},
+                onEmailValueChange = {},
+                onPasswordValueChange = {},
+                onPasswordConfirmValueChange = {}
+            )
+        }
+
+        // then
+        composeTestRule.onNodeWithText("Sign UP").assertIsNotEnabled()
     }
 }
