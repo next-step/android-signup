@@ -4,7 +4,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.test.platform.app.InstrumentationRegistry
 import nextstep.signup.signup.component.SignUpContents
@@ -36,15 +38,13 @@ class InputValidationTest {
                 inputText = nameFieldValue.value,
                 onValueChange = {},
                 errorMessage = nameErrorMessage.value,
-                isFocused = true
             )
 
         }
         // when
-        nameErrorMessage.value = getSignUpInputFieldErrorMessage(
-            context,
-            isNameValid(nameFieldValue.value)
-        )
+        composeTestRule.onNodeWithTag(testTag = "TEXT_FIELD")
+            .performTextInput("김컴포즈")
+        composeTestRule.waitForIdle()
         // then
         composeTestRule
             .onNodeWithText(context.getString(R.string.error_username_format))
@@ -54,7 +54,7 @@ class InputValidationTest {
     @Test
     fun 사용자_이름이_2에서_5자가_아니면_에러메시지가_노출된다() {
         // given
-        val nameFieldValue = mutableStateOf("김컴포즈입니다")
+        val nameFieldValue = mutableStateOf("김컴포즈입니다다")
         val nameErrorMessage = mutableStateOf("")
 
         composeTestRule.setContent {
@@ -63,18 +63,22 @@ class InputValidationTest {
                 placeHolderText = stringResource(R.string.signup_main_input_name),
                 keyboardType = KeyboardType.Text,
                 inputText = nameFieldValue.value,
-                onValueChange = {},
+                onValueChange = {
+                    nameErrorMessage.value = getSignUpInputFieldErrorMessage(
+                        context,
+                        isNameValid(nameFieldValue.value)
+                    )
+                },
                 errorMessage = nameErrorMessage.value,
-                isFocused = true
             )
 
         }
         // when
-        nameErrorMessage.value = getSignUpInputFieldErrorMessage(
-            context,
-            isNameValid(nameFieldValue.value)
-        )
+        composeTestRule.onNodeWithTag(testTag = "TEXT_FIELD")
+            .performTextInput("김컴포즈입니다다")
+
         // then
+        composeTestRule.waitForIdle()
         composeTestRule
             .onNodeWithText(context.getString(R.string.error_username_length))
             .assertExists()
@@ -83,7 +87,7 @@ class InputValidationTest {
     @Test
     fun 사용자_이름에_숫자나_기호가_포함되면_에러메시지가_노출된다() {
         // given
-        val nameFieldValue = mutableStateOf("김무1무")
+        val nameFieldValue = mutableStateOf("")
         val nameErrorMessage = mutableStateOf("")
 
         composeTestRule.setContent {
@@ -92,16 +96,20 @@ class InputValidationTest {
                 placeHolderText = stringResource(R.string.signup_main_input_name),
                 keyboardType = KeyboardType.Text,
                 inputText = nameFieldValue.value,
-                onValueChange = {},
+                onValueChange = {
+                    nameFieldValue.value = it
+                    nameErrorMessage.value = getSignUpInputFieldErrorMessage(
+                        context,
+                        isNameValid(nameFieldValue.value)
+                    )
+                },
                 errorMessage = nameErrorMessage.value,
-                isFocused = true
             )
         }
         // when
-        nameErrorMessage.value = getSignUpInputFieldErrorMessage(
-            context,
-            isNameValid(nameFieldValue.value)
-        )
+        composeTestRule.onNodeWithTag(testTag = "TEXT_FIELD")
+            .performTextInput("김무1무")
+
         // then
         composeTestRule
             .onNodeWithText(context.getString(R.string.error_username_format))
@@ -111,7 +119,7 @@ class InputValidationTest {
     @Test
     fun 이메일이_올바른_형식이_아니면_에러메시지가_노출된다() {
         // given
-        val emailFieldValue = mutableStateOf("testasd")
+        val emailFieldValue = mutableStateOf("")
         val emailErrorMessage = mutableStateOf("")
 
         composeTestRule.setContent {
@@ -119,16 +127,20 @@ class InputValidationTest {
                 placeHolderText = stringResource(R.string.signup_main_input_email),
                 keyboardType = KeyboardType.Text,
                 inputText = emailFieldValue.value,
-                onValueChange = {},
+                onValueChange = {
+                    emailFieldValue.value = it
+                    emailErrorMessage.value = getSignUpInputFieldErrorMessage(
+                        context,
+                        isEmailValid(emailFieldValue.value)
+                    )
+                },
                 errorMessage = emailErrorMessage.value,
-                isFocused = true
             )
         }
         // when
-        emailErrorMessage.value = getSignUpInputFieldErrorMessage(
-            context,
-            isEmailValid(emailFieldValue.value)
-        )
+
+        composeTestRule.onNodeWithTag(testTag = "TEXT_FIELD")
+            .performTextInput("testasd")
         // then
         composeTestRule
             .onNodeWithText(context.getString(R.string.error_email_format))
@@ -138,7 +150,7 @@ class InputValidationTest {
     @Test
     fun 비밀번호가_8에서_16자가_아니면_에러메시지가_노출된다() {
         // given
-        val passwordFieldValue = mutableStateOf("12das34")
+        val passwordFieldValue = mutableStateOf("")
         val passwordErrorMessage = mutableStateOf("")
 
         composeTestRule.setContent {
@@ -146,16 +158,20 @@ class InputValidationTest {
                 placeHolderText = stringResource(R.string.signup_main_input_password),
                 keyboardType = KeyboardType.Text,
                 inputText = passwordFieldValue.value,
-                onValueChange = {},
+                onValueChange = {
+                    passwordFieldValue.value = it
+                    passwordErrorMessage.value = getSignUpInputFieldErrorMessage(
+                        context,
+                        isPasswordValid(passwordFieldValue.value)
+                    )
+                },
                 errorMessage = passwordErrorMessage.value,
-                isFocused = true
             )
         }
         // when
-        passwordErrorMessage.value = getSignUpInputFieldErrorMessage(
-            context,
-            isPasswordValid(passwordFieldValue.value)
-        )
+
+        composeTestRule.onNodeWithTag(testTag = "TEXT_FIELD")
+            .performTextInput("12das34")
         // then
         composeTestRule
             .onNodeWithText(context.getString(R.string.error_password_length))
@@ -165,23 +181,26 @@ class InputValidationTest {
     @Test
     fun 비밀번호가_영문과_숫자를_포함하지_않으면_에러메시지가_노출된다() {
         // given
-        val passwordFieldValue = mutableStateOf("123456789")
+        val passwordFieldValue = mutableStateOf("")
         val passwordErrorMessage = mutableStateOf("")
         composeTestRule.setContent {
             SignUpInputForm(
                 placeHolderText = stringResource(R.string.signup_main_input_password),
                 keyboardType = KeyboardType.Text,
                 inputText = passwordFieldValue.value,
-                onValueChange = {},
+                onValueChange = {
+                    passwordFieldValue.value = it
+                    passwordErrorMessage.value = getSignUpInputFieldErrorMessage(
+                        context,
+                        isPasswordValid(passwordFieldValue.value)
+                    )
+                },
                 errorMessage = passwordErrorMessage.value,
-                isFocused = true
             )
         }
         // when
-        passwordErrorMessage.value = getSignUpInputFieldErrorMessage(
-            context,
-            isPasswordValid(passwordFieldValue.value)
-        )
+        composeTestRule.onNodeWithTag(testTag = "TEXT_FIELD")
+            .performTextInput("123456789")
         // then
         composeTestRule
             .onNodeWithText(context.getString(R.string.error_password_format))
@@ -198,13 +217,15 @@ class InputValidationTest {
                 placeHolderText = "",
                 keyboardType = KeyboardType.Text,
                 inputText = inputText.value,
-                onValueChange = {},
+                onValueChange = {
+                    inputText.value = it
+                },
                 errorMessage = "",
-                isFocused = true
             )
         }
         // when
-        inputText.value = "오류메세지입니다"
+        composeTestRule.onNodeWithTag(testTag = "TEXT_FIELD")
+            .performTextInput("오류메세지입니다")
         // then
         composeTestRule
             .onNodeWithText("오류메세지입니다")

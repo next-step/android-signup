@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
@@ -30,12 +31,11 @@ fun SignUpInputForm(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     visualTransformation: VisualTransformation = VisualTransformation.None,
-    isFocused : Boolean =false
 ) {
-    var isFocused by remember { mutableStateOf(isFocused) }
+    var isFocused by remember { mutableStateOf(false) }
     TextField(
         value = inputText,
-        onValueChange = { text->
+        onValueChange = { text ->
             isFocused = true
             onValueChange(text)
         },
@@ -44,7 +44,9 @@ fun SignUpInputForm(
         singleLine = true,
         placeholder = { Text(placeHolderText) },
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .testTag("TEXT_FIELD"),
         colors = TextFieldDefaults.colors(
             focusedContainerColor = Color(0xFFE3E8F1),
             unfocusedContainerColor = Color(0xFFE3E8F1)
