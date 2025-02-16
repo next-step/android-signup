@@ -40,20 +40,20 @@ fun SignUpContents(modifier: Modifier = Modifier) {
         var nameInputText by remember { mutableStateOf("") }
         val nameErrorMessage by remember {
             derivedStateOf {
-                getErrorMessage(context, isNameValid(nameInputText))
+                getSignUpInputFieldErrorMessage(context, isNameValid(nameInputText))
             }
         }
 
         var emailInputText by remember { mutableStateOf("") }
         val emailErrorMessage by remember {
             derivedStateOf {
-                getErrorMessage(context, isEmailValid(emailInputText))
+                getSignUpInputFieldErrorMessage(context, isEmailValid(emailInputText))
             }
         }
         var passwordInputText by remember { mutableStateOf("") }
         val passwordErrorMessage by remember {
             derivedStateOf {
-                getErrorMessage(context, isPasswordValid(passwordInputText))
+                getSignUpInputFieldErrorMessage(context, isPasswordValid(passwordInputText))
             }
         }
         var passwordConfirmInputText by remember { mutableStateOf("")}
@@ -96,7 +96,7 @@ fun SignUpContents(modifier: Modifier = Modifier) {
             onValueChange = { newTextFieldValue ->
                 passwordConfirmInputText = newTextFieldValue
             },
-            errorMessage = getErrorMessage(
+            errorMessage = getSignUpInputFieldErrorMessage(
                 context,
                 isPasswordMatch(passwordInputText, passwordConfirmInputText)
             )
@@ -112,7 +112,7 @@ fun SignUpContents(modifier: Modifier = Modifier) {
 }
 
 
-private fun getErrorMessage(context: Context, validationType: SignUpValidationType): String {
+fun getSignUpInputFieldErrorMessage(context: Context, validationType: SignUpValidationType): String {
     return when (validationType) {
         SignUpValidationType.USERNAME_LENGTH_ERROR -> context.resources.getString(R.string.error_username_length)
         SignUpValidationType.USERNAME_FORMAT_ERROR -> context.resources.getString(R.string.error_username_format)
