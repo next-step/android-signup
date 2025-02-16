@@ -1,8 +1,6 @@
 package nextstep.signup.signup.component
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -19,7 +17,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import nextstep.signup.R
 import nextstep.signup.ui.theme.SignupTheme
 
@@ -33,34 +30,35 @@ fun SignUpInputForm(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     visualTransformation: VisualTransformation = VisualTransformation.None,
-    ) {
-    Column {
-        TextField(
-            value = inputText,
-            onValueChange = onValueChange,
-            label = { Text(placeHolderText) },
-            visualTransformation = visualTransformation,
-            singleLine = true,
-            placeholder = { Text(placeHolderText) },
-            keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-            modifier = modifier.fillMaxWidth(),
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color(0xFFE3E8F1),
-                unfocusedContainerColor = Color(0xFFE3E8F1)
-            ),
-            isError = errorMessage.isNotEmpty(),
-        )
-        if (errorMessage.isNotEmpty()) {
-            Text(
-                text = errorMessage,
-                color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.bodySmall,
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-            )
+) {
+    var isFocused by remember { mutableStateOf(false) }
+    TextField(
+        value = inputText,
+        onValueChange = { text->
+            isFocused = true
+            onValueChange(text)
+        },
+        label = { Text(placeHolderText) },
+        visualTransformation = visualTransformation,
+        singleLine = true,
+        placeholder = { Text(placeHolderText) },
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+        modifier = modifier.fillMaxWidth(),
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = Color(0xFFE3E8F1),
+            unfocusedContainerColor = Color(0xFFE3E8F1)
+        ),
+        isError = isFocused && errorMessage.isNotEmpty(),
+        supportingText = {
+            if (isFocused && errorMessage.isNotEmpty()) {
+                Text(
+                    text = errorMessage,
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
         }
-    }
+    )
 }
 
 
@@ -76,7 +74,8 @@ private fun SignUpInputFormPreview() {
             onValueChange = { newTextFieldValue ->
                 nameFieldValue = newTextFieldValue
             },
-            errorMessage = "error 문구"
-        )
+            errorMessage = "error 문구",
+
+            )
     }
 }

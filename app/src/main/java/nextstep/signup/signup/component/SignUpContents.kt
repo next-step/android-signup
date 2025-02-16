@@ -30,7 +30,7 @@ import nextstep.signup.signup.util.ValidationUtil.isPasswordValid
 import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
-fun SignUpContents(modifier: Modifier = Modifier) {
+fun SignUpContents(onShowSnackbar: (String) -> Unit, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier.verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(36.dp),
@@ -56,7 +56,21 @@ fun SignUpContents(modifier: Modifier = Modifier) {
                 getSignUpInputFieldErrorMessage(context, isPasswordValid(passwordInputText))
             }
         }
-        var passwordConfirmInputText by remember { mutableStateOf("")}
+        var passwordConfirmInputText by remember { mutableStateOf("") }
+        val passwordConfirmErrorMessage by remember {
+            derivedStateOf {
+                getSignUpInputFieldErrorMessage(
+                    context,
+                    isPasswordMatch(passwordInputText, passwordConfirmInputText)
+                )
+            }
+        }
+        val buttonIsEnabled by remember {
+            derivedStateOf {
+                nameErrorMessage.isEmpty() && emailErrorMessage.isEmpty() && passwordErrorMessage.isEmpty() && passwordConfirmErrorMessage.isEmpty()
+                        && nameInputText.isNotEmpty() && emailInputText.isNotEmpty() && passwordInputText.isNotEmpty() && passwordConfirmInputText.isNotEmpty()
+            }
+        }
 
         SignUpInputForm(
             placeHolderText = stringResource(R.string.signup_main_input_name),
@@ -96,10 +110,7 @@ fun SignUpContents(modifier: Modifier = Modifier) {
             onValueChange = { newTextFieldValue ->
                 passwordConfirmInputText = newTextFieldValue
             },
-            errorMessage = getSignUpInputFieldErrorMessage(
-                context,
-                isPasswordMatch(passwordInputText, passwordConfirmInputText)
-            )
+            errorMessage = passwordConfirmErrorMessage
         )
 
         SignUpButton(
@@ -107,12 +118,16 @@ fun SignUpContents(modifier: Modifier = Modifier) {
                 .fillMaxWidth()
                 .height(50.dp),
             buttonTitle = stringResource(R.string.signup_main_signtup_button),
-            onClick = {})
+            enabled = buttonIsEnabled,
+            onClick = { onShowSnackbar(context.getString(R.string.signup_finish)) })
     }
 }
 
 
-fun getSignUpInputFieldErrorMessage(context: Context, validationType: SignUpValidationType): String {
+fun getSignUpInputFieldErrorMessage(
+    context: Context,
+    validationType: SignUpValidationType
+): String {
     return when (validationType) {
         SignUpValidationType.USERNAME_LENGTH_ERROR -> context.resources.getString(R.string.error_username_length)
         SignUpValidationType.USERNAME_FORMAT_ERROR -> context.resources.getString(R.string.error_username_format)
@@ -128,6 +143,7 @@ fun getSignUpInputFieldErrorMessage(context: Context, validationType: SignUpVali
 @Composable
 private fun SignUpContentsPreview() {
     SignupTheme {
-        SignUpContents()
+        SignUpContents(onShowSnackbar = { message ->
+        })
     }
 }
