@@ -30,8 +30,9 @@ fun SignUpInputForm(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     visualTransformation: VisualTransformation = VisualTransformation.None,
+    isFocused : Boolean =false
 ) {
-    var isFocused by remember { mutableStateOf(false) }
+    var isFocused by remember { mutableStateOf(isFocused) }
     TextField(
         value = inputText,
         onValueChange = { text->
