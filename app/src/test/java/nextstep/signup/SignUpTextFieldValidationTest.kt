@@ -1,5 +1,6 @@
 package nextstep.signup
 
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class SignUpTextFieldValidationTest {
@@ -143,7 +144,8 @@ class SignUpTextFieldValidationTest {
         val passwordConfirm = "123456789"
 
         // when
-        val actualValue = SignUpTextFieldValidation.getPasswordConfirmValidationMessage(password, passwordConfirm)
+        val actualValue =
+            SignUpTextFieldValidation.getPasswordConfirmValidationMessage(password, passwordConfirm)
 
         // then
         assert(actualValue == "비밀번호가 일치하지 않습니다.")
@@ -161,5 +163,131 @@ class SignUpTextFieldValidationTest {
 
         // then
         assert(actualValue == "")
+    }
+
+    @Test
+    fun `유저이름 이메일 비밀번호 비밀번호확인 모든 필드가 비어있으면 유효성 검사에 실패한다`() {
+        // given
+        val username = ""
+        val email = ""
+        val password = ""
+        val passwordConfirm = ""
+
+        // when
+        val actualValue =
+            SignUpTextFieldValidation.isAllFieldValidated(
+                username,
+                email,
+                password,
+                passwordConfirm
+            )
+
+        // then
+        assertEquals(actualValue, false)
+    }
+
+    @Test
+    fun `유저이름만 유효하면 모든 필드 유효성 검사에 실패한다`() {
+        // given
+        val username = "yhw"
+        val email = ""
+        val password = ""
+        val passwordConfirm = ""
+
+        // when
+        val actualValue =
+            SignUpTextFieldValidation.isAllFieldValidated(
+                username,
+                email,
+                password,
+                passwordConfirm
+            )
+
+        // then
+        assertEquals(actualValue, false)
+    }
+
+    @Test
+    fun `이메일만 유효하면 모든 필드 유효성 검사에 실패한다`() {
+        // given
+        val username = ""
+        val email = "yhw@gmail.com"
+        val password = ""
+        val passwordConfirm = ""
+
+        // when
+        val actualValue =
+            SignUpTextFieldValidation.isAllFieldValidated(
+                username,
+                email,
+                password,
+                passwordConfirm
+            )
+
+        // then
+        assertEquals(actualValue, false)
+    }
+
+    @Test
+    fun `비밀번호만 유효하면 모든 필드 유효성 검사에 실패한다`() {
+        // given
+        val username = ""
+        val email = ""
+        val password = "12345678a"
+        val passwordConfirm = ""
+
+        // when
+        val actualValue =
+            SignUpTextFieldValidation.isAllFieldValidated(
+                username,
+                email,
+                password,
+                passwordConfirm
+            )
+
+        // then
+        assertEquals(actualValue, false)
+    }
+
+    @Test
+    fun `비밀번호와 비밀번호확인이 유효하면 모든 필드 유효성 검사에 실패한다`() {
+        // given
+        val username = "yhw"
+        val email = ""
+        val password = "12345678a"
+        val passwordConfirm = "12345678a"
+
+        // when
+        val actualValue =
+            SignUpTextFieldValidation.isAllFieldValidated(
+                username,
+                email,
+                password,
+                passwordConfirm
+            )
+
+        // then
+        assertEquals(actualValue, false)
+    }
+
+    @Test
+    fun `모든 필드 유효하면 검사에 성공한다`() {
+        // given
+        val username = "yhw"
+        val email = "yhw@gmail.com"
+        val password = "12345678a"
+        val passwordConfirm = "12345678a"
+
+        // when
+        val actualValue =
+            SignUpTextFieldValidation.isAllFieldValidated(
+                username,
+                email,
+                password,
+                passwordConfirm
+            )
+
+        // then
+        assertEquals(actualValue, true)
     }
 }
