@@ -4,16 +4,20 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import nextstep.signup.SignUpTextFieldValidation
 
 
@@ -28,6 +32,8 @@ fun SignUpScreen() {
         var password by remember { mutableStateOf("") }
         var passwordConfirm by remember { mutableStateOf("") }
         var isValidated by remember { mutableStateOf(false) }
+        val scope = rememberCoroutineScope()
+        val snackBarHostState = remember { SnackbarHostState() }
 
         isValidated = SignUpTextFieldValidation.isAllFieldValidated(username, email, password, passwordConfirm)
 
@@ -73,7 +79,17 @@ fun SignUpScreen() {
 
         SignUpButton(
             isEnabled = isValidated,
-            modifier = Modifier.padding(top = 39.dp)
+            modifier = Modifier.padding(top = 39.dp),
+            onClick = {
+                scope.launch {
+                    snackBarHostState.showSnackbar(
+                        message = "회원가입 성공",
+                        actionLabel = "닫기"
+                    )
+                }
+            }
         )
+
+        SnackbarHost(hostState = snackBarHostState)
     }
 }

@@ -20,9 +20,9 @@ import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.Gray30
 
 @Composable
-fun SignUpButton(isEnabled: Boolean, modifier: Modifier = Modifier) {
+fun SignUpButton(isEnabled: Boolean, modifier: Modifier = Modifier, onClick: () -> Unit = { }) {
     Button(
-        onClick = { },
+        onClick = onClick,
         modifier = modifier
             .width(296.dp)
             .height(50.dp),
