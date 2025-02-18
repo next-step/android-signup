@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import nextstep.signup.SignUpTextFieldValidation
 
 
 @Composable
@@ -26,6 +27,9 @@ fun SignUpScreen() {
         var email by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
         var passwordConfirm by remember { mutableStateOf("") }
+        var isValidated by remember { mutableStateOf(false) }
+
+        isValidated = SignUpTextFieldValidation.isAllFieldValidated(username, email, password, passwordConfirm)
 
         SignUpTitle(Modifier.padding(top = 60.dp))
         UserNameTextField(
@@ -66,6 +70,10 @@ fun SignUpScreen() {
             onTextChanged = { passwordConfirm = it },
             modifier = Modifier.padding(top = 33.dp),
         )
-        SignUpButton(Modifier.padding(top = 39.dp))
+
+        SignUpButton(
+            isEnabled = isValidated,
+            modifier = Modifier.padding(top = 39.dp)
+        )
     }
 }

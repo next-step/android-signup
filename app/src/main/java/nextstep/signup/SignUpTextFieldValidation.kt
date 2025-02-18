@@ -60,4 +60,15 @@ object SignUpTextFieldValidation {
             ""
         }
     }
+
+    fun isAllFieldValidated(username: String, email: String, password: String, passwordConfirm: String): Boolean {
+        val isNotEmptyAll = username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && passwordConfirm.isNotEmpty()
+
+        val isUserNameValidated = getUsernameValidationMessage(username).isEmpty()
+        val isEmailValidated = getEmailValidationMessage(email).isEmpty()
+        val isPasswordValidated = getPasswordValidationMessage(password).isEmpty()
+        val isPasswordConfirmValidated = getPasswordConfirmValidationMessage(password, passwordConfirm).isEmpty()
+
+        return isUserNameValidated && isEmailValidated && isPasswordValidated && isPasswordConfirmValidated && isNotEmptyAll
+    }
 }

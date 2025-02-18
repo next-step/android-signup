@@ -83,6 +83,7 @@ fun PasswordTextField(
         label = stringResource(id = R.string.password),
         onTextChanged = onTextChanged,
         errorMessage = supportingMessage,
+        visualTransformation = PasswordVisualTransformation(),
         keyboardOptions = keyboardOptions,
         modifier = modifier
     )
