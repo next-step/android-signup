@@ -53,15 +53,15 @@ class SignUpTextFieldValidationTest {
     }
 
     @Test
-    fun `유저 이름에 특수문자가 포함되어 있을 때 유효성 검사에 실패한다`() {
+    fun `유저 이름이 2자 이상 5자 이하이고 숫자나 기호가 포함되어 있지 않을 때 유효성 검사에 성공한다`() {
         // given
-        val username = "a@"
+        val username = "ab"
 
         // when
         val actualValue = SignUpTextFieldValidation.getUsernameValidationMessage(username)
 
         // then
-        assert(actualValue == "이름에는 숫자나 기호가 포함될 수 없습니다.")
+        assert(actualValue == "")
     }
 
     @Test
@@ -74,6 +74,18 @@ class SignUpTextFieldValidationTest {
 
         // then
         assert(actualValue == "이메일 형식이 올바르지 않습니다.")
+    }
+
+    @Test
+    fun `이메일 형식이 올바를 때 유효성 검사에 성공한다`() {
+        // given
+        val email = "abc@abc.co"
+
+        // when
+        val actualValue = SignUpTextFieldValidation.getEmailValidationMessage(email)
+
+        // then
+        assert(actualValue == "")
     }
 
     @Test
@@ -113,6 +125,18 @@ class SignUpTextFieldValidationTest {
     }
 
     @Test
+    fun `비밀번호가 8자 이상 16자 이하이고 영문과 숫자가 포함되어 있을 때 유효성 검사에 성공한다`() {
+        // given
+        val password = "12345678a"
+
+        // when
+        val actualValue = SignUpTextFieldValidation.getPasswordValidationMessage(password)
+
+        // then
+        assert(actualValue == "")
+    }
+
+    @Test
     fun `비밀번호와 비밀번호 확인이 일치하지 않을 때 유효성 검사에 실패한다`() {
         // given
         val password = "12345678"
@@ -123,5 +147,19 @@ class SignUpTextFieldValidationTest {
 
         // then
         assert(actualValue == "비밀번호가 일치하지 않습니다.")
+    }
+
+    @Test
+    fun `비밀번호와 비밀번호 확인이 일치할 때 유효성 검사에 성공한다`() {
+        // given
+        val password = "12345678a"
+        val passwordConfirm = "12345678a"
+
+        // when
+        val actualValue =
+            SignUpTextFieldValidation.getPasswordConfirmValidationMessage(password, passwordConfirm)
+
+        // then
+        assert(actualValue == "")
     }
 }
