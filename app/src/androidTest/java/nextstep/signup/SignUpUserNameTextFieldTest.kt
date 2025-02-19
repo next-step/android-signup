@@ -61,4 +61,55 @@ class SignUpUserNameTextFieldTest {
             .onNodeWithText("이름에는 숫자나 기호가 포함될 수 없습니다.")
             .assertExists()
     }
+
+    @Test
+    fun 유저이름에_숫자가_포함되어_있을_때_오류_메시지를_노출한다() {
+        // given
+        composeTestRule.setContent {
+            SignUpScreen()
+        }
+
+        // then
+        composeTestRule
+            .onNodeWithText("Username")
+            .performTextInput("name1")
+
+        composeTestRule
+            .onNodeWithText("이름에는 숫자나 기호가 포함될 수 없습니다.")
+            .assertExists()
+    }
+
+    @Test
+    fun 유저이름에_기호가_포함되어_있을_때_오류_메시지를_노출한다() {
+        // given
+        composeTestRule.setContent {
+            SignUpScreen()
+        }
+
+        // then
+        composeTestRule
+            .onNodeWithText("Username")
+            .performTextInput("name!")
+
+        composeTestRule
+            .onNodeWithText("이름에는 숫자나 기호가 포함될 수 없습니다.")
+            .assertExists()
+    }
+
+    @Test
+    fun 유저이름이_올바른_형식일_때_오류_메시지를_노출하지_않는다() {
+        // given
+        composeTestRule.setContent {
+            SignUpScreen()
+        }
+
+        // then
+        composeTestRule
+            .onNodeWithText("Username")
+            .performTextInput("name")
+
+        composeTestRule
+            .onNodeWithText("이름에는 숫자나 기호가 포함될 수 없습니다.")
+            .assertDoesNotExist()
+    }
 }
