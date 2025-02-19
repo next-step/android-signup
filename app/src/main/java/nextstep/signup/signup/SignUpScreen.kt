@@ -31,11 +31,9 @@ fun SignUpScreen() {
         var email by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
         var passwordConfirm by remember { mutableStateOf("") }
-        var isValidated by remember { mutableStateOf(false) }
+        val isValidated = remember(username, email, password, passwordConfirm) { SignUpTextFieldValidation.isAllFieldValidated(username, email, password, passwordConfirm) }
         val scope = rememberCoroutineScope()
         val snackBarHostState = remember { SnackbarHostState() }
-
-        isValidated = SignUpTextFieldValidation.isAllFieldValidated(username, email, password, passwordConfirm)
 
         SignUpTitle(Modifier.padding(top = 60.dp))
         UserNameTextField(
