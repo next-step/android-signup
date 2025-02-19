@@ -61,4 +61,21 @@ class SignUpPasswordTextFieldTest {
             .onNodeWithText("비밀번호는 영문과 숫자를 포함해야 합니다.")
             .assertExists()
     }
+
+    @Test
+    fun 비밀번호가_올바른_형식이면_오류_메시지를_노출하지_않는다() {
+        // given
+        composeTestRule.setContent {
+            SignUpScreen()
+        }
+
+        // then
+        composeTestRule
+            .onNodeWithText("Password")
+            .performTextInput("a12345678")
+
+        composeTestRule
+            .onNodeWithText("비밀번호는 영문과 숫자를 포함해야 합니다.")
+            .assertDoesNotExist()
+    }
 }
