@@ -24,7 +24,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.R
-import nextstep.signup.SignUpTextFieldValidation
 import nextstep.signup.ui.theme.Blue20
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.Gray50
@@ -36,10 +35,9 @@ fun UserNameTextField(
     text: String,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     onTextChanged: (String) -> Unit,
+    supportingMessage: String = "",
     modifier: Modifier = Modifier,
 ) {
-    val supportingMessage = SignUpTextFieldValidation.getUsernameValidationMessage(text)
-
     SignUpTextField(
         text = text,
         label = stringResource(id = R.string.username),
@@ -55,10 +53,9 @@ fun EmailTextField(
     text: String,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     onTextChanged: (String) -> Unit,
+    supportingMessage: String = "",
     modifier: Modifier = Modifier,
 ) {
-    val supportingMessage = SignUpTextFieldValidation.getEmailValidationMessage(text)
-
     SignUpTextField(
         text = text,
         label = stringResource(id = R.string.email),
@@ -74,10 +71,9 @@ fun PasswordTextField(
     text: String,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     onTextChanged: (String) -> Unit,
+    supportingMessage: String = "",
     modifier: Modifier = Modifier,
 ) {
-    val supportingMessage = SignUpTextFieldValidation.getPasswordValidationMessage(text)
-
     SignUpTextField(
         text = text,
         label = stringResource(id = R.string.password),
@@ -92,14 +88,11 @@ fun PasswordTextField(
 @Composable
 fun PasswordConfirmTextField(
     text: String,
-    password: String,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     onTextChanged: (String) -> Unit,
+    supportingMessage: String = "",
     modifier: Modifier = Modifier,
 ) {
-    val supportingMessage =
-        SignUpTextFieldValidation.getPasswordConfirmValidationMessage(password, text)
-
     SignUpTextField(
         text = text,
         label = stringResource(id = R.string.password_confirm),
@@ -225,7 +218,6 @@ private fun PasswordConfirmTextFieldPreview() {
 
     PasswordConfirmTextField(
         text = passwordConfirm,
-        password = "password",
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Text,
             imeAction = ImeAction.Done

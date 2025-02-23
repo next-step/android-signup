@@ -7,6 +7,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,7 +32,28 @@ fun SignUpScreen() {
         var email by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
         var passwordConfirm by remember { mutableStateOf("") }
-        val isValidated = remember(username, email, password, passwordConfirm) { SignUpTextFieldValidation.isAllFieldValidated(username, email, password, passwordConfirm) }
+
+        val userNameSupportingMessage by remember {
+            derivedStateOf { SignUpTextFieldValidation.getUsernameValidationMessage(username) }
+        }
+        val emailSupportingMessage by remember {
+            derivedStateOf { SignUpTextFieldValidation.getEmailValidationMessage(email) }
+        }
+        val passwordSupportingMessage by remember {
+            derivedStateOf { SignUpTextFieldValidation.getPasswordValidationMessage(password) }
+        }
+        val passwordConfirmSupportingMessage by remember {
+            derivedStateOf { SignUpTextFieldValidation.getPasswordConfirmValidationMessage( password, passwordConfirm) }
+        }
+
+        val isValidated = remember(username, email, password, passwordConfirm) {
+            SignUpTextFieldValidation.isAllFieldValidated(
+                username,
+                email,
+                password,
+                passwordConfirm
+            )
+        }
         val scope = rememberCoroutineScope()
         val snackBarHostState = remember { SnackbarHostState() }
 
@@ -43,6 +65,7 @@ fun SignUpScreen() {
                 imeAction = ImeAction.Next
             ),
             onTextChanged = { username = it },
+            supportingMessage = userNameSupportingMessage,
             modifier = Modifier.padding(top = 42.dp),
         )
         EmailTextField(
@@ -52,6 +75,7 @@ fun SignUpScreen() {
                 imeAction = ImeAction.Next
             ),
             onTextChanged = { email = it },
+            supportingMessage = emailSupportingMessage,
             modifier = Modifier.padding(top = 33.dp),
         )
         PasswordTextField(
@@ -61,17 +85,18 @@ fun SignUpScreen() {
                 imeAction = ImeAction.Next
             ),
             onTextChanged = { password = it },
+            supportingMessage = passwordSupportingMessage,
             modifier = Modifier.padding(top = 33.dp),
         )
 
         PasswordConfirmTextField(
             text = passwordConfirm,
-            password = password,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Done
             ),
             onTextChanged = { passwordConfirm = it },
+            supportingMessage = passwordConfirmSupportingMessage,
             modifier = Modifier.padding(top = 33.dp),
         )
 
