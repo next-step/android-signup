@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.R
@@ -19,12 +20,13 @@ import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.Gray30
 
 @Composable
-fun SignUpButton(modifier: Modifier = Modifier) {
+fun SignUpButton(isEnabled: Boolean, modifier: Modifier = Modifier, onClick: () -> Unit = { }) {
     Button(
-        onClick = { },
+        onClick = onClick,
         modifier = modifier
             .width(296.dp)
             .height(50.dp),
+        enabled = isEnabled,
         shape = RoundedCornerShape(100.dp),
         contentPadding = PaddingValues(0.dp),
         colors = ButtonColors(
@@ -43,4 +45,16 @@ fun SignUpButton(modifier: Modifier = Modifier) {
             )
         }
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SignUpButtonEnabledPreview() {
+    SignUpButton(true)
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SignUpButtonDisabledPreview() {
+    SignUpButton(false)
 }

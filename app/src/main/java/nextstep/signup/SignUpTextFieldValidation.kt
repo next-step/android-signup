@@ -1,6 +1,6 @@
 package nextstep.signup
 
-class SignUpTextFieldValidation {
+object SignUpTextFieldValidation {
     private val usernameRegex = "^[a-zA-Z가-힣]+$"
     private val emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
     private val passwordRegex = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$"
@@ -59,5 +59,16 @@ class SignUpTextFieldValidation {
         } else {
             ""
         }
+    }
+
+    fun isAllFieldValidated(username: String, email: String, password: String, passwordConfirm: String): Boolean {
+        val isNotEmptyAll = username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && passwordConfirm.isNotEmpty()
+
+        val isUserNameValidated = getUsernameValidationMessage(username).isEmpty()
+        val isEmailValidated = getEmailValidationMessage(email).isEmpty()
+        val isPasswordValidated = getPasswordValidationMessage(password).isEmpty()
+        val isPasswordConfirmValidated = getPasswordConfirmValidationMessage(password, passwordConfirm).isEmpty()
+
+        return isUserNameValidated && isEmailValidated && isPasswordValidated && isPasswordConfirmValidated && isNotEmptyAll
     }
 }

@@ -4,19 +4,21 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import nextstep.signup.R
+import kotlinx.coroutines.launch
 import nextstep.signup.SignUpTextFieldValidation
 
 
@@ -31,112 +33,86 @@ fun SignUpScreen() {
         var password by remember { mutableStateOf("") }
         var passwordConfirm by remember { mutableStateOf("") }
 
-        var usernameSupportingText by remember { mutableStateOf("") }
-        var emailSupportingText by remember { mutableStateOf("") }
-        var passwordSupportingText by remember { mutableStateOf("") }
-        var passwordConfirmSupportingText by remember { mutableStateOf("") }
-
-        val validation = SignUpTextFieldValidation()
-
-        val onUsernameChanged: (String) -> Unit = {
-            username = it
-            usernameSupportingText = validation.getUsernameValidationMessage(username)
+        val userNameSupportingMessage by remember {
+            derivedStateOf { SignUpTextFieldValidation.getUsernameValidationMessage(username) }
+        }
+        val emailSupportingMessage by remember {
+            derivedStateOf { SignUpTextFieldValidation.getEmailValidationMessage(email) }
+        }
+        val passwordSupportingMessage by remember {
+            derivedStateOf { SignUpTextFieldValidation.getPasswordValidationMessage(password) }
+        }
+        val passwordConfirmSupportingMessage by remember {
+            derivedStateOf { SignUpTextFieldValidation.getPasswordConfirmValidationMessage( password, passwordConfirm) }
         }
 
-        val onEmailChanged: (String) -> Unit = {
-            email = it
-            emailSupportingText = validation.getEmailValidationMessage(email)
+        val isValidated = remember(username, email, password, passwordConfirm) {
+            SignUpTextFieldValidation.isAllFieldValidated(
+                username,
+                email,
+                password,
+                passwordConfirm
+            )
         }
-
-        val onPasswordChanged: (String) -> Unit = {
-            password = it
-            passwordSupportingText =
-                validation.getPasswordValidationMessage(password)
-            passwordConfirmSupportingText =
-                validation.getPasswordConfirmValidationMessage(password, passwordConfirm)
-        }
-
-        val onPasswordConfirmChanged: (String) -> Unit = {
-            passwordConfirm = it
-            passwordConfirmSupportingText =
-                validation.getPasswordConfirmValidationMessage(password, passwordConfirm)
-        }
+        val scope = rememberCoroutineScope()
+        val snackBarHostState = remember { SnackbarHostState() }
 
         SignUpTitle(Modifier.padding(top = 60.dp))
-        SignUpTextField(
+        UserNameTextField(
             text = username,
-            label = {
-                SignUpTextFieldLabel(text = stringResource(id = R.string.username))
-            },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Next
             ),
+            onTextChanged = { username = it },
+            supportingMessage = userNameSupportingMessage,
             modifier = Modifier.padding(top = 42.dp),
-            onTextChanged = onUsernameChanged,
-            errorMessage = usernameSupportingText,
-            supportingText = if (usernameSupportingText.isNotEmpty()) {
-                { SignUpTextFieldSupportingText(text = usernameSupportingText) }
-            } else {
-                null
-            }
         )
-        SignUpTextField(
+        EmailTextField(
             text = email,
-            label = {
-                SignUpTextFieldLabel(text = stringResource(id = R.string.email))
-            },
             keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Email,
+                keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Next
             ),
+            onTextChanged = { email = it },
+            supportingMessage = emailSupportingMessage,
             modifier = Modifier.padding(top = 33.dp),
-            onTextChanged = onEmailChanged,
-            errorMessage = emailSupportingText,
-            supportingText = if (emailSupportingText.isNotEmpty()) {
-                { SignUpTextFieldSupportingText(text = emailSupportingText) }
-            } else {
-                null
-            }
         )
-        SignUpTextField(
+        PasswordTextField(
             text = password,
-            label = {
-                SignUpTextFieldLabel(text = stringResource(id = R.string.password))
-            },
-            visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Password,
+                keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Next
             ),
+            onTextChanged = { password = it },
+            supportingMessage = passwordSupportingMessage,
             modifier = Modifier.padding(top = 33.dp),
-            onTextChanged = onPasswordChanged,
-            errorMessage = passwordSupportingText,
-            supportingText = if (passwordSupportingText.isNotEmpty()) {
-                { SignUpTextFieldSupportingText(text = passwordSupportingText) }
-            } else {
-                null
-            }
         )
-        SignUpTextField(
+
+        PasswordConfirmTextField(
             text = passwordConfirm,
-            label = {
-                SignUpTextFieldLabel(text = stringResource(id = R.string.password_confirm))
-            },
-            visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Password,
+                keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Done
             ),
+            onTextChanged = { passwordConfirm = it },
+            supportingMessage = passwordConfirmSupportingMessage,
             modifier = Modifier.padding(top = 33.dp),
-            onTextChanged = onPasswordConfirmChanged,
-            errorMessage = passwordConfirmSupportingText,
-            supportingText = if (passwordConfirmSupportingText.isNotEmpty()) {
-                { SignUpTextFieldSupportingText(text = passwordConfirmSupportingText) }
-            } else {
-                null
+        )
+
+        SignUpButton(
+            isEnabled = isValidated,
+            modifier = Modifier.padding(top = 39.dp),
+            onClick = {
+                scope.launch {
+                    snackBarHostState.showSnackbar(
+                        message = "회원가입 성공",
+                        actionLabel = "닫기"
+                    )
+                }
             }
         )
-        SignUpButton(Modifier.padding(top = 39.dp))
+
+        SnackbarHost(hostState = snackBarHostState)
     }
 }
