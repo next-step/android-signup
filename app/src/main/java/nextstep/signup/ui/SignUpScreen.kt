@@ -32,20 +32,20 @@ fun SignUpScreen() {
 
     Column(
         modifier = Modifier
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 32.dp)
             .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+        verticalArrangement = Arrangement.spacedBy(36.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            modifier = Modifier.padding(top = 37.dp),
+            modifier = Modifier.padding(top = 76.dp),
             text = stringResource(R.string.header),
             fontSize = 26.sp,
             fontWeight = FontWeight.Bold
         )
 
         UserInputTextField(
-            Modifier.fillMaxWidth().padding(top = 2.dp),
+            Modifier.fillMaxWidth().padding(top = 6.dp),
             username,
             { username = it },
             stringResource(R.string.username),
@@ -66,14 +66,14 @@ fun SignUpScreen() {
             ImeAction.Next
         )
         UserInputTextField(
-            Modifier.fillMaxWidth().padding(bottom = 1.dp),
+            Modifier.fillMaxWidth(),
             passwordConfirmation,
             { passwordConfirmation = it },
             stringResource(R.string.password_confirmation),
             ImeAction.Done
         )
 
-        SignUpButton(Modifier.fillMaxWidth().height(50.dp))
+        SignUpButton(Modifier.fillMaxWidth().height(50.dp).padding(top = 6.dp))
     }
 }
 
