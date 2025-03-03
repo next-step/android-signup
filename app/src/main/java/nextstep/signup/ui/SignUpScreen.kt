@@ -79,7 +79,7 @@ fun SignUpScreen() {
 
 @Preview(showBackground = true)
 @Composable
-fun SignUpPreview() {
+private fun SignUpPreview() {
     SignupTheme {
         SignUpScreen()
     }
