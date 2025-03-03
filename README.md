@@ -23,9 +23,12 @@
 
 -----------------------------------------------------------------
 ## 리뷰 반영 사항
-- [ ] Username/Email/Password/Password Confirm input view
-- [ ] Column 블록 안에 Sapcer를 매번 넣는 대신, VerticalArrangement에 Arrangement.spacedBy()를 활용해보기
-- [ ] Resource 분리하기
-- [ ] 컴포넌트 분리하기
-- [ ] padding 관련한 내용을 각각의 파라미터가 아닌 Modifier로 설정하여 전달
-- [ ] 텍스트 값을 외부에서 받아서 사용할 수 있게 변경해보기 (TextField의 파라미터를 참고)
+- [x] Username/Email/Password/Password Confirm input view
+- [x] Column 블록 안에 Sapcer를 매번 넣는 대신, VerticalArrangement에 Arrangement.spacedBy()를 활용해보기
+- [x] Resource 분리하기
+- [x] 컴포넌트 분리하기
+- [x] padding 관련한 내용을 각각의 파라미터가 아닌 Modifier로 설정하여 전달
+- [x] 텍스트 값을 외부에서 받아서 사용할 수 있게 변경해보기 (TextField의 파라미터를 참고)
+- [x] 분리된 컴포넌트에 private preview 추가
+- [x] 파라미터 순서에 의존하지 않고 named argument를 명시
+- [x] 컴포저블 파라미터 컨벤션 반영
