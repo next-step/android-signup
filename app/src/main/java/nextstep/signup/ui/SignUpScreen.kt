@@ -45,32 +45,32 @@ fun SignUpScreen() {
         )
 
         UserInputTextField(
-            Modifier.fillMaxWidth().padding(top = 6.dp),
-            username,
-            { username = it },
-            stringResource(R.string.username),
-            ImeAction.Next
+            modifier = Modifier.fillMaxWidth().padding(top = 6.dp),
+            value = username,
+            onValueChange = { username = it },
+            label = stringResource(R.string.username),
+            imeAction = ImeAction.Next
         )
         UserInputTextField(
-            Modifier.fillMaxWidth(),
-            email,
-            { email = it },
-            stringResource(R.string.email),
-            ImeAction.Next
+            modifier = Modifier.fillMaxWidth(),
+            value = email,
+            onValueChange = { email = it },
+            label = stringResource(R.string.email),
+            imeAction = ImeAction.Next
         )
         UserInputTextField(
-            Modifier.fillMaxWidth(),
-            password,
-            { password = it },
-            stringResource(R.string.password),
-            ImeAction.Next
+            modifier = Modifier.fillMaxWidth(),
+            value = password,
+            onValueChange = { password = it },
+            label = stringResource(R.string.password),
+            imeAction = ImeAction.Next
         )
         UserInputTextField(
-            Modifier.fillMaxWidth(),
-            passwordConfirmation,
-            { passwordConfirmation = it },
-            stringResource(R.string.password_confirmation),
-            ImeAction.Done
+            modifier = Modifier.fillMaxWidth(),
+            value = passwordConfirmation,
+            onValueChange = { passwordConfirmation = it },
+            label = stringResource(R.string.password_confirmation),
+            imeAction = ImeAction.Done
         )
 
         SignUpButton(Modifier.fillMaxWidth().height(50.dp).padding(top = 6.dp))
