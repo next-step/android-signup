@@ -13,17 +13,17 @@ import nextstep.signup.ui.theme.BlueGrey20
 
 @Composable
 fun UserInputTextField(
-    modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
     label: String,
     imeAction: ImeAction,
+    modifier: Modifier = Modifier,
 ) {
     TextField(
-        modifier = modifier,
-        label = { Text(label) },
         value = value,
         onValueChange = onValueChange,
+        modifier = modifier,
+        label = { Text(label) },
         keyboardOptions = KeyboardOptions(imeAction = imeAction),
         singleLine = true,
         colors = TextFieldDefaults.colors(
