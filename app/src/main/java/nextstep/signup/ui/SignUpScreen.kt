@@ -20,6 +20,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import nextstep.signup.InputValidation
 import nextstep.signup.R
 import nextstep.signup.ui.theme.SignupTheme
 
@@ -29,6 +30,11 @@ fun SignUpScreen() {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordConfirmation by remember { mutableStateOf("") }
+
+    var showUsernameError by remember { mutableStateOf(false) }
+    var showEmailError by remember { mutableStateOf(false) }
+    var showPasswordError by remember { mutableStateOf(false) }
+    var showPasswordConfirmationError by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -45,35 +51,74 @@ fun SignUpScreen() {
         )
 
         UserInputTextField(
-            modifier = Modifier.fillMaxWidth().padding(top = 6.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 6.dp),
             value = username,
-            onValueChange = { username = it },
+            onValueChange = {
+                username = it
+                showUsernameError = InputValidation.validateUserName(username) != null
+            },
+            errorMessage = if (showUsernameError) {
+                stringResource(InputValidation.validateUserName(username) ?: 0)
+            } else {
+                ""
+            },
             label = stringResource(R.string.username),
             imeAction = ImeAction.Next
         )
         UserInputTextField(
             modifier = Modifier.fillMaxWidth(),
             value = email,
-            onValueChange = { email = it },
+            onValueChange = {
+                email = it
+                showEmailError = InputValidation.validateEmail(email) != null
+            },
+            errorMessage = if (showEmailError) {
+                stringResource(InputValidation.validateEmail(email) ?: 0)
+            } else {
+                ""
+            },
             label = stringResource(R.string.email),
             imeAction = ImeAction.Next
         )
         UserInputTextField(
             modifier = Modifier.fillMaxWidth(),
             value = password,
-            onValueChange = { password = it },
+            onValueChange = {
+                password = it
+                showPasswordError = InputValidation.validatePassword(password) != null
+            },
+            errorMessage = if (showPasswordError) {
+                stringResource(InputValidation.validatePassword(password) ?: 0)
+            } else {
+                ""
+            },
             label = stringResource(R.string.password),
             imeAction = ImeAction.Next
         )
         UserInputTextField(
             modifier = Modifier.fillMaxWidth(),
             value = passwordConfirmation,
-            onValueChange = { passwordConfirmation = it },
+            onValueChange = {
+                passwordConfirmation = it
+                showPasswordConfirmationError = InputValidation.validateConfirmPassword(
+                    password = password,
+                    confirmPassword = passwordConfirmation) != null
+                            },
+            errorMessage = if (showPasswordConfirmationError) {
+                stringResource(InputValidation.validateConfirmPassword(password, passwordConfirmation) ?: 0)
+            } else {
+                ""
+            },
             label = stringResource(R.string.password_confirmation),
             imeAction = ImeAction.Done
         )
 
-        SignUpButton(Modifier.fillMaxWidth().height(50.dp).padding(top = 6.dp))
+        SignUpButton(Modifier
+            .fillMaxWidth()
+            .height(50.dp)
+            .padding(top = 6.dp))
     }
 }
 
