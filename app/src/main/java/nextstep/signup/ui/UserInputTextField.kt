@@ -9,6 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.BlueGrey20
@@ -21,6 +23,7 @@ fun UserInputTextField(
     label: String,
     modifier: Modifier = Modifier,
     errorMessage: String = "",
+    isPasswordVisible: Boolean = false,
     imeAction: ImeAction = ImeAction.Unspecified,
 ) {
     TextField(
@@ -28,6 +31,7 @@ fun UserInputTextField(
         onValueChange = onValueChange,
         modifier = modifier,
         label = { Text(label) },
+        visualTransformation = if (isPasswordVisible) PasswordVisualTransformation() else VisualTransformation.None,
         keyboardOptions = KeyboardOptions(imeAction = imeAction),
         singleLine = true,
         isError = errorMessage.isNotEmpty(),

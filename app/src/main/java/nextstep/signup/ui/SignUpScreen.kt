@@ -95,6 +95,7 @@ fun SignUpScreen() {
                 ""
             },
             label = stringResource(R.string.password),
+            isPasswordVisible = true,
             imeAction = ImeAction.Next
         )
         UserInputTextField(
@@ -112,6 +113,7 @@ fun SignUpScreen() {
                 ""
             },
             label = stringResource(R.string.password_confirmation),
+            isPasswordVisible = true,
             imeAction = ImeAction.Done
         )
 
