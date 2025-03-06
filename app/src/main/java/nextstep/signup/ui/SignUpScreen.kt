@@ -23,6 +23,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nextstep.signup.InputValidation
 import nextstep.signup.R
+import nextstep.signup.ui.component.EmailTextField
+import nextstep.signup.ui.component.PasswordConfirmationTextField
+import nextstep.signup.ui.component.PasswordTextField
+import nextstep.signup.ui.component.SignUpButton
+import nextstep.signup.ui.component.UserNameTextField
 import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
@@ -51,7 +56,7 @@ fun SignUpScreen() {
             fontWeight = FontWeight.Bold
         )
 
-        UserInputTextField(
+        UserNameTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 6.dp),
@@ -64,7 +69,7 @@ fun SignUpScreen() {
             label = stringResource(R.string.username),
             imeAction = ImeAction.Next
         )
-        UserInputTextField(
+        EmailTextField(
             modifier = Modifier.fillMaxWidth(),
             value = email,
             onValueChange = {
@@ -75,7 +80,7 @@ fun SignUpScreen() {
             label = stringResource(R.string.email),
             imeAction = ImeAction.Next
         )
-        UserInputTextField(
+        PasswordTextField(
             modifier = Modifier.fillMaxWidth(),
             value = password,
             onValueChange = {
@@ -87,7 +92,7 @@ fun SignUpScreen() {
             visualTransformation = PasswordVisualTransformation(),
             imeAction = ImeAction.Next
         )
-        UserInputTextField(
+        PasswordConfirmationTextField(
             modifier = Modifier.fillMaxWidth(),
             value = passwordConfirmation,
             onValueChange = {

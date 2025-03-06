@@ -4,7 +4,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import nextstep.signup.ui.UserInputTextField
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import nextstep.signup.ui.component.PasswordConfirmationTextField
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -19,7 +20,7 @@ class PasswordConfirmationValidationTest {
     @Before
     fun setup() {
         composeTestRule.setContent {
-            UserInputTextField(
+            PasswordConfirmationTextField(
                 value = password.value,
                 onValueChange = {},
                 label = "",
@@ -27,6 +28,7 @@ class PasswordConfirmationValidationTest {
                     password = password.value,
                     confirmPassword = confirmPassword.value
                 )?.let { stringResource(it) },
+                visualTransformation = PasswordVisualTransformation()
             )
         }
     }

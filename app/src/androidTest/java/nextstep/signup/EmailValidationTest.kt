@@ -4,7 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import nextstep.signup.ui.UserInputTextField
+import nextstep.signup.ui.component.EmailTextField
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -17,7 +17,7 @@ class EmailValidationTest {
     @Before
     fun setup() {
         composeTestRule.setContent {
-            UserInputTextField(
+            EmailTextField(
                 value = email.value,
                 onValueChange = {},
                 label = "",
