@@ -109,7 +109,11 @@ fun SignUpScreen() {
                 .fillMaxWidth()
                 .height(50.dp)
                 .padding(top = 6.dp),
-            enabled = (usernameErrorResourceId == null && emailErrorResourceId == null && passwordErrorResourceId == null && passwordConfirmationErrorResourceId == null)
+            enabled = (username.isNotBlank() && email.isNotBlank() && password.isNotBlank() && passwordConfirmation.isNotBlank()) &&
+                    (usernameErrorResourceId == null && emailErrorResourceId == null && passwordErrorResourceId == null && passwordConfirmationErrorResourceId == null),
+            onClick = {
+
+            }
         )
     }
 }
