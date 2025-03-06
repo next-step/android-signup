@@ -21,7 +21,8 @@ class EmailValidationTest {
                 value = email.value,
                 onValueChange = {},
                 label = "",
-                errorMessage = InputValidation.validateEmail(email.value)?.let { stringResource(it) } ?: "",
+                errorMessage = InputValidation.validateEmail(email.value)
+                    ?.let { stringResource(it) },
             )
         }
     }
@@ -30,18 +31,14 @@ class EmailValidationTest {
     fun 이메일_형식을_지켜야_한다() {
         email.value = "com_compose@android.com"
 
-        composeTestRule
-            .onNodeWithText(EMAIL_INVALID_FORMAT_ERROR)
-            .assertDoesNotExist()
+        composeTestRule.onNodeWithText(EMAIL_INVALID_FORMAT_ERROR).assertDoesNotExist()
     }
 
     @Test
     fun 이메일_형식을_지키지_않으면_에러메시지가_노출된다() {
         email.value = "com_compose.com"
 
-        composeTestRule
-            .onNodeWithText(EMAIL_INVALID_FORMAT_ERROR)
-            .assertExists()
+        composeTestRule.onNodeWithText(EMAIL_INVALID_FORMAT_ERROR).assertExists()
     }
 
 

@@ -27,7 +27,7 @@ class PasswordValidationTest {
                 label = "password",
                 errorMessage = InputValidation.validatePassword(password.value)?.let {
                     stringResource(it)
-                } ?: "",
+                },
             )
         }
     }

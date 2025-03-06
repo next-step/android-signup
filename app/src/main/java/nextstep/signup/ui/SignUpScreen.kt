@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,10 +32,10 @@ fun SignUpScreen() {
     var password by remember { mutableStateOf("") }
     var passwordConfirmation by remember { mutableStateOf("") }
 
-    var showUsernameError by remember { mutableStateOf(false) }
-    var showEmailError by remember { mutableStateOf(false) }
-    var showPasswordError by remember { mutableStateOf(false) }
-    var showPasswordConfirmationError by remember { mutableStateOf(false) }
+    var usernameErrorResourceId: Int? by remember { mutableStateOf(null) }
+    var emailErrorResourceId: Int? by remember { mutableStateOf(null) }
+    var passwordErrorResourceId: Int? by remember { mutableStateOf(null) }
+    var passwordConfirmationErrorResourceId: Int? by remember { mutableStateOf(null) }
 
     Column(
         modifier = Modifier
@@ -57,13 +58,9 @@ fun SignUpScreen() {
             value = username,
             onValueChange = {
                 username = it
-                showUsernameError = InputValidation.validateUserName(username) != null
+                usernameErrorResourceId = InputValidation.validateUserName(username)
             },
-            errorMessage = if (showUsernameError) {
-                stringResource(InputValidation.validateUserName(username) ?: 0)
-            } else {
-                ""
-            },
+            errorMessage = usernameErrorResourceId?.let { stringResource(it) },
             label = stringResource(R.string.username),
             imeAction = ImeAction.Next
         )
@@ -72,13 +69,9 @@ fun SignUpScreen() {
             value = email,
             onValueChange = {
                 email = it
-                showEmailError = InputValidation.validateEmail(email) != null
+                emailErrorResourceId = InputValidation.validateEmail(email)
             },
-            errorMessage = if (showEmailError) {
-                stringResource(InputValidation.validateEmail(email) ?: 0)
-            } else {
-                ""
-            },
+            errorMessage = emailErrorResourceId?.let { stringResource(it) },
             label = stringResource(R.string.email),
             imeAction = ImeAction.Next
         )
@@ -87,15 +80,11 @@ fun SignUpScreen() {
             value = password,
             onValueChange = {
                 password = it
-                showPasswordError = InputValidation.validatePassword(password) != null
+                passwordErrorResourceId = InputValidation.validatePassword(password)
             },
-            errorMessage = if (showPasswordError) {
-                stringResource(InputValidation.validatePassword(password) ?: 0)
-            } else {
-                ""
-            },
+            errorMessage = passwordErrorResourceId?.let { stringResource(it) },
             label = stringResource(R.string.password),
-            isPasswordVisible = true,
+            visualTransformation = PasswordVisualTransformation(),
             imeAction = ImeAction.Next
         )
         UserInputTextField(
@@ -103,24 +92,23 @@ fun SignUpScreen() {
             value = passwordConfirmation,
             onValueChange = {
                 passwordConfirmation = it
-                showPasswordConfirmationError = InputValidation.validateConfirmPassword(
+                passwordConfirmationErrorResourceId = InputValidation.validateConfirmPassword(
                     password = password,
-                    confirmPassword = passwordConfirmation) != null
-                            },
-            errorMessage = if (showPasswordConfirmationError) {
-                stringResource(InputValidation.validateConfirmPassword(password, passwordConfirmation) ?: 0)
-            } else {
-                ""
+                    confirmPassword = passwordConfirmation
+                )
             },
+            errorMessage = passwordConfirmationErrorResourceId?.let { stringResource(it) },
             label = stringResource(R.string.password_confirmation),
-            isPasswordVisible = true,
+            visualTransformation = PasswordVisualTransformation(),
             imeAction = ImeAction.Done
         )
 
-        SignUpButton(Modifier
-            .fillMaxWidth()
-            .height(50.dp)
-            .padding(top = 6.dp))
+        SignUpButton(
+            Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+                .padding(top = 6.dp)
+        )
     }
 }
 

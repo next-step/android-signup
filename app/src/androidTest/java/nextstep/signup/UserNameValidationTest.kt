@@ -22,7 +22,8 @@ class UserNameValidationTest {
                 value = username.value,
                 onValueChange = {},
                 label = "",
-                errorMessage = InputValidation.validateUserName(username.value)?.let { stringResource(it) } ?: "",
+                errorMessage = InputValidation.validateUserName(username.value)
+                    ?.let { stringResource(it) },
             )
         }
     }

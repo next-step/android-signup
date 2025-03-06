@@ -26,7 +26,7 @@ class PasswordConfirmationValidationTest {
                 errorMessage = InputValidation.validateConfirmPassword(
                     password = password.value,
                     confirmPassword = confirmPassword.value
-                )?.let { stringResource(it) } ?: "",
+                )?.let { stringResource(it) },
             )
         }
     }
