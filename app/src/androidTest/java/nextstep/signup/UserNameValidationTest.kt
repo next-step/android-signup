@@ -21,7 +21,6 @@ class UserNameValidationTest {
             UserNameTextField(
                 value = username.value,
                 onValueChange = {},
-                label = "",
                 errorMessage = InputValidation.validateUserName(username.value)
                     ?.let { stringResource(it) },
             )

@@ -25,7 +25,6 @@ class PasswordValidationTest {
                 onValueChange = { newValue ->
                     password.value = newValue
                 },
-                label = "password",
                 errorMessage = InputValidation.validatePassword(password.value)?.let {
                     stringResource(it)
                 },

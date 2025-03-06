@@ -23,7 +23,6 @@ class PasswordConfirmationValidationTest {
             PasswordConfirmationTextField(
                 value = password.value,
                 onValueChange = {},
-                label = "",
                 errorMessage = InputValidation.validateConfirmPassword(
                     password = password.value,
                     confirmPassword = confirmPassword.value

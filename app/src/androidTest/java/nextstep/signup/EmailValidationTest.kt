@@ -20,7 +20,6 @@ class EmailValidationTest {
             EmailTextField(
                 value = email.value,
                 onValueChange = {},
-                label = "",
                 errorMessage = InputValidation.validateEmail(email.value)
                     ?.let { stringResource(it) },
             )

@@ -66,7 +66,6 @@ fun SignUpScreen() {
                 usernameErrorResourceId = InputValidation.validateUserName(username)
             },
             errorMessage = usernameErrorResourceId?.let { stringResource(it) },
-            label = stringResource(R.string.username),
             imeAction = ImeAction.Next
         )
         EmailTextField(
@@ -77,7 +76,6 @@ fun SignUpScreen() {
                 emailErrorResourceId = InputValidation.validateEmail(email)
             },
             errorMessage = emailErrorResourceId?.let { stringResource(it) },
-            label = stringResource(R.string.email),
             imeAction = ImeAction.Next
         )
         PasswordTextField(
@@ -88,7 +86,6 @@ fun SignUpScreen() {
                 passwordErrorResourceId = InputValidation.validatePassword(password)
             },
             errorMessage = passwordErrorResourceId?.let { stringResource(it) },
-            label = stringResource(R.string.password),
             visualTransformation = PasswordVisualTransformation(),
             imeAction = ImeAction.Next
         )
@@ -103,16 +100,16 @@ fun SignUpScreen() {
                 )
             },
             errorMessage = passwordConfirmationErrorResourceId?.let { stringResource(it) },
-            label = stringResource(R.string.password_confirmation),
             visualTransformation = PasswordVisualTransformation(),
             imeAction = ImeAction.Done
         )
 
         SignUpButton(
-            Modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)
-                .padding(top = 6.dp)
+                .padding(top = 6.dp),
+            enabled = (usernameErrorResourceId == null && emailErrorResourceId == null && passwordErrorResourceId == null && passwordConfirmationErrorResourceId == null)
         )
     }
 }

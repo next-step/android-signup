@@ -8,8 +8,10 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
+import nextstep.signup.R
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.BlueGrey20
 import nextstep.signup.ui.theme.SignupTheme
@@ -18,7 +20,6 @@ import nextstep.signup.ui.theme.SignupTheme
 fun EmailTextField(
     value: String,
     onValueChange: (String) -> Unit,
-    label: String,
     modifier: Modifier = Modifier,
     errorMessage: String? = null,
     imeAction: ImeAction = ImeAction.Unspecified,
@@ -27,7 +28,7 @@ fun EmailTextField(
         value = value,
         onValueChange = onValueChange,
         modifier = modifier,
-        label = { Text(label) },
+        label = { Text(stringResource(R.string.email)) },
         keyboardOptions = KeyboardOptions(imeAction = imeAction),
         singleLine = true,
         isError = (errorMessage == null),
@@ -59,7 +60,6 @@ private fun EmailTextFieldPreview() {
         EmailTextField(
             value = "email",
             onValueChange = {},
-            label = "Email",
             errorMessage = "Error message",
             imeAction = ImeAction.Done
         )
