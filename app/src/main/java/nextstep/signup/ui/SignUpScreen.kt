@@ -6,11 +6,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,12 +23,14 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
 import nextstep.signup.InputValidation
 import nextstep.signup.R
 import nextstep.signup.ui.component.EmailTextField
 import nextstep.signup.ui.component.PasswordConfirmationTextField
 import nextstep.signup.ui.component.PasswordTextField
 import nextstep.signup.ui.component.SignUpButton
+import nextstep.signup.ui.component.SignUpSnackbar
 import nextstep.signup.ui.component.UserNameTextField
 import nextstep.signup.ui.theme.SignupTheme
 
@@ -41,6 +45,10 @@ fun SignUpScreen() {
     var emailErrorResourceId: Int? by remember { mutableStateOf(null) }
     var passwordErrorResourceId: Int? by remember { mutableStateOf(null) }
     var passwordConfirmationErrorResourceId: Int? by remember { mutableStateOf(null) }
+
+    val coroutineScope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val snackbarMessage = stringResource(R.string.signup_success)
 
     Column(
         modifier = Modifier
@@ -112,8 +120,14 @@ fun SignUpScreen() {
             enabled = (username.isNotBlank() && email.isNotBlank() && password.isNotBlank() && passwordConfirmation.isNotBlank()) &&
                     (usernameErrorResourceId == null && emailErrorResourceId == null && passwordErrorResourceId == null && passwordConfirmationErrorResourceId == null),
             onClick = {
-
+                coroutineScope.launch {
+                    snackbarHostState.showSnackbar(snackbarMessage)
+                }
             }
+        )
+        SignUpSnackbar(
+            snackbarHostState = snackbarHostState,
+            modifier = Modifier.fillMaxSize(),
         )
     }
 }
