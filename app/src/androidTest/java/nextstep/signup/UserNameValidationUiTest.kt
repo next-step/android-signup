@@ -9,7 +9,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class UserNameValidationTest {
+class UserNameValidationUiTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -21,7 +21,7 @@ class UserNameValidationTest {
             UserNameTextField(
                 value = username.value,
                 onValueChange = {},
-                errorMessage = InputValidation.validateUserName(username.value)
+                errorMessage = InputValidation.validateUserName(username.value).resourceId
                     ?.let { stringResource(it) },
             )
         }

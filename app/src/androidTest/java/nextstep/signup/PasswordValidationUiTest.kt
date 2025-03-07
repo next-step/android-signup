@@ -11,7 +11,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class PasswordValidationTest {
+class PasswordValidationUiTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -25,7 +25,7 @@ class PasswordValidationTest {
                 onValueChange = { newValue ->
                     password.value = newValue
                 },
-                errorMessage = InputValidation.validatePassword(password.value)?.let {
+                errorMessage = InputValidation.validatePassword(password.value).resourceId?.let {
                     stringResource(it)
                 },
                 visualTransformation = PasswordVisualTransformation()
@@ -36,7 +36,7 @@ class PasswordValidationTest {
     @Test
     fun 패스워드는_8에서_16자여야_한다() {
         composeTestRule
-            .onNodeWithText("password")
+            .onNodeWithText("Password")
             .performTextInput("password12#")
 
         composeTestRule
@@ -47,7 +47,7 @@ class PasswordValidationTest {
     @Test
     fun 패드웨드가_8자_미만이면_에러메시지가_노출된다() {
         composeTestRule
-            .onNodeWithText("password")
+            .onNodeWithText("Password")
             .performTextInput("1234")
 
         composeTestRule
@@ -58,7 +58,7 @@ class PasswordValidationTest {
     @Test
     fun 패드웨드가_16자_초과이면_에러메시지가_노출된다() {
         composeTestRule
-            .onNodeWithText("password")
+            .onNodeWithText("Password")
             .performTextInput("123456789012345678")
 
         composeTestRule
@@ -69,7 +69,7 @@ class PasswordValidationTest {
     @Test
     fun 패스워드는_영문과_숫자를_포함해야_한다() {
         composeTestRule
-            .onNodeWithText("password")
+            .onNodeWithText("Password")
             .performTextInput("password12")
 
         composeTestRule
@@ -80,7 +80,7 @@ class PasswordValidationTest {
     @Test
     fun 패스워드가_영문을_포함하지_않으면_에러메시지가_노출된다() {
         composeTestRule
-            .onNodeWithText("password")
+            .onNodeWithText("Password")
             .performTextInput("!@#$%^&12")
 
         composeTestRule
@@ -91,7 +91,7 @@ class PasswordValidationTest {
     @Test
     fun 패스워드가_숫자를_포함하지_않으면_에러메시지가_노출된다() {
         composeTestRule
-            .onNodeWithText("password")
+            .onNodeWithText("Password")
             .performTextInput("passwordpasd")
 
         composeTestRule

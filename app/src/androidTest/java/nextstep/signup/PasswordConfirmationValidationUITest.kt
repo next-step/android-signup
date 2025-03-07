@@ -10,7 +10,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class PasswordConfirmationValidationTest {
+class PasswordConfirmationValidationUITest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -26,7 +26,7 @@ class PasswordConfirmationValidationTest {
                 errorMessage = InputValidation.validateConfirmPassword(
                     password = password.value,
                     confirmPassword = confirmPassword.value
-                )?.let { stringResource(it) },
+                ).resourceId?.let { stringResource(it) },
                 visualTransformation = PasswordVisualTransformation()
             )
         }
