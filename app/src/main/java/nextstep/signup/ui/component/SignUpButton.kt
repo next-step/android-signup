@@ -1,6 +1,5 @@
-package nextstep.signup.ui
+package nextstep.signup.ui.component
 
-import android.util.Log
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -16,7 +15,9 @@ import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
 fun SignUpButton(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    onClick: () -> Unit = {}
 ) {
     Button(
         modifier = modifier,
@@ -24,9 +25,8 @@ fun SignUpButton(
             containerColor = Blue50,
             contentColor = Color.White
         ),
-        onClick = {
-            Log.d("SignUp", "SignUp Button Clicked")
-        }
+        enabled = enabled,
+        onClick = onClick
     ) {
         Text(text = stringResource(R.string.sign_up), fontSize = 14.sp)
     }

@@ -6,11 +6,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,8 +23,16 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
 import nextstep.signup.InputValidation
 import nextstep.signup.R
+import nextstep.signup.ValidationResult
+import nextstep.signup.ui.component.EmailTextField
+import nextstep.signup.ui.component.PasswordConfirmationTextField
+import nextstep.signup.ui.component.PasswordTextField
+import nextstep.signup.ui.component.SignUpButton
+import nextstep.signup.ui.component.SignUpSnackbar
+import nextstep.signup.ui.component.UserNameTextField
 import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
@@ -31,10 +42,34 @@ fun SignUpScreen() {
     var password by remember { mutableStateOf("") }
     var passwordConfirmation by remember { mutableStateOf("") }
 
-    var showUsernameError by remember { mutableStateOf(false) }
-    var showEmailError by remember { mutableStateOf(false) }
-    var showPasswordError by remember { mutableStateOf(false) }
-    var showPasswordConfirmationError by remember { mutableStateOf(false) }
+    var usernameValidationResult by remember {
+        mutableStateOf(InputValidation.validateUserName(username))
+    }
+    var emailValidationResult by remember { mutableStateOf(InputValidation.validateEmail(email)) }
+    var passwordValidationResult by remember {
+        mutableStateOf(InputValidation.validatePassword(password))
+    }
+    var passwordConfirmationValidationResult by remember {
+        mutableStateOf(
+            InputValidation.validateConfirmPassword(
+                password = password,
+                confirmPassword = passwordConfirmation
+            )
+        )
+    }
+
+    val isSignupButtonEnable by remember {
+        derivedStateOf {
+            usernameValidationResult == ValidationResult.SUCCESS &&
+                    emailValidationResult == ValidationResult.SUCCESS &&
+                    passwordValidationResult == ValidationResult.SUCCESS &&
+                    passwordConfirmationValidationResult == ValidationResult.SUCCESS
+        }
+    }
+
+    val coroutineScope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val snackbarMessage = stringResource(R.string.signup_success)
 
     Column(
         modifier = Modifier
@@ -50,77 +85,72 @@ fun SignUpScreen() {
             fontWeight = FontWeight.Bold
         )
 
-        UserInputTextField(
+        UserNameTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 6.dp),
             value = username,
             onValueChange = {
                 username = it
-                showUsernameError = InputValidation.validateUserName(username) != null
+                usernameValidationResult = InputValidation.validateUserName(username)
             },
-            errorMessage = if (showUsernameError) {
-                stringResource(InputValidation.validateUserName(username) ?: 0)
-            } else {
-                ""
-            },
-            label = stringResource(R.string.username),
+            errorMessage = usernameValidationResult.resourceId?.let { stringResource(it) },
             imeAction = ImeAction.Next
         )
-        UserInputTextField(
+
+        EmailTextField(
             modifier = Modifier.fillMaxWidth(),
             value = email,
             onValueChange = {
                 email = it
-                showEmailError = InputValidation.validateEmail(email) != null
+                emailValidationResult = InputValidation.validateEmail(email)
             },
-            errorMessage = if (showEmailError) {
-                stringResource(InputValidation.validateEmail(email) ?: 0)
-            } else {
-                ""
-            },
-            label = stringResource(R.string.email),
+            errorMessage = emailValidationResult.resourceId?.let { stringResource(it) },
             imeAction = ImeAction.Next
         )
-        UserInputTextField(
+
+        PasswordTextField(
             modifier = Modifier.fillMaxWidth(),
             value = password,
             onValueChange = {
                 password = it
-                showPasswordError = InputValidation.validatePassword(password) != null
+                passwordValidationResult = InputValidation.validatePassword(password)
             },
-            errorMessage = if (showPasswordError) {
-                stringResource(InputValidation.validatePassword(password) ?: 0)
-            } else {
-                ""
-            },
-            label = stringResource(R.string.password),
-            isPasswordVisible = true,
+            errorMessage = passwordValidationResult.resourceId?.let { stringResource(it) },
             imeAction = ImeAction.Next
         )
-        UserInputTextField(
+
+        PasswordConfirmationTextField(
             modifier = Modifier.fillMaxWidth(),
             value = passwordConfirmation,
             onValueChange = {
                 passwordConfirmation = it
-                showPasswordConfirmationError = InputValidation.validateConfirmPassword(
-                    password = password,
-                    confirmPassword = passwordConfirmation) != null
-                            },
-            errorMessage = if (showPasswordConfirmationError) {
-                stringResource(InputValidation.validateConfirmPassword(password, passwordConfirmation) ?: 0)
-            } else {
-                ""
+                passwordConfirmationValidationResult =
+                    InputValidation.validateConfirmPassword(
+                        password = password,
+                        confirmPassword = passwordConfirmation
+                    )
             },
-            label = stringResource(R.string.password_confirmation),
-            isPasswordVisible = true,
+            errorMessage = passwordConfirmationValidationResult.resourceId?.let { stringResource(it) },
             imeAction = ImeAction.Done
         )
 
-        SignUpButton(Modifier
-            .fillMaxWidth()
-            .height(50.dp)
-            .padding(top = 6.dp))
+        SignUpButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+                .padding(top = 6.dp),
+            enabled = isSignupButtonEnable,
+            onClick = {
+                coroutineScope.launch {
+                    snackbarHostState.showSnackbar(snackbarMessage)
+                }
+            }
+        )
+        SignUpSnackbar(
+            snackbarHostState = snackbarHostState,
+            modifier = Modifier.fillMaxSize(),
+        )
     }
 }
 

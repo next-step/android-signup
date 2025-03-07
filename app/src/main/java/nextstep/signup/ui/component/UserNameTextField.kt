@@ -1,4 +1,4 @@
-package nextstep.signup.ui
+package nextstep.signup.ui.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
@@ -8,35 +8,32 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import nextstep.signup.R
 import nextstep.signup.ui.theme.Blue50
 import nextstep.signup.ui.theme.BlueGrey20
 import nextstep.signup.ui.theme.SignupTheme
 
 @Composable
-fun UserInputTextField(
+fun UserNameTextField(
     value: String,
     onValueChange: (String) -> Unit,
-    label: String,
     modifier: Modifier = Modifier,
-    errorMessage: String = "",
-    isPasswordVisible: Boolean = false,
+    errorMessage: String? = null,
     imeAction: ImeAction = ImeAction.Unspecified,
 ) {
     TextField(
         value = value,
         onValueChange = onValueChange,
         modifier = modifier,
-        label = { Text(label) },
-        visualTransformation = if (isPasswordVisible) PasswordVisualTransformation() else VisualTransformation.None,
+        label = { Text(stringResource(R.string.username)) },
         keyboardOptions = KeyboardOptions(imeAction = imeAction),
         singleLine = true,
-        isError = errorMessage.isNotEmpty(),
+        isError = (errorMessage == null),
         supportingText = {
-            if (errorMessage.isNotEmpty()) {
+            errorMessage?.let {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = errorMessage,
@@ -58,12 +55,11 @@ fun UserInputTextField(
 
 @Preview
 @Composable
-private fun UserInputTextFieldPreview() {
+private fun UserNameTextFieldPreview() {
     SignupTheme {
-        UserInputTextField(
-            value = "",
+        UserNameTextField(
+            value = "username",
             onValueChange = {},
-            label = "Label",
             errorMessage = "Error message",
             imeAction = ImeAction.Done
         )
