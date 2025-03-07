@@ -21,24 +21,29 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            SignupTheme {
-                val scope = rememberCoroutineScope()
-                val snackbarHostState = remember { SnackbarHostState() }
-                val snackbarMessage = stringResource(R.string.signup_complete_snackbar_message)
+            MainScreen()
+        }
+    }
+}
 
-                Scaffold(
-                    snackbarHost = { SnackbarHost(snackbarHostState) }
-                ) { innerPadding ->
-                    SignupScreen(
-                        onSignupComplete = {
-                            scope.launch {
-                                snackbarHostState.showSnackbar(snackbarMessage)
-                            }
-                        },
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+@Composable
+fun MainScreen() {
+    SignupTheme {
+        val scope = rememberCoroutineScope()
+        val snackbarHostState = remember { SnackbarHostState() }
+        val snackbarMessage = stringResource(R.string.signup_complete_snackbar_message)
+
+        Scaffold(
+            snackbarHost = { SnackbarHost(snackbarHostState) }
+        ) { innerPadding ->
+            SignupScreen(
+                onSignupComplete = {
+                    scope.launch {
+                        snackbarHostState.showSnackbar(snackbarMessage)
+                    }
+                },
+                modifier = Modifier.padding(innerPadding)
+            )
         }
     }
 }
@@ -50,7 +55,5 @@ class MainActivity : ComponentActivity() {
 )
 @Composable
 fun SignupScreenPreview() {
-    SignupTheme {
-        SignupScreen()
-    }
+    MainScreen()
 }

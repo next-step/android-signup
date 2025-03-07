@@ -18,6 +18,7 @@ class PasswordTextFieldValidationTest {
     fun setup() {
         composeTestRule.setContent {
             PasswordTextField(
+                label = "Password",
                 inputValue = password.value,
                 onInputChange = { password.value = it },
                 validResult = PasswordValidator.validate(password.value),

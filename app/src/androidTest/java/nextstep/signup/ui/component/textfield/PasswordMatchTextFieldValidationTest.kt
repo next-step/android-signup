@@ -19,6 +19,7 @@ class PasswordMatchTextFieldValidationTest {
     fun setup() {
         composeTestRule.setContent {
             PasswordTextField(
+                label = "Password Confirm",
                 inputValue = passwordMatch.value,
                 onInputChange = { passwordMatch.value = it },
                 validResult = PasswordMatchValidator.validate(enteredPassword, passwordMatch.value),

@@ -4,41 +4,27 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.launch
 import nextstep.signup.R
-import nextstep.signup.ui.EMAIL
-import nextstep.signup.ui.PASSWORD
-import nextstep.signup.ui.PASSWORD_CONFIRM
-import nextstep.signup.ui.USER_NAME
 import nextstep.signup.ui.component.textfield.EmailTextField
 import nextstep.signup.ui.component.textfield.PasswordTextField
 import nextstep.signup.ui.component.textfield.UsernameTextField
-import nextstep.signup.ui.util.EmailValidator
-import nextstep.signup.ui.util.NameValidator
-import nextstep.signup.ui.util.PasswordMatchValidator
-import nextstep.signup.ui.util.PasswordValidator
-import nextstep.signup.ui.util.ValidationResult
+import nextstep.signup.ui.state.SignupScreenState
 
 @Composable
 fun SignupScreen(
     modifier: Modifier = Modifier,
     onSignupComplete: () -> Unit = {},
 ) {
+    val signupState = remember { SignupScreenState() }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(24.dp),
@@ -47,47 +33,33 @@ fun SignupScreen(
             .padding(top = 40.dp)
             .padding(horizontal = 32.dp)
     ) {
-        val scope = rememberCoroutineScope()
-        val snackBarHostState = remember { SnackbarHostState() }
         val keyboardController = LocalSoftwareKeyboardController.current
-
-        var username by remember { mutableStateOf("") }
-        var email by remember { mutableStateOf("") }
-        var password by remember { mutableStateOf("") }
-        var passwordConfirm by remember { mutableStateOf("") }
-
-        val validationResults = mapOf(
-            USER_NAME to NameValidator.validate(username),
-            EMAIL to EmailValidator.validate(email),
-            PASSWORD to PasswordValidator.validate(password),
-            PASSWORD_CONFIRM to PasswordMatchValidator.validate(password, passwordConfirm)
-        )
 
         SignupTitle()
         UsernameTextField(
-            inputValue = username,
-            onInputChange = { username = it },
-            validResult = validationResults.getOrElse(USER_NAME) { ValidationResult.Correct },
+            inputValue = signupState.username,
+            onInputChange = { signupState.updateUsername(it) },
+            validResult = signupState.usernameValidation,
         )
         EmailTextField(
-            inputValue = email,
-            onInputChange = { email = it },
-            validResult = validationResults.getOrElse(EMAIL) { ValidationResult.Correct },
+            inputValue = signupState.email,
+            onInputChange = { signupState.updateEmail(it) },
+            validResult = signupState.emailValidation,
         )
         PasswordTextField(
             label = stringResource(R.string.signup_field_label_password),
-            inputValue = password,
-            onInputChange = { password = it },
-            validResult = validationResults.getOrElse(PASSWORD) { ValidationResult.Correct },
+            inputValue = signupState.password,
+            onInputChange = { signupState.updatePassword(it) },
+            validResult = signupState.passwordValidation,
         )
         PasswordTextField(
             label = stringResource(R.string.signup_field_label_password_confirm),
-            inputValue = passwordConfirm,
-            onInputChange = { passwordConfirm = it },
-            validResult = validationResults.getOrElse(PASSWORD_CONFIRM) { ValidationResult.Correct },
+            inputValue = signupState.passwordConfirm,
+            onInputChange = { signupState.updatePasswordConfirm(it) },
+            validResult = signupState.passwordConfirmValidation,
         )
         SubmitButton(
-            enabled = validationResults.values.all { it == ValidationResult.Correct },
+            enabled = signupState.isFormValid,
             onClick = {
                 keyboardController?.hide()
 
