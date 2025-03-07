@@ -24,7 +24,6 @@ fun PasswordTextField(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     errorMessage: String? = null,
-    visualTransformation: VisualTransformation = VisualTransformation.None,
     imeAction: ImeAction = ImeAction.Unspecified,
 ) {
     TextField(
@@ -32,7 +31,7 @@ fun PasswordTextField(
         onValueChange = onValueChange,
         modifier = modifier,
         label = { Text(stringResource(R.string.password)) },
-        visualTransformation = visualTransformation,
+        visualTransformation = PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions(imeAction = imeAction),
         singleLine = true,
         isError = (errorMessage == null),
@@ -63,7 +62,6 @@ private fun PasswordTextFieldPreview() {
             value = "password",
             onValueChange = {},
             errorMessage = "Error message",
-            visualTransformation = PasswordVisualTransformation(),
             imeAction = ImeAction.Done
         )
     }
