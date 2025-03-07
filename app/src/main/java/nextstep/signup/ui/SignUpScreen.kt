@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import nextstep.signup.InputValidation
 import nextstep.signup.R
+import nextstep.signup.ValidationResult
 import nextstep.signup.ui.component.EmailTextField
 import nextstep.signup.ui.component.PasswordConfirmationTextField
 import nextstep.signup.ui.component.PasswordTextField
@@ -41,10 +43,30 @@ fun SignUpScreen() {
     var password by remember { mutableStateOf("") }
     var passwordConfirmation by remember { mutableStateOf("") }
 
-    var usernameErrorResourceId: Int? by remember { mutableStateOf(null) }
-    var emailErrorResourceId: Int? by remember { mutableStateOf(null) }
-    var passwordErrorResourceId: Int? by remember { mutableStateOf(null) }
-    var passwordConfirmationErrorResourceId: Int? by remember { mutableStateOf(null) }
+    var usernameValidationResult by remember {
+        mutableStateOf(InputValidation.validateUserName(username))
+    }
+    var emailValidationResult by remember { mutableStateOf(InputValidation.validateEmail(email)) }
+    var passwordValidationResult by remember {
+        mutableStateOf(InputValidation.validatePassword(password))
+    }
+    var passwordConfirmationValidationResult by remember {
+        mutableStateOf(
+            InputValidation.validateConfirmPassword(
+                password = password,
+                confirmPassword = passwordConfirmation
+            )
+        )
+    }
+
+    val isSignupButtonEnable by remember {
+        derivedStateOf {
+            usernameValidationResult == ValidationResult.SUCCESS &&
+                    emailValidationResult == ValidationResult.SUCCESS &&
+                    passwordValidationResult == ValidationResult.SUCCESS &&
+                    passwordConfirmationValidationResult == ValidationResult.SUCCESS
+        }
+    }
 
     val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -71,9 +93,9 @@ fun SignUpScreen() {
             value = username,
             onValueChange = {
                 username = it
-                usernameErrorResourceId = InputValidation.validateUserName(username)
+                usernameValidationResult = InputValidation.validateUserName(username)
             },
-            errorMessage = usernameErrorResourceId?.let { stringResource(it) },
+            errorMessage = usernameValidationResult.resourceId?.let { stringResource(it) },
             imeAction = ImeAction.Next
         )
         EmailTextField(
@@ -81,9 +103,9 @@ fun SignUpScreen() {
             value = email,
             onValueChange = {
                 email = it
-                emailErrorResourceId = InputValidation.validateEmail(email)
+                emailValidationResult = InputValidation.validateEmail(email)
             },
-            errorMessage = emailErrorResourceId?.let { stringResource(it) },
+            errorMessage = emailValidationResult.resourceId?.let { stringResource(it) },
             imeAction = ImeAction.Next
         )
         PasswordTextField(
@@ -91,9 +113,9 @@ fun SignUpScreen() {
             value = password,
             onValueChange = {
                 password = it
-                passwordErrorResourceId = InputValidation.validatePassword(password)
+                passwordValidationResult = InputValidation.validatePassword(password)
             },
-            errorMessage = passwordErrorResourceId?.let { stringResource(it) },
+            errorMessage = passwordValidationResult.resourceId?.let { stringResource(it) },
             visualTransformation = PasswordVisualTransformation(),
             imeAction = ImeAction.Next
         )
@@ -102,12 +124,13 @@ fun SignUpScreen() {
             value = passwordConfirmation,
             onValueChange = {
                 passwordConfirmation = it
-                passwordConfirmationErrorResourceId = InputValidation.validateConfirmPassword(
-                    password = password,
-                    confirmPassword = passwordConfirmation
-                )
+                passwordConfirmationValidationResult =
+                    InputValidation.validateConfirmPassword(
+                        password = password,
+                        confirmPassword = passwordConfirmation
+                    )
             },
-            errorMessage = passwordConfirmationErrorResourceId?.let { stringResource(it) },
+            errorMessage = passwordConfirmationValidationResult.resourceId?.let { stringResource(it) },
             visualTransformation = PasswordVisualTransformation(),
             imeAction = ImeAction.Done
         )
@@ -117,8 +140,7 @@ fun SignUpScreen() {
                 .fillMaxWidth()
                 .height(50.dp)
                 .padding(top = 6.dp),
-            enabled = (username.isNotBlank() && email.isNotBlank() && password.isNotBlank() && passwordConfirmation.isNotBlank()) &&
-                    (usernameErrorResourceId == null && emailErrorResourceId == null && passwordErrorResourceId == null && passwordConfirmationErrorResourceId == null),
+            enabled = isSignupButtonEnable,
             onClick = {
                 coroutineScope.launch {
                     snackbarHostState.showSnackbar(snackbarMessage)

@@ -17,8 +17,9 @@
     <string name="email_invalid_format_error">이메일 형식이 올바르지 않습니다.</string>
 
     <string name="password_length_error">비밀번호는 8~16자여야 합니다.</string>
-    <string name="password_contain_characters_error">비밀번호는 영문과 숫자를 포함해야 합니다.</string>
+    <string name="password_missing_require_characters_error">비밀번호는 영문과 숫자를 포함해야 합니다.</string>
     <string name="password_mismatch_error">비밀번호가 일치하지 않습니다.</string>
 
     <string name="signup_success">회원가입을 축하합니다.</string>
+    <string name="string_empty_error">빈 문자열을 사용할 수 없습니다.</string>
 </resources>
