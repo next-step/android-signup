@@ -1,16 +1,15 @@
 package nextstep.signup.ui.util
 
-class PasswordMatchValidator(
-    private val getEnteredPassword: () -> String = { "" },
-) : Validator {
+import nextstep.signup.R
 
-    override fun validate(value: String): ValidationResult {
+object PasswordMatchValidator {
+    fun validate(password: String, passwordConfirm: String): ValidationResult {
         return when {
-            value != getEnteredPassword() -> ValidationResult(
-                ValidationStates.PASSWORD_MISMATCH_ERROR,
+            password != passwordConfirm -> ValidationResult.Invalid(
+                R.string.signup_password_mismatch_error_message,
             )
 
-            else -> ValidationResult(ValidationStates.SUCCESS)
+            else -> ValidationResult.Correct
         }
     }
 }
